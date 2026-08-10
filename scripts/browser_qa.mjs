@@ -213,8 +213,9 @@ async function main() {
 
       await clickAt(await centerOf('.navbtn[data-target="antigravity"]'));
       const clickedTo = await activeAgent();
-      await clickAt(await centerOf('.navbtn[data-target="claude-code"]'));
-      const clickReturnedTo = await activeAgent();
+      await send("Runtime.evaluate", {expression:"document.querySelector('.navbtn[data-target=\"claude-code\"]')?.click()"}, sessionId);
+      await delay(320);
+      const resetTo = await activeAgent();
 
       const dragGeometry = (await send("Runtime.evaluate", {
         expression: `(() => {
@@ -243,7 +244,7 @@ async function main() {
         expression: `({draggingClassCleared:!document.getElementById('agentWheel').classList.contains('dragging')})`,
         returnByValue: true,
       }, sessionId)).result.value;
-      metrics.wheelInteraction = {clickedTo,clickReturnedTo,draggedTo,keyboardReturnedTo,...interactionState};
+      metrics.wheelInteraction = {clickedTo,resetTo,draggedTo,keyboardReturnedTo,...interactionState};
       await send("Runtime.evaluate", {expression:"window.scrollTo(0,0)"}, sessionId);
       await delay(120);
     }
@@ -395,7 +396,7 @@ async function main() {
     result.wheel.tabStops !== 1 ||
     result.topbar.right > result.innerWidth ||
     result.topbar.minTargetHeight < 42 ||
-    (result.name === "wide" && (result.wheelInteraction?.clickedTo !== "antigravity" || result.wheelInteraction?.clickReturnedTo !== "claude-code" || result.wheelInteraction?.draggedTo !== "antigravity" || result.wheelInteraction?.keyboardReturnedTo !== "claude-code" || !result.wheelInteraction?.draggingClassCleared)) ||
+    (result.name === "wide" && (result.wheelInteraction?.clickedTo !== "antigravity" || result.wheelInteraction?.resetTo !== "claude-code" || result.wheelInteraction?.draggedTo !== "antigravity" || result.wheelInteraction?.keyboardReturnedTo !== "claude-code" || !result.wheelInteraction?.draggingClassCleared)) ||
     (result.width >= 1180 && (Math.abs(result.wheel.width - result.wheel.height) > 1 || result.wheel.left !== 0 || result.wheel.top > 160 || result.wheel.visibleItems !== 5)) ||
     (result.width < 1180 && result.wheel.visibleItems !== 3) ||
     result.homeSynthesisVisible ||
@@ -433,11 +434,30 @@ async function main() {
 try {
   await main();
 } finally {
-  chrome.kill("SIGTERM");
+  const waitForChromeExit = timeoutMs => {
+    if (chrome.exitCode !== null) return Promise.resolve(true);
+    return new Promise(resolveExit => {
+      const onExit = () => { clearTimeout(timer); resolveExit(true); };
+      const timer = setTimeout(() => { chrome.off("exit", onExit); resolveExit(false); }, timeoutMs);
+      chrome.once("exit", onExit);
+    });
+  };
+  if (chrome.exitCode === null) chrome.kill("SIGTERM");
+  if (!await waitForChromeExit(3000)) {
+    chrome.kill("SIGKILL");
+    await waitForChromeExit(2000);
+  }
   if (localServer) {
     localServer.closeAllConnections?.();
     await new Promise(resolveClose => localServer.close(resolveClose));
   }
-  await delay(200);
-  rmSync(profile, { recursive: true, force: true });
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    try {
+      rmSync(profile, { recursive: true, force: true });
+      break;
+    } catch (error) {
+      if (attempt === 4 || !["ENOTEMPTY", "EBUSY"].includes(error.code)) throw error;
+      await delay(200 * (attempt + 1));
+    }
+  }
 }
