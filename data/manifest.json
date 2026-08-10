@@ -1,0 +1,3188 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-09T10:46:20.105515+00:00",
+  "source": {
+    "name": "Phistory",
+    "url": "https://phistory.cc/",
+    "repository": "https://github.com/WEIFENG2333/phistory",
+    "commit": "b326cca92451d7046b9bab0ebf6b5dba988ffc9d",
+    "upstreamUpdatedAt": "2026-08-09T02:36:40.178663Z",
+    "method": "Latest prompt.md snapshots copied byte-for-byte from the pinned Phistory commit. Phistory captures requests through claude-tap."
+  },
+  "coverage": {
+    "agentCount": 13,
+    "latestSnapshots": 13,
+    "totalHistoricalSnapshots": 1007
+  },
+  "codexEvidence": {
+    "version": "0.147.0",
+    "promptPath": "data/prompts/codex.md",
+    "promptSha256": "43f8ff24b3a903cb633cb868d3ee3db24df482a55c94c3289190bd10812cab86",
+    "tracePath": "data/prompts/codex.trace.jsonl",
+    "traceSha256": "3a594f280e0677c64a3716f5232766a65ed0dd6e32a8b4cbd4c6e40ee12992c4",
+    "traceBytes": 55107,
+    "claim": "The displayed Codex raw view is an exact byte copy of Phistory's latest normalized prompt.md snapshot. The archived trace preserves the captured wire request before presentation normalization."
+  },
+  "agents": [
+    {
+      "order": 1,
+      "id": "claude-code",
+      "name": "Claude Code",
+      "version": "2.1.226",
+      "package": "@anthropic-ai/claude-code",
+      "publishedAt": "2026-08-08T01:53:22.182Z",
+      "capturedAt": "2026-08-08T03:52:36.251319+00:00",
+      "snapshotCount": 382,
+      "promptPath": "data/prompts/claude-code.md",
+      "sourcePromptPath": "captures/claude-code/2.1.226/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/b326cca92451d7046b9bab0ebf6b5dba988ffc9d/captures/claude-code/2.1.226/prompt.md",
+      "phistoryUrl": "https://phistory.cc/",
+      "icon": "agent-icons/claude-code.png",
+      "sha256": "9b2570d6abf329587c029b3729e8813e6d93b82f836260441e50af6992ee6e8f",
+      "bytes": 100723,
+      "characters": 100216,
+      "lines": 1912,
+      "headings": [
+        {
+          "level": 1,
+          "text": "System Prompt"
+        },
+        {
+          "level": 2,
+          "text": "Harness"
+        },
+        {
+          "level": 2,
+          "text": "Session-specific guidance"
+        },
+        {
+          "level": 2,
+          "text": "Memory"
+        },
+        {
+          "level": 2,
+          "text": "Environment"
+        },
+        {
+          "level": 2,
+          "text": "Context management"
+        },
+        {
+          "level": 2,
+          "text": "Delivering work"
+        },
+        {
+          "level": 2,
+          "text": "Corrections"
+        },
+        {
+          "level": 1,
+          "text": "User Message"
+        },
+        {
+          "level": 2,
+          "text": "currentDate"
+        },
+        {
+          "level": 1,
+          "text": "Tools"
+        },
+        {
+          "level": 2,
+          "text": "Agent"
+        },
+        {
+          "level": 4,
+          "text": "When to use"
+        },
+        {
+          "level": 2,
+          "text": "Bash"
+        },
+        {
+          "level": 3,
+          "text": "Git"
+        },
+        {
+          "level": 2,
+          "text": "CronCreate"
+        },
+        {
+          "level": 4,
+          "text": "One-shot tasks (recurring: false)"
+        },
+        {
+          "level": 4,
+          "text": "Recurring jobs (recurring: true, the default)"
+        },
+        {
+          "level": 4,
+          "text": "Avoid the :00 and :30 minute marks when the task allows it"
+        },
+        {
+          "level": 4,
+          "text": "Session-only"
+        },
+        {
+          "level": 4,
+          "text": "Not for live watching"
+        },
+        {
+          "level": 4,
+          "text": "Runtime behavior"
+        },
+        {
+          "level": 2,
+          "text": "CronDelete"
+        },
+        {
+          "level": 2,
+          "text": "CronList"
+        },
+        {
+          "level": 2,
+          "text": "DesignSync"
+        },
+        {
+          "level": 2,
+          "text": "Edit"
+        },
+        {
+          "level": 2,
+          "text": "EnterWorktree"
+        },
+        {
+          "level": 4,
+          "text": "When to Use"
+        },
+        {
+          "level": 4,
+          "text": "When NOT to Use"
+        },
+        {
+          "level": 4,
+          "text": "Requirements"
+        },
+        {
+          "level": 4,
+          "text": "Behavior"
+        },
+        {
+          "level": 4,
+          "text": "Entering an existing worktree"
+        },
+        {
+          "level": 4,
+          "text": "Parameters"
+        },
+        {
+          "level": 2,
+          "text": "ExitWorktree"
+        },
+        {
+          "level": 4,
+          "text": "Scope"
+        },
+        {
+          "level": 4,
+          "text": "When to Use"
+        },
+        {
+          "level": 4,
+          "text": "Parameters"
+        },
+        {
+          "level": 4,
+          "text": "Behavior"
+        },
+        {
+          "level": 2,
+          "text": "ListAgents"
+        },
+        {
+          "level": 2,
+          "text": "Monitor"
+        },
+        {
+          "level": 2,
+          "text": "NotebookEdit"
+        },
+        {
+          "level": 2,
+          "text": "PushNotification"
+        },
+        {
+          "level": 2,
+          "text": "Read"
+        },
+        {
+          "level": 2,
+          "text": "ReportFindings"
+        },
+        {
+          "level": 2,
+          "text": "ScheduleWakeup"
+        },
+        {
+          "level": 4,
+          "text": "Picking delaySeconds"
+        },
+        {
+          "level": 4,
+          "text": "The reason field"
+        },
+        {
+          "level": 2,
+          "text": "SendMessage"
+        },
+        {
+          "level": 3,
+          "text": "SendMessage"
+        },
+        {
+          "level": 4,
+          "text": "Cross-session"
+        },
+        {
+          "level": 2,
+          "text": "Skill"
+        },
+        {
+          "level": 2,
+          "text": "TaskCreate"
+        },
+        {
+          "level": 4,
+          "text": "When to Use This Tool"
+        },
+        {
+          "level": 4,
+          "text": "When NOT to Use This Tool"
+        },
+        {
+          "level": 4,
+          "text": "Task Fields"
+        },
+        {
+          "level": 4,
+          "text": "Tips"
+        },
+        {
+          "level": 2,
+          "text": "TaskGet"
+        },
+        {
+          "level": 4,
+          "text": "When to Use This Tool"
+        },
+        {
+          "level": 4,
+          "text": "Output"
+        },
+        {
+          "level": 4,
+          "text": "Tips"
+        },
+        {
+          "level": 2,
+          "text": "TaskList"
+        },
+        {
+          "level": 4,
+          "text": "When to Use This Tool"
+        },
+        {
+          "level": 4,
+          "text": "Output"
+        },
+        {
+          "level": 2,
+          "text": "TaskOutput"
+        },
+        {
+          "level": 2,
+          "text": "TaskStop"
+        },
+        {
+          "level": 2,
+          "text": "TaskUpdate"
+        },
+        {
+          "level": 4,
+          "text": "When to Use This Tool"
+        },
+        {
+          "level": 4,
+          "text": "Fields You Can Update"
+        },
+        {
+          "level": 4,
+          "text": "Status Workflow"
+        },
+        {
+          "level": 4,
+          "text": "Staleness"
+        },
+        {
+          "level": 4,
+          "text": "Examples"
+        },
+        {
+          "level": 2,
+          "text": "WebFetch"
+        },
+        {
+          "level": 2,
+          "text": "WebSearch"
+        },
+        {
+          "level": 2,
+          "text": "Workflow"
+        },
+        {
+          "level": 4,
+          "text": "Resume"
+        },
+        {
+          "level": 2,
+          "text": "Write"
+        }
+      ],
+      "keywordCounts": {
+        "tools": 70,
+        "safety": 14,
+        "planning": 16,
+        "memory": 46,
+        "autonomy": 14,
+        "git": 24
+      },
+      "promptRole": "System Prompt",
+      "captureTarget": "claude-tap capture-only",
+      "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
+    },
+    {
+      "order": 2,
+      "id": "codex",
+      "name": "Codex CLI",
+      "version": "0.147.0",
+      "package": "@openai/codex",
+      "publishedAt": "2026-08-07T01:47:21.081Z",
+      "capturedAt": "2026-08-07T03:32:17.829907+00:00",
+      "snapshotCount": 74,
+      "promptPath": "data/prompts/codex.md",
+      "sourcePromptPath": "captures/codex/0.147.0/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/b326cca92451d7046b9bab0ebf6b5dba988ffc9d/captures/codex/0.147.0/prompt.md",
+      "phistoryUrl": "https://phistory.cc/",
+      "icon": "agent-icons/codex.png",
+      "sha256": "43f8ff24b3a903cb633cb868d3ee3db24df482a55c94c3289190bd10812cab86",
+      "bytes": 62249,
+      "characters": 62209,
+      "lines": 767,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Developer Prompt"
+        },
+        {
+          "level": 2,
+          "text": "Personality"
+        },
+        {
+          "level": 3,
+          "text": "Writing style"
+        },
+        {
+          "level": 3,
+          "text": "Technical communication"
+        },
+        {
+          "level": 2,
+          "text": "Working with the user"
+        },
+        {
+          "level": 3,
+          "text": "Intermediate commentary"
+        },
+        {
+          "level": 3,
+          "text": "Final answer"
+        },
+        {
+          "level": 4,
+          "text": "Formatting rules"
+        },
+        {
+          "level": 4,
+          "text": "Visualizations"
+        },
+        {
+          "level": 2,
+          "text": "Rules for getting work done"
+        },
+        {
+          "level": 3,
+          "text": "File editing constraints"
+        },
+        {
+          "level": 3,
+          "text": "Autonomy and persistence"
+        },
+        {
+          "level": 2,
+          "text": "Destructive Actions"
+        },
+        {
+          "level": 2,
+          "text": "Using skills"
+        },
+        {
+          "level": 4,
+          "text": "How to use skills"
+        },
+        {
+          "level": 3,
+          "text": "Skills"
+        },
+        {
+          "level": 4,
+          "text": "Available skills"
+        },
+        {
+          "level": 1,
+          "text": "User Message"
+        },
+        {
+          "level": 1,
+          "text": "Tools"
+        },
+        {
+          "level": 2,
+          "text": "collaboration.followup_task"
+        },
+        {
+          "level": 2,
+          "text": "collaboration.interrupt_agent"
+        },
+        {
+          "level": 2,
+          "text": "collaboration.list_agents"
+        },
+        {
+          "level": 2,
+          "text": "collaboration.send_message"
+        },
+        {
+          "level": 2,
+          "text": "collaboration.spawn_agent"
+        },
+        {
+          "level": 2,
+          "text": "collaboration.wait_agent"
+        },
+        {
+          "level": 2,
+          "text": "functions.exec"
+        },
+        {
+          "level": 5,
+          "text": "`apply_patch`"
+        },
+        {
+          "level": 5,
+          "text": "`create_goal`"
+        },
+        {
+          "level": 5,
+          "text": "`exec_command`"
+        },
+        {
+          "level": 5,
+          "text": "`get_goal`"
+        },
+        {
+          "level": 5,
+          "text": "`list_mcp_resource_templates`"
+        },
+        {
+          "level": 5,
+          "text": "`list_mcp_resources`"
+        },
+        {
+          "level": 5,
+          "text": "`read_mcp_resource`"
+        },
+        {
+          "level": 5,
+          "text": "`update_goal`"
+        },
+        {
+          "level": 5,
+          "text": "`update_plan`"
+        },
+        {
+          "level": 5,
+          "text": "`view_image`"
+        },
+        {
+          "level": 5,
+          "text": "`write_stdin`"
+        },
+        {
+          "level": 4,
+          "text": "image_gen"
+        },
+        {
+          "level": 5,
+          "text": "`image_gen__imagegen`"
+        },
+        {
+          "level": 2,
+          "text": "functions.request_user_input"
+        },
+        {
+          "level": 2,
+          "text": "functions.wait"
+        }
+      ],
+      "keywordCounts": {
+        "tools": 111,
+        "safety": 10,
+        "planning": 11,
+        "memory": 12,
+        "autonomy": 6,
+        "git": 5
+      },
+      "promptRole": "Developer Prompt",
+      "captureTarget": "claude-tap capture-only",
+      "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
+    },
+    {
+      "order": 3,
+      "id": "antigravity",
+      "name": "Antigravity CLI",
+      "version": "1.1.11",
+      "package": "google-antigravity/antigravity-cli",
+      "publishedAt": "2026-08-07T02:35:23Z",
+      "capturedAt": "2026-08-07T03:32:22.907655+00:00",
+      "snapshotCount": 25,
+      "promptPath": "data/prompts/antigravity.md",
+      "sourcePromptPath": "captures/antigravity/1.1.11/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/b326cca92451d7046b9bab0ebf6b5dba988ffc9d/captures/antigravity/1.1.11/prompt.md",
+      "phistoryUrl": "https://phistory.cc/",
+      "icon": "agent-icons/antigravity.png",
+      "sha256": "7bac155edeb35b497510779caeadb7f9227ff683cbd00b23738069c3a548df3f",
+      "bytes": 55808,
+      "characters": 55806,
+      "lines": 1022,
+      "headings": [
+        {
+          "level": 1,
+          "text": "System Prompt"
+        },
+        {
+          "level": 3,
+          "text": "Technology Stack,"
+        },
+        {
+          "level": 2,
+          "text": "Design Aesthetics,"
+        },
+        {
+          "level": 3,
+          "text": "Implementation Workflow,"
+        },
+        {
+          "level": 3,
+          "text": "SEO Best Practices,"
+        },
+        {
+          "level": 3,
+          "text": "Receiving Messages"
+        },
+        {
+          "level": 3,
+          "text": "Reactive Wakeup (No Polling Needed)"
+        },
+        {
+          "level": 2,
+          "text": "File Format"
+        },
+        {
+          "level": 2,
+          "text": "How to use transcripts"
+        },
+        {
+          "level": 2,
+          "text": "When to use transcripts"
+        },
+        {
+          "level": 2,
+          "text": "Useful Examples"
+        },
+        {
+          "level": 2,
+          "text": "How to reference conversations"
+        },
+        {
+          "level": 2,
+          "text": "Naming Artifacts"
+        },
+        {
+          "level": 2,
+          "text": "When to Use Artifacts"
+        },
+        {
+          "level": 2,
+          "text": "Artifact Formatting Tips"
+        },
+        {
+          "level": 3,
+          "text": "Alerts"
+        },
+        {
+          "level": 3,
+          "text": "Code and Diffs"
+        },
+        {
+          "level": 3,
+          "text": "Mermaid Diagrams"
+        },
+        {
+          "level": 3,
+          "text": "Tables"
+        },
+        {
+          "level": 3,
+          "text": "File Links and Media"
+        },
+        {
+          "level": 3,
+          "text": "Carousels"
+        },
+        {
+          "level": 3,
+          "text": "Critical Rules"
+        },
+        {
+          "level": 2,
+          "text": "Scratch Scripts and Files"
+        },
+        {
+          "level": 1,
+          "text": "User Message"
+        },
+        {
+          "level": 1,
+          "text": "Tools"
+        },
+        {
+          "level": 2,
+          "text": "generate_image"
+        },
+        {
+          "level": 2,
+          "text": "grep_search"
+        },
+        {
+          "level": 2,
+          "text": "list_dir"
+        },
+        {
+          "level": 2,
+          "text": "manage_task"
+        },
+        {
+          "level": 2,
+          "text": "multi_replace_file_content"
+        },
+        {
+          "level": 2,
+          "text": "read_url_content"
+        },
+        {
+          "level": 2,
+          "text": "replace_file_content"
+        },
+        {
+          "level": 2,
+          "text": "run_command"
+        },
+        {
+          "level": 2,
+          "text": "schedule"
+        },
+        {
+          "level": 2,
+          "text": "search_web"
+        },
+        {
+          "level": 2,
+          "text": "view_file"
+        },
+        {
+          "level": 2,
+          "text": "write_to_file"
+        }
+      ],
+      "keywordCounts": {
+        "tools": 63,
+        "safety": 0,
+        "planning": 4,
+        "memory": 7,
+        "autonomy": 1,
+        "git": 4
+      },
+      "promptRole": "System Prompt",
+      "captureTarget": "claude-tap capture-only",
+      "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
+    },
+    {
+      "order": 4,
+      "id": "grok",
+      "name": "Grok Build",
+      "version": "1.0.0",
+      "package": "@xai-official/grok",
+      "publishedAt": "2026-08-07T01:15:46.097Z",
+      "capturedAt": "2026-08-07T03:32:28.121998+00:00",
+      "snapshotCount": 127,
+      "promptPath": "data/prompts/grok.md",
+      "sourcePromptPath": "captures/grok/1.0.0/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/b326cca92451d7046b9bab0ebf6b5dba988ffc9d/captures/grok/1.0.0/prompt.md",
+      "phistoryUrl": "https://phistory.cc/",
+      "icon": "agent-icons/grok.png",
+      "sha256": "bf7fb27777552ae3ca3d0e2ebae5226cc63dbfb05345bbc0e749b4f37d62a640",
+      "bytes": 42593,
+      "characters": 42545,
+      "lines": 1106,
+      "headings": [
+        {
+          "level": 1,
+          "text": "System Prompt"
+        },
+        {
+          "level": 1,
+          "text": "User Message"
+        },
+        {
+          "level": 1,
+          "text": "Tools"
+        },
+        {
+          "level": 2,
+          "text": "ask_user_question"
+        },
+        {
+          "level": 2,
+          "text": "enter_plan_mode"
+        },
+        {
+          "level": 2,
+          "text": "exit_plan_mode"
+        },
+        {
+          "level": 2,
+          "text": "get_command_or_subagent_output"
+        },
+        {
+          "level": 2,
+          "text": "grep"
+        },
+        {
+          "level": 2,
+          "text": "image_edit"
+        },
+        {
+          "level": 2,
+          "text": "image_gen"
+        },
+        {
+          "level": 2,
+          "text": "image_to_video"
+        },
+        {
+          "level": 2,
+          "text": "kill_command_or_subagent"
+        },
+        {
+          "level": 2,
+          "text": "list_dir"
+        },
+        {
+          "level": 2,
+          "text": "monitor"
+        },
+        {
+          "level": 2,
+          "text": "read_file"
+        },
+        {
+          "level": 2,
+          "text": "reference_to_video"
+        },
+        {
+          "level": 2,
+          "text": "run_terminal_command"
+        },
+        {
+          "level": 2,
+          "text": "scheduler_create"
+        },
+        {
+          "level": 2,
+          "text": "scheduler_delete"
+        },
+        {
+          "level": 2,
+          "text": "scheduler_list"
+        },
+        {
+          "level": 2,
+          "text": "search_replace"
+        },
+        {
+          "level": 2,
+          "text": "search_tool"
+        },
+        {
+          "level": 2,
+          "text": "spawn_subagent"
+        },
+        {
+          "level": 4,
+          "text": "Usage notes"
+        },
+        {
+          "level": 2,
+          "text": "todo_write"
+        },
+        {
+          "level": 2,
+          "text": "use_tool"
+        },
+        {
+          "level": 2,
+          "text": "web_search"
+        },
+        {
+          "level": 2,
+          "text": "workflow"
+        },
+        {
+          "level": 2,
+          "text": "write"
+        }
+      ],
+      "keywordCounts": {
+        "tools": 28,
+        "safety": 2,
+        "planning": 16,
+        "memory": 3,
+        "autonomy": 2,
+        "git": 5
+      },
+      "promptRole": "System Prompt",
+      "captureTarget": "claude-tap capture-only",
+      "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
+    },
+    {
+      "order": 5,
+      "id": "minimax-code",
+      "name": "MiniMax Code",
+      "version": "3.0.60",
+      "package": "MiniMax Code desktop app",
+      "publishedAt": "2026-08-07T05:52:03.716Z",
+      "capturedAt": "2026-08-07T06:50:32.464054+00:00",
+      "snapshotCount": 26,
+      "promptPath": "data/prompts/minimax-code.md",
+      "sourcePromptPath": "captures/minimax-code/3.0.60/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/b326cca92451d7046b9bab0ebf6b5dba988ffc9d/captures/minimax-code/3.0.60/prompt.md",
+      "phistoryUrl": "https://phistory.cc/",
+      "icon": "agent-icons/minimax-code.svg",
+      "sha256": "9d09653ff8faac5eda2522021810b4af0a93b716a427d239c0d8941d15e30a0c",
+      "bytes": 84022,
+      "characters": 83561,
+      "lines": 1558,
+      "headings": [
+        {
+          "level": 1,
+          "text": "System Prompt"
+        },
+        {
+          "level": 3,
+          "text": "Core Judgment"
+        },
+        {
+          "level": 3,
+          "text": "Communication Style"
+        },
+        {
+          "level": 4,
+          "text": "Must Avoid"
+        },
+        {
+          "level": 4,
+          "text": "Must Feel Alive, Like an Energetic Young Colleague"
+        },
+        {
+          "level": 3,
+          "text": "Warm But Not Soft"
+        },
+        {
+          "level": 3,
+          "text": "Do / Don't Examples"
+        },
+        {
+          "level": 3,
+          "text": "Task Routing"
+        },
+        {
+          "level": 4,
+          "text": "Handle it yourself when"
+        },
+        {
+          "level": 4,
+          "text": "Delegate with `task`"
+        },
+        {
+          "level": 3,
+          "text": "Hard Limits"
+        },
+        {
+          "level": 3,
+          "text": "Coding Conventions"
+        },
+        {
+          "level": 3,
+          "text": "Harness"
+        },
+        {
+          "level": 3,
+          "text": "Task Management"
+        },
+        {
+          "level": 3,
+          "text": "Tool Usage"
+        },
+        {
+          "level": 4,
+          "text": "Preamble messages"
+        },
+        {
+          "level": 4,
+          "text": "Parallel Calls"
+        },
+        {
+          "level": 4,
+          "text": "Avoid Redundant Reads"
+        },
+        {
+          "level": 3,
+          "text": "Self-Reminder via Cron"
+        },
+        {
+          "level": 3,
+          "text": "Memory"
+        },
+        {
+          "level": 3,
+          "text": "Output Conventions"
+        },
+        {
+          "level": 3,
+          "text": "Media Output"
+        },
+        {
+          "level": 3,
+          "text": "Session Role: Root Session"
+        },
+        {
+          "level": 3,
+          "text": "Reporting Coverage"
+        },
+        {
+          "level": 3,
+          "text": "Workspace"
+        },
+        {
+          "level": 1,
+          "text": "User Message"
+        },
+        {
+          "level": 3,
+          "text": "Goal"
+        },
+        {
+          "level": 3,
+          "text": "Strategy"
+        },
+        {
+          "level": 3,
+          "text": "Tone"
+        },
+        {
+          "level": 1,
+          "text": "Tools"
+        },
+        {
+          "level": 2,
+          "text": "ask_user"
+        },
+        {
+          "level": 2,
+          "text": "bash"
+        },
+        {
+          "level": 2,
+          "text": "edit"
+        },
+        {
+          "level": 2,
+          "text": "get_goal"
+        },
+        {
+          "level": 2,
+          "text": "glob"
+        },
+        {
+          "level": 2,
+          "text": "grep"
+        },
+        {
+          "level": 2,
+          "text": "mavis"
+        },
+        {
+          "level": 2,
+          "text": "memory"
+        },
+        {
+          "level": 2,
+          "text": "read"
+        },
+        {
+          "level": 2,
+          "text": "skill"
+        },
+        {
+          "level": 2,
+          "text": "task"
+        },
+        {
+          "level": 2,
+          "text": "task_output"
+        },
+        {
+          "level": 2,
+          "text": "task_query"
+        },
+        {
+          "level": 2,
+          "text": "task_stop"
+        },
+        {
+          "level": 2,
+          "text": "todowrite"
+        },
+        {
+          "level": 2,
+          "text": "update_goal"
+        },
+        {
+          "level": 2,
+          "text": "web_fetch"
+        },
+        {
+          "level": 2,
+          "text": "website_deploy"
+        },
+        {
+          "level": 2,
+          "text": "write"
+        }
+      ],
+      "keywordCounts": {
+        "tools": 60,
+        "safety": 18,
+        "planning": 13,
+        "memory": 53,
+        "autonomy": 7,
+        "git": 5
+      },
+      "promptRole": "System Prompt",
+      "captureTarget": "claude-tap capture-only",
+      "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
+    },
+    {
+      "order": 6,
+      "id": "kimi-code",
+      "name": "Kimi Code",
+      "version": "0.34.0",
+      "package": "@moonshot-ai/kimi-code",
+      "publishedAt": "2026-08-06T13:59:10.090Z",
+      "capturedAt": "2026-08-07T00:26:08.178084+00:00",
+      "snapshotCount": 59,
+      "promptPath": "data/prompts/kimi-code.md",
+      "sourcePromptPath": "captures/kimi-code/0.34.0/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/b326cca92451d7046b9bab0ebf6b5dba988ffc9d/captures/kimi-code/0.34.0/prompt.md",
+      "phistoryUrl": "https://phistory.cc/",
+      "icon": "agent-icons/kimi-code.png",
+      "sha256": "ba34cd4140bab3121904175d58201fbf832b68e93076ade0b6b0a3f92872c707",
+      "bytes": 91755,
+      "characters": 91465,
+      "lines": 1529,
+      "headings": [
+        {
+          "level": 1,
+          "text": "System Prompt"
+        },
+        {
+          "level": 2,
+          "text": "Language"
+        },
+        {
+          "level": 2,
+          "text": "Prompt and Tool Use"
+        },
+        {
+          "level": 2,
+          "text": "General Guidelines for Coding"
+        },
+        {
+          "level": 2,
+          "text": "General Guidelines for Research and Data Processing"
+        },
+        {
+          "level": 2,
+          "text": "Context Management"
+        },
+        {
+          "level": 2,
+          "text": "Working Environment"
+        },
+        {
+          "level": 3,
+          "text": "Operating System"
+        },
+        {
+          "level": 3,
+          "text": "Date and Time"
+        },
+        {
+          "level": 3,
+          "text": "Working Directory"
+        },
+        {
+          "level": 2,
+          "text": "Project Information"
+        },
+        {
+          "level": 2,
+          "text": "Skills"
+        },
+        {
+          "level": 3,
+          "text": "Available skills"
+        },
+        {
+          "level": 4,
+          "text": "Built-in"
+        },
+        {
+          "level": 2,
+          "text": "Ultimate Reminders"
+        },
+        {
+          "level": 1,
+          "text": "User Message"
+        },
+        {
+          "level": 1,
+          "text": "Tools"
+        },
+        {
+          "level": 2,
+          "text": "Agent"
+        },
+        {
+          "level": 2,
+          "text": "AgentSwarm"
+        },
+        {
+          "level": 2,
+          "text": "AskUserQuestion"
+        },
+        {
+          "level": 2,
+          "text": "Bash"
+        },
+        {
+          "level": 2,
+          "text": "CreateGoal"
+        },
+        {
+          "level": 2,
+          "text": "CronCreate"
+        },
+        {
+          "level": 4,
+          "text": "One-shot tasks (recurring: false)"
+        },
+        {
+          "level": 4,
+          "text": "Recurring jobs (recurring: true, the default)"
+        },
+        {
+          "level": 4,
+          "text": "Avoid the :00 and :30 minute marks when the task allows it"
+        },
+        {
+          "level": 4,
+          "text": "Coalesce semantics"
+        },
+        {
+          "level": 4,
+          "text": "Cron-fire envelope"
+        },
+        {
+          "level": 4,
+          "text": "7-day stale behavior"
+        },
+        {
+          "level": 4,
+          "text": "Jitter behavior"
+        },
+        {
+          "level": 4,
+          "text": "One-shot vs recurring — when to pick which"
+        },
+        {
+          "level": 4,
+          "text": "Session lifetime"
+        },
+        {
+          "level": 4,
+          "text": "Limits"
+        },
+        {
+          "level": 4,
+          "text": "Returned fields"
+        },
+        {
+          "level": 4,
+          "text": "Tell the user how to cancel or modify"
+        },
+        {
+          "level": 2,
+          "text": "CronDelete"
+        },
+        {
+          "level": 2,
+          "text": "CronList"
+        },
+        {
+          "level": 2,
+          "text": "Edit"
+        },
+        {
+          "level": 2,
+          "text": "EnterPlanMode"
+        },
+        {
+          "level": 2,
+          "text": "ExitPlanMode"
+        },
+        {
+          "level": 4,
+          "text": "How This Tool Works"
+        },
+        {
+          "level": 4,
+          "text": "When to Use"
+        },
+        {
+          "level": 4,
+          "text": "What a good plan contains"
+        },
+        {
+          "level": 4,
+          "text": "Multiple Approaches"
+        },
+        {
+          "level": 4,
+          "text": "Before Using"
+        },
+        {
+          "level": 2,
+          "text": "FetchURL"
+        },
+        {
+          "level": 2,
+          "text": "GetGoal"
+        },
+        {
+          "level": 2,
+          "text": "Glob"
+        },
+        {
+          "level": 2,
+          "text": "Grep"
+        },
+        {
+          "level": 2,
+          "text": "Read"
+        },
+        {
+          "level": 2,
+          "text": "SetGoalBudget"
+        },
+        {
+          "level": 2,
+          "text": "Skill"
+        },
+        {
+          "level": 2,
+          "text": "TaskList"
+        },
+        {
+          "level": 2,
+          "text": "TaskOutput"
+        },
+        {
+          "level": 2,
+          "text": "TaskStop"
+        },
+        {
+          "level": 2,
+          "text": "TodoList"
+        },
+        {
+          "level": 2,
+          "text": "UpdateGoal"
+        },
+        {
+          "level": 2,
+          "text": "Write"
+        }
+      ],
+      "keywordCounts": {
+        "tools": 99,
+        "safety": 22,
+        "planning": 52,
+        "memory": 28,
+        "autonomy": 13,
+        "git": 14
+      },
+      "promptRole": "System Prompt",
+      "captureTarget": "claude-tap capture-only",
+      "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
+    },
+    {
+      "order": 7,
+      "id": "mimo",
+      "name": "MiMo Code",
+      "version": "0.1.10",
+      "package": "@mimo-ai/cli",
+      "publishedAt": "2026-08-05T09:17:36.040Z",
+      "capturedAt": "2026-08-05T11:02:11.084876+00:00",
+      "snapshotCount": 10,
+      "promptPath": "data/prompts/mimo.md",
+      "sourcePromptPath": "captures/mimo/0.1.10/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/b326cca92451d7046b9bab0ebf6b5dba988ffc9d/captures/mimo/0.1.10/prompt.md",
+      "phistoryUrl": "https://phistory.cc/",
+      "icon": "agent-icons/mimo.png",
+      "sha256": "da45fb9b1fec1359e8ccaea2cb8566b45651f5cabb259b5cfa850e4b51e20fcc",
+      "bytes": 129656,
+      "characters": 128884,
+      "lines": 2200,
+      "headings": [
+        {
+          "level": 1,
+          "text": "System Prompt"
+        },
+        {
+          "level": 2,
+          "text": "Workflow"
+        },
+        {
+          "level": 3,
+          "text": "1. Fetch Provided URLs"
+        },
+        {
+          "level": 3,
+          "text": "2. Deeply Understand the Problem"
+        },
+        {
+          "level": 3,
+          "text": "3. Codebase Investigation"
+        },
+        {
+          "level": 3,
+          "text": "4. Internet Research"
+        },
+        {
+          "level": 3,
+          "text": "5. Develop a Detailed Plan"
+        },
+        {
+          "level": 3,
+          "text": "6. Making Code Changes"
+        },
+        {
+          "level": 3,
+          "text": "7. Debugging"
+        },
+        {
+          "level": 2,
+          "text": "Communication Guidelines"
+        },
+        {
+          "level": 2,
+          "text": "Memory"
+        },
+        {
+          "level": 2,
+          "text": "Reading Files and Folders"
+        },
+        {
+          "level": 2,
+          "text": "Writing Prompts"
+        },
+        {
+          "level": 2,
+          "text": "Git"
+        },
+        {
+          "level": 2,
+          "text": "Autonomous safety boundaries"
+        },
+        {
+          "level": 2,
+          "text": "Memory system"
+        },
+        {
+          "level": 3,
+          "text": "When to Edit MEMORY.md directly"
+        },
+        {
+          "level": 3,
+          "text": "Notes scratchpad"
+        },
+        {
+          "level": 3,
+          "text": "Subagent return format"
+        },
+        {
+          "level": 3,
+          "text": "What NOT to do"
+        },
+        {
+          "level": 3,
+          "text": "Active recall protocol"
+        },
+        {
+          "level": 1,
+          "text": "User Message"
+        },
+        {
+          "level": 1,
+          "text": "Tools"
+        },
+        {
+          "level": 2,
+          "text": "actor"
+        },
+        {
+          "level": 4,
+          "text": "Operations (the `operation.action` field selects one)"
+        },
+        {
+          "level": 4,
+          "text": "When to use actor"
+        },
+        {
+          "level": 4,
+          "text": "Collecting spawned work"
+        },
+        {
+          "level": 4,
+          "text": "Writing the prompt"
+        },
+        {
+          "level": 4,
+          "text": "Context inheritance"
+        },
+        {
+          "level": 4,
+          "text": "Actor ID vs Task ID"
+        },
+        {
+          "level": 4,
+          "text": "Binding a subagent to a task"
+        },
+        {
+          "level": 4,
+          "text": "Usage notes"
+        },
+        {
+          "level": 4,
+          "text": "Examples"
+        },
+        {
+          "level": 2,
+          "text": "bash"
+        },
+        {
+          "level": 3,
+          "text": "Committing changes with git"
+        },
+        {
+          "level": 3,
+          "text": "Creating pull requests"
+        },
+        {
+          "level": 4,
+          "text": "Summary"
+        },
+        {
+          "level": 3,
+          "text": "Other common operations"
+        },
+        {
+          "level": 2,
+          "text": "change_directory"
+        },
+        {
+          "level": 2,
+          "text": "cron"
+        },
+        {
+          "level": 4,
+          "text": "Operations"
+        },
+        {
+          "level": 4,
+          "text": "Picking minutes for `schedule`"
+        },
+        {
+          "level": 4,
+          "text": "Picking delay_seconds for `loop`"
+        },
+        {
+          "level": 4,
+          "text": "Schedule vs loop"
+        },
+        {
+          "level": 4,
+          "text": "Durability"
+        },
+        {
+          "level": 4,
+          "text": "JSON examples"
+        },
+        {
+          "level": 4,
+          "text": "Discipline"
+        },
+        {
+          "level": 2,
+          "text": "edit"
+        },
+        {
+          "level": 2,
+          "text": "glob"
+        },
+        {
+          "level": 2,
+          "text": "grep"
+        },
+        {
+          "level": 2,
+          "text": "history"
+        },
+        {
+          "level": 2,
+          "text": "memory"
+        },
+        {
+          "level": 2,
+          "text": "notebook_edit"
+        },
+        {
+          "level": 2,
+          "text": "read"
+        },
+        {
+          "level": 2,
+          "text": "skill"
+        },
+        {
+          "level": 4,
+          "text": "Available Skills"
+        },
+        {
+          "level": 2,
+          "text": "skill_search"
+        },
+        {
+          "level": 2,
+          "text": "task"
+        },
+        {
+          "level": 4,
+          "text": "Operations"
+        },
+        {
+          "level": 4,
+          "text": "JSON examples"
+        },
+        {
+          "level": 4,
+          "text": "Discipline"
+        },
+        {
+          "level": 4,
+          "text": "When to use"
+        },
+        {
+          "level": 4,
+          "text": "Don't repeat in your reply"
+        },
+        {
+          "level": 2,
+          "text": "webfetch"
+        },
+        {
+          "level": 2,
+          "text": "write"
+        }
+      ],
+      "keywordCounts": {
+        "tools": 117,
+        "safety": 5,
+        "planning": 19,
+        "memory": 87,
+        "autonomy": 17,
+        "git": 35
+      },
+      "promptRole": "System Prompt",
+      "captureTarget": "claude-tap capture-only",
+      "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
+    },
+    {
+      "order": 8,
+      "id": "openclaw",
+      "name": "OpenClaw",
+      "version": "2026.7.1-2",
+      "package": "openclaw",
+      "publishedAt": "2026-07-18T03:53:48.967Z",
+      "capturedAt": "2026-07-18T04:30:53.960583+00:00",
+      "snapshotCount": 69,
+      "promptPath": "data/prompts/openclaw.md",
+      "sourcePromptPath": "captures/openclaw/2026.7.1-2/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/b326cca92451d7046b9bab0ebf6b5dba988ffc9d/captures/openclaw/2026.7.1-2/prompt.md",
+      "phistoryUrl": "https://phistory.cc/",
+      "icon": "agent-icons/openclaw.png",
+      "sha256": "970364edb84b174504b8c82eac84ac77a67a7cf02b98fc4d42e6b6680d1ca404",
+      "bytes": 118454,
+      "characters": 118397,
+      "lines": 4034,
+      "headings": [
+        {
+          "level": 1,
+          "text": "System Prompt"
+        },
+        {
+          "level": 3,
+          "text": "Tooling"
+        },
+        {
+          "level": 3,
+          "text": "Tool Call Style"
+        },
+        {
+          "level": 3,
+          "text": "Execution Bias"
+        },
+        {
+          "level": 3,
+          "text": "Safety"
+        },
+        {
+          "level": 3,
+          "text": "OpenClaw Control"
+        },
+        {
+          "level": 3,
+          "text": "Skills"
+        },
+        {
+          "level": 3,
+          "text": "Skill Workshop"
+        },
+        {
+          "level": 3,
+          "text": "Memory Recall"
+        },
+        {
+          "level": 3,
+          "text": "OpenClaw Self-Update"
+        },
+        {
+          "level": 3,
+          "text": "Workspace"
+        },
+        {
+          "level": 3,
+          "text": "Documentation"
+        },
+        {
+          "level": 3,
+          "text": "Current Date & Time"
+        },
+        {
+          "level": 3,
+          "text": "Bootstrap Pending"
+        },
+        {
+          "level": 3,
+          "text": "Workspace Files (injected)"
+        },
+        {
+          "level": 3,
+          "text": "Assistant Output Directives"
+        },
+        {
+          "level": 2,
+          "text": "Project Context"
+        },
+        {
+          "level": 3,
+          "text": "$PHISTORY_HOME/.openclaw/workspace/AGENTS.md"
+        },
+        {
+          "level": 2,
+          "text": "AGENTS.md - Your Workspace"
+        },
+        {
+          "level": 3,
+          "text": "First Run"
+        },
+        {
+          "level": 3,
+          "text": "Session Startup"
+        },
+        {
+          "level": 3,
+          "text": "Memory"
+        },
+        {
+          "level": 4,
+          "text": "MEMORY.md - Your Long-Term Memory"
+        },
+        {
+          "level": 4,
+          "text": "Write It Down"
+        },
+        {
+          "level": 3,
+          "text": "Red Lines"
+        },
+        {
+          "level": 3,
+          "text": "Existing Solutions Preflight"
+        },
+        {
+          "level": 3,
+          "text": "External vs Internal"
+        },
+        {
+          "level": 3,
+          "text": "Group Chats"
+        },
+        {
+          "level": 4,
+          "text": "Know When to Speak"
+        },
+        {
+          "level": 4,
+          "text": "React Like a Human"
+        },
+        {
+          "level": 3,
+          "text": "Tools"
+        },
+        {
+          "level": 3,
+          "text": "Heartbeats - Be Proactive"
+        },
+        {
+          "level": 4,
+          "text": "Memory Maintenance"
+        },
+        {
+          "level": 3,
+          "text": "Make It Yours"
+        },
+        {
+          "level": 3,
+          "text": "Related"
+        },
+        {
+          "level": 3,
+          "text": "$PHISTORY_HOME/.openclaw/workspace/SOUL.md"
+        },
+        {
+          "level": 2,
+          "text": "SOUL.md - Who You Are"
+        },
+        {
+          "level": 3,
+          "text": "Core Truths"
+        },
+        {
+          "level": 3,
+          "text": "Boundaries"
+        },
+        {
+          "level": 3,
+          "text": "Vibe"
+        },
+        {
+          "level": 3,
+          "text": "Continuity"
+        },
+        {
+          "level": 3,
+          "text": "Related"
+        },
+        {
+          "level": 3,
+          "text": "$PHISTORY_HOME/.openclaw/workspace/IDENTITY.md"
+        },
+        {
+          "level": 2,
+          "text": "IDENTITY.md - Who Am I?"
+        },
+        {
+          "level": 3,
+          "text": "Related"
+        },
+        {
+          "level": 3,
+          "text": "$PHISTORY_HOME/.openclaw/workspace/USER.md"
+        },
+        {
+          "level": 2,
+          "text": "USER.md - About Your Human"
+        },
+        {
+          "level": 3,
+          "text": "Context"
+        },
+        {
+          "level": 3,
+          "text": "Related"
+        },
+        {
+          "level": 3,
+          "text": "$PHISTORY_HOME/.openclaw/workspace/TOOLS.md"
+        },
+        {
+          "level": 2,
+          "text": "TOOLS.md - Local Notes"
+        },
+        {
+          "level": 3,
+          "text": "Examples"
+        },
+        {
+          "level": 4,
+          "text": "Cameras"
+        },
+        {
+          "level": 4,
+          "text": "SSH"
+        },
+        {
+          "level": 4,
+          "text": "TTS"
+        },
+        {
+          "level": 3,
+          "text": "Why Separate?"
+        },
+        {
+          "level": 3,
+          "text": "Related"
+        },
+        {
+          "level": 3,
+          "text": "$PHISTORY_HOME/.openclaw/workspace/BOOTSTRAP.md"
+        },
+        {
+          "level": 2,
+          "text": "BOOTSTRAP.md - Hello, World"
+        },
+        {
+          "level": 3,
+          "text": "The Conversation"
+        },
+        {
+          "level": 3,
+          "text": "After You Know Who You Are"
+        },
+        {
+          "level": 3,
+          "text": "Connect (Optional)"
+        },
+        {
+          "level": 3,
+          "text": "When You Are Done"
+        },
+        {
+          "level": 3,
+          "text": "Related"
+        },
+        {
+          "level": 3,
+          "text": "Silent Replies"
+        },
+        {
+          "level": 2,
+          "text": "Dynamic Project Context"
+        },
+        {
+          "level": 3,
+          "text": "$PHISTORY_HOME/.openclaw/workspace/HEARTBEAT.md"
+        },
+        {
+          "level": 2,
+          "text": "Keep this file empty (or with only comments) to skip heartbeat API calls."
+        },
+        {
+          "level": 2,
+          "text": "Add tasks below when you want the agent to check something periodically."
+        },
+        {
+          "level": 3,
+          "text": "Messaging"
+        },
+        {
+          "level": 4,
+          "text": "message tool"
+        },
+        {
+          "level": 3,
+          "text": "Runtime"
+        },
+        {
+          "level": 1,
+          "text": "User Message"
+        },
+        {
+          "level": 1,
+          "text": "Tools"
+        },
+        {
+          "level": 2,
+          "text": "agents_list"
+        },
+        {
+          "level": 2,
+          "text": "apply_patch"
+        },
+        {
+          "level": 2,
+          "text": "browser"
+        },
+        {
+          "level": 2,
+          "text": "canvas"
+        },
+        {
+          "level": 2,
+          "text": "create_goal"
+        },
+        {
+          "level": 2,
+          "text": "cron"
+        },
+        {
+          "level": 2,
+          "text": "dir_fetch"
+        },
+        {
+          "level": 2,
+          "text": "dir_list"
+        },
+        {
+          "level": 2,
+          "text": "edit"
+        },
+        {
+          "level": 2,
+          "text": "exec"
+        },
+        {
+          "level": 2,
+          "text": "file_fetch"
+        },
+        {
+          "level": 2,
+          "text": "file_write"
+        },
+        {
+          "level": 2,
+          "text": "gateway"
+        },
+        {
+          "level": 2,
+          "text": "get_goal"
+        },
+        {
+          "level": 2,
+          "text": "image"
+        },
+        {
+          "level": 2,
+          "text": "image_generate"
+        },
+        {
+          "level": 2,
+          "text": "memory_get"
+        },
+        {
+          "level": 2,
+          "text": "memory_search"
+        },
+        {
+          "level": 2,
+          "text": "message"
+        },
+        {
+          "level": 2,
+          "text": "node_inference"
+        },
+        {
+          "level": 2,
+          "text": "nodes"
+        },
+        {
+          "level": 2,
+          "text": "pdf"
+        },
+        {
+          "level": 2,
+          "text": "process"
+        },
+        {
+          "level": 2,
+          "text": "read"
+        },
+        {
+          "level": 2,
+          "text": "session_status"
+        },
+        {
+          "level": 2,
+          "text": "sessions_history"
+        },
+        {
+          "level": 2,
+          "text": "sessions_list"
+        },
+        {
+          "level": 2,
+          "text": "sessions_send"
+        },
+        {
+          "level": 2,
+          "text": "sessions_spawn"
+        },
+        {
+          "level": 2,
+          "text": "sessions_yield"
+        },
+        {
+          "level": 2,
+          "text": "skill_workshop"
+        },
+        {
+          "level": 2,
+          "text": "subagents"
+        },
+        {
+          "level": 2,
+          "text": "tts"
+        },
+        {
+          "level": 2,
+          "text": "update_goal"
+        },
+        {
+          "level": 2,
+          "text": "video_generate"
+        },
+        {
+          "level": 2,
+          "text": "web_fetch"
+        },
+        {
+          "level": 2,
+          "text": "web_search"
+        },
+        {
+          "level": 2,
+          "text": "write"
+        }
+      ],
+      "keywordCounts": {
+        "tools": 49,
+        "safety": 10,
+        "planning": 2,
+        "memory": 73,
+        "autonomy": 6,
+        "git": 2
+      },
+      "promptRole": "System Prompt",
+      "captureTarget": "claude-tap capture-only",
+      "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
+    },
+    {
+      "order": 9,
+      "id": "hermes",
+      "name": "Hermes Agent",
+      "version": "v2026.8.3",
+      "package": "NousResearch/hermes-agent",
+      "publishedAt": "2026-08-03T16:57:52Z",
+      "capturedAt": "2026-08-03T18:19:14.455552+00:00",
+      "snapshotCount": 22,
+      "promptPath": "data/prompts/hermes.md",
+      "sourcePromptPath": "captures/hermes/v2026.8.3/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/b326cca92451d7046b9bab0ebf6b5dba988ffc9d/captures/hermes/v2026.8.3/prompt.md",
+      "phistoryUrl": "https://phistory.cc/",
+      "icon": "agent-icons/hermes.png",
+      "sha256": "ad9e1badc764399a4299cb578b0e987ba2231930a9e64940382140c2cc9328f9",
+      "bytes": 70325,
+      "characters": 70120,
+      "lines": 1287,
+      "headings": [
+        {
+          "level": 1,
+          "text": "System Prompt"
+        },
+        {
+          "level": 2,
+          "text": "Finishing the job"
+        },
+        {
+          "level": 2,
+          "text": "Parallel tool calls"
+        },
+        {
+          "level": 3,
+          "text": "Skill Safety Rule"
+        },
+        {
+          "level": 3,
+          "text": "Mid-turn user steering"
+        },
+        {
+          "level": 3,
+          "text": "Skills (mandatory)"
+        },
+        {
+          "level": 1,
+          "text": "User Message"
+        },
+        {
+          "level": 1,
+          "text": "Tools"
+        },
+        {
+          "level": 2,
+          "text": "browser_back"
+        },
+        {
+          "level": 2,
+          "text": "browser_click"
+        },
+        {
+          "level": 2,
+          "text": "browser_console"
+        },
+        {
+          "level": 2,
+          "text": "browser_get_images"
+        },
+        {
+          "level": 2,
+          "text": "browser_navigate"
+        },
+        {
+          "level": 2,
+          "text": "browser_press"
+        },
+        {
+          "level": 2,
+          "text": "browser_scroll"
+        },
+        {
+          "level": 2,
+          "text": "browser_snapshot"
+        },
+        {
+          "level": 2,
+          "text": "browser_type"
+        },
+        {
+          "level": 2,
+          "text": "browser_vision"
+        },
+        {
+          "level": 2,
+          "text": "clarify"
+        },
+        {
+          "level": 2,
+          "text": "cronjob"
+        },
+        {
+          "level": 2,
+          "text": "delegate_task"
+        },
+        {
+          "level": 2,
+          "text": "execute_code"
+        },
+        {
+          "level": 2,
+          "text": "memory"
+        },
+        {
+          "level": 2,
+          "text": "patch"
+        },
+        {
+          "level": 2,
+          "text": "process"
+        },
+        {
+          "level": 2,
+          "text": "read_file"
+        },
+        {
+          "level": 2,
+          "text": "search_files"
+        },
+        {
+          "level": 2,
+          "text": "session_search"
+        },
+        {
+          "level": 2,
+          "text": "skill_manage"
+        },
+        {
+          "level": 2,
+          "text": "skill_view"
+        },
+        {
+          "level": 2,
+          "text": "skills_list"
+        },
+        {
+          "level": 2,
+          "text": "terminal"
+        },
+        {
+          "level": 2,
+          "text": "text_to_speech"
+        },
+        {
+          "level": 2,
+          "text": "todo"
+        },
+        {
+          "level": 2,
+          "text": "vision_analyze"
+        },
+        {
+          "level": 2,
+          "text": "write_file"
+        }
+      ],
+      "keywordCounts": {
+        "tools": 56,
+        "safety": 3,
+        "planning": 9,
+        "memory": 56,
+        "autonomy": 6,
+        "git": 3
+      },
+      "promptRole": "System Prompt",
+      "captureTarget": "claude-tap capture-only",
+      "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
+    },
+    {
+      "order": 10,
+      "id": "kimi",
+      "name": "Kimi CLI",
+      "version": "1.49.0",
+      "package": "MoonshotAI/kimi-cli",
+      "publishedAt": "2026-07-16T10:23:29Z",
+      "capturedAt": "2026-07-16T11:21:10.356726+00:00",
+      "snapshotCount": 21,
+      "promptPath": "data/prompts/kimi.md",
+      "sourcePromptPath": "captures/kimi/1.49.0/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/b326cca92451d7046b9bab0ebf6b5dba988ffc9d/captures/kimi/1.49.0/prompt.md",
+      "phistoryUrl": "https://phistory.cc/",
+      "icon": "agent-icons/kimi.png",
+      "sha256": "61a7316388aee2fcf94cf56461ea9d427a776d10f72989a3c64dce913eaeb369",
+      "bytes": 52113,
+      "characters": 52057,
+      "lines": 1089,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Developer Prompt"
+        },
+        {
+          "level": 2,
+          "text": "Prompt and Tool Use"
+        },
+        {
+          "level": 2,
+          "text": "General Guidelines for Coding"
+        },
+        {
+          "level": 2,
+          "text": "General Guidelines for Research and Data Processing"
+        },
+        {
+          "level": 2,
+          "text": "Working Environment"
+        },
+        {
+          "level": 3,
+          "text": "Operating System"
+        },
+        {
+          "level": 3,
+          "text": "Date and Time"
+        },
+        {
+          "level": 3,
+          "text": "Working Directory"
+        },
+        {
+          "level": 2,
+          "text": "Project Information"
+        },
+        {
+          "level": 2,
+          "text": "Skills"
+        },
+        {
+          "level": 3,
+          "text": "What are skills?"
+        },
+        {
+          "level": 3,
+          "text": "Available skills"
+        },
+        {
+          "level": 4,
+          "text": "Built-in"
+        },
+        {
+          "level": 3,
+          "text": "How to use skills"
+        },
+        {
+          "level": 2,
+          "text": "Ultimate Reminders"
+        },
+        {
+          "level": 1,
+          "text": "User Message"
+        },
+        {
+          "level": 1,
+          "text": "Tools"
+        },
+        {
+          "level": 2,
+          "text": "Agent"
+        },
+        {
+          "level": 2,
+          "text": "AskUserQuestion"
+        },
+        {
+          "level": 2,
+          "text": "EnterPlanMode"
+        },
+        {
+          "level": 4,
+          "text": "What Happens in Plan Mode"
+        },
+        {
+          "level": 2,
+          "text": "ExitPlanMode"
+        },
+        {
+          "level": 4,
+          "text": "How This Tool Works"
+        },
+        {
+          "level": 4,
+          "text": "When to Use"
+        },
+        {
+          "level": 4,
+          "text": "Multiple Approaches"
+        },
+        {
+          "level": 4,
+          "text": "Before Using"
+        },
+        {
+          "level": 2,
+          "text": "FetchURL"
+        },
+        {
+          "level": 2,
+          "text": "Glob"
+        },
+        {
+          "level": 2,
+          "text": "Grep"
+        },
+        {
+          "level": 2,
+          "text": "ReadFile"
+        },
+        {
+          "level": 2,
+          "text": "SetTodoList"
+        },
+        {
+          "level": 2,
+          "text": "Shell"
+        },
+        {
+          "level": 2,
+          "text": "StrReplaceFile"
+        },
+        {
+          "level": 2,
+          "text": "TaskList"
+        },
+        {
+          "level": 2,
+          "text": "TaskOutput"
+        },
+        {
+          "level": 2,
+          "text": "TaskStop"
+        },
+        {
+          "level": 2,
+          "text": "WriteFile"
+        }
+      ],
+      "keywordCounts": {
+        "tools": 93,
+        "safety": 6,
+        "planning": 50,
+        "memory": 18,
+        "autonomy": 6,
+        "git": 6
+      },
+      "promptRole": "Developer Prompt",
+      "captureTarget": "claude-tap capture-only",
+      "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
+    },
+    {
+      "order": 11,
+      "id": "opencode",
+      "name": "opencode",
+      "version": "1.18.15",
+      "package": "opencode-ai",
+      "publishedAt": "2026-08-07T06:51:43.689Z",
+      "capturedAt": "2026-08-07T08:35:54.253096+00:00",
+      "snapshotCount": 101,
+      "promptPath": "data/prompts/opencode.md",
+      "sourcePromptPath": "captures/opencode/1.18.15/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/b326cca92451d7046b9bab0ebf6b5dba988ffc9d/captures/opencode/1.18.15/prompt.md",
+      "phistoryUrl": "https://phistory.cc/",
+      "icon": "agent-icons/opencode.png",
+      "sha256": "e60f0b2209bfbabc276fe52daff556a65acd635334ae1441af81f149932386e3",
+      "bytes": 32736,
+      "characters": 32734,
+      "lines": 645,
+      "headings": [
+        {
+          "level": 1,
+          "text": "System Prompt"
+        },
+        {
+          "level": 2,
+          "text": "Workflow"
+        },
+        {
+          "level": 3,
+          "text": "1. Fetch Provided URLs"
+        },
+        {
+          "level": 3,
+          "text": "2. Deeply Understand the Problem"
+        },
+        {
+          "level": 3,
+          "text": "3. Codebase Investigation"
+        },
+        {
+          "level": 3,
+          "text": "4. Internet Research"
+        },
+        {
+          "level": 3,
+          "text": "5. Develop a Detailed Plan"
+        },
+        {
+          "level": 3,
+          "text": "6. Making Code Changes"
+        },
+        {
+          "level": 3,
+          "text": "7. Debugging"
+        },
+        {
+          "level": 2,
+          "text": "Communication Guidelines"
+        },
+        {
+          "level": 2,
+          "text": "Memory"
+        },
+        {
+          "level": 2,
+          "text": "Reading Files and Folders"
+        },
+        {
+          "level": 2,
+          "text": "Writing Prompts"
+        },
+        {
+          "level": 2,
+          "text": "Git"
+        },
+        {
+          "level": 1,
+          "text": "User Message"
+        },
+        {
+          "level": 1,
+          "text": "Tools"
+        },
+        {
+          "level": 2,
+          "text": "bash"
+        },
+        {
+          "level": 3,
+          "text": "Git and GitHub"
+        },
+        {
+          "level": 2,
+          "text": "edit"
+        },
+        {
+          "level": 2,
+          "text": "glob"
+        },
+        {
+          "level": 2,
+          "text": "grep"
+        },
+        {
+          "level": 2,
+          "text": "read"
+        },
+        {
+          "level": 2,
+          "text": "skill"
+        },
+        {
+          "level": 2,
+          "text": "task"
+        },
+        {
+          "level": 2,
+          "text": "todowrite"
+        },
+        {
+          "level": 4,
+          "text": "When to use"
+        },
+        {
+          "level": 4,
+          "text": "When NOT to use"
+        },
+        {
+          "level": 4,
+          "text": "States"
+        },
+        {
+          "level": 4,
+          "text": "Rules"
+        },
+        {
+          "level": 4,
+          "text": "Examples"
+        },
+        {
+          "level": 2,
+          "text": "webfetch"
+        },
+        {
+          "level": 2,
+          "text": "write"
+        }
+      ],
+      "keywordCounts": {
+        "tools": 57,
+        "safety": 1,
+        "planning": 17,
+        "memory": 20,
+        "autonomy": 8,
+        "git": 16
+      },
+      "promptRole": "System Prompt",
+      "captureTarget": "claude-tap capture-only",
+      "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
+    },
+    {
+      "order": 12,
+      "id": "pi",
+      "name": "Pi",
+      "version": "0.84.1",
+      "package": "@earendil-works/pi-coding-agent",
+      "publishedAt": "2026-08-07T06:01:32.966Z",
+      "capturedAt": "2026-08-07T06:50:47.878528+00:00",
+      "snapshotCount": 40,
+      "promptPath": "data/prompts/pi.md",
+      "sourcePromptPath": "captures/pi/0.84.1/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/b326cca92451d7046b9bab0ebf6b5dba988ffc9d/captures/pi/0.84.1/prompt.md",
+      "phistoryUrl": "https://phistory.cc/",
+      "icon": "agent-icons/pi.png",
+      "sha256": "50961e5df7f60439e149290f4d49a08a24fb95931e64ecacfeb87e0620cfcc5a",
+      "bytes": 5826,
+      "characters": 5826,
+      "lines": 154,
+      "headings": [
+        {
+          "level": 1,
+          "text": "System Prompt"
+        },
+        {
+          "level": 1,
+          "text": "User Message"
+        },
+        {
+          "level": 1,
+          "text": "Tools"
+        },
+        {
+          "level": 2,
+          "text": "bash"
+        },
+        {
+          "level": 2,
+          "text": "edit"
+        },
+        {
+          "level": 2,
+          "text": "read"
+        },
+        {
+          "level": 2,
+          "text": "write"
+        }
+      ],
+      "keywordCounts": {
+        "tools": 5,
+        "safety": 0,
+        "planning": 0,
+        "memory": 0,
+        "autonomy": 1,
+        "git": 0
+      },
+      "promptRole": "System Prompt",
+      "captureTarget": "claude-tap capture-only",
+      "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
+    },
+    {
+      "order": 13,
+      "id": "omp",
+      "name": "Oh My Pi",
+      "version": "17.2.12",
+      "package": "@oh-my-pi/pi-coding-agent",
+      "publishedAt": "2026-08-09T01:50:46.788Z",
+      "capturedAt": "2026-08-09T02:36:40.178663+00:00",
+      "snapshotCount": 51,
+      "promptPath": "data/prompts/omp.md",
+      "sourcePromptPath": "captures/omp/17.2.12/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/b326cca92451d7046b9bab0ebf6b5dba988ffc9d/captures/omp/17.2.12/prompt.md",
+      "phistoryUrl": "https://phistory.cc/",
+      "icon": "agent-icons/omp.svg",
+      "sha256": "8d6e0d92e876a4a31a4868b9a0e9a1290747ae48eeb63e5f2187e54af5525a19",
+      "bytes": 68028,
+      "characters": 67558,
+      "lines": 1789,
+      "headings": [
+        {
+          "level": 1,
+          "text": "System Prompt"
+        },
+        {
+          "level": 2,
+          "text": "Engineering Principles"
+        },
+        {
+          "level": 2,
+          "text": "Skills & Rules"
+        },
+        {
+          "level": 2,
+          "text": "Internal URLs"
+        },
+        {
+          "level": 2,
+          "text": "Tool Inventory"
+        },
+        {
+          "level": 2,
+          "text": "xd:// Tool Devices"
+        },
+        {
+          "level": 3,
+          "text": "ast_edit — AST Edit"
+        },
+        {
+          "level": 4,
+          "text": "Schema"
+        },
+        {
+          "level": 3,
+          "text": "debug — Debug"
+        },
+        {
+          "level": 4,
+          "text": "Schema"
+        },
+        {
+          "level": 3,
+          "text": "lsp — LSP"
+        },
+        {
+          "level": 4,
+          "text": "Schema"
+        },
+        {
+          "level": 3,
+          "text": "browser — Browser"
+        },
+        {
+          "level": 4,
+          "text": "Schema"
+        },
+        {
+          "level": 2,
+          "text": "General"
+        },
+        {
+          "level": 2,
+          "text": "Tool I/O"
+        },
+        {
+          "level": 2,
+          "text": "Specialized Tools"
+        },
+        {
+          "level": 2,
+          "text": "Exploration"
+        },
+        {
+          "level": 2,
+          "text": "AST"
+        },
+        {
+          "level": 2,
+          "text": "Delegation"
+        },
+        {
+          "level": 3,
+          "text": "Delegation gates:"
+        },
+        {
+          "level": 2,
+          "text": "1. Scope"
+        },
+        {
+          "level": 2,
+          "text": "2. Research Before Editing"
+        },
+        {
+          "level": 2,
+          "text": "3. Decompose"
+        },
+        {
+          "level": 2,
+          "text": "4. Implement"
+        },
+        {
+          "level": 2,
+          "text": "5. Verify"
+        },
+        {
+          "level": 2,
+          "text": "6. Cleanup"
+        },
+        {
+          "level": 2,
+          "text": "Tone"
+        },
+        {
+          "level": 2,
+          "text": "Reasoning Format"
+        },
+        {
+          "level": 2,
+          "text": "Succinct Patterns"
+        },
+        {
+          "level": 2,
+          "text": "Escalation"
+        },
+        {
+          "level": 1,
+          "text": "User Message"
+        },
+        {
+          "level": 1,
+          "text": "Tools"
+        },
+        {
+          "level": 2,
+          "text": "bash"
+        },
+        {
+          "level": 2,
+          "text": "edit"
+        },
+        {
+          "level": 3,
+          "text": "WRONG — empty `PUT` to delete. RIGHT: `CUT 4.=4`"
+        },
+        {
+          "level": 3,
+          "text": "WRONG — range sized to the post-edit content. RIGHT: `PUT 1.=1:` (body length irrelevant)"
+        },
+        {
+          "level": 3,
+          "text": "WRONG — `-` rows / bare context lines do not exist; the range deletes, the body is only new content."
+        },
+        {
+          "level": 3,
+          "text": "RIGHT"
+        },
+        {
+          "level": 3,
+          "text": "WRONG — pure insertion as a widened `PUT`: retyped keepers get dropped (here line 4)."
+        },
+        {
+          "level": 3,
+          "text": "RIGHT — touch nothing you keep."
+        },
+        {
+          "level": 3,
+          "text": "WRONG — `PUT >N*:` anchored on the closing delimiter / last visible line. RIGHT: plain `PUT >M:`"
+        },
+        {
+          "level": 3,
+          "text": "RIGHT"
+        },
+        {
+          "level": 3,
+          "text": "WRONG — body rows under register PUT; register pastes take no body. RIGHT: bodyless `PUT >20 @fn`."
+        },
+        {
+          "level": 2,
+          "text": "eval"
+        },
+        {
+          "level": 3,
+          "text": "First call — set up once"
+        },
+        {
+          "level": 3,
+          "text": "Second call — reuse, do NOT re-import"
+        },
+        {
+          "level": 3,
+          "text": "Third call — reuse the loaded config"
+        },
+        {
+          "level": 2,
+          "text": "glob"
+        },
+        {
+          "level": 3,
+          "text": "Glob files"
+        },
+        {
+          "level": 3,
+          "text": "Multiple targets — semicolon-delimited list"
+        },
+        {
+          "level": 3,
+          "text": "Glob gitignored files like .env"
+        },
+        {
+          "level": 3,
+          "text": "Glob directories matching a name (returns both files and dirs; directories are suffixed with `/`)"
+        },
+        {
+          "level": 2,
+          "text": "grep"
+        },
+        {
+          "level": 2,
+          "text": "hub"
+        },
+        {
+          "level": 3,
+          "text": "Messaging & Jobs"
+        },
+        {
+          "level": 3,
+          "text": "Processes"
+        },
+        {
+          "level": 3,
+          "text": "List peers"
+        },
+        {
+          "level": 3,
+          "text": "Fire-and-forget DM — same send wakes idle/parked peers"
+        },
+        {
+          "level": 3,
+          "text": "Round-trip when you cannot proceed without the answer"
+        },
+        {
+          "level": 3,
+          "text": "Completely blocked: wait for the first finished job or incoming message"
+        },
+        {
+          "level": 3,
+          "text": "Block until a specific peer answers"
+        },
+        {
+          "level": 3,
+          "text": "Kill a hung background job"
+        },
+        {
+          "level": 3,
+          "text": "Snapshot every background job without waiting"
+        },
+        {
+          "level": 3,
+          "text": "Start a dev server and wait for its log banner and port"
+        },
+        {
+          "level": 3,
+          "text": "Follow process output after a cursor"
+        },
+        {
+          "level": 3,
+          "text": "Drive a REPL/debugger over stdin"
+        },
+        {
+          "level": 3,
+          "text": "Interrupt a process"
+        },
+        {
+          "level": 3,
+          "text": "Block until a process is ready"
+        },
+        {
+          "level": 2,
+          "text": "read"
+        },
+        {
+          "level": 4,
+          "text": "Selectors — append `:<sel>` to `path` (e.g. `src/foo.ts:50-200`, `src/foo.ts:raw`, `db.sqlite:users:42`)"
+        },
+        {
+          "level": 4,
+          "text": "Source kinds"
+        },
+        {
+          "level": 2,
+          "text": "task"
+        },
+        {
+          "level": 3,
+          "text": "Async Job Contract"
+        },
+        {
+          "level": 3,
+          "text": "Task Design"
+        },
+        {
+          "level": 3,
+          "text": "Inputs"
+        },
+        {
+          "level": 3,
+          "text": "Communication"
+        },
+        {
+          "level": 3,
+          "text": "Format Contracts"
+        },
+        {
+          "level": 3,
+          "text": "Goal         ← what the batch accomplishes"
+        },
+        {
+          "level": 3,
+          "text": "Constraints  ← rules and session decisions"
+        },
+        {
+          "level": 3,
+          "text": "Contract     ← shared interfaces"
+        },
+        {
+          "level": 3,
+          "text": "Target       ← exact files and symbols; explicit non-goals"
+        },
+        {
+          "level": 3,
+          "text": "Change       ← step-by-step add/remove/rename; APIs and patterns"
+        },
+        {
+          "level": 3,
+          "text": "Acceptance   ← observable result; no project-wide commands"
+        },
+        {
+          "level": 3,
+          "text": "Available Agents"
+        },
+        {
+          "level": 5,
+          "text": "scout (READ-ONLY)"
+        },
+        {
+          "level": 5,
+          "text": "designer"
+        },
+        {
+          "level": 5,
+          "text": "reviewer"
+        },
+        {
+          "level": 5,
+          "text": "security-reviewer"
+        },
+        {
+          "level": 5,
+          "text": "librarian"
+        },
+        {
+          "level": 5,
+          "text": "task"
+        },
+        {
+          "level": 5,
+          "text": "sonic"
+        },
+        {
+          "level": 2,
+          "text": "todo"
+        },
+        {
+          "level": 4,
+          "text": "Operations"
+        },
+        {
+          "level": 4,
+          "text": "Anatomy"
+        },
+        {
+          "level": 4,
+          "text": "Rules"
+        },
+        {
+          "level": 4,
+          "text": "When to create a list"
+        },
+        {
+          "level": 3,
+          "text": "Initial setup (multi-phase)"
+        },
+        {
+          "level": 3,
+          "text": "View current state (read-only)"
+        },
+        {
+          "level": 3,
+          "text": "Initial setup (single phase)"
+        },
+        {
+          "level": 3,
+          "text": "Complete one task"
+        },
+        {
+          "level": 3,
+          "text": "Complete a whole phase"
+        },
+        {
+          "level": 3,
+          "text": "Remove all tasks"
+        },
+        {
+          "level": 3,
+          "text": "Drop one task"
+        },
+        {
+          "level": 3,
+          "text": "Append tasks to a phase"
+        },
+        {
+          "level": 2,
+          "text": "web_search"
+        },
+        {
+          "level": 2,
+          "text": "write"
+        }
+      ],
+      "keywordCounts": {
+        "tools": 41,
+        "safety": 1,
+        "planning": 28,
+        "memory": 18,
+        "autonomy": 8,
+        "git": 3
+      },
+      "promptRole": "System Prompt",
+      "captureTarget": "claude-tap capture-only",
+      "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
+    }
+  ]
+}

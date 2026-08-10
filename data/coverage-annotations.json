@@ -1,0 +1,1500 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-08-09",
+  "sourceCommit": "b326cca92451d7046b9bab0ebf6b5dba988ffc9d",
+  "expectedCount": 165,
+  "annotations": [
+    {
+      "agent": "claude-code",
+      "id": "claude-code-36",
+      "category": "tool",
+      "anchor": "Avoid using this tool to run `cat`, `head`, `tail`, `sed`, `awk`, or `echo` commands",
+      "title": "Shell 不是文件操作的万能后门",
+      "quote": "avoid cat/head/sed in Bash",
+      "body": "Bash 虽然能完成读取和改写，提示词仍要求优先走专用工具，只有专用能力确实做不到时才例外。这里的价值不只是便利：<b>结构化工具能限制输出、保留操作语义并进入权限审计</b>，Shell 则会把这些边界重新压成一段不可分解的命令。"
+    },
+    {
+      "agent": "claude-code",
+      "id": "claude-code-37",
+      "category": "eng",
+      "anchor": "`register_assets` — legacy: register preview cards explicitly.",
+      "title": "显式注册让位于可推导清单",
+      "quote": "register_assets is legacy",
+      "body": "DesignSync 不再要求 Agent 手工维护 preview 注册表，而是从 HTML 首行注释编译 manifest。它把容易漂移的重复配置改为<b>从单一事实源机械派生</b>：Agent 只维护资产本身，索引由自检生成，减少“内容已改、目录忘更”的双写错误。"
+    },
+    {
+      "agent": "claude-code",
+      "id": "claude-code-38",
+      "category": "safety",
+      "anchor": "the previous worktree is left on disk, untouched",
+      "title": "切换隔离区不等于清理旧现场",
+      "quote": "previous worktree left untouched",
+      "body": "进入新 worktree 时，旧 worktree 会留在磁盘且不被触碰，只切换退出时应管理的目标。这个细节体现<b>隔离优先于自动清理</b>：面对可能含未提交工作的现场，宁可留下可恢复状态，也不以“整理环境”为名主动销毁。"
+    },
+    {
+      "agent": "claude-code",
+      "id": "claude-code-39",
+      "category": "tool",
+      "anchor": "Don't use an unbounded command for a single notification.",
+      "title": "通知条件与进程寿命必须匹配",
+      "quote": "no unbounded command for one notification",
+      "body": "一次性通知不应由 <code>tail -f</code>、无限循环等永不退出的命令承载，否则事件已发生而 monitor 仍保持武装。这里把<b>业务条件完成</b>与<b>进程生命周期结束</b>明确对齐，防止后台任务在完成后继续消耗资源或制造重复信号。"
+    },
+    {
+      "agent": "claude-code",
+      "id": "claude-code-40",
+      "category": "goal",
+      "anchor": "the runtime resolves it back to the autonomous-loop instructions at fire time",
+      "title": "延迟执行保存意图引用而非复制文本",
+      "quote": "resolve loop instructions at fire time",
+      "body": "自主循环用 sentinel 在唤醒时重新解析该会话保存的任务，而不是把整段指令复制进每个定时器。它把延迟任务设计成<b>对权威意图的引用</b>，既减少重复上下文，也降低循环说明在多次调度间发生漂移的概率。"
+    },
+    {
+      "agent": "claude-code",
+      "id": "claude-code-41",
+      "category": "tool",
+      "anchor": "Available skills appear in a system-reminder listing with one-line descriptions.",
+      "title": "技能发现先给目录而非全文",
+      "quote": "skills appear as one-line descriptions",
+      "body": "运行时先注入技能名和单行简介，命中任务后才加载完整说明。它把技能系统做成<b>索引—详情两阶段检索</b>：目录负责路由，正文负责执行，从源头避免所有技能同时占满上下文。"
+    },
+    {
+      "agent": "claude-code",
+      "id": "claude-code-42",
+      "category": "safety",
+      "anchor": "Cross-host redirects are returned to you rather than followed",
+      "title": "跨域跳转重新进入决策回路",
+      "quote": "cross-host redirects are not followed",
+      "body": "WebFetch 会自动升级 HTTPS，却不会静默跟随跨主机跳转，而是把新地址交回 Agent 再调用。这样每次信任域变化都重新变成<b>可见且可审查的网络决策</b>，避免初始可信 URL 把请求悄悄带到另一个站点。"
+    },
+    {
+      "agent": "claude-code",
+      "id": "claude-code-43",
+      "category": "tool",
+      "anchor": "the subagent is forced to call a StructuredOutput tool and agent() returns the validated object",
+      "title": "代理输出被提升为类型化接口",
+      "quote": "validated structured subagent output",
+      "body": "Workflow 为子代理传入 schema 后，结果不再依赖主代理从自然语言中猜字段，而由工具层强制 StructuredOutput 并校验。它把多代理协作从“同事写一段报告”升级为<b>具有机器契约的函数调用</b>，重试和失败也能在边界处处理。"
+    },
+    {
+      "agent": "codex",
+      "id": "codex-50",
+      "category": "safety",
+      "anchor": "backticks and `$()` passed to the `cmd` argument will still execute",
+      "title": "命令字符串不是惰性数据",
+      "quote": "backticks and $() still execute",
+      "body": "即使 Agent 只是想把文本传给命令，反引号和命令替换仍会被 Shell 求值。提示词在这里提醒的是<b>字符串边界与执行边界并不相同</b>：转义错误可能把本应展示的内容变成真实指令，甚至把敏感值带进工具输出。"
+    },
+    {
+      "agent": "codex",
+      "id": "codex-51",
+      "category": "tool",
+      "anchor": "collaboration tools cannot be called from inside `functions.exec`",
+      "title": "协作控制面不能被批处理吞并",
+      "quote": "collaboration tools stay direct",
+      "body": "普通工具可以在 V8 调用中组合，但 spawn、消息和等待等协作操作必须作为直接调用。这个边界让<b>代理拓扑变化保持一等、可观察事件</b>，避免把创建团队或打断代理藏进一段复合脚本里。"
+    },
+    {
+      "agent": "codex",
+      "id": "codex-52",
+      "category": "goal",
+      "anchor": "The wait also ends early when new user input is steered into the active turn.",
+      "title": "等待态仍然服从实时转向",
+      "quote": "user steering ends wait early",
+      "body": "等待子代理消息不是把主 Agent 锁死：新用户输入会提前结束 wait 并进入当前回合。它把人类 steering 设计成<b>高于后台完成信号的中断源</b>，长程执行因此仍可被随时纠偏。"
+    },
+    {
+      "agent": "codex",
+      "id": "codex-53",
+      "category": "tool",
+      "anchor": "Provide 2-3 mutually exclusive choices. Put the recommended option first",
+      "title": "结构化提问同时承载建议与退出口",
+      "quote": "mutually exclusive choices with recommendation",
+      "body": "每个问题要给 2–3 个互斥选项、把推荐项放在首位，而自由输入的 Other 由客户端自动补上。它让 Agent 不只是抛出开放问题，而是<b>先压缩决策空间并公开自己的建议</b>，同时保留用户拒绝预设选项的出口。"
+    },
+    {
+      "agent": "codex",
+      "id": "codex-54",
+      "category": "tool",
+      "anchor": "Set `num_last_images_to_include` to the smallest number of recent conversation images that includes every target image",
+      "expectedOccurrences": 2,
+      "title": "图像上下文也遵循最小充分集",
+      "quote": "smallest image context that covers targets",
+      "body": "当目标图像没有本地路径时，系统要求只带上能够覆盖全部目标的最少历史图片，而不是把最近五张全部塞入。它把 context engineering 延伸到多模态：<b>少带无关视觉证据既省预算，也减少模型把错误图片当编辑对象</b>。"
+    },
+    {
+      "agent": "codex",
+      "id": "codex-55",
+      "category": "tool",
+      "anchor": "`wait` returns only the new output since the last yield",
+      "title": "等待结果采用增量游标语义",
+      "quote": "wait returns only new output",
+      "body": "续等一个长任务时只返回上次 yield 之后的新内容，而不是重复整段日志。这里的设计类似流式游标：<b>历史由调用方保留，工具只传输增量</b>，既压低上下文重复，也避免主 Agent 把旧输出误判成新进展。"
+    },
+    {
+      "agent": "antigravity",
+      "id": "antigravity-33",
+      "category": "eng",
+      "anchor": "The caption should be a short description of the image or video, and it will always be displayed below the image or video",
+      "title": "媒体说明是交付物的一部分",
+      "quote": "caption always displayed",
+      "body": "图片和视频不只是嵌入一个文件路径，还必须带始终可见的简短说明。它把 caption 当作视觉内容的<b>语义接口与可访问性补充</b>，让读者在媒体加载失败、内容复杂或需要快速扫描时仍能理解其角色。"
+    },
+    {
+      "agent": "antigravity",
+      "id": "antigravity-34",
+      "category": "tool",
+      "anchor": "saved as an artifact for use",
+      "title": "生成图片直接进入产物生命周期",
+      "quote": "image saved as artifact",
+      "body": "图像生成结果不是一次性聊天附件，而会保存为 artifact，供应用或网站继续使用并与用户迭代。工具把生成媒介接入<b>可复用、可反馈、可继续编辑的工作对象</b>，显示 Antigravity 更偏产品共创而非单轮出图。"
+    },
+    {
+      "agent": "antigravity",
+      "id": "antigravity-35",
+      "category": "tool",
+      "anchor": "Directory path must be an absolute path to a directory that exists.",
+      "title": "目录工具拒绝模糊寻址",
+      "quote": "directory path must be absolute",
+      "body": "list_dir 只接受已存在目录的绝对路径，不替 Agent 猜测当前目录或隐式展开。绝对寻址牺牲一点便利，换来<b>调用对象在跨任务、跨会话和后台执行时仍保持稳定</b>，也降低在错误工作区枚举文件的风险。"
+    },
+    {
+      "agent": "antigravity",
+      "id": "antigravity-36",
+      "category": "tool",
+      "anchor": "Fetch content from a URL via HTTP request (invisible to USER).",
+      "title": "网页获取分成机器通道与视觉通道",
+      "quote": "HTTP fetch is invisible to user",
+      "body": "read_url_content 明确是用户不可见的 HTTP 抽取通道，适合静态文本和批处理；需要交互与视觉状态时则应使用浏览器。它把“访问网页”拆成<b>高吞吐数据面</b>与<b>可见交互面</b>，工具选择取决于任务证据类型。"
+    },
+    {
+      "agent": "antigravity",
+      "id": "antigravity-37",
+      "category": "tool",
+      "anchor": "the command was sent to the background as a task",
+      "title": "命令超时会转化为可管理任务",
+      "quote": "backgrounded as a task",
+      "body": "run_command 没有立即返回输出时，不代表命令消失，而是被提升为带 ID 的后台任务，后续通过 manage_task 读取或输入。同步调用因此平滑转为<b>持久、可寻址的异步对象</b>，避免 Agent 因一次超时重复启动同一进程。"
+    },
+    {
+      "agent": "antigravity",
+      "id": "antigravity-38",
+      "category": "tool",
+      "anchor": "This range must be smaller than 800 lines",
+      "title": "读取上限迫使 Agent 主动切片",
+      "quote": "range smaller than 800 lines",
+      "body": "view_file 对单次行范围和字节量设双重上限，并提供 ContentOffset 继续读取。限制并非单纯削减能力，而是在工具层要求<b>把大文件阅读变成有游标的分段过程</b>，防止一个调用挤爆上下文。"
+    },
+    {
+      "agent": "antigravity",
+      "id": "antigravity-39",
+      "category": "safety",
+      "anchor": "By default this tool will error if TargetFile already exists.",
+      "title": "新建默认拒绝覆盖",
+      "quote": "existing target errors by default",
+      "body": "write_to_file 把新建作为默认语义，遇到既有文件会失败；只有显式 <code>Overwrite=true</code> 才整体替换。这个默认值让最危险的歧义偏向失败，体现<b>覆盖必须是有意表达的动作</b>，而不能由工具替 Agent 猜测。"
+    },
+    {
+      "agent": "grok",
+      "id": "grok-27",
+      "category": "tool",
+      "anchor": "use instead of image_gen for image-to-image work",
+      "title": "生成与编辑采用不同视觉算子",
+      "quote": "image_edit instead of image_gen",
+      "body": "已有图像的保真编辑必须走 image_edit，新图生成才走 image_gen。工具分工显式编码了两类任务的目标函数：<b>一个优化身份与构图延续，一个优化从无到有的创造</b>，避免 Agent 只因都能“出图”就混用。"
+    },
+    {
+      "agent": "grok",
+      "id": "grok-28",
+      "category": "eng",
+      "anchor": "Returns the saved image's absolute path. When telling the user where it was saved, refer to it by its short session-relative path",
+      "title": "存储路径与展示路径分离",
+      "quote": "use the session-relative path",
+      "body": "媒体工具返回绝对保存位置，但对用户必须改用短的会话相对路径，才能渲染为可点击链接。这里区分了<b>运行时寻址</b>和<b>界面可消费标识</b>：内部路径服务工具，外部路径服务读者，不应直接泄漏宿主目录结构。"
+    },
+    {
+      "agent": "grok",
+      "id": "grok-29",
+      "category": "tool",
+      "anchor": "foreground commands exceeding the default timeout will be automatically backgrounded instead of killed",
+      "title": "超时默认转后台而非杀进程",
+      "quote": "backgrounded instead of killed",
+      "body": "前台命令超过默认等待时间会返回 task ID 继续运行，而不是直接终止。它把 timeout 解释成<b>调用方停止同步等待</b>，而非工作本身失败；Agent 必须随后读取任务状态，不能把暂时无结果误报为失败。"
+    },
+    {
+      "agent": "grok",
+      "id": "grok-30",
+      "category": "eng",
+      "anchor": "`old_string` must match exactly one place in the file.",
+      "title": "文本替换先证明目标唯一",
+      "quote": "old_string matches exactly once",
+      "body": "search_replace 默认只接受唯一匹配，重复出现时要补上下文或明确 replace_all。工具将“我想改这一处”的自然语言意图转成<b>可机械验证的定位前提</b>，宁可拒绝模糊编辑，也不把第一处匹配误当目标。"
+    },
+    {
+      "agent": "grok",
+      "id": "grok-31",
+      "category": "goal",
+      "anchor": "The user sees this list live — it is your primary way to show progress.",
+      "title": "待办列表是共享执行状态",
+      "quote": "user sees the list live",
+      "body": "todo_write 不是 Agent 的私有草稿，而是用户实时可见的首要进度界面。计划一旦进入工具，就成为<b>双方共享、可监督的状态</b>；错误拆解、虚假完成或长期不更新都会直接损害协作可信度。"
+    },
+    {
+      "agent": "grok",
+      "id": "grok-32",
+      "category": "tool",
+      "anchor": "the handle to show the user and use with `/workflow pause|resume|stop",
+      "title": "用户操作稳定句柄而非内部 ID",
+      "quote": "display name is the user handle",
+      "body": "Workflow 把会话内唯一的 display name 暴露给用户用于暂停、续跑和停止，而将 run ID 留在内部。它提供一层<b>面向人的稳定控制句柄</b>：用户不必理解数据库标识，系统仍可在底层维护精确实例。"
+    },
+    {
+      "agent": "grok",
+      "id": "grok-33",
+      "category": "goal",
+      "anchor": "Tasks auto-expire after 7 days",
+      "title": "定时任务默认带寿命上限",
+      "quote": "scheduled tasks expire after seven days",
+      "body": "Scheduler 最多保留 50 个任务，而且所有任务七天后自动失效；长期持久化还必须显式选择 durable。自动化因此不是默认永久存在的幽灵进程，而是<b>具有容量和时间边界的租约</b>。"
+    },
+    {
+      "agent": "grok",
+      "id": "grok-34",
+      "category": "safety",
+      "anchor": "Optional list of domains to restrict search to.",
+      "title": "搜索来源可以先设允许域",
+      "quote": "restrict search to allowed domains",
+      "body": "Web Search 不只接受关键词，还能把结果限制在指定域名。这个字段让“只信官方文档”等证据要求进入工具参数，<b>来源治理由检索前约束，而不是在混合结果出来后再人工清洗</b>。"
+    },
+    {
+      "agent": "minimax-code",
+      "id": "minimax-code-33",
+      "category": "tool",
+      "anchor": "Prefer dedicated tools over `bash` whenever one fits.",
+      "title": "工具路由优先保留动作类型",
+      "quote": "dedicated tools before bash",
+      "body": "搜索、读取、编辑和写入分别走专用工具，Bash 只承担 shell-only 操作。这样一次调用仍保留“在搜索”或“在编辑”的类型信息，可被权限门、输出截断和 UI 分别处理；<b>Shell 退居逃生舱而非默认总线</b>。"
+    },
+    {
+      "agent": "minimax-code",
+      "id": "minimax-code-34",
+      "category": "eng",
+      "anchor": "write the file first, then verify it exists before sending the `<media />` tag",
+      "title": "媒体引用必须晚于实体落盘",
+      "quote": "verify file before media tag",
+      "body": "先创建媒体文件、再检查存在，最后才发送渲染标签，明确禁止“先引用一个希望会出现的路径”。这是对生成式系统常见伪完成的具体修复：<b>界面声明必须建立在文件系统事实之后</b>。"
+    },
+    {
+      "agent": "minimax-code",
+      "id": "minimax-code-35",
+      "category": "goal",
+      "anchor": "progress depends on unresolved high-impact decisions only the user can make",
+      "title": "只有高影响且不可代答的问题才暂停",
+      "quote": "ask only for user-only high-impact decisions",
+      "body": "ask_user 被限制在会实质改变结果、且工具和上下文无法代答的高影响选择。这里不是简单鼓励少问，而是给提问设置<b>信息价值门槛</b>：能自行调查的事实不消耗用户注意力，真正属于用户偏好的裁决才暂停。"
+    },
+    {
+      "agent": "minimax-code",
+      "id": "minimax-code-36",
+      "category": "tool",
+      "anchor": "Each invocation is stateless with respect to cwd",
+      "title": "Shell 调用之间不继承目录状态",
+      "quote": "cwd is stateless per invocation",
+      "body": "每次 bash 都从会话工作区重新开始，前一次 <code>cd</code> 不会改变下一次调用。提示词显式切断传统终端的隐式状态，要求工作目录随调用声明；这让<b>命令可重放、可审阅，也减少跨调用环境漂移</b>。"
+    },
+    {
+      "agent": "minimax-code",
+      "id": "minimax-code-37",
+      "category": "tool",
+      "anchor": "Oversized responses keep a head+tail preview and return recovery guidance",
+      "title": "超大输出保留首尾与恢复路径",
+      "quote": "head+tail preview with recovery",
+      "body": "Mavis 输出超过上下文上限时，不是简单截掉尾部，而是保留首尾预览并告诉 Agent 如何用更窄过滤条件恢复中段。它把截断设计成<b>可继续的有损传输协议</b>，同时保留错误摘要和结束状态。"
+    },
+    {
+      "agent": "minimax-code",
+      "id": "minimax-code-38",
+      "category": "safety",
+      "anchor": "user append requires reason and summary write requires confirmation",
+      "title": "不同记忆写入承担不同证明义务",
+      "quote": "reason for user memory, confirmation for summary",
+      "body": "Memory 并非统一 CRUD：写用户画像要说明理由，覆盖总结要确认，不同 target/operation 组合还会被校验。它把持久记忆视作<b>会长期改变未来行为的受控状态</b>，而不是任意可写的便笺目录。"
+    },
+    {
+      "agent": "minimax-code",
+      "id": "minimax-code-39",
+      "category": "tool",
+      "anchor": "continue with that exact value and preserve the same `path`",
+      "title": "分页读取绑定路径与游标",
+      "quote": "reuse exact next_offset and path",
+      "body": "Read 返回 <code>next_offset</code> 后，继续读取必须使用原路径和精确游标。这个约束防止 Agent 自行估算下一页而跳行或重读；大文件阅读被建模为<b>同一对象上的连续事务</b>。"
+    },
+    {
+      "agent": "minimax-code",
+      "id": "minimax-code-40",
+      "category": "safety",
+      "anchor": "Prefer the edit tool for modifying existing files; only use write for new files or complete rewrites.",
+      "title": "整体写入不是默认修改方式",
+      "quote": "edit preserves unchanged content",
+      "body": "Write 会覆盖整文件并自动建父目录，因此提示词要求既有文件优先用 edit。工具分工把<b>改动半径</b>编码进接口选择：局部需求使用局部原语，只有新建或明确整体重写才调用更宽的能力。"
+    },
+    {
+      "agent": "kimi-code",
+      "id": "kimi-code-33",
+      "category": "persona",
+      "anchor": "Write in the user's language unless they explicitly ask for a different one.",
+      "title": "语言跟随被设为身份连续性",
+      "quote": "same language as the user",
+      "body": "同语回复不是可选润色，而是系统级默认；只有用户明确要求才切换。它把语言视为协作上下文的一部分：<b>Agent 应适应用户的认知界面，而不是要求用户迁就模型的默认表达</b>。"
+    },
+    {
+      "agent": "kimi-code",
+      "id": "kimi-code-34",
+      "category": "safety",
+      "anchor": "Fast codebase exploration with prompt-enforced read-only behavior.",
+      "title": "只读侦察是软隔离而非硬权限",
+      "quote": "prompt-enforced read-only",
+      "body": "explore 子代理的只读性明确由 prompt 强制，而不是一个不可写的系统沙箱。这个措辞很重要：它揭示<b>角色约束与能力约束不是同一回事</b>，主代理仍要审查任务说明和结果，不能把“只读”标签当作绝对安全保证。"
+    },
+    {
+      "agent": "kimi-code",
+      "id": "kimi-code-35",
+      "category": "tool",
+      "anchor": "When doing that, you must provide a short `description`.",
+      "title": "后台任务必须留下人类可读标签",
+      "quote": "background task needs description",
+      "body": "命令转后台时必须提供短 description，系统再返回 task ID。标签不是装饰：长程会话可能同时运行多个进程，<b>稳定 ID 负责寻址，描述负责让人和 Agent 重新识别意图</b>。"
+    },
+    {
+      "agent": "kimi-code",
+      "id": "kimi-code-36",
+      "category": "goal",
+      "anchor": "Users have no direct `/cron` command or self-service UI to manage reminders themselves",
+      "title": "Agent 是定时任务的唯一控制面",
+      "quote": "no self-service reminder UI",
+      "body": "用户无法直接查看或取消 cron，只能再次要求模型操作，因此创建后必须主动说明如何修改。这个工具设计让 Agent 不只是执行器，也成为<b>自动化状态的代理管理员</b>；相应地，透明报告和可撤销信息就变成强制责任。"
+    },
+    {
+      "agent": "kimi-code",
+      "id": "kimi-code-37",
+      "category": "safety",
+      "anchor": "other schemes and private or loopback addresses are not fetched",
+      "title": "URL 抓取器主动切断内网探测",
+      "quote": "no private or loopback fetch",
+      "body": "FetchURL 只接受公开 HTTP(S)，拒绝私网、回环和其他 scheme，也不携带目标站登录态。它把无认证公开网页读取与内网访问明确分离，降低<b>SSRF、凭据借用和误触本机服务</b>的风险。"
+    },
+    {
+      "agent": "kimi-code",
+      "id": "kimi-code-38",
+      "category": "eng",
+      "anchor": "Do not `Glob`, `ls`, or otherwise pre-check known text file paths",
+      "title": "已知路径直接尝试，错误即证据",
+      "quote": "do not pre-check known paths",
+      "body": "用户已给具体文本路径时直接 Read，缺失或无效就处理返回错误，不先 Glob/ls 做一次 TOCTOU 式预检。它把失败当正常控制流，减少往返，并避免<b>检查时存在、读取时已变化</b>的竞态假确定性。"
+    },
+    {
+      "agent": "kimi-code",
+      "id": "kimi-code-39",
+      "category": "eng",
+      "anchor": "judge that failure from the `exit_code`",
+      "title": "进程失败以机器状态为准",
+      "quote": "judge failure from exit_code",
+      "body": "终端任务可能输出看似成功的文字，但非零 <code>exit_code</code> 才是工具契约中的失败依据；被停止则是另一种状态。它要求 Agent 区分<b>日志叙述</b>与<b>进程事实</b>，不能靠输出语气判断是否完成。"
+    },
+    {
+      "agent": "kimi-code",
+      "id": "kimi-code-40",
+      "category": "goal",
+      "anchor": "For non-terminal blockers, do not use `blocked` the first time you hit the blocker.",
+      "title": "Blocked 只描述真正停滞的目标",
+      "quote": "blocked is terminal impasse",
+      "body": "目标状态 blocked 只用于无法继续产生有意义进展的真实僵局；普通等待、困难或局部失败不能借此提前收尾。状态机在这里防止 Agent 把<b>暂时不顺</b>包装成<b>合理终止</b>，同时保留清晰的阻塞原因。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-30",
+      "category": "eng",
+      "anchor": "<description>Produces a structured design specification (DESIGN.md + structural layout + Decision Trace) before any visual artifact is built — the \"blueprint\" phase that keeps AI-generated design from feeling templated.",
+      "title": "设计先产出决策蓝图",
+      "quote": "blueprint before visual artifact",
+      "body": "设计技能先生成 DESIGN.md、结构布局和 Decision Trace，再开始视觉产物。它把审美从一次生成的直觉输出改造成<b>可审查的约束与决策链</b>，试图用前置规格对抗 AI 界面常见的模板化平均值。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-31",
+      "category": "eng",
+      "anchor": "<description>Autonomous research skill for open-ended, high-volume research work — an agent left running for a while (minutes to overnight) that produces honest, comparable, auditable evidence instead of a single one-shot answer.",
+      "title": "研究交付的是可比较证据集",
+      "quote": "auditable evidence, not one-shot answer",
+      "body": "super-research 把长程研究目标定义为诚实、可比较、可审计的证据，而非一段看似完整的单次回答。这里的完成标准从“写出结论”转为<b>让来源、差异和不确定性能够被复查</b>。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-32",
+      "category": "tool",
+      "anchor": "AVOID using `cd <directory> && <command>` patterns - use `workdir` instead.",
+      "title": "工作目录应是参数而非命令副作用",
+      "quote": "use workdir instead of cd",
+      "body": "Bash 调用要求通过结构化 <code>workdir</code> 指定目录，而不是把 <code>cd</code> 藏进命令字符串。路径上下文由工具参数承载后，<b>命令主体更容易审计、失败位置更清楚，也不会误以为目录状态会跨调用保留</b>。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-33",
+      "category": "tool",
+      "anchor": "If the commands depend on each other and must run sequentially, use a single Bash call with '&&'",
+      "title": "并发与串行由数据依赖决定",
+      "quote": "chain only dependent commands",
+      "body": "互不依赖的命令可以并发，后一步必须使用前一步结果时才用 <code>&&</code> 串联。提示词把性能优化建立在<b>真实依赖图</b>上，而不是无脑并行或无脑合并；失败短路语义也因此与任务关系一致。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-34",
+      "category": "eng",
+      "anchor": "Everything after that space is the actual file content to match.",
+      "title": "展示行号不属于可编辑文本",
+      "quote": "line prefix is not file content",
+      "body": "Read 输出会给每行加编号和分隔空格，Edit 匹配时只能复制其后的真实内容。这个说明防止 Agent 把观察界面的辅助标记写回文件，揭示<b>工具表示层与底层字节层之间存在必须显式跨越的边界</b>。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-35",
+      "category": "tool",
+      "anchor": "For older notebooks (nbformat_minor < 5) where cells have no real `id`, you can pass a positional reference",
+      "title": "Notebook 身份优先稳定 ID，旧版才退化到位置",
+      "quote": "cell ID with positional fallback",
+      "body": "现代 notebook 以 cell_id 精确定位，只有旧格式没有真实 ID 时才使用 <code>#0</code> 等位置引用。它优先选择<b>不随插入、重排而漂移的对象身份</b>，把脆弱的序号寻址限定为兼容性退路。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-36",
+      "category": "tool",
+      "anchor": "memory is your curated notebook — small, fast, semantically organized.",
+      "title": "记忆是索引，历史才是原始档案",
+      "quote": "memory is a curated notebook",
+      "body": "Memory 被定义为小而快的语义化笔记，找不到或需要逐字证据时再下钻 session history。两层系统分别承担<b>高信号召回</b>与<b>完整事实追溯</b>，避免每次问题都扫描整段历史。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-37",
+      "category": "safety",
+      "anchor": "a single very large write may exceed the output limit and get truncated, leaving the file incomplete or corrupted",
+      "title": "输出截断会变成真实文件损坏",
+      "quote": "large write can truncate and corrupt",
+      "body": "大段 Write 不是仅在聊天里显示不全，而可能把被截断的参数真正落成残缺文件，因此要求首段新建、后续 append。它把 token/传输上限识别为<b>具有持久副作用的数据完整性风险</b>。"
+    },
+    {
+      "agent": "openclaw",
+      "id": "openclaw-31",
+      "category": "eng",
+      "anchor": "Docs are authoritative for OpenClaw self-knowledge",
+      "title": "Agent 不应凭记忆解释自己的实现",
+      "quote": "docs are authoritative for self-knowledge",
+      "body": "当用户询问 OpenClaw 自身机制时，必须先读本地官方文档，工作区记忆和项目上下文都不能代替实现事实。它建立了清晰的<b>自我认识证据层级</b>：长期记忆服务个性化，产品文档才服务机制真相。"
+    },
+    {
+      "agent": "openclaw",
+      "id": "openclaw-32",
+      "category": "safety",
+      "anchor": "omit profile by default for the isolated OpenClaw-managed browser",
+      "title": "浏览器登录态必须显式选择",
+      "quote": "default to isolated browser profile",
+      "body": "浏览器默认使用 OpenClaw 管理的隔离 profile；只有需要用户既有登录态时才选择 host 浏览器。它让<b>无凭据隔离环境成为安全默认</b>，把访问个人会话、Cookie 和账户状态变成需要理由的能力升级。"
+    },
+    {
+      "agent": "openclaw",
+      "id": "openclaw-33",
+      "category": "tool",
+      "anchor": "defaults the target to the calling session/agent",
+      "title": "唤醒事件默认回到发起者所在执行道",
+      "quote": "wake defaults to caller lane",
+      "body": "Cron wake 若不指定目标，会回到当前 session/agent，而跨 lane 唤醒必须显式给 sessionKey 或 agentId。默认归属阻止定时事件在多代理系统中漂移，体现<b>调度状态也需要所有权边界</b>。"
+    },
+    {
+      "agent": "openclaw",
+      "id": "openclaw-34",
+      "category": "eng",
+      "anchor": "Cron expr in tz wall-clock time; do not convert to UTC.",
+      "expectedOccurrences": 2,
+      "title": "日程保存人的墙上时间语义",
+      "quote": "cron stays in wall-clock timezone",
+      "body": "Cron 表达式按指定时区的本地钟表解释，禁止预先换算 UTC；未给时区才使用 Gateway 本地时区。这样“每天上海六点”保持<b>人类日历语义</b>，不会在夏令时或宿主迁移后变成固定 UTC 偏移。"
+    },
+    {
+      "agent": "openclaw",
+      "id": "openclaw-35",
+      "category": "tool",
+      "anchor": "The unpacked files live on the GATEWAY (not your local machine)",
+      "title": "远端拉取结果落在另一套文件世界",
+      "quote": "files land on gateway, not session",
+      "body": "dir_fetch 从配对节点取回目录后解包到 Gateway，而非当前 session 文件系统。提示词必须明确这一点，因为“工具返回了路径”不代表所有工具都能直接访问；这是<b>分布式 Agent 中位置透明幻觉</b>的专门防护。"
+    },
+    {
+      "agent": "openclaw",
+      "id": "openclaw-36",
+      "category": "tool",
+      "anchor": "inlines small text files (≤8 KB) as text content, and saves everything else under the gateway media store",
+      "title": "文件回传按大小与媒介类型分流",
+      "quote": "inline small text, store the rest",
+      "body": "小文本直接进入上下文，图像走内容块，大文件保存到 Gateway media store。工具在边界处完成<b>传输形态选择</b>：能直接推理的内容内联，可能撑爆窗口的对象只返回可继续传递的路径。"
+    },
+    {
+      "agent": "openclaw",
+      "id": "openclaw-37",
+      "category": "goal",
+      "anchor": "Mandatory recall step: semantically search MEMORY.md + memory/*.md",
+      "title": "回答过去之前必须先做记忆召回",
+      "quote": "mandatory recall for prior work",
+      "body": "涉及过往工作、决定、人物、日期、偏好或待办时，Memory Search 是必经步骤，而非模型凭印象回答。它把“我记得”改造成<b>可执行的检索协议</b>，减少连续人格最危险的失败——自信地编造历史。"
+    },
+    {
+      "agent": "openclaw",
+      "id": "openclaw-38",
+      "category": "safety",
+      "anchor": "camera_snap: front/back/both; camera_clip: front/back only.",
+      "title": "设备感知能力按动作裁剪",
+      "quote": "camera scopes differ by action",
+      "body": "节点相机的静态拍摄和视频片段暴露不同镜头范围，并非给出一个无限制 camera 开关。即使只是 schema 枚举，也体现<b>能力按具体动作和硬件面最小化</b>，而不是让 Agent 自由拼接未支持的监控行为。"
+    },
+    {
+      "agent": "openclaw",
+      "id": "openclaw-39",
+      "category": "tool",
+      "anchor": "`context=\"fork\"` only when child needs current transcript",
+      "title": "子会话默认洁净，按需才复制对话",
+      "quote": "fork context only when needed",
+      "body": "sessions_spawn 默认创建干净子会话，只有任务确实依赖当前对话时才 fork context。它把上下文复制视为<b>有成本、有隐私影响的显式选择</b>，而不是多代理委派的免费默认。"
+    },
+    {
+      "agent": "openclaw",
+      "id": "openclaw-40",
+      "category": "safety",
+      "anchor": "do not call video_generate again for same request; wait completion",
+      "title": "异步生成请求要求幂等克制",
+      "quote": "do not submit the same video twice",
+      "body": "视频生成是后台副作用，首次提交后必须等待或查询状态，不能因暂时没结果而再次调用。同一意图的重复请求可能产生费用和多个资产，因此这里把<b>耐心等待</b>直接写成幂等性与成本安全规则。"
+    },
+    {
+      "agent": "hermes",
+      "id": "hermes-31",
+      "category": "tool",
+      "anchor": "load the `hermes-agent` skill first",
+      "title": "自我配置必须调用最新版操作手册",
+      "quote": "load hermes-agent skill first",
+      "body": "凡是配置或排障 Hermes 本体，都必须先加载专门 skill，不能凭通用经验猜 CLI、模型或插件行为。它将会变化的自我知识移出固定 Prompt，形成<b>稳定路由规则 + 可更新操作手册</b>的两层结构。"
+    },
+    {
+      "agent": "hermes",
+      "id": "hermes-32",
+      "category": "eng",
+      "anchor": "cases where the text snapshot misses important visual information",
+      "title": "文本快照不能替代视觉验证",
+      "quote": "screenshot when text misses visuals",
+      "body": "Browser screenshot 专门用于 CAPTCHA、复杂布局和文本快照遗漏视觉信息的场景。它承认 DOM/文本与用户真正看到的界面不是同一事实源，要求<b>验证方法匹配可观察契约</b>。"
+    },
+    {
+      "agent": "hermes",
+      "id": "hermes-33",
+      "category": "eng",
+      "anchor": "put each option ONLY in the `choices` array",
+      "title": "选项必须进入可交互的数据槽",
+      "quote": "options only in choices array",
+      "body": "clarify 工具要求选项只放 choices，写进 question 会变成无法点击的死文本。这里的关键不是格式洁癖，而是<b>自然语言与界面控件属于不同通道</b>；语义正确但放错字段，用户仍无法完成操作。"
+    },
+    {
+      "agent": "hermes",
+      "id": "hermes-34",
+      "category": "tool",
+      "anchor": "make ALL your changes in ONE call via an 'operations' array",
+      "title": "记忆更新采用最终态原子事务",
+      "quote": "all memory changes in one operations call",
+      "body": "Memory 的追加、替换和删除要在一次 operations 数组中完成，字符上限只检查最终结果。这样 Agent 可以同时清理旧内容并加入新事实，避免多次调用之间出现<b>暂时超限或半更新状态</b>。"
+    },
+    {
+      "agent": "hermes",
+      "id": "hermes-35",
+      "category": "tool",
+      "anchor": "Use this instead of cat/head/tail in terminal.",
+      "title": "读取文件走带分页的受控通道",
+      "quote": "read_file instead of terminal readers",
+      "body": "read_file 提供行号、分页、截断提示和相似文件建议，明确替代终端里的 cat/head/tail。专用读取器把<b>上下文预算与错误恢复</b>纳入接口，而不只是执行一个能打印文本的命令。"
+    },
+    {
+      "agent": "hermes",
+      "id": "hermes-36",
+      "category": "eng",
+      "anchor": "conversation history only. It is not evidence about the current contents of external sources.",
+      "title": "会话记录证明说过什么，不证明外部现在怎样",
+      "quote": "history is not live external evidence",
+      "body": "session_search 可以恢复过往讨论，却不能替代重新检查 URL、文件、账户或实时系统。它划出关键认识边界：<b>历史是关于过去交互的证据，不是关于易变世界当前状态的证据</b>。"
+    },
+    {
+      "agent": "hermes",
+      "id": "hermes-37",
+      "category": "tool",
+      "anchor": "pass `absorbed_into=<umbrella>` when you're merging this skill's content into another one",
+      "title": "技能删除保留知识去向",
+      "quote": "record where deleted skill was absorbed",
+      "body": "删除 skill 时要声明内容被哪个 umbrella 吸收，纯裁剪则显式留空。这个字段为知识治理保留<b>合并与遗弃的因果差异</b>，让后续维护者知道能力是消失了，还是换了入口。"
+    },
+    {
+      "agent": "hermes",
+      "id": "hermes-38",
+      "category": "safety",
+      "anchor": "OVERWRITES the entire file — use 'patch' for targeted edits.",
+      "title": "整体写入工具主动暴露破坏半径",
+      "quote": "write overwrites; patch targets",
+      "body": "write_file 会自动建目录并覆盖全文件，同时对常见配置格式执行语法检查；局部修改必须改用 patch。描述直接把不可逆程度写进选择界面，让 Agent 按<b>所需最小改动能力</b>路由。"
+    },
+    {
+      "agent": "kimi",
+      "id": "kimi-29",
+      "category": "tool",
+      "anchor": "If the `Shell`, `TaskList`, `TaskOutput`, and `TaskStop` tools are available and you are the root agent",
+      "title": "后台执行能力取决于一组工具闭包",
+      "quote": "background Bash needs the full root toolset",
+      "body": "只有根 Agent 同时具备启动、列举、取回和停止工具时，才被允许使用 Background Bash。系统不是看到 Shell 就宣称支持后台任务，而是要求<b>生命周期管理能力完整闭合</b>，避免只能启动却无法观察或终止。"
+    },
+    {
+      "agent": "kimi",
+      "id": "kimi-30",
+      "category": "tool",
+      "anchor": "Tools: Shell, ReadFile, ReadMediaFile, Glob, Grep, WriteFile, StrReplaceFile, SearchWeb, FetchURL",
+      "title": "代理角色由能力清单而非名字定义",
+      "quote": "role includes an explicit tool set",
+      "body": "coder、explore、plan 等子代理类型不仅有文字人设，还绑定具体工具集、模型继承和后台属性。角色因此是<b>提示词 + 能力面 + 执行模式</b>的组合，名字相同但工具不同就不是同一种 Agent。"
+    },
+    {
+      "agent": "kimi",
+      "id": "kimi-31",
+      "category": "goal",
+      "anchor": "Identify 2-3 key questions about the codebase that are critical to your plan.",
+      "title": "计划先暴露关键未知量",
+      "quote": "identify critical questions before planning",
+      "body": "进入规划后先列出真正决定方案的 2–3 个代码库问题，不确定路径时再派 explore。它把计划质量建立在<b>主动识别未知</b>上，而不是把不完整理解包装成一份形式完整的步骤表。"
+    },
+    {
+      "agent": "kimi",
+      "id": "kimi-32",
+      "category": "tool",
+      "anchor": "Any pattern starting with '**' will be rejected.",
+      "title": "通配符搜索在入口处限制爆炸半径",
+      "quote": "reject leading double-star glob",
+      "body": "Glob 直接拒绝从 <code>**</code> 开始的全树模式，要求 Agent 缩小到如 <code>src/**/*.ts</code> 的范围。它在执行前阻断高基数查询，把<b>上下文溢出防护</b>做成 schema 行为而非口头建议。"
+    },
+    {
+      "agent": "kimi",
+      "id": "kimi-33",
+      "category": "safety",
+      "anchor": "Sensitive files (such as `.env`) are still skipped for safety, even when `include_ignored` is `true`.",
+      "title": "忽略规则可放宽，秘密过滤不可放宽",
+      "quote": "secrets stay skipped even with include_ignored",
+      "body": "Grep 可以选择搜索 gitignored 依赖与构建产物，但即使 <code>include_ignored=true</code>，.env 等敏感文件仍被跳过。它把<b>工程噪声过滤</b>与<b>安全秘密过滤</b>分成两层，前者可按任务调整，后者不能顺带解除。"
+    },
+    {
+      "agent": "kimi",
+      "id": "kimi-34",
+      "category": "eng",
+      "anchor": "After starting a background task, do not guess its outcome.",
+      "title": "异步任务的沉默不是成功信号",
+      "quote": "do not guess background outcome",
+      "body": "后台命令启动后应等待自动完成通知，必要时读取非阻塞快照，只有有意暂停当前工作才 block。这里把“没有新消息”与完成彻底分开：<b>Agent 必须从任务状态取证，不能用时间流逝替代结果</b>。"
+    },
+    {
+      "agent": "opencode",
+      "id": "opencode-30",
+      "category": "tool",
+      "anchor": "Use ONLY when the user is editing or creating opencode's own configuration",
+      "title": "自配置知识通过窄作用域技能路由",
+      "quote": "skill only for opencode configuration",
+      "body": "专门 skill 只在修改 opencode 自身配置、代理、插件或 MCP 时加载，普通项目开发不应触发。技能的价值不仅在内容，还在<b>精准的适用边界</b>；过宽路由会把产品自知识污染每个编码任务。"
+    },
+    {
+      "agent": "opencode",
+      "id": "opencode-31",
+      "category": "eng",
+      "anchor": "Everything after that space is the actual file content to match.",
+      "title": "编辑器必须剥离读取器的展示标记",
+      "quote": "match content after line prefix",
+      "body": "Read 返回的行号前缀用于定位，Edit 的 oldString 只能包含分隔空格后的真实文本。这个规则针对模型最常见的表示混淆：<b>看见的字符串不一定全属于文件</b>，工具 UI 元数据不能被复制进修改锚点。"
+    },
+    {
+      "agent": "opencode",
+      "id": "opencode-32",
+      "category": "tool",
+      "anchor": "Contents are returned with each line prefixed by its line number",
+      "title": "读取结果是带坐标的投影",
+      "quote": "line-number-prefixed read output",
+      "body": "Read 给文本添加行号、给目录添加斜杠，并支持 offset/limit 分页。它返回的不是原文件裸字节，而是<b>便于定位和继续读取的工具投影</b>；后续编辑必须理解这种投影的附加结构。"
+    },
+    {
+      "agent": "opencode",
+      "id": "opencode-33",
+      "category": "goal",
+      "anchor": "surfaces status to the user",
+      "title": "待办状态是用户可见承诺",
+      "quote": "todo status surfaces to user",
+      "body": "todowrite 将多步任务的状态展示给用户，因此列表不是模型内部思考草稿，而是协作承诺。拆分粒度、in_progress 唯一性和及时完成都会影响<b>用户对剩余工作与风险的判断</b>。"
+    },
+    {
+      "agent": "opencode",
+      "id": "opencode-34",
+      "category": "safety",
+      "anchor": "This tool will fail if you did not read the file first.",
+      "title": "整体写入要求先取得当前版本",
+      "quote": "write fails without prior read",
+      "body": "覆盖既有文件前必须先 Read，工具会对未读写入直接失败。这把“先了解现场”从提示建议升级为<b>可执行前置条件</b>，减少基于过时假设重写文件、抹掉用户并行改动的风险。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-29",
+      "category": "tool",
+      "anchor": "Only one active session at a time. `program` is a target path, not a shell command.",
+      "title": "调试器是有状态设备而非命令字符串",
+      "quote": "one debug session; program is a path",
+      "body": "debug 工具只允许一个活动会话，program 参数是目标路径而非可拼 Shell 命令。它把断点、线程和变量检查放进<b>结构化、持续的调试状态机</b>，防止 Agent 用命令注入式思维误操作调试目标。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-30",
+      "category": "tool",
+      "anchor": "Sequence dependencies only.",
+      "title": "并行宽度必须由依赖关系证明",
+      "quote": "sequence only on true dependency",
+      "body": "只有 B 严格需要 A 的输出时才允许顺序执行；共同前置先完成，独立切片随后 fan out。OMP 的激进并行并非追求代理数量，而是要求<b>执行拓扑忠实反映数据依赖图</b>。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-31",
+      "category": "tool",
+      "anchor": "Prior top-level names survive into the next cell — reuse; NEVER re-import/re-declare.",
+      "title": "Eval 是跨调用持续的计算工作台",
+      "quote": "top-level names survive cells",
+      "body": "eval cell 之间会保留变量和导入，后续调用应复用，文件未变也不重复读取。它不是无状态代码执行器，而是<b>带持久内存的分析 notebook</b>；效率更高，也要求 Agent 警惕陈旧变量。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-32",
+      "category": "eng",
+      "anchor": "Async Job Contract",
+      "title": "作业完成不等于产物验收",
+      "quote": "job exit is not artifact acceptance",
+      "body": "子代理状态 completed 只证明它正常返回，不能证明修改正确或满足用户需求，父代理仍须验证。工具层把<b>执行生命周期</b>与<b>业务验收状态</b>拆开，正面阻止把代理自报成功当成最终证据。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-33",
+      "category": "tool",
+      "anchor": "Applies to the entire batch; do not duplicate this background into individual tasks.",
+      "title": "共享上下文只传一次",
+      "quote": "factor batch context from task prompts",
+      "body": "task batch 用 context 承载共同约束与接口，各任务只写自身 Target、Change、Acceptance。这个格式将委派提示词做了<b>公共前缀因式分解</b>，既省 token，也减少同一约束在多个子 Prompt 中版本不一致。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-34",
+      "category": "goal",
+      "anchor": "it stays in the tracker but won't trip the stop reminder",
+      "title": "阻塞与放弃拥有不同任务语义",
+      "quote": "blocked stays tracked",
+      "body": "等待用户、代理或外部服务时用 block：任务仍保留但不触发未完成提醒；真正放弃才 drop。待办系统因而不只是 pending/done 二值表，而能表达<b>未完成但暂不可行动</b>的真实状态。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-35",
+      "category": "tool",
+      "anchor": "`query` supports Google-style directives on every provider",
+      "title": "搜索约束被统一成跨提供商语言",
+      "quote": "portable Google-style search directives",
+      "body": "site、时间、URL、标题、文件类型和精确短语等约束会映射到各搜索提供商的原生过滤器，不支持时再退化。它为 Agent 提供<b>稳定的检索中间语言</b>，把供应商差异留在工具层。"
+    },
+    {
+      "agent": "pi",
+      "id": "pi-15",
+      "category": "tool",
+      "anchor": "If truncated, full output is saved to a temp file.",
+      "title": "截断只限制上下文，不丢失原始输出",
+      "quote": "full Bash output saved on truncation",
+      "body": "Bash 只把最后 2000 行或 50KB 送进模型，但完整输出仍保存到临时文件。它把<b>模型可见窗口</b>和<b>证据保存层</b>分开：当前回合先看摘要，需要时仍可精确追查全量日志。"
+    },
+    {
+      "agent": "pi",
+      "id": "pi-16",
+      "category": "eng",
+      "anchor": "Every edits[].oldText must match a unique, non-overlapping region of the original file.",
+      "title": "关键编辑约束在工具接口再次声明",
+      "quote": "unique non-overlapping edit regions",
+      "body": "System Guidelines 已解释原始文件匹配，edit 工具描述又重复唯一、非重叠和邻近合并。重复不是冗余，而是把同一不变量同时放在<b>行为指导层</b>与<b>调用接口层</b>，降低长上下文中规则被遗忘的概率。"
+    },
+    {
+      "agent": "pi",
+      "id": "pi-17",
+      "category": "tool",
+      "anchor": "Supports text files and images (jpg, png, gif, webp, bmp).",
+      "title": "一个 Read 原语跨越文本与视觉",
+      "quote": "read handles text and images",
+      "body": "Pi 没有另设媒体读取工具，Read 会把图像作为附件、文本则按 2000 行/50KB 分页返回。极简内核通过<b>按媒介类型改变返回通道</b>获得多模态能力，同时保持工具表面很小。"
+    },
+    {
+      "agent": "pi",
+      "id": "pi-18",
+      "category": "safety",
+      "anchor": "Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.",
+      "title": "Write 是宽能力的钝器",
+      "quote": "create, overwrite and make parents",
+      "body": "一个 Write 调用既能新建、整体覆盖又能递归建目录，副作用半径明显大于 Edit。也因此系统层才把它限制在新文件和完整重写：<b>极简工具集需要靠更严格的使用纪律补偿能力过宽</b>。"
+    },
+    {
+      "agent": "codex",
+      "id": "codex-56",
+      "category": "tool",
+      "anchor": "Only call this tool for a concrete, bounded subtask that can run independently alongside useful local work",
+      "title": "委派只有形成真实并发才值得",
+      "quote": "delegate bounded work that runs independently",
+      "body": "Codex 不把“用了子代理”本身视为高级能力：任务必须边界清楚，并能与主线程的有效工作同时推进。其设计哲学是<b>以缩短关键路径衡量委派价值</b>；若主代理只能停下来等结果，新增的上下文传递与验收成本反而是负收益。"
+    },
+    {
+      "agent": "claude-code",
+      "id": "claude-code-44",
+      "category": "goal",
+      "anchor": "Use this tool to create a structured task list for your current coding session.",
+      "title": "计划不仅服务 Agent，也服务共同态势感知",
+      "quote": "structured task list for the coding session",
+      "body": "TaskCreate 除了帮助模型分解复杂工作，还明确承担向用户展示整体进度的职责。任务表因此不是私有思维草稿，而是<b>人机共享的执行状态</b>：用户可以据此判断 Agent 正在做什么、还剩什么以及是否需要转向。"
+    },
+    {
+      "agent": "claude-code",
+      "id": "claude-code-45",
+      "category": "tool",
+      "anchor": "DEPRECATED: Background tasks return their output file path in the tool result",
+      "title": "后台结果被设计成可分页产物",
+      "quote": "background output returns as a file path",
+      "body": "旧式 TaskOutput 被弃用后，后台 Bash 与远程会话把完整输出沉淀为文件路径，主上下文只接收通知与引用；对子代理又禁止直接读取完整 JSONL 对话。它把<b>完成信号、结果摘要和全量执行轨迹</b>拆成不同层级，避免一次取回把上下文窗口淹没。"
+    },
+    {
+      "agent": "claude-code",
+      "id": "claude-code-46",
+      "category": "goal",
+      "anchor": "Status progresses: `pending` → `in_progress` → `completed`",
+      "title": "任务状态是一份可验证的承诺",
+      "quote": "pending to in_progress to completed",
+      "body": "状态机要求开工前显式进入 in_progress，只有工作完全完成才进入 completed，并在更新前读取最新状态以防陈旧写入。它把任务追踪从装饰性清单变成<b>带一致性约束的执行账本</b>，让“完成”必须对应真实证据而非主观乐观。"
+    },
+    {
+      "agent": "kimi-code",
+      "id": "kimi-code-41",
+      "category": "safety",
+      "anchor": "Cron deletion is irreversible — there is no undo.",
+      "title": "调度删除被视为不可逆状态变更",
+      "quote": "cron deletion has no undo",
+      "body": "取消定时任务不是普通配置编辑：删错后只能依据原 cron 与 prompt 重建，且上下文压缩后不确定 ID 时必须先 CronList。这里强调的是<b>先重新建立当前状态，再执行不可逆操作</b>，把调度器也纳入与文件删除相同的安全模型。"
+    },
+    {
+      "agent": "kimi-code",
+      "id": "kimi-code-42",
+      "category": "tool",
+      "anchor": "This tool is read-only and never mutates state, so it is always",
+      "title": "只读枚举是压缩后的状态恢复原语",
+      "quote": "CronList is read-only and safe",
+      "body": "CronList 不只用于展示列表，还被定义为上下文压缩或 ID 不确定时恢复真实调度状态的入口。因为读取无副作用，它可以在计划模式中主动调用；这体现<b>观察优先于猜测</b>的 Agent 原则：先从系统重建事实，再决定删除或重建。"
+    },
+    {
+      "agent": "kimi-code",
+      "id": "kimi-code-43",
+      "category": "eng",
+      "anchor": "A write lock serializes same-file edits in response order, but serialization does not make stale `old_string` valid.",
+      "title": "互斥锁解决竞态，不解决语义陈旧",
+      "quote": "serialization cannot validate stale edit context",
+      "body": "写锁只能保证同文件修改依次执行，却无法保证后一个替换仍基于最新内容。Kimi Code 因而要求每次同文件 Edit 前重新 Read：<b>基础设施的一致性保护不能替代 Agent 的前置条件验证</b>，顺序正确不等于意图仍然正确。"
+    },
+    {
+      "agent": "minimax-code",
+      "id": "minimax-code-41",
+      "category": "safety",
+      "anchor": "Load only after the user explicitly asks for or approves creating an agent.",
+      "title": "可复用代理属于需要授权的持久化能力",
+      "quote": "agent creation requires explicit approval",
+      "body": "create-agent 会把新 Agent 写入跨项目数据目录，因此仅仅建议或觉得“可能有用”都不足以触发。它将 Agent 创建理解为<b>改变未来行为面的持久配置</b>，而不是当前任务中的临时委派，所以必须由用户明确提出或批准。"
+    },
+    {
+      "agent": "minimax-code",
+      "id": "minimax-code-42",
+      "category": "eng",
+      "anchor": "Execution must follow step order: each step prompt file must be read by an explicit Read tool call before that step starts.",
+      "title": "研究流程用可审计轨迹保证阶段纪律",
+      "quote": "read each research step before it starts",
+      "body": "deep-research 不仅描述五个阶段，还要求每阶段开始前单独读取对应 Prompt，漏读、抢读或重排都会让 trace 无效。它将复杂推理的质量保障从“相信模型记得流程”改成<b>可从工具轨迹核验的过程证明</b>。"
+    },
+    {
+      "agent": "minimax-code",
+      "id": "minimax-code-43",
+      "category": "eng",
+      "anchor": "They are NOT part of the user's provided input or the tool result.",
+      "title": "提示词同时维护内容来源与权限来源",
+      "quote": "reminders are not user or tool content",
+      "body": "system-reminder 可能嵌在用户消息或工具结果旁边，但其来源仍是运行时注入层。该说明迫使 Agent 区分<b>文本出现在哪里</b>与<b>文本拥有什么权限</b>，避免把权威指令误归因给用户，也避免把普通载荷误提升为系统规则。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-38",
+      "category": "tool",
+      "anchor": "Use this tool to inject the skill's instructions and resources into current conversation.",
+      "title": "技能加载是运行时能力注入",
+      "quote": "inject instructions and resources into context",
+      "body": "MiMo 的 Skill 不只是返回一段建议，还把工作流以及同目录脚本、参考资料和模板注入当前会话。它把 Agent 能力设计成<b>按任务动态装配的模块</b>：基础 Prompt 保持通用，专业知识和可执行资产在命中后才进入上下文。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-39",
+      "category": "safety",
+      "anchor": "The skill name must match one of the skills listed in your system prompt.",
+      "title": "技能调用受能力清单约束",
+      "quote": "skill name must come from the system list",
+      "body": "模型不能凭记忆猜测技能名，只能调用系统 Prompt 已声明的能力。这里把自然语言路由收束成<b>白名单式能力发现</b>：既防止幻觉调用，也确保加载的是本次运行环境真实安装、可追踪的模块。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-40",
+      "category": "tool",
+      "anchor": "An exact high-confidence match is loaded automatically; uncertain matches are returned for you to assess.",
+      "title": "技能检索按置信度分流自动化程度",
+      "quote": "auto-load exact matches, review uncertain ones",
+      "body": "skill_search 对高置信精确匹配直接加载，对不确定候选只返回列表让 Agent 判断。其设计哲学是<b>确定性路径自动化，模糊路径保留审议</b>，在减少一次调用往返的同时，不把相关性排序误当成授权执行。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-41",
+      "category": "goal",
+      "anchor": "Persistent work-item tool. Tasks are bounded, referenceable entities with",
+      "title": "任务是跨回合可引用的工作对象",
+      "quote": "persistent bounded work items with IDs",
+      "body": "MiMo 将多步工作建模成带 T1/T1.1 标识、父子关系和生命周期的持久实体，而不是回复里的临时 TODO。这样计划、阻塞、恢复与归档都围绕同一 ID 演进，体现<b>先建立稳定对象身份，再管理长期执行状态</b>的思想。"
+    },
+    {
+      "agent": "openclaw",
+      "id": "openclaw-41",
+      "category": "eng",
+      "anchor": "If a skill's <version> differs from a previous turn, re-read that skill before using it.",
+      "title": "版本变化会使已读技能失效",
+      "quote": "re-read skills when version changes",
+      "body": "OpenClaw 为每个 Skill 暴露内容哈希；跨回合发现版本不同，就不能沿用旧上下文中的理解。它把技能说明视为<b>带版本的依赖</b>，而不是永久记忆：缓存只有在版本键仍匹配时才可信。"
+    },
+    {
+      "agent": "openclaw",
+      "id": "openclaw-42",
+      "category": "tool",
+      "anchor": "When a skill file references a relative path, resolve it against the skill directory",
+      "title": "技能资产拥有自己的路径作用域",
+      "quote": "resolve relative paths from the skill directory",
+      "body": "Skill 内的相对路径不跟随当前工作目录，而以 SKILL.md 所在目录为基准，并在工具调用中转成绝对路径。这个规则把技能做成<b>位置独立、可搬运的能力包</b>，避免 Agent 因会话 cwd 不同而读错同名脚本或模板。"
+    },
+    {
+      "agent": "openclaw",
+      "id": "openclaw-43",
+      "category": "safety",
+      "anchor": "External API writes: batch when safe, avoid tight loops, respect 429/Retry-After.",
+      "title": "外部写入同时受副作用与流控约束",
+      "quote": "batch writes and respect Retry-After",
+      "body": "批量写能减少往返，却只有在语义安全时才使用；遇到 429 必须服从服务端退避信号。OpenClaw 在一句话里统一了<b>幂等性判断、吞吐优化与他方资源礼仪</b>，说明 Agent 的效率不能以放大外部副作用为代价。"
+    },
+    {
+      "agent": "openclaw",
+      "id": "openclaw-44",
+      "category": "safety",
+      "anchor": "never write proposal or skill files directly.",
+      "title": "自我扩展必须经过提案控制面",
+      "quote": "durable skill work goes through workshop",
+      "body": "创建或更新长期 Skill 时，OpenClaw 不能直接写最终文件，而要交给 skill_workshop 生成待审提案；应用、拒绝或隔离仍需用户明确指令。其核心哲学是<b>允许自我扩展，但不允许绕过治理面自我生效</b>。"
+    },
+    {
+      "agent": "hermes",
+      "id": "hermes-39",
+      "category": "tool",
+      "anchor": "Click on an element identified by its ref ID from the snapshot",
+      "title": "可访问性快照是浏览器操作的共享坐标系",
+      "quote": "click elements through snapshot ref IDs",
+      "body": "Hermes 不让模型凭像素或模糊文本描述直接点击，而是先从 snapshot 取得稳定 ref，再把 ref 交给交互工具。这样感知与动作通过<b>可引用的中间表示</b>连接：每次 DOM 变化后重新取快照，也自然形成观察—行动—再观察的闭环。"
+    },
+    {
+      "agent": "hermes",
+      "id": "hermes-40",
+      "category": "tool",
+      "anchor": "Use this to detect silent JavaScript errors, failed API calls, and application warnings.",
+      "title": "浏览器验证包含不可见故障面",
+      "quote": "inspect silent console and API failures",
+      "body": "页面看起来正常并不代表交互链路健康，browser_console 专门暴露未捕获异常、失败请求和警告。Hermes 的浏览器模型因此不止是视觉操作，还要求检查<b>用户界面背后的运行时证据</b>，避免把静态外观当成功能验收。"
+    },
+    {
+      "agent": "hermes",
+      "id": "hermes-41",
+      "category": "eng",
+      "anchor": "Snapshots over 15000 chars are truncated or LLM-summarized",
+      "title": "页面快照也采用摘要—原文双层存储",
+      "quote": "large snapshots spill to a readable file",
+      "body": "超长 accessibility snapshot 进入模型时会截断或摘要，但完整版本保存为文件并返回路径，之后可分页读取。它把<b>当前决策所需的紧凑视图</b>与<b>可恢复的完整页面证据</b>分离，既控制上下文又不牺牲可追查性。"
+    },
+    {
+      "agent": "kimi",
+      "id": "kimi-35",
+      "category": "tool",
+      "anchor": "Each shell tool call will be executed in a fresh shell environment.",
+      "title": "Shell 调用之间没有隐式会话状态",
+      "quote": "each shell call starts fresh",
+      "body": "环境变量、cd 与历史不会跨调用保存，所以后续命令必须显式携带目录或绝对路径。Kimi 用无状态 Shell 减少隐藏前提，让每次执行更接近<b>可独立重放的操作</b>；代价是 Agent 不能依赖上一条命令留下的环境。"
+    },
+    {
+      "agent": "kimi",
+      "id": "kimi-36",
+      "category": "eng",
+      "anchor": "You should prefer this tool over WriteFile tool and Shell `sed` command.",
+      "title": "增量修改优先保留变更意图",
+      "quote": "prefer string replacement over rewrite or sed",
+      "body": "StrReplaceFile 以旧串—新串明确表达局部意图，并支持把同文件多个编辑放在一次原子调用中；整体 Write 或 Shell sed 则更难审计。这里体现<b>最小变更面与结构化编辑优先</b>，让失败位置和实际差异都更容易解释。"
+    },
+    {
+      "agent": "kimi",
+      "id": "kimi-37",
+      "category": "eng",
+      "anchor": "This tool returns structured task metadata, a fixed-size output preview, and an `output_path` for the full log.",
+      "title": "后台日志按需从引用展开",
+      "quote": "metadata, preview and full-log path",
+      "body": "TaskOutput 同时返回状态、定长预览和全量日志路径：多数判断只消费小摘要，只有截断或排障时才分页读取原文。它把异步产物做成<b>渐进式披露接口</b>，使长任务的可观察性不再等于把全部 stdout 塞进上下文。"
+    },
+    {
+      "agent": "kimi",
+      "id": "kimi-38",
+      "category": "safety",
+      "anchor": "Use it sparingly because stopping a task is destructive and may leave partial side effects.",
+      "title": "取消任务不能回滚已经发生的现实",
+      "quote": "stopping may leave partial side effects",
+      "body": "TaskStop 终止的是执行生命周期，不会自动撤销先前写文件、发请求或启动的外部变化。因此它只应用于确实需要取消的任务；这提醒 Agent 区分<b>停止继续运行</b>与<b>恢复到执行前状态</b>，二者不是同一种保证。"
+    },
+    {
+      "agent": "opencode",
+      "id": "opencode-35",
+      "category": "tool",
+      "anchor": "Executes a given bash command in a persistent shell session with optional timeout",
+      "title": "持久 Shell 提高连续性，也累积隐式状态",
+      "quote": "bash runs in a persistent session",
+      "body": "与每次重置的 Shell 不同，OpenCode 的 Bash 会保留会话状态，适合连续命令与长期工具链操作；也意味着 cwd、变量或进程可能影响后续调用。其设计选择是<b>用状态连续性换取交互效率</b>，因此又要求用 workdir 显式表达目录，减少隐藏依赖。"
+    },
+    {
+      "agent": "opencode",
+      "id": "opencode-36",
+      "category": "safety",
+      "anchor": "Only commit, amend, push, or create PRs when explicitly requested.",
+      "title": "代码修改权不自动包含发布权",
+      "quote": "git publication needs explicit request",
+      "body": "用户让 Agent 改代码，并不等于授权它创建提交、改写提交或把变更推送到远端。OpenCode 把工作区编辑与版本库发布拆成不同权限层，体现<b>能力可用不代表副作用已获授权</b>，尤其保护共享历史与外部协作面。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-36",
+      "category": "safety",
+      "anchor": "Set `false` for ignored files such as `.env*`, logs, or build output.",
+      "title": "突破 gitignore 是显式的敏感范围扩张",
+      "quote": "ignored files require an explicit switch",
+      "body": "glob 默认尊重 gitignore，只有明确关闭才会暴露 .env、日志或构建产物。它把潜在秘密与高噪声文件放在<b>默认不可见、按需扩域</b>的边界后；Agent 即使拥有读取能力，也必须主动表达这次搜索为何越过项目常规范围。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-37",
+      "category": "tool",
+      "anchor": "Literal `\\n` or `\\\\n` enables cross-line patterns.",
+      "title": "代码搜索能够直接表达跨行结构",
+      "quote": "literal newline enables cross-line regex",
+      "body": "grep 不只做逐行匹配，还允许以换行字面量表达跨行模式，并能用文件行区间缩小范围。OMP 把搜索工具设计成<b>介于纯文本检索与语法分析之间的精密探针</b>，减少为复杂模式退回 Shell 或反复手工拼接上下文。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-38",
+      "category": "persona",
+      "anchor": "Sending wakes `idle`/`parked` peers.",
+      "title": "消息既传递信息，也驱动代理调度",
+      "quote": "sending wakes idle peers",
+      "body": "hub send 是非阻塞消息，但同一动作还会唤醒 idle/parked 的同伴。这里通信不是单纯聊天记录，而是<b>代理运行状态的事件触发器</b>；父代理可用精确消息恢复协作者，而无需轮询或重启。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-39",
+      "category": "goal",
+      "anchor": "`completed` means successful yield/job exit, not artifact acceptance.",
+      "expectedOccurrences": 2,
+      "title": "基础设施完成态不替代父代理验收",
+      "quote": "completed is exit, not acceptance",
+      "body": "hub 的 completed 只说明进程或子代理正常结束，不能证明其声称的文件、结论和测试可信。OMP 在通信层再次声明这条不变量，要求主代理保留<b>端到端结果责任</b>，不能把质量判断外包给执行者自己的状态。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-40",
+      "category": "tool",
+      "anchor": "Both supplied? BOTH MUST pass. `ready.timeout` is seconds. Readiness MUST be observed; process creation alone is not readiness.",
+      "title": "进程存在与服务就绪是两种状态",
+      "quote": "readiness must be observed",
+      "body": "长进程启动成功只证明 PID 存在；若同时声明日志和端口条件，两者都通过才算 ready。它把生命周期模型从 running 细化到<b>可被消费者实际使用</b>，避免 Agent 在服务仍初始化或监听失败时就开始后续验证。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-41",
+      "category": "eng",
+      "anchor": "Parseable code, no selector → structural summary (declarations only, body elided).",
+      "title": "读取代码默认先给结构地图",
+      "quote": "code reads return structure before bodies",
+      "body": "OMP 对可解析代码的无范围 Read 先返回声明级摘要，并在页脚指出需要恢复的正文区间；只有 Agent 明确选择后才展开。它把代码理解组织为<b>地图—局部细节两阶段导航</b>，降低先读整文件再寻找目标的上下文浪费。"
+    },
+    {
+      "agent": "claude-code",
+      "id": "claude-code-47",
+      "category": "tool",
+      "anchor": "Jobs only fire while the REPL is idle (not mid-query).",
+      "title": "定时事件不能打断正在形成的回答",
+      "quote": "cron fires only while the REPL is idle",
+      "body": "Claude Code 把 cron 到期事件延迟到 REPL 空闲时再注入，避免调度 Prompt 与当前推理在同一回合交错。它选择<b>回合边界作为一致性边界</b>：实时性可以有少量抖动，但一段正在执行的用户意图不能被后台事件污染。"
+    },
+    {
+      "agent": "claude-code",
+      "id": "claude-code-48",
+      "category": "safety",
+      "anchor": "Required ordering: list/read → finalize_plan → write/delete.",
+      "title": "远端修改先冻结可审查的路径集合",
+      "quote": "inspect, finalize, then write",
+      "body": "DesignSync 先读取结构，再由用户审查并锁定写入/删除路径，最后所有变更都必须携带 planId 且不能越界。它把自然语言认可编译成<b>工具层可执行的能力清单</b>，后续上传即使内容很大，也不能悄悄扩大副作用范围。"
+    },
+    {
+      "agent": "kimi-code",
+      "id": "kimi-code-44",
+      "category": "goal",
+      "anchor": "only **one** fire is delivered when it wakes up.",
+      "title": "错过的轮询被折叠为最新状态检查",
+      "quote": "coalesce missed fires into one",
+      "body": "设备休眠或长回合期间错过多次触发时，调度器只恢复一次，并用 coalescedCount 告知发生过折叠；Agent 不应补跑 N 次。这个语义假设周期任务多为<b>状态采样而非不可丢事件</b>，用最新检查避免恢复后的请求风暴。"
+    },
+    {
+      "agent": "kimi-code",
+      "id": "kimi-code-45",
+      "category": "eng",
+      "anchor": "Tasks do **not** carry over into a brand-new session",
+      "title": "定时任务归属于会话身份而非目录",
+      "quote": "cron follows resumed session identity",
+      "body": "相同会话恢复时 cron 会继续，但新会话即使打开同一工作目录也不会继承。Kimi Code 把自动化状态绑定到<b>对话意图的连续身份</b>，避免仅因共享目录就把旧用户上下文中的长期动作泄漏进新任务。"
+    },
+    {
+      "agent": "minimax-code",
+      "id": "minimax-code-44",
+      "category": "tool",
+      "anchor": "Use this for broad investigation or delegated implementation that benefits from a separate hidden child session.",
+      "title": "隐藏子会话用于隔离复杂工作集",
+      "quote": "delegate broad work to a separate child context",
+      "body": "MiniMax 只在广泛调查或实现确实受益于独立上下文时启用 task，已知文件读取和少量搜索继续直接完成。子会话的价值被定义为<b>隔离大工作集并返回压缩结论</b>，而不是把任何工具调用都包装成代理。"
+    },
+    {
+      "agent": "minimax-code",
+      "id": "minimax-code-45",
+      "category": "safety",
+      "anchor": "The request originates from the user machine and may reach localhost, intranet, VPN, or public sites",
+      "title": "本地抓取器继承用户机器的网络边界",
+      "quote": "web fetch can reach local and private networks",
+      "body": "local web_fetch 不是受限的公共网页代理，它从用户设备出发，可能访问 localhost、内网和 VPN。这个差异意味着 URL 读取拥有更大的信任半径：<b>同名 Web 能力的安全语义取决于请求从哪里发出</b>，不能套用公共抓取器的默认假设。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-42",
+      "category": "goal",
+      "anchor": "Nothing about you is fixed: every layer from what tools you expose",
+      "expectedOccurrences": 2,
+      "title": "Agent 被设计成可演化的软件系统",
+      "quote": "every agent layer is rewritable",
+      "body": "evolve 技能把工具、Hook、知识、编排乃至 TUI 都列为可修改层，并把重复三次的手工流程视为演化触发信号。MiMo 的自我观不是固定 Prompt，而是<b>能从反复摩擦中提炼持久机制的可编程系统</b>。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-43",
+      "category": "goal",
+      "anchor": "executes the prompt once immediately so the user sees activity without waiting for the first cron tick.",
+      "expectedOccurrences": 2,
+      "title": "长期自动化先交付一次即时反馈",
+      "quote": "run once before the first scheduled tick",
+      "body": "loop 在注册周期任务后立即执行同一 Prompt 一次，让用户不用等到首个 cron 时间点才知道流程是否有效。它把<b>快速可见反馈</b>嵌入长期自动化的启动协议，也提前暴露权限、依赖或结果格式问题。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-44",
+      "category": "eng",
+      "anchor": "Do NOT trigger when the primary deliverable is a Word document, spreadsheet, PDF report, HTML site, or Google Slides API call",
+      "expectedOccurrences": 2,
+      "title": "技能路由以主交付物而非表面形状为准",
+      "quote": "route by the primary artifact",
+      "body": "一个内容可能“像演示文稿”，但若真正产物是 Word、表格、PDF 或网页，就不应触发 PPTX 技能。MiMo 要求从用户最终要拿到的对象反推工具链，体现<b>产物类型是路由主键，内容外观只是弱信号</b>。"
+    },
+    {
+      "agent": "openclaw",
+      "id": "openclaw-45",
+      "category": "tool",
+      "anchor": "install, verify, update, publish, or sync skills.",
+      "title": "能力市场覆盖完整的技能供应链",
+      "quote": "discover through publish skill lifecycle",
+      "body": "ClawHub 不只“搜索一个 Skill”，还承担安装、验证、升级、发布与同步。OpenClaw 因而把能力扩展建模为<b>有来源、有版本、有分发周期的软件供应链</b>，而不是向 Prompt 临时粘贴一段不可追踪的建议。"
+    },
+    {
+      "agent": "openclaw",
+      "id": "openclaw-46",
+      "category": "safety",
+      "anchor": "Audit/harden OpenClaw hosts: SSH, firewall, updates, exposure, backups, disk encryption, gateway security.",
+      "title": "Agent 安全边界延伸到宿主机姿态",
+      "quote": "audit the host, network and recovery posture",
+      "body": "healthcheck 把 SSH、防火墙、更新、暴露面、备份、磁盘加密和网关安全放在同一审计技能中。它揭示 OpenClaw 不是孤立聊天模型：<b>Agent 的可信度也取决于承载它的机器、网络与恢复能力</b>。"
+    },
+    {
+      "agent": "openclaw",
+      "id": "openclaw-47",
+      "category": "goal",
+      "anchor": "Coordinate multi-step detached tasks as one durable TaskFlow job with owner context, state, waits, and child tasks.",
+      "title": "长程工作被提升为耐久流程实体",
+      "quote": "durable TaskFlow with state and waits",
+      "body": "TaskFlow 将脱离当前回合的多步骤工作收束到一个带 owner、状态、等待点和子任务的持久作业中。其设计哲学是<b>长程 Agent 需要工作流运行时，而不仅是更长的聊天记录</b>，否则恢复与责任归属都只能依赖脆弱文本。"
+    },
+    {
+      "agent": "hermes",
+      "id": "hermes-42",
+      "category": "tool",
+      "anchor": "github: GitHub workflow skills for managing repositories, pull requests, code reviews, issues, and CI/CD pipelines",
+      "title": "技能目录按业务能力域组织",
+      "quote": "group GitHub workflows under one domain",
+      "body": "Hermes 先用 github、research、productivity 等能力域分组，再在域内列出具体工作流。这个层级把庞大工具表转成<b>先判断任务领域、再选择操作手册</b>的两级路由，也让同一平台的认证、评审与发布能力保持邻近。"
+    },
+    {
+      "agent": "hermes",
+      "id": "hermes-43",
+      "category": "eng",
+      "anchor": "systematic-debugging: 4-phase root cause debugging: understand bugs before fixing.",
+      "title": "专业技能把方法论置于直接动作之前",
+      "quote": "understand root cause before fixing",
+      "body": "调试技能明确分成四阶段并要求先理解根因，TDD 技能又编码 RED–GREEN–REFACTOR。Hermes 的专业化不是简单增加命令，而是把<b>经过验证的工作顺序</b>加载成约束，抵抗 Agent 看到症状就立即改代码的冲动。"
+    },
+    {
+      "agent": "kimi",
+      "id": "kimi-39",
+      "category": "eng",
+      "anchor": "If an existing subagent already has relevant context or the task is a continuation of its prior work, prefer `resume` over creating a new instance.",
+      "title": "子代理身份可以承载局部连续记忆",
+      "quote": "resume the agent that already knows the work",
+      "body": "Kimi 的 Agent 实例在当前会话内保留自己的上下文，后续任务相关时应 resume 而非重建。它把子代理看作<b>拥有局部工作记忆的持续协作者</b>，既省去重复侦察，也避免同一问题被多个无状态实例分别理解。"
+    },
+    {
+      "agent": "kimi",
+      "id": "kimi-40",
+      "category": "persona",
+      "anchor": "Overusing this tool interrupts the user's flow.",
+      "title": "提问的成本按人类注意力计价",
+      "quote": "structured questions interrupt user flow",
+      "body": "AskUserQuestion 只应用于答案会真实改变下一步的分歧，能从上下文推断的小决定必须自行完成。Kimi 将询问视为一种<b>消耗用户注意力的同步阻塞</b>，所以自主性既是会做事，也是在低风险处不把判断负担退回给人。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-42",
+      "category": "tool",
+      "anchor": "Services, watchers, debuggers, and REPLs MUST use `hub` (`op:\"start\"`).",
+      "title": "有限命令与受管进程使用不同运行时",
+      "quote": "long-lived processes belong in hub",
+      "body": "Bash 只承担会结束的短命令，服务、watcher、调试器和 REPL 必须进入 hub 的受管生命周期。OMP 通过工具选择区分<b>一次性计算</b>与<b>需要就绪、日志、输入和终止控制的长期进程</b>，避免用后台 shell 制造孤儿任务。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-43",
+      "category": "eng",
+      "anchor": "Every file section starts `[PATH#TAG]`.",
+      "title": "编辑建立在带版本的文件快照上",
+      "quote": "patch sections require path and snapshot tag",
+      "body": "hashline 编辑的每个文件段都必须带 Read/Search 返回的四位快照标签；标签变化意味着旧行号不再可信。它把 LLM 常见的“按记忆改文件”问题转化为<b>乐观并发控制</b>：只有基于当前版本的补丁才能提交。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-44",
+      "category": "safety",
+      "anchor": "Elided regions are UNSEEN",
+      "title": "摘要中的省略区不是可推断内容",
+      "quote": "never edit what the model did not see",
+      "body": "折叠标记只说明那里存在内容，不授予 Agent 猜测正文的资格；任何跨入省略区的 hunk 都会被拒绝，必须先 Read。OMP 把<b>可见性作为编辑授权的前置条件</b>，直接封堵模型用模式补全未读代码的风险。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-45",
+      "category": "tool",
+      "anchor": "Named registers persist across edit calls.",
+      "title": "代码搬移由编辑原语保存身份",
+      "quote": "named cut registers persist",
+      "body": "CUT 可把原始代码捕获到命名寄存器，之后跨文件、跨调用 PUT，而不是要求模型复制并重新生成。这样移动操作保留<b>原文身份与空白细节</b>，把“搬运”与“改写”从语义上分开，降低无意变更。"
+    },
+    {
+      "agent": "claude-code",
+      "id": "claude-code-49",
+      "category": "goal",
+      "anchor": "You stay in the loop; each workflow is one well-scoped fan-out.",
+      "title": "主代理保留阶段之间的判断权",
+      "quote": "one bounded fan-out per workflow",
+      "body": "大型任务应把理解、设计、实现和评审拆成多个 Workflow 顺序推进，主代理读取每阶段结果后再决定下一步，而非一次性把全生命周期交出去。它保留<b>阶段间的重新规划与责任收敛点</b>，让规模化并行仍受主线意图控制。"
+    },
+    {
+      "agent": "kimi-code",
+      "id": "kimi-code-46",
+      "category": "goal",
+      "anchor": "A goal needs a checkable end state.",
+      "title": "持久目标必须拥有可判定终点",
+      "quote": "goals require a checkable end state",
+      "body": "普通请求不会自动升级为跨回合 Goal，只有用户明确要求且能说明如何判断完成时才创建。Kimi Code 将长程自主性建立在<b>可验证终止条件</b>上，避免 Agent 因模糊使命永久运行或自行扩张目标。"
+    },
+    {
+      "agent": "minimax-code",
+      "id": "minimax-code-46",
+      "category": "safety",
+      "anchor": "Sensitive files (.env, keys, ssh configs) remain excluded.",
+      "expectedOccurrences": 2,
+      "title": "显式扩展搜索也不能越过秘密边界",
+      "quote": "sensitive files stay excluded",
+      "body": "glob/grep 允许在窄范围内包含项目忽略文件，却仍固定排除 .env、密钥和 SSH 配置。MiniMax 将“我要看 ignored artifact”与“我要读取凭据”分成不同权限层，体现<b>可调噪声过滤不等于可取消秘密保护</b>。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-45",
+      "category": "tool",
+      "anchor": "**mimocode-docs**: Use whenever the user asks about MiMoCode itself",
+      "title": "Agent 对自身的知识也外置到可更新手册",
+      "quote": "route self-configuration to current docs",
+      "body": "模型、Provider、配置字段和模式切换等自我知识不固化在通用推理里，而由 mimocode-docs 先检查现有配置再最小修改。它承认 Agent 对自身也可能过时，采用<b>稳定自我识别 + 动态操作手册</b>的结构。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-46",
+      "category": "safety",
+      "anchor": "**skill-creator**: Interactive guide for creating, reviewing, and improving agent skills",
+      "title": "能力扩展与普通 Prompt 编辑被严格区分",
+      "quote": "skill creation has a narrow trigger boundary",
+      "body": "skill-creator 只处理真正要形成 SKILL.md 能力包的请求，明确排除一般提示词、MCP 和任意 Markdown 编辑。MiMo 通过负触发条件防止<b>把一次性文本优化误升级为永久行为修改</b>。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-47",
+      "category": "tool",
+      "anchor": "**xlsx-official**: Spreadsheet toolkit. Reach for it whenever the artifact on either side",
+      "title": "工具路由同时检查输入与输出工件",
+      "quote": "route when a workbook is on either side",
+      "body": "表格既可能是待编辑的最终产物，也可能只是生成报告的中间输入；技能说明要求先判断工件在任务中的角色。MiMo 的路由不是关键词匹配，而是<b>围绕数据流两端识别主要交付契约</b>。"
+    },
+    {
+      "agent": "hermes",
+      "id": "hermes-44",
+      "category": "eng",
+      "anchor": "Keep the trigger self-contained in that first 57-char window",
+      "title": "技能触发条件受索引可见窗口约束",
+      "quote": "put the trigger inside the visible prefix",
+      "body": "系统 Prompt 里的技能描述只显示前 57 个字符，因此真正的触发条件必须在这个前缀内自洽。Hermes 把技能路由当作<b>受检索界面预算约束的信息架构</b>：正文再完整，索引入口不清楚仍等于不可发现。"
+    },
+    {
+      "agent": "hermes",
+      "id": "hermes-45",
+      "category": "tool",
+      "anchor": "After starting a server, verify readiness with a health check, then act in a separate call; no blind sleep loops.",
+      "title": "服务同步依赖可观察条件而非猜时间",
+      "quote": "health-check readiness instead of sleeping",
+      "body": "Hermes 要求启动服务后用健康检查确认就绪，再在新调用中继续，禁止盲目 sleep。等待被建模为<b>对状态谓词的观测</b>而不是对时间流逝的猜测，从而兼容快慢机器并更快暴露启动失败。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-46",
+      "category": "tool",
+      "anchor": "Run one step of code in a persistent kernel. State persists across calls and subagents.",
+      "title": "Eval 内核是团队共享的计算记忆",
+      "quote": "kernel state persists across agents",
+      "body": "OMP 的 eval 不仅跨调用保留状态，子代理也共享同一计算环境；适合把导入、数据和中间结果作为团队工作台复用。相应地，它是一种<b>高效但有共享可变状态风险的协作内存</b>，必须依靠分步执行和失败后只重跑局部来保持可控。"
+    },
+    {
+      "agent": "claude-code",
+      "id": "claude-code-50",
+      "category": "eng",
+      "anchor": "dedup vs `seen`, NOT `confirmed`",
+      "title": "收敛记忆必须记录失败过的候选",
+      "quote": "deduplicate against every seen candidate",
+      "body": "loop-until-dry 若只记最终确认的 finding，被评审否决的候选会在下一轮再次出现，使循环永不收敛；seen 必须覆盖成功和失败样本。它揭示<b>探索记忆与交付结果是两套集合</b>：前者服务搜索收敛，后者服务质量输出。"
+    },
+    {
+      "agent": "kimi-code",
+      "id": "kimi-code-47",
+      "category": "goal",
+      "anchor": "Do not invent limits.",
+      "title": "资源预算只能来自用户的显式约束",
+      "quote": "never invent goal budgets",
+      "body": "SetGoalBudget 接受精确的时长、回合或 token 限制，却拒绝把“花点时间”这类模糊措辞擅自量化。Kimi Code 将预算视为<b>用户对自主执行的硬边界</b>，而不是 Agent 用来提前收工或自我设限的内部借口。"
+    },
+    {
+      "agent": "minimax-code",
+      "id": "minimax-code-47",
+      "category": "goal",
+      "anchor": "agentRole: orchestrator  # agent type classification (orchestrator | worker)",
+      "title": "显示身份与执行角色被分别建模",
+      "quote": "agent name, type and session role are separate",
+      "body": "runtime context 同时给出展示名、路由 ID、orchestrator/worker 类型以及 root/branch 会话角色。它避免把“我叫什么”与“我在本次拓扑中负责什么”混为一谈，让<b>身份、能力分类与临时责任</b>可以独立变化。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-48",
+      "category": "eng",
+      "anchor": "pass `task_id` so the subagent's verbatim findings get captured",
+      "title": "委派结果可以写回任务的证据链",
+      "quote": "bind actor findings to a tracked task",
+      "body": "Actor 若为 T4 等已登记任务工作，就携带 task_id，把逐字发现写入专属 progress.md 并在 checkpoint 中整合；临时调查则不绑定。MiMo 把<b>执行者会话</b>与<b>工作项证据归档</b>解耦后再显式关联，避免子代理结果成为无归属消息。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-49",
+      "category": "tool",
+      "anchor": "`context=\"none\"` (default): clean context, only the prompt.",
+      "title": "子代理默认从最小上下文启动",
+      "quote": "clean context is the default inheritance mode",
+      "body": "Actor 可选择 full、checkpoint state 或 none；默认只收到委派 Prompt。这个默认值把上下文看成<b>需要按任务授予的信息权限与认知预算</b>，既减少历史噪声，也迫使主代理写出真正自包含的 briefing。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-50",
+      "category": "tool",
+      "anchor": "Persistent peers idle between turns and never produce a \"done\" outcome on success",
+      "title": "临时作业与常驻同伴拥有不同完成语义",
+      "quote": "persistent peers do not terminate as done",
+      "body": "wait 适合会结束的临时 Actor，却不适合回合间持续存在的 peer；后者成功后只是 idle，需要 send 与 status 协调。MiMo 明确区分<b>任务型进程</b>和<b>服务型协作者</b>，避免对不会结束的实体无限等待。"
+    },
+    {
+      "agent": "omp",
+      "id": "omp-47",
+      "category": "eng",
+      "anchor": "RE-GROUND AFTER EVERY EDIT",
+      "title": "每次写入都会使后续坐标系失效",
+      "quote": "re-ground after each edit",
+      "body": "补丁落盘后文件会重新编号且快照标签变化，下一次修改必须使用编辑结果或重新 Read 取得的新坐标。OMP 把连续编辑处理成<b>一串需要重新读取版本的事务</b>，而不是在旧行号上累积假设。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-51",
+      "category": "safety",
+      "anchor": "If commit FAILED or was REJECTED by hook, NEVER amend",
+      "title": "失败提交不能被当作可改写历史",
+      "quote": "fix and create a new commit after hook rejection",
+      "body": "pre-commit Hook 拒绝时，正确动作是修复问题后重新创建提交，而不是 amend 一个并未成功存在的提交。MiMo 把<b>工作区修复</b>与<b>历史改写</b>分开，防止模型用熟悉的 amend 习惯掩盖失败状态或误碰已有提交。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-52",
+      "category": "tool",
+      "anchor": "all subsequent file operations (read, edit, write, glob, grep, bash)",
+      "title": "工作目录是会话级路由状态",
+      "quote": "directory switch affects every later file tool",
+      "body": "change_directory 不只改变下一条 Bash，而会重定向后续所有文件工具，子代理也继承新目录。它是<b>会话命名空间的显式迁移</b>，所以只应在用户要求切换项目时使用，不能把它当一次性 cd。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-53",
+      "category": "goal",
+      "anchor": "Use `loop` when cadence depends on what you observed and may change next turn.",
+      "title": "调度频率也可以成为 Agent 的反馈策略",
+      "quote": "adapt cadence to observed state",
+      "body": "固定 schedule 适合事先确定的节奏，loop 则根据本轮是否有变化选择 60–3600 秒后的下一次检查。MiMo 将轮询周期纳入<b>观察—调整—再观察的反馈控制</b>，避免所有状态都用同一机械频率。"
+    }
+  ]
+}

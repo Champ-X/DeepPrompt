@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 2,
+  "reviewedAt": "2026-08-09",
+  "sourceCommit": "b326cca92451d7046b9bab0ebf6b5dba988ffc9d",
+  "baselineAnnotationCount": 381,
+  "expectedAnnotationCount": 572,
+  "categories": [
+    "goal",
+    "eng",
+    "persona",
+    "safety",
+    "tool"
+  ],
+  "methodology": [
+    "先核对高亮文字与当前 Prompt 原文是否逐字对应，再判断批注是否忠实覆盖原文语义。",
+    "保留原有规则解释层；新增设计哲学层必须建立在规则事实与运行机制之上，并以“哲学层（推断）”显式标识，不把编辑推断冒充厂商声明。",
+    "批注按“原文事实、运行机制、适用边界或风险”三层展开；推断必须显式标明，不把相关性写成因果。",
+    "安全类解读同时检查权限来源、会话边界、外部内容可信度、可逆性与 confused-deputy 风险。",
+    "工具与多智能体类解读区分发现、寻址、排队、并发、累计预算与 barrier 语义，避免把单一数字泛化为整体能力。",
+    "上下文类解读把 System Prompt、工具 schema、运行时状态、消息历史与持久记忆视为共同的 context engineering 面。",
+    "逐行审计每个 Agent 的全部非空原文：有独立机制或设计推断的句子新增批注；重复清单、围栏结构与纯 schema 字段明确分类，不以无信息增量的批注填空。"
+  ],
+  "revisedAnnotations": [
+    "codex-21",
+    "antigravity-7",
+    "opencode-20",
+    "omp-7",
+    "pi-1"
+  ],
+  "addedAnnotations": [
+    "codex-47",
+    "codex-48",
+    "codex-49",
+    "claude-code-31",
+    "claude-code-32",
+    "claude-code-33",
+    "claude-code-34",
+    "claude-code-35",
+    "antigravity-30",
+    "antigravity-31",
+    "antigravity-32",
+    "grok-24",
+    "grok-25",
+    "grok-26",
+    "kimi-code-30",
+    "kimi-code-31",
+    "kimi-code-32",
+    "minimax-code-31",
+    "minimax-code-32",
+    "mimo-28",
+    "mimo-29",
+    "openclaw-29",
+    "openclaw-30",
+    "hermes-29",
+    "hermes-30",
+    "kimi-27",
+    "kimi-28",
+    "opencode-28",
+    "opencode-29",
+    "omp-27",
+    "omp-28",
+    "pi-13",
+    "pi-14"
+  ],
+  "philosophyFramework": {
+    "interpretationStatus": "editorial-inference",
+    "axes": [
+      "受托关系",
+      "环境可读性",
+      "上下文经济",
+      "记忆制度",
+      "证据闭环",
+      "权限与风险",
+      "协作拓扑"
+    ],
+    "profiles": {
+      "codex": {"thesis": "可观察的受托执行", "evidenceNotes": ["codex-48", "codex-49"]},
+      "claude-code": {"thesis": "组织记忆型协作者", "evidenceNotes": ["claude-code-34", "claude-code-35"]},
+      "antigravity": {"thesis": "体验即正确性的构建者", "evidenceNotes": ["antigravity-31", "antigravity-32"]},
+      "grok": {"thesis": "以可逆性计价的自治工程师", "evidenceNotes": ["grok-25", "grok-26"]},
+      "kimi-code": {"thesis": "边界清晰的行动主义", "evidenceNotes": ["kimi-code-31", "kimi-code-32"]},
+      "minimax-code": {"thesis": "人格化总管与授权化分工", "evidenceNotes": ["minimax-code-31", "minimax-code-32"]},
+      "mimo": {"thesis": "完备性至上的长程执行器", "evidenceNotes": ["mimo-28", "mimo-29"]},
+      "openclaw": {"thesis": "有灵魂但无私欲的常驻代理", "evidenceNotes": ["openclaw-29", "openclaw-30"]},
+      "hermes": {"thesis": "以持久状态组织工作的操作型代理", "evidenceNotes": ["hermes-29", "hermes-30"]},
+      "kimi": {"thesis": "克制型通用工程师", "evidenceNotes": ["kimi-27", "kimi-28"]},
+      "opencode": {"thesis": "强制研究与反思的代码执行器", "evidenceNotes": ["opencode-28", "opencode-29"]},
+      "omp": {"thesis": "证据驱动的首席工程师", "evidenceNotes": ["omp-27", "omp-28"]},
+      "pi": {"thesis": "小内核、精确编辑、运行时扩展", "evidenceNotes": ["pi-13", "pi-14"]}
+    }
+  },
+  "coverageExpansion": {
+    "source": "data/coverage-annotations.json",
+    "expectedCount": 165,
+    "reviewScope": "逐行复读 13 份 Prompt；对行为规则、工具状态语义、安全边界、上下文策略和产品架构新增锚点；纯 JSON/TypeScript 结构字段不做逐字段注水。",
+    "selectionRule": "新增批注必须能提供独立的规则机制、设计取舍或风险解释，并锚定当前 Prompt 中已校验出现次数的原文子串。"
+  },
+  "industrySources": [
+    {
+      "title": "Phistory pinned upstream commit",
+      "url": "https://github.com/WEIFENG2333/phistory/tree/b326cca92451d7046b9bab0ebf6b5dba988ffc9d"
+    },
+    {
+      "title": "Anthropic: Effective context engineering for AI agents",
+      "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents"
+    },
+    {
+      "title": "Anthropic: How we built our multi-agent research system",
+      "url": "https://www.anthropic.com/engineering/multi-agent-research-system"
+    },
+    {
+      "title": "Anthropic: Demystifying evals for AI agents",
+      "url": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents"
+    },
+    {
+      "title": "OpenAI: A practical guide to building agents",
+      "url": "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/"
+    },
+    {
+      "title": "OpenAI: Designing AI agents to resist prompt injection",
+      "url": "https://openai.com/index/designing-agents-to-resist-prompt-injection/"
+    },
+    {
+      "title": "OWASP LLM06:2025 Excessive Agency",
+      "url": "https://genai.owasp.org/llmrisk/llm062025-excessive-agency/"
+    },
+    {
+      "title": "Model Context Protocol 2025-11-25 release",
+      "url": "https://blog.modelcontextprotocol.io/posts/2025-11-25-first-mcp-anniversary/"
+    },
+    {
+      "title": "OpenAI: Harness engineering — leveraging Codex in an agent-first world",
+      "url": "https://openai.com/index/harness-engineering/"
+    },
+    {
+      "title": "Anthropic: Harness design for long-running application development",
+      "url": "https://www.anthropic.com/engineering/harness-design-long-running-apps"
+    },
+    {
+      "title": "Anthropic: Effective harnesses for long-running agents",
+      "url": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents"
+    },
+    {
+      "title": "MCP Tools specification 2025-11-25",
+      "url": "https://modelcontextprotocol.io/specification/2025-11-25/server/tools"
+    }
+  ]
+}
