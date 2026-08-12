@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "reviewedAt": "2026-08-09",
-  "sourceCommit": "b326cca92451d7046b9bab0ebf6b5dba988ffc9d",
-  "expectedCount": 165,
+  "reviewedAt": "2026-08-13",
+  "sourceCommit": "7f9f5b9faf87e11b9de183aae8ca116ecdfe56a5",
+  "expectedCount": 176,
   "annotations": [
     {
       "agent": "claude-code",
@@ -757,7 +757,7 @@
       "agent": "omp",
       "id": "omp-30",
       "category": "tool",
-      "anchor": "Sequence dependencies only.",
+      "anchor": "A before B only if B strictly needs A",
       "title": "并行宽度必须由依赖关系证明",
       "quote": "sequence only on true dependency",
       "body": "只有 B 严格需要 A 的输出时才允许顺序执行；共同前置先完成，独立切片随后 fan out。OMP 的激进并行并非追求代理数量，而是要求<b>执行拓扑忠实反映数据依赖图</b>。"
@@ -793,7 +793,7 @@
       "agent": "omp",
       "id": "omp-34",
       "category": "goal",
-      "anchor": "it stays in the tracker but won't trip the stop reminder",
+      "anchor": "remains tracked but avoids stop reminder",
       "title": "阻塞与放弃拥有不同任务语义",
       "quote": "blocked stays tracked",
       "body": "等待用户、代理或外部服务时用 block：任务仍保留但不触发未完成提醒；真正放弃才 drop。待办系统因而不只是 pending/done 二值表，而能表达<b>未完成但暂不可行动</b>的真实状态。"
@@ -802,7 +802,7 @@
       "agent": "omp",
       "id": "omp-35",
       "category": "tool",
-      "anchor": "`query` supports Google-style directives on every provider",
+      "anchor": "`query`: every provider supports Google-style",
       "title": "搜索约束被统一成跨提供商语言",
       "quote": "portable Google-style search directives",
       "body": "site、时间、URL、标题、文件类型和精确短语等约束会映射到各搜索提供商的原生过滤器，不支持时再退化。它为 Agent 提供<b>稳定的检索中间语言</b>，把供应商差异留在工具层。"
@@ -1301,7 +1301,7 @@
       "agent": "omp",
       "id": "omp-43",
       "category": "eng",
-      "anchor": "Every file section starts `[PATH#TAG]`.",
+      "anchor": "Section: `[PATH#TAG]`; `TAG`: 4-hex snapshot from latest `read`/`search`",
       "title": "编辑建立在带版本的文件快照上",
       "quote": "patch sections require path and snapshot tag",
       "body": "hashline 编辑的每个文件段都必须带 Read/Search 返回的四位快照标签；标签变化意味着旧行号不再可信。它把 LLM 常见的“按记忆改文件”问题转化为<b>乐观并发控制</b>：只有基于当前版本的补丁才能提交。"
@@ -1310,7 +1310,7 @@
       "agent": "omp",
       "id": "omp-44",
       "category": "safety",
-      "anchor": "Elided regions are UNSEEN",
+      "anchor": "NEVER guess `..`/`…` content",
       "title": "摘要中的省略区不是可推断内容",
       "quote": "never edit what the model did not see",
       "body": "折叠标记只说明那里存在内容，不授予 Agent 猜测正文的资格；任何跨入省略区的 hunk 都会被拒绝，必须先 Read。OMP 把<b>可见性作为编辑授权的前置条件</b>，直接封堵模型用模式补全未读代码的风险。"
@@ -1495,6 +1495,106 @@
       "title": "调度频率也可以成为 Agent 的反馈策略",
       "quote": "adapt cadence to observed state",
       "body": "固定 schedule 适合事先确定的节奏，loop 则根据本轮是否有变化选择 60–3600 秒后的下一次检查。MiMo 将轮询周期纳入<b>观察—调整—再观察的反馈控制</b>，避免所有状态都用同一机械频率。"
+    },
+    {
+      "agent": "claude-code",
+      "id": "claude-code-51",
+      "category": "tool",
+      "anchor": "Consecutive `noop: true` ticks are collapsed in the user's terminal view and tracked as a streak",
+      "title": "静默轮询被压缩成可观察状态",
+      "quote": "collapse consecutive noop ticks",
+      "body": "Monitor 要求每次 tick 声明是否真的发生变化；连续的 <code>noop: true</code> 不再刷屏，而被折叠并记录 streak。它没有隐藏轮询，而是把<b>重复的无变化事件压缩成有计数的状态</b>，同时保留长期监控的可读性与可审计性。"
+    },
+    {
+      "agent": "claude-code",
+      "id": "claude-code-52",
+      "category": "tool",
+      "anchor": "Pass `run_in_background: false` only when your very next action depends on the result",
+      "title": "同步等待必须由下一步依赖证明",
+      "quote": "foreground only for an immediate dependency",
+      "body": "子代理默认后台运行；只有下一步严格依赖其结果、且当前没有任何其他有用工作时，才允许同步阻塞。Claude Code 把前后台选择从个人偏好改写成<b>基于关键路径的数据依赖判断</b>，也为用户中途插入新任务保留交互空间。"
+    },
+    {
+      "agent": "antigravity",
+      "id": "antigravity-40",
+      "category": "eng",
+      "anchor": "default to the simplest, most intuitive structure for that use case",
+      "title": "视觉方向必须从产品效用推导",
+      "quote": "function before visual direction",
+      "body": "新版不再把“第一眼惊艳”设为起点，而要求先识别主要用途与最低摩擦的交互，再选择最直观的结构。审美被放回<b>服务任务完成的约束优化</b>中：用户没指定布局时，默认值是适配用例的简单结构，而不是最显眼的视觉招式。"
+    },
+    {
+      "agent": "antigravity",
+      "id": "antigravity-41",
+      "category": "persona",
+      "anchor": "Forbidden Cliché Design Tropes",
+      "title": "用负面模式库约束生成式审美",
+      "quote": "forbidden cliché design tropes",
+      "body": "提示词直接列出深色紫光、渐变关键词、网格背景、药丸标题和卡片套卡片等高频套路。与其继续抽象地要求“有设计感”，它通过<b>反模式目录塑造品味边界</b>，针对模型最容易收敛的模板化局部最优做显式去偏。"
+    },
+    {
+      "agent": "antigravity",
+      "id": "antigravity-42",
+      "category": "eng",
+      "anchor": "internal content and dimensions of sub-components",
+      "title": "响应式深入到组件内部契约",
+      "quote": "sub-components must be fluid",
+      "body": "响应式不只要求页面栅格在不同屏幕上重排，按钮、输入框等子组件的内容与尺寸也要随容器流动。它把适配责任从页面级媒体查询推进到<b>组件自身的尺寸与内容契约</b>，减少外层变窄而内部控件仍溢出的假响应式。"
+    },
+    {
+      "agent": "grok",
+      "id": "grok-35",
+      "category": "eng",
+      "anchor": "Exercise the feature you changed end to end, interacting with it the way a user would.",
+      "title": "浏览器验收必须走完用户路径",
+      "quote": "exercise the feature end to end",
+      "body": "新版把“页面能渲染”明确排除在充分证据之外，要求用用户真实操作方式跑通改动，并检查共享状态的其他页面。这里的验证单位不是组件截图，而是<b>跨交互、状态与路由的可观察行为</b>。"
+    },
+    {
+      "agent": "grok",
+      "id": "grok-36",
+      "category": "eng",
+      "anchor": "A single render screenshot of the changed screen is NOT verification.",
+      "title": "截图是视觉证据，不是行为证明",
+      "quote": "one screenshot is not verification",
+      "body": "单张截图只能证明某一瞬间的外观，无法覆盖点击、状态转移、响应式变化或回归路径。Grok 将<b>外观检查与行为验证分层</b>：视觉变化仍需桌面和移动端检查，但功能正确性必须由真实交互链路证明。"
+    },
+    {
+      "agent": "grok",
+      "id": "grok-37",
+      "category": "tool",
+      "anchor": "May be empty when `voices` is provided.",
+      "title": "视频生成从图像驱动扩展为多模态条件",
+      "quote": "voices can replace image references",
+      "body": "参考图不再是必填：提供预设 voice 后，可以只用音频身份条件生成视频，也能和图像共同使用。工具契约因此从“多图转视频”扩展为<b>图像与声音可独立组合的条件生成接口</b>，Prompt 中还用序号标记明确绑定各模态引用。"
+    },
+    {
+      "agent": "grok",
+      "id": "grok-38",
+      "category": "tool",
+      "anchor": "you MUST incorporate the results into the task based on requirements BEFORE concluding.",
+      "title": "委派完成不等于主任务完成",
+      "quote": "integrate subagent results before concluding",
+      "body": "独立子代理返回结果后，主代理仍必须按需求吸收、核对并整合，不能把“子任务已结束”直接当作交付。它补上多智能体常见的最后一公里：<b>委派产生候选产物，主代理承担组合与验收责任</b>。"
+    },
+    {
+      "agent": "kimi-code",
+      "id": "kimi-code-48",
+      "category": "tool",
+      "anchor": "Tools: Bash, CronCreate, CronDelete, CronList, Edit, EnterPlanMode",
+      "title": "子代理工具面取消递归编排能力",
+      "quote": "subagent allowlist excludes Agent tools",
+      "body": "新版 subagent 工具白名单移除了 Agent 与 AgentSwarm，只保留执行、检索、计划和调度等能力。<b>编辑推断：并行拓扑由父代理集中拥有</b>，子代理负责完成切片而不再继续递归扩张团队，从而限制不可见的委派深度与累计成本。"
+    },
+    {
+      "agent": "mimo",
+      "id": "mimo-54",
+      "category": "tool",
+      "anchor": "Query the raw trajectory SQLite database directly when the built-in memory and history tools are insufficient.",
+      "expectedOccurrences": 2,
+      "title": "会话记忆升级为可查询的行为数据",
+      "quote": "query raw trajectory SQLite",
+      "body": "新增 memory-search skill 允许在普通记忆召回不足时直接查询轨迹数据库，用 SQL 聚合历史错误、工具调用与决策。它把长期记忆从叙事摘要推进到<b>可验证、可分组、可统计的事件日志</b>，代价是查询者也必须理解数据库结构与上下文边界。"
     }
   ]
 }

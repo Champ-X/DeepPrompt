@@ -1,9 +1,9 @@
 {
   "schemaVersion": 2,
-  "reviewedAt": "2026-08-09",
-  "sourceCommit": "b326cca92451d7046b9bab0ebf6b5dba988ffc9d",
+  "reviewedAt": "2026-08-13",
+  "sourceCommit": "7f9f5b9faf87e11b9de183aae8ca116ecdfe56a5",
   "baselineAnnotationCount": 381,
-  "expectedAnnotationCount": 572,
+  "expectedAnnotationCount": 583,
   "categories": [
     "goal",
     "eng",
@@ -22,9 +22,27 @@
   ],
   "revisedAnnotations": [
     "codex-21",
+    "claude-code-19",
+    "antigravity-0",
     "antigravity-7",
+    "antigravity-8",
+    "antigravity-9",
+    "grok-0",
+    "grok-1",
+    "grok-2",
+    "grok-4",
+    "grok-5",
+    "grok-8",
+    "grok-9",
+    "grok-10",
+    "grok-11",
+    "grok-20",
+    "grok-24",
+    "grok-26",
     "opencode-20",
     "omp-7",
+    "omp-11",
+    "omp-27",
     "pi-1"
   ],
   "addedAnnotations": [
@@ -76,8 +94,8 @@
     "profiles": {
       "codex": {"thesis": "可观察的受托执行", "evidenceNotes": ["codex-48", "codex-49"]},
       "claude-code": {"thesis": "组织记忆型协作者", "evidenceNotes": ["claude-code-34", "claude-code-35"]},
-      "antigravity": {"thesis": "体验即正确性的构建者", "evidenceNotes": ["antigravity-31", "antigravity-32"]},
-      "grok": {"thesis": "以可逆性计价的自治工程师", "evidenceNotes": ["grok-25", "grok-26"]},
+      "antigravity": {"thesis": "功能约束下的反模板设计者", "evidenceNotes": ["antigravity-31", "antigravity-32"]},
+      "grok": {"thesis": "无人值守的可验证自治工程师", "evidenceNotes": ["grok-25", "grok-26"]},
       "kimi-code": {"thesis": "边界清晰的行动主义", "evidenceNotes": ["kimi-code-31", "kimi-code-32"]},
       "minimax-code": {"thesis": "人格化总管与授权化分工", "evidenceNotes": ["minimax-code-31", "minimax-code-32"]},
       "mimo": {"thesis": "完备性至上的长程执行器", "evidenceNotes": ["mimo-28", "mimo-29"]},
@@ -91,14 +109,39 @@
   },
   "coverageExpansion": {
     "source": "data/coverage-annotations.json",
-    "expectedCount": 165,
+    "expectedCount": 176,
     "reviewScope": "逐行复读 13 份 Prompt；对行为规则、工具状态语义、安全边界、上下文策略和产品架构新增锚点；纯 JSON/TypeScript 结构字段不做逐字段注水。",
     "selectionRule": "新增批注必须能提供独立的规则机制、设计取舍或风险解释，并锚定当前 Prompt 中已校验出现次数的原文子串。"
+  },
+  "syncReview": {
+    "previousCommit": "b326cca92451d7046b9bab0ebf6b5dba988ffc9d",
+    "updatedAgents": {
+      "claude-code": {"from": "2.1.226", "to": "2.1.228", "summary": "新增 Monitor noop 折叠语义，并收紧子代理同步等待条件。"},
+      "antigravity": {"from": "1.1.11", "to": "1.1.12", "summary": "网页设计原则从第一眼惊艳转向功能优先、少而更好与反模板审美。"},
+      "grok": {"from": "1.0.0", "to": "1.0.3", "summary": "重写沟通与执行策略，加入浏览器端到端验收、多模态视频条件和子代理结果整合规则。"},
+      "kimi-code": {"from": "0.34.0", "to": "0.35.0", "summary": "子代理工具白名单移除递归 Agent 编排能力。"},
+      "mimo": {"from": "0.1.10", "to": "0.1.11", "summary": "新增 memory-search skill，将原始会话轨迹开放为 SQLite 查询面。"},
+      "opencode": {"from": "1.18.15", "to": "1.18.16", "summary": "仅捕获日期变化，没有稳定规则增量。"},
+      "omp": {"from": "17.2.12", "to": "17.2.15", "summary": "大幅压缩措辞与章节结构，核心工程、委派、验证及编辑协议保持同义。"}
+    },
+    "addedCoverageAnnotations": [
+      "claude-code-51",
+      "claude-code-52",
+      "antigravity-40",
+      "antigravity-41",
+      "antigravity-42",
+      "grok-35",
+      "grok-36",
+      "grok-37",
+      "grok-38",
+      "kimi-code-48",
+      "mimo-54"
+    ]
   },
   "industrySources": [
     {
       "title": "Phistory pinned upstream commit",
-      "url": "https://github.com/WEIFENG2333/phistory/tree/b326cca92451d7046b9bab0ebf6b5dba988ffc9d"
+      "url": "https://github.com/WEIFENG2333/phistory/tree/7f9f5b9faf87e11b9de183aae8ca116ecdfe56a5"
     },
     {
       "title": "Anthropic: Effective context engineering for AI agents",
