@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "reviewedAt": "2026-08-13",
-  "sourceCommit": "7f9f5b9faf87e11b9de183aae8ca116ecdfe56a5",
-  "expectedCount": 176,
+  "reviewedAt": "2026-08-16",
+  "sourceCommit": "f74e0b2a796e852137782cb3195962cc48daa5ae",
+  "expectedCount": 190,
   "annotations": [
     {
       "agent": "claude-code",
@@ -586,10 +586,10 @@
       "agent": "hermes",
       "id": "hermes-32",
       "category": "eng",
-      "anchor": "cases where the text snapshot misses important visual information",
-      "title": "文本快照不能替代视觉验证",
-      "quote": "screenshot when text misses visuals",
-      "body": "Browser screenshot 专门用于 CAPTCHA、复杂布局和文本快照遗漏视觉信息的场景。它承认 DOM/文本与用户真正看到的界面不是同一事实源，要求<b>验证方法匹配可观察契约</b>。"
+      "anchor": "read the pixels yourself on the next turn — call this any time the user references an image",
+      "title": "视觉证据必须真正进入模型上下文",
+      "quote": "read the pixels on the next turn",
+      "body": "read_image 不把图片降格成一条路径或模糊摘要，而要求在下一轮直接读取像素；非视觉模型才退回辅助分析。它让<b>验证方法服从证据的模态</b>：用户给了图片，就应让视觉内容本身参与判断，而不是只围绕文件名推测。"
     },
     {
       "agent": "hermes",
@@ -856,10 +856,10 @@
       "agent": "claude-code",
       "id": "claude-code-44",
       "category": "goal",
-      "anchor": "Use this tool to create a structured task list for your current coding session.",
-      "title": "计划不仅服务 Agent，也服务共同态势感知",
-      "quote": "structured task list for the coding session",
-      "body": "TaskCreate 除了帮助模型分解复杂工作，还明确承担向用户展示整体进度的职责。任务表因此不是私有思维草稿，而是<b>人机共享的执行状态</b>：用户可以据此判断 Agent 正在做什么、还剩什么以及是否需要转向。"
+      "anchor": "log(message: string): void — emit a progress message to the user (shown as a narrator line above the progress tree)",
+      "title": "编排进度进入用户可见叙事层",
+      "quote": "progress above the workflow tree",
+      "body": "Workflow 的 <code>log</code> 不只是内部调试输出，而会作为 narrator line 显示在进度树上方。多代理编排因此保留<b>人机共享的态势感知</b>：脚本负责调度，用户仍能看到当前阶段、关键发现与转向理由。"
     },
     {
       "agent": "claude-code",
@@ -874,10 +874,10 @@
       "agent": "claude-code",
       "id": "claude-code-46",
       "category": "goal",
-      "anchor": "Status progresses: `pending` → `in_progress` → `completed`",
-      "title": "任务状态是一份可验证的承诺",
-      "quote": "pending to in_progress to completed",
-      "body": "状态机要求开工前显式进入 in_progress，只有工作完全完成才进入 completed，并在更新前读取最新状态以防陈旧写入。它把任务追踪从装饰性清单变成<b>带一致性约束的执行账本</b>，让“完成”必须对应真实证据而非主观乐观。"
+      "anchor": "For poll loops checking job state, emit on every terminal status (`succeeded|failed|cancelled|timeout`), not just success.",
+      "title": "终态报告不能只覆盖成功路径",
+      "quote": "emit every terminal status",
+      "body": "监控循环必须把 succeeded、failed、cancelled 与 timeout 全部当作终态发出，不能只在成功时结束。它要求状态观测覆盖<b>完整结果空间</b>，避免失败因过滤条件过窄而变成静默悬挂。"
     },
     {
       "agent": "kimi-code",
@@ -1009,28 +1009,28 @@
       "agent": "hermes",
       "id": "hermes-39",
       "category": "tool",
-      "anchor": "Click on an element identified by its ref ID from the snapshot",
-      "title": "可访问性快照是浏览器操作的共享坐标系",
-      "quote": "click elements through snapshot ref IDs",
-      "body": "Hermes 不让模型凭像素或模糊文本描述直接点击，而是先从 snapshot 取得稳定 ref，再把 ref 交给交互工具。这样感知与动作通过<b>可引用的中间表示</b>连接：每次 DOM 变化后重新取快照，也自然形成观察—行动—再观察的闭环。"
+      "anchor": "Batch each sub-procedure (navigate, wait, extract, act) into one call",
+      "title": "浏览器步骤按可恢复子过程批处理",
+      "quote": "batch navigate, wait, extract and act",
+      "body": "Hermes 要求把导航、等待、抽取与动作按一个完整子过程打包，而不是每个点击都消耗一次模型往返。浏览器调用由此成为<b>带观察与动作边界的小事务</b>：减少延迟，同时仍在每个中等批次后保存可检查结果。"
     },
     {
       "agent": "hermes",
       "id": "hermes-40",
       "category": "tool",
-      "anchor": "Use this to detect silent JavaScript errors, failed API calls, and application warnings.",
-      "title": "浏览器验证包含不可见故障面",
-      "quote": "inspect silent console and API failures",
-      "body": "页面看起来正常并不代表交互链路健康，browser_console 专门暴露未捕获异常、失败请求和警告。Hermes 的浏览器模型因此不止是视觉操作，还要求检查<b>用户界面背后的运行时证据</b>，避免把静态外观当成功能验收。"
+      "anchor": "js(expr) evaluates a JS expression and returns its value",
+      "title": "浏览器状态可被程序化读取",
+      "quote": "evaluate page state with js",
+      "body": "统一的 browser_exec 允许用 <code>js(expr)</code> 直接读取 DOM 与页面状态，而不必只凭截图或导航摘要判断。这个数据面让 Agent 能提取<b>用户界面背后的结构化运行时证据</b>，再把交互结果与可验证状态关联起来。"
     },
     {
       "agent": "hermes",
       "id": "hermes-41",
       "category": "eng",
-      "anchor": "Snapshots over 15000 chars are truncated or LLM-summarized",
-      "title": "页面快照也采用摘要—原文双层存储",
-      "quote": "large snapshots spill to a readable file",
-      "body": "超长 accessibility snapshot 进入模型时会截断或摘要，但完整版本保存为文件并返回路径，之后可分页读取。它把<b>当前决策所需的紧凑视图</b>与<b>可恢复的完整页面证据</b>分离，既控制上下文又不牺牲可追查性。"
+      "anchor": "so progress survives timeouts",
+      "title": "长抽取把进度写入持久工作区",
+      "quote": "persist batches so progress survives timeouts",
+      "body": "多项目抽取不能把全部状态留在一次超长调用里，而要分批追加到工作区 JSON/CSV，再读回聚合。它把<b>临时浏览器过程</b>与<b>可恢复的收集进度</b>分离，即使某一批超时，也不必从头重抓。"
     },
     {
       "agent": "kimi",
@@ -1181,10 +1181,10 @@
       "agent": "minimax-code",
       "id": "minimax-code-44",
       "category": "tool",
-      "anchor": "Use this for broad investigation or delegated implementation that benefits from a separate hidden child session.",
-      "title": "隐藏子会话用于隔离复杂工作集",
-      "quote": "delegate broad work to a separate child context",
-      "body": "MiniMax 只在广泛调查或实现确实受益于独立上下文时启用 task，已知文件读取和少量搜索继续直接完成。子会话的价值被定义为<b>隔离大工作集并返回压缩结论</b>，而不是把任何工具调用都包装成代理。"
+      "anchor": "Use `task` only for one concrete, bounded subtask:",
+      "title": "委派必须压缩成单一可验收边界",
+      "quote": "one concrete bounded subtask",
+      "body": "新版不再以“任务足够复杂”作为泛化委派理由，而要求每个 child 只有一个具体、有限的目标，并区分 explore、worker 与 verifier。子会话的价值被收束为<b>清晰所有权与独立验收</b>，不是把模糊整包工作甩进隐藏上下文。"
     },
     {
       "agent": "minimax-code",
@@ -1595,6 +1595,132 @@
       "title": "会话记忆升级为可查询的行为数据",
       "quote": "query raw trajectory SQLite",
       "body": "新增 memory-search skill 允许在普通记忆召回不足时直接查询轨迹数据库，用 SQL 聚合历史错误、工具调用与决策。它把长期记忆从叙事摘要推进到<b>可验证、可分组、可统计的事件日志</b>，代价是查询者也必须理解数据库结构与上下文边界。"
+    },
+    {
+      "agent": "dsh",
+      "id": "dsh-2",
+      "category": "tool",
+      "anchor": "Use the read tool — not shell commands like cat — to inspect text files.",
+      "title": "文本观察保留在专用接口中",
+      "quote": "read, not shell cat",
+      "body": "DSH 要求文本读取走 read 而不是把 <code>cat</code> 塞进 Shell。专用工具返回行号并支持 offset/limit，使<b>观察对象、分页位置与后续编辑锚点</b>保持结构化，也减少任意命令字符串带来的额外权限面。"
+    },
+    {
+      "agent": "dsh",
+      "id": "dsh-3",
+      "category": "safety",
+      "anchor": "Existing files are overwritten, so read an existing file first",
+      "title": "覆盖写入前必须重新建立现场",
+      "quote": "read before overwrite",
+      "body": "write 会完整覆盖既有文件，因此默认文件观察策略要求先读；局部变更还应优先 edit。这里把<b>破坏半径与所需能力</b>直接绑定：先确认目标现状，再选择最小写入原语，避免用全量替换完成一次小修改。"
+    },
+    {
+      "agent": "dsh",
+      "id": "dsh-4",
+      "category": "tool",
+      "anchor": "A pattern with no \"/\" matches basenames at any depth",
+      "title": "无路径分隔符的 Glob 是递归查询",
+      "quote": "basename patterns match at any depth",
+      "body": "在 DSH 中，<code>*</code> 不是“列当前目录”，而会匹配整棵树任意深度的 basename，且包含隐藏与忽略文件。工具契约主动暴露这一反直觉语义，提醒 Agent 把<b>查询范围</b>写进模式，而不能沿用 Shell glob 的直觉。"
+    },
+    {
+      "agent": "dsh",
+      "id": "dsh-5",
+      "category": "goal",
+      "anchor": "do not busy-poll or sleep on one; keep working on independent steps",
+      "title": "后台等待必须释放主线程带宽",
+      "quote": "no busy polling; keep useful work moving",
+      "body": "后台作业完成会主动通知，主 Agent 不应靠 sleep 或高频 job_output 制造进度感。等待策略被改写成<b>关键路径调度</b>：并行推进独立步骤，只有下一步真实依赖结果时才阻塞收集。"
+    },
+    {
+      "agent": "dsh",
+      "id": "dsh-6",
+      "category": "goal",
+      "anchor": "Mark blocked only after the same blocking condition persists for at least 3 consecutive goal rounds",
+      "title": "阻塞是一项需连续证据支持的判定",
+      "quote": "same blocker for three goal rounds",
+      "body": "长程目标只有在同一条件连续三轮存在时才可标记 blocked；难、慢或仍有可做工作都不够。DSH 用时间上的重复证据给“停止”设置闸门，防止 Agent 把<b>暂时不确定</b>误报成<b>不可推进</b>。"
+    },
+    {
+      "agent": "dsh",
+      "id": "dsh-7",
+      "category": "tool",
+      "anchor": "Use the workflow tool ONLY when the user explicitly asks for a workflow or for large multi-agent orchestration",
+      "title": "大规模编排权由显式意图开启",
+      "quote": "workflow only by explicit request",
+      "body": "workflow 能跨阶段扇出大量子代理，因此不能只因任务看起来复杂就自动启用；一两个委派仍走普通 subagent。规则把<b>拓扑规模</b>视为需要用户意图支持的能力升级，限制隐形成本与不可见并发。"
+    },
+    {
+      "agent": "dsh",
+      "id": "dsh-8",
+      "category": "tool",
+      "anchor": "Each Ralph round starts a fresh child with no conversation seed and uses the shared workspace as durable memory.",
+      "title": "Ralph 用共享产物替代共享对话",
+      "quote": "fresh child, durable workspace memory",
+      "body": "每轮 Ralph 都从无会话种子的全新 child 开始，跨轮连续性只保存在共享工作区与受限结构化报告中。它刻意用<b>外部可检查状态</b>替代隐式聊天记忆，代价是 worker 的完成声明仍需被视为报告而非独立验收。"
+    },
+    {
+      "agent": "dsh",
+      "id": "dsh-9",
+      "category": "safety",
+      "anchor": "Never escalate speculatively: ground the request in a real denial",
+      "title": "权限升级必须由真实拒绝触发",
+      "quote": "no speculative escalation",
+      "body": "DSH 允许在沙箱拒绝后以同一命令和最窄更高权限重试一次，但禁止预判式提权；被拒的升级也不得绕路。这里把权限扩大约束成<b>观察拒绝—精确重试—失败即止</b>的证据链。"
+    },
+    {
+      "agent": "dsh",
+      "id": "dsh-10",
+      "category": "goal",
+      "anchor": "Send the ENTIRE list every call — it REPLACES the previous list",
+      "title": "待办写入采用整表替换语义",
+      "quote": "todo writes replace the full list",
+      "body": "todo_write 不是局部 patch；每次调用都提交完整列表，并允许真实并行时同时存在多个 in_progress。显式快照避免增量指令在丢包或重放后产生歧义，让<b>当前任务状态可由单次调用完整重建</b>。"
+    },
+    {
+      "agent": "dsh",
+      "id": "dsh-11",
+      "category": "tool",
+      "anchor": "no filesystem, network, timers, or Node.js APIs are provided",
+      "title": "工作流脚本只拥有编排能力",
+      "quote": "workflow has no filesystem or network",
+      "body": "workflow 的 JavaScript 运行时没有文件系统、网络、计时器或 Node API；真实工作只能由受约束的 agent 调用完成。脚本因此是<b>控制面而非隐藏执行面</b>，不能借编排语言绕开普通工具的权限与审计。"
+    },
+    {
+      "agent": "dsh",
+      "id": "dsh-12",
+      "category": "tool",
+      "anchor": "Read a background job. Stream jobs return only output since the previous read; final-output jobs return their result after settlement.",
+      "title": "后台输出区分增量流与最终值",
+      "quote": "stream deltas versus final output",
+      "body": "job_output 对流式任务只返回上次读取后的增量，对最终值任务则等待 settlement 后给出结果。调用者必须理解这两种读取契约，才能把<b>游标式日志</b>与<b>一次性产物</b>正确拼回完整执行证据。"
+    },
+    {
+      "agent": "dsh",
+      "id": "dsh-13",
+      "category": "tool",
+      "anchor": "List your continuable background subagents by durable id and label.",
+      "title": "子代理身份独立于单次运行状态",
+      "quote": "continuable agents have durable identity",
+      "body": "list_agents 返回的是可继续的持久 child 身份，而不是简单的完成队列；running、idle 与 ready 也不等同于“有结果待取”。这把<b>会话身份、当前 turn 与结果交付</b>拆成三个层次，避免把可恢复对象误判成已完成任务。"
+    },
+    {
+      "agent": "minimax-code",
+      "id": "minimax-code-48",
+      "category": "tool",
+      "anchor": "The child receives no parent conversation history.",
+      "title": "新子代理只接收显式工作简报",
+      "quote": "child has no parent history",
+      "body": "MiniMax 的 fresh task 不继承父会话历史，只看到角色契约、自包含 Prompt、项目规则和获准工具。委派质量因此取决于父代理能否把<b>目标、证据、范围与验收标准</b>压缩成独立可执行的接口。"
+    },
+    {
+      "agent": "minimax-code",
+      "id": "minimax-code-49",
+      "category": "goal",
+      "anchor": "Query local desktop background tasks started in this session.",
+      "title": "后台任务查询限定在会话所有权内",
+      "quote": "query tasks from this session",
+      "body": "task_query 只枚举当前会话启动的本地后台任务，并以 queued、running、stopping、succeeded 等状态过滤。它把任务看板绑定到<b>创建者会话与明确状态机</b>，避免跨会话误收集或操纵不属于当前工作的进程。"
     }
   ]
 }

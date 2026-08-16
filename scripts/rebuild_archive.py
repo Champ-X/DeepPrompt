@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Rebuild the archive's verbatim columns from the pinned prompt snapshots.
+"""Rebuild the shell and lazy Agent fragments from pinned prompt snapshots.
 
-The archive keeps editorial annotations in ``index.html``. This script treats
-their highlighted source substrings as anchors, re-renders every prompt from
-``data/prompts/*.md``, and fails if an anchor no longer exists. That makes an
-upstream sync explicit and reviewable without silently dropping annotations.
+Editorial annotations live beside each Agent in ``data/agents/*.html``. Their
+highlighted source substrings are treated as anchors while prompts are
+re-rendered from ``data/prompts/*.md``. An upstream wording change therefore
+fails explicitly instead of silently dropping an annotation.
 """
 
 from __future__ import annotations
@@ -21,6 +21,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX_PATH = ROOT / "index.html"
+AGENT_DIR = ROOT / "data" / "agents"
 MANIFEST_PATH = ROOT / "data" / "manifest.json"
 COVERAGE_ANNOTATIONS_PATH = ROOT / "data" / "coverage-annotations.json"
 VALID_CATEGORIES = {"goal", "eng", "persona", "safety", "tool"}
@@ -75,6 +76,53 @@ ANCHOR_OVERRIDES = {
     "omp-43": "Section: `[PATH#TAG]`; `TAG`: 4-hex snapshot from latest `read`/`search`",
     "omp-44": "NEVER guess `..`/`…` content",
     "pi-1": "You can inspect PI_* environment variables for current model and session details",
+    "minimax-code-1": "fully embody its voice, tone, and style throughout every interaction.",
+    "minimax-code-5": "Do not identify yourself as a generic model detached from MiniMax Code.",
+    "minimax-code-7": "the user's primary conversation entry point and long-lived",
+    "minimax-code-10": "If you think the direction is wrong, say so once, directly and respectfully.",
+    "minimax-code-11": "Avoid stiff, formulaic, or generic responses",
+    "minimax-code-12": "Be brief and continue; don't over-apologize or ruminate.",
+    "minimax-code-13": "If the user insists, follow their lead",
+    "minimax-code-14": "unless doing so would violate safety, permissions, security, or another hard limit.",
+    "minimax-code-15": "A user's authorization for the requested work also authorizes internal delegation inside that scope.",
+    "minimax-code-28": "User Message > Selected Workspace > Default Workspace",
+    "hermes-24": "Scheduling from cron-run sessions is disabled by default and enabled via cron.allow_agent_scheduling in config.yaml.",
+}
+
+
+# Presentation and the two explicitly labeled philosophy-evidence notes for an
+# agent that is new to the archive.  Once rebuilt, these become ordinary
+# Agent fragment content and future runs preserve them through the same anchor
+# migration path as every other editorial note.
+NEW_AGENT_PRESENTATION = {
+    "dsh": {
+        "vendor": "DeepSeek",
+        "leadCategory": "eng",
+        "lead": "工作区与实现目录分离, 验证必须命中现有 GUI, 后台任务不忙轮询, 多代理能力按显式授权分层",
+        "thesis": "以运行时事实约束行动的证据型工程师",
+        "philosophy": "把目录、页面实例、沙箱、后台作业与目标状态都视为必须先观察、再行动的运行时事实；可靠性来自专用工具、显式状态和对用户真实界面的验证闭环。",
+        "tension": "规则把环境歧义压得很低，却也引入庞大的工具契约与多套编排原语；能力越丰富，越需要严格路由来避免上下文和控制面膨胀。",
+        "seedNotes": [
+            {
+                "id": "dsh-0",
+                "category": "eng",
+                "key": True,
+                "anchor": "The checkout location and current working directory are separate values and may differ; never infer the working directory from this path.",
+                "title": "运行位置不是可猜测的背景",
+                "quote": "checkout and working directory are separate",
+                "body": "DSH 把实现 checkout 与当前工作目录拆成两个独立事实，并要求用 <code>pwd</code> 重新观察。<b>哲学层（推断）：可靠行动从让环境可读开始</b>；路径若靠惯性推断，后续所有正确命令都可能落在错误对象上。",
+            },
+            {
+                "id": "dsh-1",
+                "category": "eng",
+                "key": True,
+                "anchor": "Starting another server does not update this GUI.",
+                "title": "验收必须命中用户正在看的实例",
+                "quote": "another server does not update this GUI",
+                "body": "另起一个方便测试的服务并不能证明现有 Web GUI 已更新；变更要重建正确资产并刷新既有 URL。<b>哲学层（推断）：验证对象是用户可观察的真实实例</b>，不是 Agent 自己更容易启动的替身环境。",
+            },
+        ],
+    }
 }
 
 
@@ -153,7 +201,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--check",
         action="store_true",
-        help="Verify that rebuilding would not change index.html.",
+        help="Verify that rebuilding would not change the shell or Agent fragments.",
     )
     return parser.parse_args()
 
@@ -300,14 +348,161 @@ def display_version(version: str) -> str:
     return version if version.startswith("v") else f"v{version}"
 
 
+def ensure_agent_scaffolds(
+    shell: str, fragments: dict[str, str], manifest: dict
+) -> tuple[str, dict[str, str]]:
+    """Add shell controls and a fragment for an editorially configured Agent."""
+    nav_fragments: list[str] = []
+    card_fragments: list[str] = []
+    fragments = dict(fragments)
+    for agent in manifest["agents"]:
+        agent_id = agent["id"]
+        if agent_id in fragments:
+            continue
+        if f'data-target="{agent_id}"' in shell:
+            raise ValueError(
+                f"Shell references {agent_id}, but data/agents/{agent_id}.html is missing"
+            )
+        presentation = NEW_AGENT_PRESENTATION.get(agent_id)
+        if not presentation:
+            raise ValueError(
+                f"Missing NEW_AGENT_PRESENTATION scaffold for new agent {agent_id}"
+            )
+        icon = html.escape(agent["icon"])
+        name = html.escape(agent["name"])
+        vendor = html.escape(presentation["vendor"])
+        version = html.escape(display_version(agent["version"]))
+        lead = html.escape(presentation["lead"])
+        nav_fragments.append(
+            f'    <button class="navbtn" data-target="{agent_id}">\n'
+            f'      <img class="nav-logo" src="{icon}" alt="">\n'
+            f'      <span class="nb-name">{name}</span>\n'
+            f'      <span class="nb-sub">{vendor} · {version}</span>\n'
+            '      <span class="nb-badge">0</span>\n'
+            '    </button>'
+        )
+        card_fragments.append(
+            f'      <button class="acard" data-target="{agent_id}" '
+            f'data-cat-lead="{presentation["leadCategory"]}">\n'
+            f'      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" '
+            f'src="{icon}" alt=""><span class="ac-name">{name}</span></span>'
+            f'<span class="ac-ver">{version}</span></div>\n'
+            f'      <div class="ac-vendor">{vendor}</div>\n'
+            f'      <div class="ac-stats"><span>0 批注</span><span>{agent["bytes"] / 1024:.1f} KB</span>'
+            f'<span>{agent["snapshotCount"]} 快照</span></div>\n'
+            f'      <div class="ac-lead">{lead}</div>\n'
+            '    </button>'
+        )
+        note_articles = []
+        for note in presentation["seedNotes"]:
+            classes = "note kw" if note["key"] else "note"
+            tag = {
+                "goal": "目标机器",
+                "eng": "工程纪律",
+                "persona": "人格",
+                "safety": "安全边界",
+                "tool": "工具·多智能体",
+            }[note["category"]] + " · 哲学层"
+            note_articles.append(
+                f'      <article class="{classes}" data-note="{note["id"]}" '
+                f'data-cat="{note["category"]}"><span class="tag">{tag}</span>'
+                f'<h3>{html.escape(note["title"])}</h3>'
+                f'<div class="q">{html.escape(note["quote"])}</div>'
+                f'<p>{note["body"]}</p></article>'
+            )
+        fragments[agent_id] = (
+            f'  <section class="agentview" id="view-{agent_id}" data-agent="{agent_id}">\n'
+            '    <header class="masthead">\n'
+            '      <div class="mh-kicker">SYSTEM PROMPT · VERBATIM · 0 批注</div>\n'
+            f'      <div class="mh-identity"><img class="mh-logo" src="{icon}" alt="">'
+            f'<h2 class="mh-title">{name}</h2></div>\n'
+            '      <div class="mh-meta">\n'
+            f'        <span class="mh-chip vendor">{vendor}</span>\n'
+            f'        <span class="mh-chip">{version}</span>\n'
+            f'        <span class="mh-chip">发布 {agent["publishedAt"][:10]}</span>\n'
+            f'        <span class="mh-chip">{agent["snapshotCount"]} 个历史快照</span>\n'
+            f'        <span class="mh-chip">{agent["bytes"]:,} 字节</span>\n'
+            '      </div>\n'
+            f'      <div class="mh-lead">题眼 · {lead}</div>\n'
+            f'      <div class="mh-philosophy" data-philosophy-agent="{agent_id}">'
+            '<span class="ph-label">设计哲学 · editorial inference</span>'
+            f'<h3>{html.escape(presentation["thesis"])}</h3>'
+            f'<p>{html.escape(presentation["philosophy"])}</p>'
+            f'<p class="ph-tension"><b>内在张力：</b>{html.escape(presentation["tension"])}</p></div>\n'
+            '    </header>\n'
+            '    <div class="stage">\n'
+            f'      <div class="margin left" id="mL-{agent_id}"></div>\n'
+            f'      <div class="margin right" id="mR-{agent_id}"></div>\n'
+            f'      <div class="prose-col" id="prose-{agent_id}">\n'
+            '        <p class="src reveal">Pending source rebuild.</p>\n'
+            '      </div>\n'
+            '    </div>\n'
+            f'    <div class="notepool" id="pool-{agent_id}" hidden>\n'
+            + "\n".join(note_articles)
+            + '\n    </div>\n  </section>\n'
+        )
+
+    if not nav_fragments:
+        return shell, fragments
+    nav_marker = '  </nav>\n  <span class="sr-only" id="wheelHelp">'
+    card_marker = '  </div>\n</section>\n\n<div class="filterbar" id="filterbar">'
+    if nav_marker not in shell or card_marker not in shell:
+        raise ValueError("Could not locate archive insertion points for new agents")
+    shell = shell.replace(
+        nav_marker,
+        "\n".join(nav_fragments) + "\n" + nav_marker,
+        1,
+    )
+    shell = shell.replace(
+        card_marker,
+        "\n".join(card_fragments) + "\n" + card_marker,
+        1,
+    )
+    return shell, fragments
+
+
 def update_metadata(
-    source: str,
+    shell: str,
+    fragments: dict[str, str],
     manifest: dict,
     note_counts: dict[str, int],
     category_counts: dict[str, int],
-) -> str:
+) -> tuple[str, dict[str, str]]:
+    source = shell
+    fragments = dict(fragments)
     total_bytes = sum(agent["bytes"] for agent in manifest["agents"])
     total_notes = sum(note_counts.values())
+    agent_count = len(manifest["agents"])
+    source = re.sub(
+        r'(name="description" content=")\d+( 款)',
+        rf"\g<1>{agent_count}\g<2>",
+        source,
+        count=1,
+    )
+    source = re.sub(
+        r'(<span class="brand-copy"><span class="brand-title">Deep Prompt</span><small><b>)\d+',
+        rf"\g<1>{agent_count}",
+        source,
+        count=1,
+    )
+    source = re.sub(
+        r'(收录 phistory\.cc 归档的全部 )\d+( 款)',
+        rf"\g<1>{agent_count}\g<2>",
+        source,
+        count=1,
+    )
+    source = re.sub(
+        r'(<b id="s-agents">)\d+',
+        rf"\g<1>{agent_count}",
+        source,
+        count=1,
+    )
+    source = re.sub(
+        r'(把 )\d+( 份提示词拆进同一坐标系)',
+        rf"\g<1>{agent_count}\g<2>",
+        source,
+        count=1,
+    )
     source = re.sub(
         r'(<b id="s-ann">)\d+',
         rf"\g<1>{total_notes}",
@@ -397,12 +592,6 @@ def update_metadata(
             f"gallery card for {agent_id}",
         )
 
-        section_pattern = re.compile(
-            rf'<section class="agentview(?: active)?" id="view-{re.escape(agent_id)}" '
-            rf'data-agent="{re.escape(agent_id)}">.*?(?=<section class="agentview|\n</main>)',
-            flags=re.DOTALL,
-        )
-
         def transform_section(
             fragment: str,
             *,
@@ -441,14 +630,12 @@ def update_metadata(
                 count=1,
             )
 
-        source = update_fragment(
-            source,
-            section_pattern,
-            transform_section,
-            f"agent section for {agent_id}",
-        )
+        fragment = fragments.get(agent_id)
+        if fragment is None:
+            raise ValueError(f"Missing Agent fragment for {agent_id}")
+        fragments[agent_id] = transform_section(fragment)
 
-    return source
+    return source, fragments
 
 
 def normalize_editorial_markup(source: str) -> str:
@@ -520,7 +707,9 @@ def merge_coverage_highlights(
         )
 
 
-def sync_coverage_notes(source: str, records: list[dict]) -> str:
+def sync_coverage_notes(
+    fragments: dict[str, str], records: list[dict]
+) -> dict[str, str]:
     labels = {
         "goal": "目标机器",
         "eng": "工程纪律",
@@ -528,13 +717,15 @@ def sync_coverage_notes(source: str, records: list[dict]) -> str:
         "safety": "安全边界",
         "tool": "工具·多智能体",
     }
+    updated = dict(fragments)
     by_agent: dict[str, list[dict]] = {}
     for record in records:
         by_agent.setdefault(record["agent"], []).append(record)
-        source = re.sub(
+        agent_id = record["agent"]
+        updated[agent_id] = re.sub(
             rf'\n\s*<article class="note(?: kw)?" data-note="{re.escape(record["id"])}".*?</article>',
             "",
-            source,
+            updated[agent_id],
             count=1,
             flags=re.DOTALL,
         )
@@ -557,7 +748,7 @@ def sync_coverage_notes(source: str, records: list[dict]) -> str:
             r'(\n    </div>\n  </section>)',
             flags=re.DOTALL,
         )
-        source, count = pattern.subn(
+        updated[agent_id], count = pattern.subn(
             lambda match, articles=articles: (
                 match.group(1)
                 + match.group(2).rstrip()
@@ -565,25 +756,54 @@ def sync_coverage_notes(source: str, records: list[dict]) -> str:
                 + "\n".join(articles)
                 + match.group(3)
             ),
-            source,
+            updated[agent_id],
             count=1,
         )
         if count != 1:
             raise ValueError(f"Could not locate note pool for {agent_id}")
-    return source
+    return updated
 
 
 def main() -> None:
     args = parse_args()
-    original = INDEX_PATH.read_text(encoding="utf-8")
+    original_shell = INDEX_PATH.read_text(encoding="utf-8")
+    original_fragments = {
+        path.stem: path.read_text(encoding="utf-8")
+        for path in sorted(AGENT_DIR.glob("*.html"))
+    }
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    expected_agents = {agent["id"] for agent in manifest["agents"]}
+    extra_fragments = set(original_fragments) - expected_agents
+    if extra_fragments:
+        raise ValueError(f"Unexpected Agent fragments: {sorted(extra_fragments)}")
     parser = HighlightParser()
-    parser.feed(original)
+    for fragment in original_fragments.values():
+        parser.feed(fragment)
     parser.close()
+    existing_agents = set(parser.highlights)
+    for agent in manifest["agents"]:
+        parser.highlights.setdefault(agent["id"], [])
+        if agent["id"] not in existing_agents:
+            presentation = NEW_AGENT_PRESENTATION.get(agent["id"])
+            if not presentation:
+                raise ValueError(
+                    f"Missing editorial seed notes for new agent {agent['id']}"
+                )
+            parser.highlights[agent["id"]].extend(
+                Highlight(
+                    note_id=note["id"],
+                    category=note["category"],
+                    text=note["anchor"],
+                    key=bool(note["key"]),
+                )
+                for note in presentation["seedNotes"]
+            )
     coverage_annotations = load_coverage_annotations(manifest)
     merge_coverage_highlights(parser.highlights, coverage_annotations)
 
-    source = original
+    shell, fragments = ensure_agent_scaffolds(
+        original_shell, original_fragments, manifest
+    )
     for agent in manifest["agents"]:
         agent_id = agent["id"]
         prompt_path = ROOT / agent["promptPath"]
@@ -592,10 +812,15 @@ def main() -> None:
             agent_id,
             parser.highlights[agent_id],
         )
-        source = replace_agent_prose(source, agent_id, rendered)
+        fragments[agent_id] = replace_agent_prose(
+            fragments[agent_id], agent_id, rendered
+        )
 
-    source = normalize_editorial_markup(source)
-    source = sync_coverage_notes(source, coverage_annotations)
+    fragments = {
+        agent_id: normalize_editorial_markup(fragment)
+        for agent_id, fragment in fragments.items()
+    }
+    fragments = sync_coverage_notes(fragments, coverage_annotations)
     note_counts = {
         agent_id: len(items) for agent_id, items in parser.highlights.items()
     }
@@ -607,15 +832,30 @@ def main() -> None:
         )
         for category in VALID_CATEGORIES
     }
-    source = update_metadata(source, manifest, note_counts, category_counts)
+    shell, fragments = update_metadata(
+        shell, fragments, manifest, note_counts, category_counts
+    )
 
     if args.check:
-        if source != original:
-            raise SystemExit("index.html is stale; run scripts/rebuild_archive.py")
-        print("PASS: index.html matches the pinned prompt snapshots.")
+        stale = []
+        if shell != original_shell:
+            stale.append("index.html")
+        stale.extend(
+            f"data/agents/{agent_id}.html"
+            for agent_id in sorted(expected_agents)
+            if fragments[agent_id] != original_fragments.get(agent_id)
+        )
+        if stale:
+            raise SystemExit(
+                "Archive is stale; run scripts/rebuild_archive.py: " + ", ".join(stale)
+            )
+        print("PASS: shell and Agent fragments match the pinned prompt snapshots.")
         return
 
-    INDEX_PATH.write_text(source, encoding="utf-8")
+    AGENT_DIR.mkdir(parents=True, exist_ok=True)
+    INDEX_PATH.write_text(shell, encoding="utf-8")
+    for agent_id, fragment in fragments.items():
+        (AGENT_DIR / f"{agent_id}.html").write_text(fragment, encoding="utf-8")
     print(
         f"Rebuilt {len(manifest['agents'])} prompt columns with "
         f"{sum(note_counts.values())} preserved annotation anchors."

@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 from collections import Counter, defaultdict
@@ -11,11 +12,21 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-INDEX_PATH = ROOT / "index.html"
+AGENT_DIR = ROOT / "data" / "agents"
 MANIFEST_PATH = ROOT / "data" / "manifest.json"
 AUDIT_PATH = ROOT / "data" / "annotation-audit.json"
 COVERAGE_PATH = ROOT / "data" / "coverage-annotations.json"
 OUTPUT_PATH = ROOT / "data" / "annotation-coverage.json"
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Verify the committed coverage report without rewriting it.",
+    )
+    return parser.parse_args()
 
 
 class HighlightParser(HTMLParser):
@@ -209,11 +220,16 @@ def classify_agent(
 
 
 def main() -> None:
+    args = parse_args()
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
     audit = json.loads(AUDIT_PATH.read_text(encoding="utf-8"))
     coverage = json.loads(COVERAGE_PATH.read_text(encoding="utf-8"))
     parser = HighlightParser()
-    parser.feed(INDEX_PATH.read_text(encoding="utf-8"))
+    for agent in manifest["agents"]:
+        fragment_path = AGENT_DIR / f"{agent['id']}.html"
+        if not fragment_path.is_file():
+            raise ValueError(f"missing Agent fragment: {fragment_path.relative_to(ROOT)}")
+        parser.feed(fragment_path.read_text(encoding="utf-8"))
     parser.close()
     coverage_counts = Counter(
         record["agent"] for record in coverage["annotations"]
@@ -257,10 +273,19 @@ def main() -> None:
             "coverageExpansionAnnotations": len(coverage["annotations"]),
         },
     }
-    OUTPUT_PATH.write_text(
-        json.dumps(report, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    serialized = json.dumps(report, ensure_ascii=False, indent=2) + "\n"
+    if args.check:
+        if not OUTPUT_PATH.is_file() or OUTPUT_PATH.read_text(encoding="utf-8") != serialized:
+            raise SystemExit(
+                "data/annotation-coverage.json is stale; "
+                "run scripts/audit_annotation_coverage.py"
+            )
+        print(
+            f"PASS: coverage report classifies {report['totals']['nonBlankLines']} "
+            f"non-blank lines across {len(agents)} agents."
+        )
+        return
+    OUTPUT_PATH.write_text(serialized, encoding="utf-8")
     print(
         f"Classified {report['totals']['nonBlankLines']} non-blank prompt lines "
         f"across {len(agents)} agents; wrote {OUTPUT_PATH.relative_to(ROOT)}."
