@@ -7,6 +7,7 @@ Phistory uses compact local copies of product-level visual assets for the agent 
 | Antigravity CLI | `antigravity.png` | Google Antigravity full-color brand icon from `https://antigravity.google/press`: `https://antigravity.google/assets/image/brand/antigravity-icon__full-color.png` |
 | Claude Code | `claude-code.png` | Claude Code documentation favicon from `https://code.claude.com/docs/en/overview`: `https://code.claude.com/docs/_mintlify/favicons/claude-code/pLsy-mRpNksna2sx/_generated/favicon/apple-touch-icon.png` |
 | Codex CLI | `codex.png` | Codex product icon cropped from the official OpenAI Codex setup screenshot on `https://openai.com/codex/get-started/`: `https://images.ctfassets.net/kftzwdyauwt9/6JttRtGUPpCuYGQvs0PCjP/9c54a8e25f76148598e903bed1bddac0/Installer2.png` |
+| DeepSeek Harness | `dsh.svg` | DeepSeek favicon bundled in the DSH test source at `website/public/favicon.svg`; the source README identifies the future official repository as `https://github.com/deepseek-ai/deepseek-harness` |
 | Hermes Agent | `hermes.png` | Hermes Agent product site apple-touch-icon from `https://hermes-agent.org/about/`: `https://hermes-agent.org/apple-touch-icon.png` |
 | Kimi CLI | `kimi.png` | Kimi product icon from Moonshot/Kimi site: `https://statics.moonshot.cn/moonshot-ai/assets/static/kimi-icon.ByIGCGon.webp` |
 | Kimi Code | `kimi-code.png` | Kimi/Moonshot product icon reused for Kimi Code from `kimi.png`; Kimi Code official repo: `https://github.com/MoonshotAI/kimi-code` |

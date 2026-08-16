@@ -5,8 +5,7 @@ serve:
 
 check:
 	python3 scripts/rebuild_archive.py --check
-	python3 scripts/audit_annotation_coverage.py
-	git diff --exit-code -- data/annotation-coverage.json
+	python3 scripts/audit_annotation_coverage.py --check
 	python3 scripts/verify_archive.py
 	node scripts/browser_qa.mjs
 

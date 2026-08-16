@@ -13,17 +13,18 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const chromePath = process.env.DEEPPROMPT_CHROME ||
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const requestedUrl = process.argv[2];
-const expectedAnnotations = JSON.parse(
+const annotationAudit = JSON.parse(
   readFileSync(join(root, "data", "annotation-audit.json"), "utf8"),
-).expectedAnnotationCount;
+);
+const manifest = JSON.parse(
+  readFileSync(join(root, "data", "manifest.json"), "utf8"),
+);
+const expectedAnnotations = annotationAudit.expectedAnnotationCount;
+const expectedAgents = manifest.agents.length;
 const maxVisualGapPixels = 4000;
 const profile = mkdtempSync(join(tmpdir(), "deepprompt-browser-qa-"));
 let localServer;
-const agentIds = [
-  "codex", "claude-code", "antigravity", "grok", "kimi-code",
-  "minimax-code", "mimo", "openclaw", "hermes", "kimi",
-  "opencode", "omp", "pi",
-];
+const agentIds = manifest.agents.map(agent => agent.id);
 
 const chrome = spawn(chromePath, [
   "--headless=new",
@@ -113,6 +114,21 @@ async function main() {
     pending.set(id, { resolve, reject });
     socket.send(JSON.stringify({ id, method, params, ...(sessionId ? { sessionId } : {}) }));
   });
+  const waitForExpression = async (expression, timeoutMs = 6000) => {
+    const started = Date.now();
+    while (Date.now() - started < timeoutMs) {
+      const evaluation = await send("Runtime.evaluate", {
+        expression,
+        returnByValue: true,
+      }, sessionId);
+      if (evaluation.result.value) return evaluation.result.value;
+      await delay(50);
+    }
+    throw new Error(`Timed out waiting for: ${expression}`);
+  };
+  const waitForAgent = agentId => waitForExpression(
+    `document.querySelector('.agentview.active')?.dataset.agent === ${JSON.stringify(agentId)}`,
+  );
 
   const { targetId } = await send("Target.createTarget", { url: "about:blank" });
   const { sessionId } = await send("Target.attachToTarget", { targetId, flatten: true });
@@ -136,7 +152,8 @@ async function main() {
       mobile: viewport.mobile,
     }, sessionId);
     await send("Page.navigate", { url: targetUrl }, sessionId);
-    await delay(1800);
+    await waitForAgent("claude-code");
+    await delay(200);
     const evaluation = await send("Runtime.evaluate", {
       expression: `(() => ({
         innerWidth,
@@ -144,6 +161,7 @@ async function main() {
         bodyScrollWidth: document.body.scrollWidth,
         annotations: Number(document.getElementById('s-ann')?.textContent || 0),
         activeAgent: document.querySelector('.agentview.active')?.dataset.agent || null,
+        bodyAgent: document.body.dataset.agent || null,
         highlights: document.querySelectorAll('.agentview.active .hl').length,
         notes: document.querySelectorAll('.agentview.active .note').length,
         inlineNotes: document.querySelectorAll('.agentview.active .mobnote').length,
@@ -162,6 +180,7 @@ async function main() {
             height: Math.round(rect.height),
             visibleItems: Array.from(wheel.querySelectorAll('.navbtn')).filter(node => !node.classList.contains('wheel-hidden')).length,
             tabStops: Array.from(wheel.querySelectorAll('.navbtn')).filter(node => node.tabIndex === 0).length,
+            uniqueNodeColors: new Set(Array.from(wheel.querySelectorAll('.navbtn')).map(node => getComputedStyle(node).getPropertyValue('--node-color').trim()).filter(Boolean)).size,
             visibleLabels: Array.from(wheel.querySelectorAll('.nb-name,.nb-sub,.nb-badge')).filter(node => getComputedStyle(node).display !== 'none').length,
             instructionNodes: wheel.querySelectorAll('.wheel-heading,.wheel-hint,.wheel-index,.wheel-control').length
           };
@@ -176,14 +195,29 @@ async function main() {
             minTargetHeight: Math.round(Math.min(...targets.map(node => node.getBoundingClientRect().height)))
           };
         })(),
+        sideGeometry: (() => {
+          if (innerWidth < 1280) return null;
+          const view = document.querySelector('.agentview.active');
+          const prose = view?.querySelector('.prose-col')?.getBoundingClientRect();
+          const left = view?.querySelector('.margin.left')?.getBoundingClientRect();
+          const right = view?.querySelector('.margin.right')?.getBoundingClientRect();
+          if (!prose || !left || !right) return null;
+          const leftGap = prose.left - left.right;
+          const rightGap = right.left - prose.right;
+          return {
+            leftGap: Math.round(leftGap),
+            rightGap: Math.round(rightGap),
+            overlaps: Number(leftGap < 0) + Number(rightGap < 0)
+          };
+        })(),
         homeSynthesisVisible: getComputedStyle(document.querySelector('.philosophy-atlas')).display !== 'none',
         collapsedBadges: document.querySelectorAll('.rawblob:not([open]) .summary-note-count').length,
         collapsedAnnotations: document.querySelectorAll('.note.anchor-collapsed').length,
         screenshotOneResolved: (() => {
-          const note = document.querySelector('.note[data-note="codex-53"]');
-          const anchor = document.querySelector('.hl[data-note="codex-53"]');
-          const details = anchor?.closest('.rawblob');
-          return Boolean(note?.classList.contains('anchor-collapsed') && details && !details.open && details.querySelector('.summary-note-count'));
+          const details = document.querySelector('.agentview.active .rawblob:not([open]):has(.hl[data-note])');
+          const anchor = details?.querySelector('.hl[data-note]');
+          const note = anchor && document.querySelector('.agentview.active .note[data-note="' + anchor.dataset.note + '"]');
+          return Boolean(note?.classList.contains('anchor-collapsed') && details.querySelector('.summary-note-count'));
         })(),
         collapsedMarginOrphans: Array.from(document.querySelectorAll('.agentview.active .note:not(.anchor-collapsed):not(.hide)')).filter(note => {
           const anchor = document.querySelector('.agentview.active .hl[data-note="' + note.dataset.note + '"]');
@@ -191,7 +225,8 @@ async function main() {
         }).length,
         philosophyEvidenceNotes: Array.from(document.querySelectorAll('.note p')).filter(
           node => node.textContent.includes('哲学层（推断）')
-        ).length
+        ).length,
+        loadedAgents: window.__archiveDiagnostics?.loadedAgents().length || 0
       }))()`,
       returnByValue: true,
     }, sessionId);
@@ -212,19 +247,17 @@ async function main() {
       }, sessionId)).result.value;
 
       await clickAt(await centerOf('.navbtn[data-target="antigravity"]'));
+      await waitForAgent("antigravity");
       const clickedTo = await activeAgent();
       await send("Runtime.evaluate", {expression:"document.querySelector('.navbtn[data-target=\"claude-code\"]')?.click()"}, sessionId);
-      await delay(320);
+      await waitForAgent("claude-code");
       const resetTo = await activeAgent();
 
       const dragGeometry = (await send("Runtime.evaluate", {
         expression: `(() => {
-          const wheel=document.getElementById('agentWheel').getBoundingClientRect();
           const active=document.querySelector('.navbtn.active').getBoundingClientRect();
           const start={x:active.left+active.width/2,y:active.top+active.height/2};
-          const radius=Math.hypot(start.x-wheel.left,start.y-wheel.top);
-          const angle=Math.atan2(start.y-wheel.top,start.x-wheel.left)+.38;
-          return {start,end:{x:wheel.left+Math.cos(angle)*radius,y:wheel.top+Math.sin(angle)*radius}};
+          return {start,end:{x:start.x,y:start.y-50}};
         })()`,
         returnByValue: true,
       }, sessionId)).result.value;
@@ -232,13 +265,13 @@ async function main() {
       await send("Input.dispatchMouseEvent", {type:"mouseMoved",x:(dragGeometry.start.x+dragGeometry.end.x)/2,y:(dragGeometry.start.y+dragGeometry.end.y)/2,button:"left",buttons:1}, sessionId);
       await send("Input.dispatchMouseEvent", {type:"mouseMoved",x:dragGeometry.end.x,y:dragGeometry.end.y,button:"left",buttons:1}, sessionId);
       await send("Input.dispatchMouseEvent", {type:"mouseReleased",x:dragGeometry.end.x,y:dragGeometry.end.y,button:"left",buttons:0,clickCount:1}, sessionId);
-      await delay(320);
+      await waitForAgent("antigravity");
       const draggedTo = await activeAgent();
 
       await send("Runtime.evaluate", {expression:"document.querySelector('.navbtn.active')?.focus({preventScroll:true})"}, sessionId);
       await send("Input.dispatchKeyEvent", {type:"rawKeyDown",key:"ArrowLeft",code:"ArrowLeft"}, sessionId);
       await send("Input.dispatchKeyEvent", {type:"keyUp",key:"ArrowLeft",code:"ArrowLeft"}, sessionId);
-      await delay(120);
+      await waitForAgent("claude-code");
       const keyboardReturnedTo = await activeAgent();
       const interactionState = (await send("Runtime.evaluate", {
         expression: `({draggingClassCleared:!document.getElementById('agentWheel').classList.contains('dragging')})`,
@@ -258,7 +291,7 @@ async function main() {
         await send("Runtime.evaluate", {
           expression: `document.querySelector('.navbtn[data-target="${agentId}"]')?.click()`,
         }, sessionId);
-        await delay(80);
+        await waitForAgent(agentId);
         const coverageEvaluation = await send("Runtime.evaluate", {
           expression: `(() => {
             const view = document.getElementById('view-${agentId}');
@@ -275,7 +308,14 @@ async function main() {
               const pixels = Math.round(points[index].y - points[index - 1].y);
               if (pixels > largest.pixels) largest = {pixels, from: points[index - 1].id, to: points[index].id};
             }
-            return {agent: '${agentId}', proseHeight: Math.round(prose.scrollHeight), visibleHighlights: marks.length, ...largest};
+            return {
+              agent: '${agentId}',
+              proseHeight: Math.round(prose.scrollHeight),
+              visibleHighlights: marks.length,
+              philosophyCards: view.querySelectorAll('.mh-philosophy').length,
+              philosophyEvidenceNotes: Array.from(view.querySelectorAll('.note p')).filter(node => node.textContent.includes('哲学层（推断）')).length,
+              ...largest
+            };
           })()`,
           returnByValue: true,
         }, sessionId);
@@ -284,7 +324,11 @@ async function main() {
       await send("Runtime.evaluate", {
         expression: "document.querySelector('.navbtn[data-target=\"claude-code\"]')?.click()",
       }, sessionId);
-      await delay(100);
+      await waitForAgent("claude-code");
+      metrics.lazyLoadCoverage = (await send("Runtime.evaluate", {
+        expression: "window.__archiveDiagnostics?.loadedAgents().length || 0",
+        returnByValue: true,
+      }, sessionId)).result.value;
       writeFileSync(
         "/tmp/deepprompt-visual-coverage.json",
         JSON.stringify(visualCoverage, null, 2),
@@ -332,13 +376,23 @@ async function main() {
       }, sessionId);
       writeFileSync("/tmp/deepprompt-connector-wide.png", connectorScreenshot.data, "base64");
       await send("Runtime.evaluate", {
-        expression: `(() => {
-          document.querySelector('.navbtn[data-target="codex"]')?.click();
-          const summary = document.querySelector('.hl[data-note="codex-53"]')?.closest('.rawblob')?.querySelector('summary');
-          summary?.scrollIntoView({ block: 'center' });
-        })()`,
+        expression: `document.querySelector('.navbtn[data-target="codex"]')?.click()`,
       }, sessionId);
-      await delay(500);
+      await waitForAgent("codex");
+      await send("Runtime.evaluate", {
+        expression: `document.querySelector('.hl[data-note="codex-53"]')?.closest('.rawblob')?.querySelector('summary')?.scrollIntoView({ block: 'center' })`,
+      }, sessionId);
+      await delay(300);
+      const collapsedState = await send("Runtime.evaluate", {
+        expression: `(() => {
+          const anchor=document.querySelector('.hl[data-note="codex-53"]');
+          const note=document.querySelector('.note[data-note="codex-53"]');
+          const details=anchor?.closest('.rawblob');
+          return Boolean(note?.classList.contains('anchor-collapsed') && details && !details.open && details.querySelector('.summary-note-count'));
+        })()`,
+        returnByValue: true,
+      }, sessionId);
+      results[results.length - 1].collapsedDisclosure = collapsedState.result.value;
       const collapsedScreenshot = await send("Page.captureScreenshot", {
         format: "png",
         captureBeyondViewport: false,
@@ -348,16 +402,19 @@ async function main() {
 
     const homeUrl = targetUrl.replace(/#.*$/, "");
     await send("Page.navigate", { url: homeUrl }, sessionId);
-    await delay(700);
+    await waitForExpression("document.body?.classList.contains('mode-home')");
     const homeEvaluation = await send("Runtime.evaluate", {
       expression: `(() => ({
         mode: document.body.classList.contains('mode-home') ? 'home' : 'reader',
         activeAgent: document.querySelector('.agentview.active')?.dataset.agent || null,
         cards: document.querySelectorAll('.acard').length,
+        spectrumLinks: document.querySelectorAll('.spectrum-link').length,
+        uniqueSpectrumColors: new Set(Array.from(document.querySelectorAll('.spectrum-link')).map(node => getComputedStyle(node).getPropertyValue('--node-color').trim()).filter(Boolean)).size,
         wheelVisible: getComputedStyle(document.getElementById('agentWheel')).display !== 'none',
         readerVisible: getComputedStyle(document.getElementById('main')).display !== 'none',
         philosophyVisible: getComputedStyle(document.querySelector('.philosophy-atlas')).display !== 'none',
         synthesisVisible: getComputedStyle(document.querySelector('.synth')).display !== 'none',
+        loadedAgents: window.__archiveDiagnostics?.loadedAgents().length || 0,
         brand: (() => {
           const button = document.getElementById('homeButton');
           const title = button?.querySelector('.brand-title');
@@ -394,38 +451,45 @@ async function main() {
     result.wheel.visibleLabels !== 0 ||
     result.wheel.instructionNodes !== 0 ||
     result.wheel.tabStops !== 1 ||
+    result.wheel.uniqueNodeColors !== expectedAgents ||
     result.topbar.right > result.innerWidth ||
     result.topbar.minTargetHeight < 42 ||
+    (result.width >= 1280 && (!result.sideGeometry || result.sideGeometry.overlaps !== 0 || result.sideGeometry.leftGap < 16 || result.sideGeometry.rightGap < 16)) ||
     (result.name === "wide" && (result.wheelInteraction?.clickedTo !== "antigravity" || result.wheelInteraction?.resetTo !== "claude-code" || result.wheelInteraction?.draggedTo !== "antigravity" || result.wheelInteraction?.keyboardReturnedTo !== "claude-code" || !result.wheelInteraction?.draggingClassCleared)) ||
-    (result.width >= 1180 && (Math.abs(result.wheel.width - result.wheel.height) > 1 || result.wheel.left !== 0 || result.wheel.top > 160 || result.wheel.visibleItems !== 5)) ||
-    (result.width < 1180 && result.wheel.visibleItems !== 3) ||
+    (result.width >= 1280 && (result.wheel.width < 108 || result.wheel.width > 116 || result.wheel.height < 280 || result.wheel.height > 330 || result.wheel.left !== 0 || result.wheel.top > 180 || result.wheel.visibleItems !== 5)) ||
+    (result.width < 1280 && result.wheel.visibleItems !== 3) ||
     result.homeSynthesisVisible ||
-    result.collapsedBadges === 0 ||
-    result.collapsedAnnotations === 0 ||
-    !result.screenshotOneResolved ||
     result.collapsedMarginOrphans !== 0 ||
     result.activeAgent !== "claude-code" ||
+    result.bodyAgent !== result.activeAgent ||
     result.highlights === 0 ||
     result.highlights !== result.notes ||
-    result.philosophyCards !== 13 ||
+    result.philosophyCards !== 1 ||
     result.activePhilosophyCards !== 1 ||
     result.philosophyAxes !== 7 ||
-    result.philosophyEvidenceNotes !== 26 ||
-    (result.width <= 1759 && result.inlineNotes !== result.notes) ||
-    (result.width >= 1760 && result.inlineNotes !== 0)
+    result.philosophyEvidenceNotes !== 2 ||
+    result.loadedAgents !== 1 ||
+    (result.name === "wide" && result.lazyLoadCoverage !== expectedAgents) ||
+    (result.width < 1280 && result.inlineNotes !== result.notes) ||
+    (result.width >= 1280 && result.inlineNotes !== 0)
   );
   if (!results.find(result => result.name === "wide")?.connector?.visible) failures.push({ connector: "missing" });
+  if (!results.find(result => result.name === "wide")?.collapsedDisclosure) failures.push({ collapsedDisclosure: "missing" });
   const homeFailures = homeResults.filter(result =>
     result.mode !== "home" ||
     result.activeAgent !== null ||
-    result.cards !== 13 ||
+    result.cards !== expectedAgents ||
+    result.spectrumLinks !== expectedAgents ||
+    result.uniqueSpectrumColors !== expectedAgents ||
     result.wheelVisible ||
     result.readerVisible ||
+    result.loadedAgents !== 0 ||
     !result.philosophyVisible ||
     !result.synthesisVisible
   );
   const visualFailures = visualCoverage.filter(result =>
-    !result || result.pixels > maxVisualGapPixels
+    !result || result.pixels > maxVisualGapPixels ||
+    result.philosophyCards !== 1 || result.philosophyEvidenceNotes !== 2
   );
   if (failures.length || homeFailures.length || visualFailures.length) process.exitCode = 1;
   socket.close();

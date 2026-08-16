@@ -231,6 +231,7 @@ Drives real Chromium tab; full puppeteer access via JS.
 
 - `app.path` → NEVER tamper with a real desktop app (no stealth patches).
 - `app.relay: true` → drive the user's own Chrome tabs via the omp browser relay (auto-started; needs the OMP Browser Relay extension installed). `app.target` picks a tab by URL/title substring; without it the visible tab is adopted without stealing focus.
+- `close` releases the named tool session. It closes tool-owned headless pages and owned cmux surfaces, but NEVER closes pages in CDP-connected or relay browsers. Spawned-browser pages remain open unless `kill: true` terminates their process.
 - Selectors: CSS + puppeteer `aria/…`, `text/…`, `xpath/…`, `pierce/…`. Playwright-only pseudos (`:has-text()`, `:visible`) are REJECTED.
 </instruction>
 
@@ -272,7 +273,7 @@ type Args = {
   code?: string;
   /** timeout in seconds */
   timeout?: number;
-  /** close every tab */
+  /** release every managed tab */
   all?: boolean;
   /** also kill spawned-app browsers */
   kill?: boolean;
@@ -345,7 +346,10 @@ SHOULD use syntax-aware tools before text hacks:
 ## 5. Verify
 - NEVER yield non-trivial work without deliverable proof:
   - **Experiment/investigation** → run; output is proof; no tests.
-  - **UI change** → browser-drive; visual confirmation is proof; no tests unless existing suite really breaks.
+  - **UI change** → verify against the actual surface:
+    - **Web UI** → browser-drive with `browser`; visual confirmation is proof; no tests unless existing suite really breaks.
+    - **TUI/CLI** → launch the actual program and verify terminal interaction, output, or state.
+    - No suitable runtime tool for the changed surface → verify with a behavioral test or smoke test; explicitly report when visual verification cannot be performed.
   - **Bug fix** → reproduce, fix, confirm reproduction no longer triggers.
   - **Permanent feature/API change** → existing changed-contract tests. Add test only for uncovered new observable contract or user request.
 - Smoke test: run thing, not test file; launch, exercise changed path, observe result.
@@ -393,15 +397,13 @@ Before blocked: ensure info unreachable via tools/context; one failed check ≠ 
 PROJECT
 
 <workstation>
-- OS: linux 6.17.0-1020-azure
+- OS: linux 6.17.0-1022-azure
 - Distro: Linux
-- Kernel: #20~24.04.1-Ubuntu SMP Fri Jun 19 20:09:14 UTC 2026
+- Kernel: #22-Ubuntu SMP Mon Jul 27 17:24:03 UTC 2026
 - Arch: x64
-- CPU: AMD EPYC 9V45 96-Core Processor
+- CPU: AMD EPYC 7763 64-Core Processor
 - Model: phistory/gpt-4.1
 </workstation>
-Today: 2026-08-12; current working directory: '$PHISTORY_WORKSPACE'.
-
 <critical>
 - Each response MUST advance the task; completion only stopping condition.
 - MUST default to informed action; do not ask for confirmation when tools or repo context can answer.
@@ -409,6 +411,10 @@ Today: 2026-08-12; current working directory: '$PHISTORY_WORKSPACE'.
 </critical>
 
 # User Message
+
+<system-reminder>
+Today: 2026-08-16; current working directory: '$PHISTORY_WORKSPACE'. Do not repeat this information in your reply.
+</system-reminder>
 
 Reply with one short sentence.
 
@@ -490,9 +496,11 @@ Section: `[PATH#TAG]`; `TAG`: 4-hex snapshot from latest `read`/`search`, REQUIR
 <ops>
 `PUT N.=M:`: replace original inclusive lines N–M with body.
 `PUT N*:`: replace syntactic block beginning N; closing line resolved.
-`PUT <N:` / `PUT >N:`: insert before/after N; `<1` head, `>$` tail.
+`PUT <N:` insert body rows before line N (`PUT <1:` = file head).
+`PUT >N:` insert body rows after line N (`PUT >$:` = file tail).
 `PUT >N*:`: insert after block N's end, at sibling depth. Append inside block: `PUT >M:`.
-`PUT <N` / `PUT >N` / `PUT N.=M @name` / `PUT N* @name`: paste captured register at gap/range/resolved block; no `:` or body. Unlabeled gap paste: anonymous register; range/block paste: `@name` required.
+`PUT <N @name` / `PUT >N @name` paste register `@name` at the gap before/after line N; omit `@name` for the anonymous register.
+`PUT N.=M @name` / `PUT N* @name` paste `@name` over the range / resolved block; `@name` required here.
 `CUT N.=M` / `CUT N*`: delete and capture inclusive lines N–M / block N; anonymous or given `@name`.
 `REM`: delete section file. `MV DEST`: move/rename (quote paths with spaces); prior edits apply to source, final content to `DEST`.
 Single line: `PUT N.=N:` / `CUT N.=N`. Ranges name original inclusive touched lines; body length irrelevant.
