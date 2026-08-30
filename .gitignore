@@ -22,3 +22,6 @@ venv/
 *.log
 coverage/
 dist/
+
+# Vercel local project metadata
+.vercel/
