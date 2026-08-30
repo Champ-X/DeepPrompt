@@ -215,8 +215,14 @@ def main() -> None:
     parser = HighlightParser()
     parser.feed(INDEX_PATH.read_text(encoding="utf-8"))
     parser.close()
+    retired_coverage_ids = set(coverage.get("retiredAnnotations", []))
+    active_coverage = [
+        record
+        for record in coverage["annotations"]
+        if record["id"] not in retired_coverage_ids
+    ]
     coverage_counts = Counter(
-        record["agent"] for record in coverage["annotations"]
+        record["agent"] for record in active_coverage
     )
     agents: dict[str, dict] = {}
     for agent in manifest["agents"]:
@@ -254,7 +260,7 @@ def main() -> None:
             "annotatedLines": sum(
                 item["lineDispositions"]["annotated"] for item in agents.values()
             ),
-            "coverageExpansionAnnotations": len(coverage["annotations"]),
+            "coverageExpansionAnnotations": len(active_coverage),
         },
     }
     OUTPUT_PATH.write_text(

@@ -209,6 +209,18 @@ def main() -> None:
             fail(f"prompt byte count drift for {agent_id}")
         if hashlib.sha256(payload).hexdigest() != agent["sha256"]:
             fail(f"prompt sha256 drift for {agent_id}")
+        variants = agent.get("availableVariants") or []
+        if not variants or not any(item.get("id") == "default" for item in variants):
+            fail(f"variant index for {agent_id} must include default")
+        for variant in variants:
+            variant_path = ROOT / variant["localPromptPath"]
+            if not variant_path.is_file():
+                fail(f"missing local variant evidence: {variant_path.relative_to(ROOT)}")
+            variant_payload = variant_path.read_bytes()
+            if len(variant_payload) != variant["bytes"]:
+                fail(f"variant byte count drift for {agent_id}/{variant['id']}")
+            if hashlib.sha256(variant_payload).hexdigest() != variant["sha256"]:
+                fail(f"variant sha256 drift for {agent_id}/{variant['id']}")
         expected = prompt_canonical(prompt, agent_id)
         actual = normalize("".join(parser.sources[agent_id]))
         if expected != actual:
@@ -252,15 +264,24 @@ def main() -> None:
     if len(axes) != 7 or len(set(axes)) != 7:
         fail("design-philosophy framework must contain seven unique axes")
     if set(profiles) != expected_ids:
-        fail("design-philosophy profiles must cover all 13 agents")
+        fail("design-philosophy profiles must cover every agent")
     philosophy_note_ids = [
         note_id
         for profile in profiles.values()
         for note_id in profile.get("evidenceNotes", [])
     ]
-    if len(philosophy_note_ids) != 26 or len(set(philosophy_note_ids)) != 26:
+    expected_philosophy_evidence = 2 * len(expected_ids)
+    if (
+        len(philosophy_note_ids) != expected_philosophy_evidence
+        or len(set(philosophy_note_ids)) != expected_philosophy_evidence
+    ):
         fail("each agent must have two unique design-philosophy evidence notes")
-    coverage_records = coverage_annotations.get("annotations") or []
+    retired_coverage_ids = set(coverage_annotations.get("retiredAnnotations") or [])
+    coverage_records = [
+        record
+        for record in (coverage_annotations.get("annotations") or [])
+        if record.get("id") not in retired_coverage_ids
+    ]
     coverage_note_ids = [record.get("id") for record in coverage_records]
     if coverage_annotations.get("sourceCommit") != manifest["source"]["commit"]:
         fail("coverage annotations were not reviewed against the pinned source commit")
@@ -279,15 +300,14 @@ def main() -> None:
     if coverage_audit.get("source") != "data/coverage-annotations.json":
         fail("annotation audit coverageExpansion source drift")
     baseline_count = audit.get("baselineAnnotationCount")
-    if (
-        baseline_count != 381
-        or total_notes
-        != baseline_count + len(philosophy_note_ids) + len(coverage_note_ids)
-    ):
-        fail("the 381-note rule-explanation baseline was not preserved")
+    indexed_expansion_ids = set(philosophy_note_ids) | set(coverage_note_ids)
+    if not isinstance(baseline_count, int) or baseline_count < 0:
+        fail("rule-explanation baseline must be a non-negative integer")
+    if total_notes != baseline_count + len(indexed_expansion_ids):
+        fail("rule-explanation baseline and indexed expansions do not reconcile")
     philosophy_cards = re.findall(r'data-philosophy-agent="([a-z0-9-]+)"', html)
     if len(philosophy_cards) != len(expected_ids) or set(philosophy_cards) != expected_ids:
-        fail("masthead design-philosophy summaries must cover all 13 agents")
+        fail("masthead design-philosophy summaries must cover every agent")
     for agent_id, profile in profiles.items():
         thesis = profile.get("thesis")
         if not thesis or thesis not in html:
@@ -394,19 +414,7 @@ def main() -> None:
     if "renderNoteMarkdown" in html:
         fail("editorial note markup should not require runtime Markdown rewriting")
     expected_logo_names = {
-        "antigravity.png",
-        "claude-code.png",
-        "codex.png",
-        "grok.png",
-        "hermes.png",
-        "kimi-code.png",
-        "kimi.png",
-        "mimo.png",
-        "minimax-code.svg",
-        "omp.svg",
-        "openclaw.png",
-        "opencode.png",
-        "pi.png",
+        Path(agent["icon"]).name for agent in manifest["agents"] if agent.get("icon")
     }
     actual_logo_names = {Path(path).name for path in parser.logo_refs}
     if actual_logo_names != expected_logo_names:
@@ -453,7 +461,20 @@ def main() -> None:
         | set(audit["revisedAnnotations"])
         | set(coverage_note_ids)
     )
-    required_notes = previous_deep_review_notes | audited_notes
+    retired_audit_ids = set(retired_coverage_ids)
+    for retired_group in (audit.get("syncReview") or {}).get(
+        "retiredCurrentAnnotations", []
+    ):
+        retired_audit_ids.update(retired_group.get("ids", []))
+        range_match = re.fullmatch(
+            r"(.+-)(\d+)\.\.(\d+)", retired_group.get("idRange", "")
+        )
+        if range_match:
+            prefix, start, end = range_match.groups()
+            retired_audit_ids.update(
+                f"{prefix}{index}" for index in range(int(start), int(end) + 1)
+            )
+    required_notes = (previous_deep_review_notes | audited_notes) - retired_audit_ids
     missing_required = required_notes - set(note_id_counts)
     if missing_required:
         fail(
@@ -478,8 +499,8 @@ def main() -> None:
             fail(f"coverage expansion count drift for {agent_id}")
 
     print(
-        "PASS: archive index contains 13 current prompts, "
-        f"{total_notes} highlight/note pairs, 13 logos at three identity levels, "
+        f"PASS: archive index contains {len(expected_ids)} current prompts, "
+        f"{total_notes} highlight/note pairs, {len(expected_ids)} logos at three identity levels, "
         "accurate versions and byte metadata; "
         f"archive sha256={hashlib.sha256(INDEX_PATH.read_bytes()).hexdigest()}"
     )

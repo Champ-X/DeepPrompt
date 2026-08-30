@@ -24,6 +24,36 @@ INDEX_PATH = ROOT / "index.html"
 MANIFEST_PATH = ROOT / "data" / "manifest.json"
 COVERAGE_ANNOTATIONS_PATH = ROOT / "data" / "coverage-annotations.json"
 VALID_CATEGORIES = {"goal", "eng", "persona", "safety", "tool"}
+RETIRED_CURRENT_AGENT_NOTES = {"antigravity"}
+RETIRED_NOTE_IDS = {
+    "claude-code-27",
+    "claude-code-28",
+    "claude-code-32",
+    "kimi-code-0",
+    "kimi-code-5",
+    "kimi-code-7",
+    "kimi-code-8",
+    "kimi-code-9",
+    "minimax-code-1",
+    "minimax-code-2",
+    "minimax-code-5",
+    "minimax-code-6",
+    "minimax-code-7",
+    "minimax-code-10",
+    "minimax-code-11",
+    "minimax-code-12",
+    "minimax-code-13",
+    "minimax-code-14",
+    "minimax-code-15",
+    "minimax-code-19",
+    "minimax-code-22",
+    "minimax-code-23",
+    "minimax-code-24",
+    "minimax-code-28",
+    "minimax-code-31",
+    "hermes-24",
+    "omp-23",
+}
 
 # A reviewed upstream wording change may keep the meaning of an annotation but
 # invalidate its old literal anchor. Keep such migrations explicit here.
@@ -283,6 +313,31 @@ def replace_agent_prose(source: str, agent_id: str, rendered: str) -> str:
     return updated
 
 
+def clear_note_pool(source: str, agent_id: str) -> str:
+    """Retire notes whose source surface no longer exists in the latest snapshot."""
+    pattern = re.compile(
+        rf'(<div class="notepool" id="pool-{re.escape(agent_id)}" hidden>).*?'
+        r'(\n    </div>\n  </section>)',
+        flags=re.DOTALL,
+    )
+    updated, count = pattern.subn(r"\1\2", source, count=1)
+    if count != 1:
+        raise ValueError(f"Could not locate note pool for {agent_id}")
+    return updated
+
+
+def remove_retired_notes(source: str, note_ids: set[str]) -> str:
+    for note_id in note_ids:
+        source = re.sub(
+            rf'\n\s*<article class="note(?: kw)?" data-note="{re.escape(note_id)}".*?</article>',
+            "",
+            source,
+            count=1,
+            flags=re.DOTALL,
+        )
+    return source
+
+
 def update_fragment(
     source: str,
     pattern: re.Pattern[str],
@@ -308,6 +363,37 @@ def update_metadata(
 ) -> str:
     total_bytes = sum(agent["bytes"] for agent in manifest["agents"])
     total_notes = sum(note_counts.values())
+    agent_count = len(manifest["agents"])
+    source = re.sub(
+        r'(<b id="s-agents">)\d+',
+        rf"\g<1>{agent_count}",
+        source,
+        count=1,
+    )
+    source = re.sub(
+        r'(<span class="brand-copy"><span class="brand-title">Deep Prompt</span><small><b>)\d+',
+        rf"\g<1>{agent_count}",
+        source,
+        count=1,
+    )
+    source = re.sub(
+        r'(meta name="description" content=")\d+ 款',
+        rf"\g<1>{agent_count} 款",
+        source,
+        count=1,
+    )
+    source = re.sub(
+        r'(收录 phistory\.cc 归档的全部 )\d+ 款',
+        rf"\g<1>{agent_count} 款",
+        source,
+        count=1,
+    )
+    source = re.sub(
+        r'(把 )\d+( 份提示词拆进同一坐标系)',
+        rf"\g<1>{agent_count}\g<2>",
+        source,
+        count=1,
+    )
     source = re.sub(
         r'(<b id="s-ann">)\d+',
         rf"\g<1>{total_notes}",
@@ -471,7 +557,9 @@ def load_coverage_annotations(manifest: dict) -> list[dict]:
     payload = json.loads(COVERAGE_ANNOTATIONS_PATH.read_text(encoding="utf-8"))
     if payload.get("sourceCommit") != manifest["source"]["commit"]:
         raise ValueError("coverage annotations were not reviewed against this source commit")
-    records = payload.get("annotations", [])
+    retired_ids = set(payload.get("retiredAnnotations", []))
+    raw_records = payload.get("annotations", [])
+    records = [record for record in raw_records if record.get("id") not in retired_ids]
     if payload.get("expectedCount") != len(records):
         raise ValueError("coverage annotation count does not match expectedCount")
     ids: set[str] = set()
@@ -580,10 +668,25 @@ def main() -> None:
     parser = HighlightParser()
     parser.feed(original)
     parser.close()
+    coverage_payload = json.loads(
+        COVERAGE_ANNOTATIONS_PATH.read_text(encoding="utf-8")
+    )
+    retired_note_ids = RETIRED_NOTE_IDS | set(
+        coverage_payload.get("retiredAnnotations", [])
+    )
+    for agent_id, items in parser.highlights.items():
+        parser.highlights[agent_id] = [
+            item for item in items if item.note_id not in retired_note_ids
+        ]
+    for agent_id in RETIRED_CURRENT_AGENT_NOTES:
+        parser.highlights[agent_id] = []
     coverage_annotations = load_coverage_annotations(manifest)
     merge_coverage_highlights(parser.highlights, coverage_annotations)
 
     source = original
+    source = remove_retired_notes(source, retired_note_ids)
+    for agent_id in RETIRED_CURRENT_AGENT_NOTES:
+        source = clear_note_pool(source, agent_id)
     for agent in manifest["agents"]:
         agent_id = agent["id"]
         prompt_path = ROOT / agent["promptPath"]

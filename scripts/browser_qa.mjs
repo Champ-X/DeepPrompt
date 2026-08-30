@@ -20,7 +20,7 @@ const maxVisualGapPixels = 4000;
 const profile = mkdtempSync(join(tmpdir(), "deepprompt-browser-qa-"));
 let localServer;
 const agentIds = [
-  "codex", "claude-code", "antigravity", "grok", "kimi-code",
+  "codex", "claude-code", "dsh", "antigravity", "grok", "kimi-code",
   "minimax-code", "mimo", "openclaw", "hermes", "kimi",
   "opencode", "omp", "pi",
 ];
@@ -396,7 +396,7 @@ async function main() {
     result.wheel.tabStops !== 1 ||
     result.topbar.right > result.innerWidth ||
     result.topbar.minTargetHeight < 42 ||
-    (result.name === "wide" && (result.wheelInteraction?.clickedTo !== "antigravity" || result.wheelInteraction?.resetTo !== "claude-code" || result.wheelInteraction?.draggedTo !== "antigravity" || result.wheelInteraction?.keyboardReturnedTo !== "claude-code" || !result.wheelInteraction?.draggingClassCleared)) ||
+    (result.name === "wide" && (result.wheelInteraction?.clickedTo !== "antigravity" || result.wheelInteraction?.resetTo !== "claude-code" || result.wheelInteraction?.draggedTo !== "dsh" || result.wheelInteraction?.keyboardReturnedTo !== "claude-code" || !result.wheelInteraction?.draggingClassCleared)) ||
     (result.width >= 1180 && (Math.abs(result.wheel.width - result.wheel.height) > 1 || result.wheel.left !== 0 || result.wheel.top > 160 || result.wheel.visibleItems !== 5)) ||
     (result.width < 1180 && result.wheel.visibleItems !== 3) ||
     result.homeSynthesisVisible ||
@@ -407,10 +407,10 @@ async function main() {
     result.activeAgent !== "claude-code" ||
     result.highlights === 0 ||
     result.highlights !== result.notes ||
-    result.philosophyCards !== 13 ||
+    result.philosophyCards !== 14 ||
     result.activePhilosophyCards !== 1 ||
     result.philosophyAxes !== 7 ||
-    result.philosophyEvidenceNotes !== 26 ||
+    result.philosophyEvidenceNotes !== 28 ||
     (result.width <= 1759 && result.inlineNotes !== result.notes) ||
     (result.width >= 1760 && result.inlineNotes !== 0)
   );
@@ -418,7 +418,7 @@ async function main() {
   const homeFailures = homeResults.filter(result =>
     result.mode !== "home" ||
     result.activeAgent !== null ||
-    result.cards !== 13 ||
+    result.cards !== 14 ||
     result.wheelVisible ||
     result.readerVisible ||
     !result.philosophyVisible ||

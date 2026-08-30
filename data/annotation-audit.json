@@ -1,9 +1,9 @@
 {
   "schemaVersion": 2,
-  "reviewedAt": "2026-08-13",
-  "sourceCommit": "7f9f5b9faf87e11b9de183aae8ca116ecdfe56a5",
-  "baselineAnnotationCount": 381,
-  "expectedAnnotationCount": 583,
+  "reviewedAt": "2026-08-31",
+  "sourceCommit": "7ab8e3bd55b6364eceebf907bab285f256e2c53a",
+  "baselineAnnotationCount": 324,
+  "expectedAnnotationCount": 536,
   "categories": [
     "goal",
     "eng",
@@ -18,7 +18,8 @@
     "安全类解读同时检查权限来源、会话边界、外部内容可信度、可逆性与 confused-deputy 风险。",
     "工具与多智能体类解读区分发现、寻址、排队、并发、累计预算与 barrier 语义，避免把单一数字泛化为整体能力。",
     "上下文类解读把 System Prompt、工具 schema、运行时状态、消息历史与持久记忆视为共同的 context engineering 面。",
-    "逐行审计每个 Agent 的全部非空原文：有独立机制或设计推断的句子新增批注；重复清单、围栏结构与纯 schema 字段明确分类，不以无信息增量的批注填空。"
+    "逐行审计每个 Agent 的全部非空原文：有独立机制或设计推断的句子新增批注；重复清单、围栏结构与纯 schema 字段明确分类，不以无信息增量的批注填空。",
+    "当上游最新捕获表面发生角色漂移时，退役无法锚定当前原文的旧批注并保留审计记录；不以历史解读伪装成当前 Prompt 证据。"
   ],
   "revisedAnnotations": [
     "codex-21",
@@ -78,7 +79,28 @@
     "omp-27",
     "omp-28",
     "pi-13",
-    "pi-14"
+    "pi-14",
+    "dsh-0",
+    "dsh-1",
+    "dsh-2",
+    "dsh-3",
+    "dsh-4",
+    "dsh-5",
+    "dsh-6",
+    "dsh-7",
+    "dsh-8",
+    "dsh-9",
+    "dsh-10",
+    "dsh-11",
+    "dsh-12",
+    "dsh-13",
+    "dsh-14",
+    "dsh-15",
+    "dsh-16",
+    "dsh-17",
+    "antigravity-43",
+    "antigravity-44",
+    "antigravity-45"
   ],
   "philosophyFramework": {
     "interpretationStatus": "editorial-inference",
@@ -94,10 +116,11 @@
     "profiles": {
       "codex": {"thesis": "可观察的受托执行", "evidenceNotes": ["codex-48", "codex-49"]},
       "claude-code": {"thesis": "组织记忆型协作者", "evidenceNotes": ["claude-code-34", "claude-code-35"]},
-      "antigravity": {"thesis": "功能约束下的反模板设计者", "evidenceNotes": ["antigravity-31", "antigravity-32"]},
+      "dsh": {"thesis": "运行时显式化的状态机工程师", "evidenceNotes": ["dsh-11", "dsh-13"]},
+      "antigravity": {"thesis": "指令—数据分型的窄接口分类器", "evidenceNotes": ["antigravity-43", "antigravity-45"]},
       "grok": {"thesis": "无人值守的可验证自治工程师", "evidenceNotes": ["grok-25", "grok-26"]},
       "kimi-code": {"thesis": "边界清晰的行动主义", "evidenceNotes": ["kimi-code-31", "kimi-code-32"]},
-      "minimax-code": {"thesis": "人格化总管与授权化分工", "evidenceNotes": ["minimax-code-31", "minimax-code-32"]},
+      "minimax-code": {"thesis": "权限与来源分型的运行时编排者", "evidenceNotes": ["minimax-code-32", "minimax-code-43"]},
       "mimo": {"thesis": "完备性至上的长程执行器", "evidenceNotes": ["mimo-28", "mimo-29"]},
       "openclaw": {"thesis": "有灵魂但无私欲的常驻代理", "evidenceNotes": ["openclaw-29", "openclaw-30"]},
       "hermes": {"thesis": "以持久状态组织工作的操作型代理", "evidenceNotes": ["hermes-29", "hermes-30"]},
@@ -109,11 +132,11 @@
   },
   "coverageExpansion": {
     "source": "data/coverage-annotations.json",
-    "expectedCount": 176,
-    "reviewScope": "逐行复读 13 份 Prompt；对行为规则、工具状态语义、安全边界、上下文策略和产品架构新增锚点；纯 JSON/TypeScript 结构字段不做逐字段注水。",
+    "expectedCount": 189,
+    "reviewScope": "逐行复读 14 份默认 Prompt；对行为规则、工具状态语义、安全边界、上下文策略和产品架构新增锚点；多变体另存本地证据，纯 JSON/TypeScript 结构字段不做逐字段注水。",
     "selectionRule": "新增批注必须能提供独立的规则机制、设计取舍或风险解释，并锚定当前 Prompt 中已校验出现次数的原文子串。"
   },
-  "syncReview": {
+  "previousSyncReview": {
     "previousCommit": "b326cca92451d7046b9bab0ebf6b5dba988ffc9d",
     "updatedAgents": {
       "claude-code": {"from": "2.1.226", "to": "2.1.228", "summary": "新增 Monitor noop 折叠语义，并收紧子代理同步等待条件。"},
@@ -138,10 +161,72 @@
       "mimo-54"
     ]
   },
+  "syncReview": {
+    "previousCommit": "7f9f5b9faf87e11b9de183aae8ca116ecdfe56a5",
+    "upstreamCommit": "7ab8e3bd55b6364eceebf907bab285f256e2c53a",
+    "upstreamUpdatedAt": "2026-08-29T18:47:26.094966Z",
+    "structuralChanges": [
+      "新增 DeepSeek Harness，默认 Web 表面之外另有 standard、minimal、headless、cordis 与 code 变体。",
+      "Phistory 捕获索引新增 variants 目录层；本项目同步保存全部最新变体，并在页面展示 default 变体。",
+      "Antigravity 最新 default 捕获从编码助手转为会话标题生成角色，旧有 43 条当前态批注全部退役，历史记录仍由 Git 与审计文件保留。"
+    ],
+    "updatedAgents": {
+      "claude-code": {"from": "2.1.228", "to": "2.1.251", "summary": "默认捕获更新，保留经逐字锚点复核仍成立的规则解释。"},
+      "codex": {"from": "0.147.0", "to": "0.151.0", "summary": "新增 default、GPT-5.6 与 GPT-5.5 三种捕获变体，页面展示 default。"},
+      "dsh": {"from": null, "to": "0.1.1-rc.2", "summary": "新增第 14 个 Agent 档案与 18 条深度批注，覆盖运行时状态、观察纪律、目标恢复、Ralph 与审批语义。"},
+      "antigravity": {"from": "1.1.12", "to": "1.1.22", "summary": "最新默认快照仅 496 字节，角色变为对话标题生成器；重建 3 条当前态批注。"},
+      "grok": {"from": "1.0.3", "to": "1.0.13", "summary": "默认捕获更新，复核既有锚点与浏览器验收规则。"},
+      "minimax-code": {"from": "3.0.60", "to": "3.0.68", "summary": "默认捕获更新。"},
+      "kimi-code": {"from": "0.35.0", "to": "0.39.1", "summary": "默认捕获更新。"},
+      "mimo": {"from": "0.1.11", "to": "0.1.13", "summary": "默认捕获更新。"},
+      "hermes": {"from": "v2026.8.3", "to": "v2026.8.27", "summary": "默认捕获更新。"},
+      "opencode": {"from": "1.18.16", "to": "1.18.25", "summary": "默认捕获更新。"},
+      "pi": {"from": "0.84.1", "to": "0.84.4", "summary": "默认捕获更新。"},
+      "omp": {"from": "17.2.15", "to": "18.0.11", "summary": "默认捕获更新并复核显式锚点迁移。"}
+    },
+    "retiredCurrentAnnotations": [
+      {
+        "agent": "antigravity",
+        "idRange": "antigravity-0..42",
+        "count": 43,
+        "reason": "这些批注锚定的编码助手 Prompt 已不在 1.1.22 default 捕获中；继续展示会把历史规则误写成当前原文。"
+      },
+      {
+        "agent": "claude-code",
+        "ids": ["claude-code-27", "claude-code-28", "claude-code-32", "claude-code-43", "claude-code-44", "claude-code-46", "claude-code-49", "claude-code-50"],
+        "count": 8,
+        "reason": "相关工作树、跨会话消息、结构化工作流、任务表与 loop-until-dry 文本已不在 2.1.251 default 捕获中。"
+      },
+      {
+        "agent": "kimi-code",
+        "ids": ["kimi-code-0", "kimi-code-5", "kimi-code-7", "kimi-code-8", "kimi-code-9"],
+        "count": 5,
+        "reason": "旧版“歧义即任务”与占位符禁令的逐字规则已被新版通用编码准则替代。"
+      },
+      {
+        "agent": "minimax-code",
+        "ids": ["minimax-code-1", "minimax-code-2", "minimax-code-5", "minimax-code-6", "minimax-code-7", "minimax-code-10", "minimax-code-11", "minimax-code-12", "minimax-code-13", "minimax-code-14", "minimax-code-15", "minimax-code-19", "minimax-code-22", "minimax-code-23", "minimax-code-24", "minimax-code-28", "minimax-code-31", "minimax-code-38"],
+        "count": 18,
+        "reason": "3.0.68 default 捕获重写了人格、委派、记忆与输出制度；旧锚点不再代表当前 Mavis 规则。"
+      },
+      {
+        "agent": "hermes",
+        "ids": ["hermes-24", "hermes-32", "hermes-37", "hermes-39", "hermes-40"],
+        "count": 5,
+        "reason": "v2026.8.27 改写浏览器、技能和 cron 工具表面，对应旧锚点已消失。"
+      },
+      {
+        "agent": "omp",
+        "ids": ["omp-23"],
+        "count": 1,
+        "reason": "18.0.11 明确声明同文件修改不保证自动合并，与旧版批注结论相反；以 omp-48 记录新规则。"
+      }
+    ]
+  },
   "industrySources": [
     {
       "title": "Phistory pinned upstream commit",
-      "url": "https://github.com/WEIFENG2333/phistory/tree/7f9f5b9faf87e11b9de183aae8ca116ecdfe56a5"
+      "url": "https://github.com/WEIFENG2333/phistory/tree/7ab8e3bd55b6364eceebf907bab285f256e2c53a"
     },
     {
       "title": "Anthropic: Effective context engineering for AI agents",

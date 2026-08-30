@@ -69,18 +69,24 @@ def main() -> None:
     upstream = json.loads(index_path.read_text(encoding="utf-8"))
     commit = git_commit(source)
     prompts_dir = ROOT / "data" / "prompts"
+    variants_dir = ROOT / "data" / "variants"
     icons_dir = ROOT / "agent-icons"
     prompts_dir.mkdir(parents=True, exist_ok=True)
+    variants_dir.mkdir(parents=True, exist_ok=True)
     icons_dir.mkdir(parents=True, exist_ok=True)
 
-    captures_by_key = {
-        (item["agent_id"], item["version"]): item for item in upstream["captures"]
-    }
+    captures_by_key: dict[tuple[str, str], list[dict]] = {}
+    for item in upstream["captures"]:
+        captures_by_key.setdefault((item["agent_id"], item["version"]), []).append(item)
     agents = []
     for position, summary in enumerate(upstream["agents"], start=1):
         agent_id = summary["agent_id"]
         version = summary["latest_version"]
-        capture = captures_by_key[(agent_id, version)]
+        captures = captures_by_key[(agent_id, version)]
+        capture = next(
+            (item for item in captures if item.get("variant_id", "default") == "default"),
+            captures[0],
+        )
         relative_prompt = Path(capture["prompt"])
         source_prompt = source / relative_prompt
         payload = source_prompt.read_bytes()
@@ -89,6 +95,29 @@ def main() -> None:
         shutil.copyfile(source_prompt, destination)
 
         meta = json.loads((source / capture["meta"]).read_text(encoding="utf-8"))
+        available_variants = []
+        for item in captures:
+            variant_id = item.get("variant_id", "default")
+            variant_source = source / item["prompt"]
+            variant_payload = variant_source.read_bytes()
+            variant_text = variant_payload.decode("utf-8")
+            variant_target = variants_dir / agent_id / f"{variant_id}.md"
+            variant_target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(variant_source, variant_target)
+            available_variants.append(
+                {
+                    "id": variant_id,
+                    "label": item.get("variant_label", "Default"),
+                    "dimensions": item.get("variant_dimensions", {}),
+                    "observed": item.get("observed", {}),
+                    "prompt": item["prompt"],
+                    "trace": item.get("trace"),
+                    "localPromptPath": str(variant_target.relative_to(ROOT)),
+                    "sha256": sha256(variant_payload),
+                    "bytes": len(variant_payload),
+                    "characters": len(variant_text),
+                }
+            )
         headings = [
             {"level": len(match.group(1)), "text": match.group(2).strip()}
             for match in re.finditer(r"^(#{1,6})\s+(.+)$", text, flags=re.MULTILINE)
@@ -106,7 +135,15 @@ def main() -> None:
                 "package": meta["package"],
                 "publishedAt": summary["latest_published_at"],
                 "capturedAt": summary["latest_captured_at"],
-                "snapshotCount": summary["captures"],
+                "versionCount": summary.get("versions", summary.get("captures")),
+                "snapshotCount": summary.get("snapshots", summary.get("captures")),
+                "variant": {
+                    "id": capture.get("variant_id", "default"),
+                    "label": capture.get("variant_label", "Default"),
+                    "dimensions": capture.get("variant_dimensions", {}),
+                    "observed": capture.get("observed", {}),
+                },
+                "availableVariants": available_variants,
                 "promptPath": f"data/prompts/{agent_id}.md",
                 "sourcePromptPath": str(relative_prompt),
                 "sourceUrl": f"{PHISTORY_REPO}/blob/{commit}/{relative_prompt}",
@@ -125,7 +162,14 @@ def main() -> None:
         )
 
     codex_summary = next(agent for agent in agents if agent["id"] == "codex")
-    codex_trace_source = source / "captures" / "codex" / codex_summary["version"] / "trace.jsonl"
+    codex_default_capture = next(
+        item
+        for item in captures_by_key[("codex", codex_summary["version"])]
+        if item.get("variant_id", "default") == "default"
+    )
+    codex_trace_source = source / codex_default_capture.get(
+        "trace", f"captures/codex/{codex_summary['version']}/trace.jsonl"
+    )
     codex_trace_target = prompts_dir / "codex.trace.jsonl"
     shutil.copyfile(codex_trace_source, codex_trace_target)
     trace_payload = codex_trace_target.read_bytes()
@@ -140,13 +184,15 @@ def main() -> None:
             "commit": commit,
             "upstreamUpdatedAt": upstream["updated_at"],
             "method": (
-                "Latest prompt.md snapshots copied byte-for-byte from the pinned "
-                "Phistory commit. Phistory captures requests through claude-tap."
+                "Latest default prompt.md snapshots and all latest variants copied "
+                "byte-for-byte from the pinned Phistory commit. Phistory captures "
+                "requests through claude-tap."
             ),
         },
         "coverage": {
             "agentCount": len(agents),
             "latestSnapshots": len(agents),
+            "totalHistoricalVersions": sum(agent["versionCount"] for agent in agents),
             "totalHistoricalSnapshots": sum(agent["snapshotCount"] for agent in agents),
         },
         "codexEvidence": {
