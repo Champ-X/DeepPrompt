@@ -855,12 +855,30 @@ def main() -> None:
                 )
                 for note in presentation["seedNotes"]
             )
+    coverage_payload = json.loads(
+        COVERAGE_ANNOTATIONS_PATH.read_text(encoding="utf-8")
+    )
+    retired_note_ids = RETIRED_NOTE_IDS | set(
+        coverage_payload.get("retiredAnnotations", [])
+    )
+    for agent_id, items in parser.highlights.items():
+        parser.highlights[agent_id] = [
+            item for item in items if item.note_id not in retired_note_ids
+        ]
+    for agent_id in RETIRED_CURRENT_AGENT_NOTES:
+        parser.highlights[agent_id] = []
     coverage_annotations = load_coverage_annotations(manifest)
     merge_coverage_highlights(parser.highlights, coverage_annotations)
 
     shell, fragments = ensure_agent_scaffolds(
         original_shell, original_fragments, manifest
     )
+    fragments = {
+        agent_id: remove_retired_notes(fragment, retired_note_ids)
+        for agent_id, fragment in fragments.items()
+    }
+    for agent_id in RETIRED_CURRENT_AGENT_NOTES:
+        fragments[agent_id] = clear_note_pool(fragments[agent_id], agent_id)
     for agent in manifest["agents"]:
         agent_id = agent["id"]
         prompt_path = ROOT / agent["promptPath"]

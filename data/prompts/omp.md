@@ -231,7 +231,8 @@ Drives real Chromium tab; full puppeteer access via JS.
   - Raw request interception is run-scoped: run end removes `request` handlers, disables interception, releases held requests.
 
 - `app.path` → NEVER tamper with a real desktop app (no stealth patches).
-- `app.relay: true` → drive the user's own Chrome tabs via the omp browser relay (auto-started; needs the OMP Browser Relay extension installed). `app.target` picks a tab by URL/title substring; without it the visible tab is adopted without stealing focus.
+- `app.relay: true` → drive the user's own Chrome tabs via the omp browser relay (auto-started; needs the OMP Browser Relay extension installed). `app.target` picks a tab by URL/title substring; without it the visible tab is adopted — and an `open` carrying `url` NAVIGATES that adopted tab.
+- Relay can also engage without `app.relay` when the `browser.relay` setting is on; every relay open result says `on relay`. Either way you are inside the user's REAL logged-in browser: every tab, session, and click belongs to the user and sites attribute your actions to their account. Name a target (or create your own tab), never navigate the user's visible tab uninvited, take no consequential action the user didn't ask for, and `close` when done.
 - `close` releases the named tool session. It closes tool-owned headless pages and owned cmux surfaces, but NEVER closes pages in CDP-connected or relay browsers. Spawned-browser pages remain open unless `kill: true` terminates their process.
 - Selectors: CSS + puppeteer `aria/…`, `text/…`, `xpath/…`, `pierce/…`. Playwright-only pseudos (`:has-text()`, `:visible`) are REJECTED.
 </instruction>
@@ -402,7 +403,7 @@ PROJECT
 - Distro: Linux
 - Kernel: #22-Ubuntu SMP Mon Jul 27 17:24:03 UTC 2026
 - Arch: x64
-- CPU: AMD EPYC 7763 64-Core Processor
+- CPU: Intel(R) Xeon(R) 6973P-C
 - Model: phistory/gpt-4.1
 </workstation>
 <critical>
@@ -414,7 +415,7 @@ PROJECT
 # User Message
 
 <system-reminder>
-Today: 2026-08-16; current working directory: '$PHISTORY_WORKSPACE'. Do not repeat this information in your reply.
+Today: 2026-08-29; current working directory: '$PHISTORY_WORKSPACE'. Do not repeat this information in your reply.
 </system-reminder>
 
 Reply with one short sentence.

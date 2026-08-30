@@ -265,7 +265,7 @@ async function main() {
       await send("Input.dispatchMouseEvent", {type:"mouseMoved",x:(dragGeometry.start.x+dragGeometry.end.x)/2,y:(dragGeometry.start.y+dragGeometry.end.y)/2,button:"left",buttons:1}, sessionId);
       await send("Input.dispatchMouseEvent", {type:"mouseMoved",x:dragGeometry.end.x,y:dragGeometry.end.y,button:"left",buttons:1}, sessionId);
       await send("Input.dispatchMouseEvent", {type:"mouseReleased",x:dragGeometry.end.x,y:dragGeometry.end.y,button:"left",buttons:0,clickCount:1}, sessionId);
-      await waitForAgent("antigravity");
+      await waitForAgent("dsh");
       const draggedTo = await activeAgent();
 
       await send("Runtime.evaluate", {expression:"document.querySelector('.navbtn.active')?.focus({preventScroll:true})"}, sessionId);
@@ -402,7 +402,15 @@ async function main() {
 
     const homeUrl = targetUrl.replace(/#.*$/, "");
     await send("Page.navigate", { url: homeUrl }, sessionId);
-    await waitForExpression("document.body?.classList.contains('mode-home')");
+    await waitForExpression(`(() => {
+      if (!document.body?.classList.contains('mode-home')) return false;
+      const wheel = document.getElementById('agentWheel');
+      const reader = document.getElementById('main');
+      const links = Array.from(document.querySelectorAll('.spectrum-link'));
+      return wheel && reader && getComputedStyle(wheel).display === 'none' &&
+        getComputedStyle(reader).display === 'none' && links.length === ${expectedAgents} &&
+        links.every(node => getComputedStyle(node).getPropertyValue('--node-color').trim());
+    })()`);
     const homeEvaluation = await send("Runtime.evaluate", {
       expression: `(() => ({
         mode: document.body.classList.contains('mode-home') ? 'home' : 'reader',
@@ -455,7 +463,7 @@ async function main() {
     result.topbar.right > result.innerWidth ||
     result.topbar.minTargetHeight < 42 ||
     (result.width >= 1280 && (!result.sideGeometry || result.sideGeometry.overlaps !== 0 || result.sideGeometry.leftGap < 16 || result.sideGeometry.rightGap < 16)) ||
-    (result.name === "wide" && (result.wheelInteraction?.clickedTo !== "antigravity" || result.wheelInteraction?.resetTo !== "claude-code" || result.wheelInteraction?.draggedTo !== "antigravity" || result.wheelInteraction?.keyboardReturnedTo !== "claude-code" || !result.wheelInteraction?.draggingClassCleared)) ||
+    (result.name === "wide" && (result.wheelInteraction?.clickedTo !== "antigravity" || result.wheelInteraction?.resetTo !== "claude-code" || result.wheelInteraction?.draggedTo !== "dsh" || result.wheelInteraction?.keyboardReturnedTo !== "claude-code" || !result.wheelInteraction?.draggingClassCleared)) ||
     (result.width >= 1280 && (result.wheel.width < 108 || result.wheel.width > 116 || result.wheel.height < 280 || result.wheel.height > 330 || result.wheel.left !== 0 || result.wheel.top > 180 || result.wheel.visibleItems !== 5)) ||
     (result.width < 1280 && result.wheel.visibleItems !== 3) ||
     result.homeSynthesisVisible ||

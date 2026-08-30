@@ -12,12 +12,12 @@ make serve
 
 ## 当前快照
 
-- Phistory commit：`f74e0b2a796e852137782cb3195962cc48daa5ae`
-- 上游索引时间：`2026-08-16T08:58:23.185214Z`
-- 覆盖：14 个 Agent、1064 个历史快照索引
-- 批注：599 组高亮/解读；原有 381 组规则解释完整保留，另有 28 组“设计哲学”证据批注与 190 组逐句覆盖扩展
+- Phistory commit：`7ab8e3bd55b6364eceebf907bab285f256e2c53a`
+- 上游索引时间：`2026-08-29T18:47:26.094966Z`
+- 覆盖：14 个 Agent、1116 个历史版本、1165 个历史快照索引
+- 批注：537 组高亮/解读；324 组仍能锚定当前原文的规则解释全部保留，另有 28 组“设计哲学”证据批注与 190 组逐句覆盖扩展（其中 5 组同时属于哲学证据与逐句扩展）
 
-相较上一固定快照，本轮新增 DeepSeek Harness `0.1.0-rc.6`，并同步 Claude Code `2.1.233`、Antigravity `1.1.13`、Grok `1.0.4`、MiniMax Code `3.0.65`、Kimi Code `0.36.1`、MiMo Code `0.1.12`、Hermes `v2026.8.13`、opencode `1.18.18`、Pi `0.84.2` 与 Oh My Pi `17.3.5`。其中 Grok、Kimi Code 与 Pi 仅版本推进而 Default Prompt 内容哈希未变；Claude、MiniMax 与 Hermes 的行为/工具契约有显著重写。
+相较上一固定快照，本轮同步 Claude Code `2.1.251`、Codex CLI `0.151.0`、DeepSeek Harness `0.1.1-rc.2`、Antigravity `1.1.22`、Grok `1.0.13`、MiniMax Code `3.0.68`、Kimi Code `0.39.1`、MiMo Code `0.1.13`、Hermes `v2026.8.27`、opencode `1.18.25`、Pi `0.84.4` 与 Oh My Pi `18.0.11`。Codex 现有 3 个最新变体，DSH 有 6 个；Antigravity 的 default 捕获已漂移为 496 字节的会话标题生成角色，因此旧编码助手批注退役到审计记录，不再冒充当前规则。
 
 ## 数据与证据
 
@@ -32,7 +32,7 @@ make serve
 - `data/prompts/codex.trace.jsonl`：Codex wire trace 证据。
 - `data/annotation-audit.json`：本轮标注方法、数量、增修清单与业界一手资料。
 - `data/coverage-annotations.json`：190 条逐句覆盖扩展的可重建锚点、解读与出现次数契约。
-- `data/annotation-coverage.json`：对 17,319 个非空原文行的逐行分类报告，区分已批注、机械 schema、重复材料、结构分隔符和“已复读但无独立解读增量”。
+- `data/annotation-coverage.json`：对 16,394 个非空原文行的逐行分类报告，区分已批注、机械 schema、重复材料、结构分隔符和“已复读但无独立解读增量”。
 - `agent-icons/`：14 个 Logo 与 `SOURCES.md` 来源说明。
 
 Phistory 的 `prompt.md` 会规范化临时路径、日期、会话 ID 等易变值，便于阅读和 diff；原始 `trace.jsonl` 保留捕获到的 wire request。因此本项目对页面正文主张“与固定 Phistory `prompt.md` 快照规范化文本一致”，对 Codex 原始请求则以 trace 为证。
@@ -49,7 +49,7 @@ python3 scripts/sync_phistory.py --source /tmp/phistory-source
 python3 scripts/rebuild_archive.py
 ```
 
-`sync_phistory.py` 更新证据快照、图标、Codex trace 与 manifest，并在上游存在多个 variant 时固定选择网站标记的 `default`。`rebuild_archive.py` 再更新轻量 shell 与 `data/agents/*.html`，为新 Agent 生成导航、目录卡片和独立分片，并迁移现有高亮锚点；任何高亮原文在新 Prompt 中消失时，脚本会失败并要求人工 review，避免静默保留错误标注或丢失批注。
+`sync_phistory.py` 更新证据快照、图标、Codex trace 与 manifest，保存每个 Agent 的全部最新 variant，同时固定以网站标记的 `default` 作为阅读页正文。`rebuild_archive.py` 再更新轻量 shell 与 `data/agents/*.html`，为新 Agent 生成导航、目录卡片和独立分片，并迁移现有高亮锚点；任何高亮原文在新 Prompt 中消失时，脚本会失败并要求人工 review，避免静默保留错误标注或丢失批注。
 
 如上游只做了经过人工确认的措辞调整，可在 `rebuild_archive.py` 的 `ANCHOR_OVERRIDES` 中显式记录锚点迁移。
 
@@ -65,9 +65,9 @@ GitHub Actions 会在 `main` 分支推送与 Pull Request 时执行同一组重�
 
 - 14 份按需载入的 Agent 分片与固定快照规范化文本一致，`index.html` 不含 Agent 正文；
 - Prompt 文件的字节数和 SHA-256 与 manifest 一致；
-- 599 个高亮与 599 条批注按 ID、主题逐一配对且无重复；
-- 381 条原规则解释仍在；28 条哲学批注明确标记为编辑推断；190 条覆盖扩展遍及全部 14 个 Agent；
-- 17,319 个非空原文行全部进入覆盖分类，新增锚点逐条校验所在 Agent、类别、原文与预期出现次数；
+- 537 个高亮与 537 条批注按 ID、主题逐一配对且无重复；
+- 324 条当前有效的规则解释仍在；28 条哲学批注明确标记为编辑推断；190 条覆盖扩展遍及全部 14 个 Agent；
+- 16,394 个非空原文行全部进入覆盖分类，新增锚点逐条校验所在 Agent、类别、原文与预期出现次数；
 - 每条批注具备主题、标题、原文短语和解读，正文不依赖运行时 Markdown 修补；
 - 本轮新增/修订批注和审计文件均绑定同一 Phistory commit；
 - 14 个 Agent 的导航、画廊、Logo、版本、发布日期、字节数和快照数一致；
@@ -84,7 +84,6 @@ GitHub Actions 会在 `main` 分支推送与 Pull Request 时执行同一组重�
 - 空白不再靠猜测解释：纯 schema、重复目录和围栏结构保留原文但不逐字段注水；其余未单列批注的句子记录为“已复读、与相邻批注意义重合或没有独立解读增量”。
 - 每个 Agent 至少选取两条高价值证据，并在页首形成“哲学命题 + 内在张力”画像。
 - 横向新增受托关系、环境可读性、上下文经济、记忆制度、证据闭环、权限与风险、协作拓扑七条设计轴。
-- DeepSeek Harness：实现 checkout、工作目录和用户正在看的 GUI 被拆成需独立验证的事实；沙箱升级、目标状态与多代理编排都有显式路由门槛。
 - Claude Code：移除 TaskCreate/TaskUpdate 工具说明，Workflow 用可见进度树承载编排状态，后台监控必须报告全部终态而非只报成功。
 - Codex：长等待不是拖延，而是避免 busy polling 的负载策略。
 - DeepSeek Harness：把工作目录、页面可观察性、文件策略、审批模式、目标武装状态与后台作业显式化；Ralph 用“全新子代理 + 共享工作区”检验持久状态是否真正可接力。

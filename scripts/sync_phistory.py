@@ -79,11 +79,10 @@ def main() -> None:
     # labels ``default`` as the canonical latest prompt, so keep this archive
     # aligned with that view instead of accidentally selecting whichever
     # variant happens to appear last in captures/index.json.
-    captures_by_key: dict[tuple[str, str], dict] = {}
+    captures_by_key: dict[tuple[str, str], list[dict]] = {}
     for item in upstream["captures"]:
         key = (item["agent_id"], item["version"])
-        if key not in captures_by_key or item.get("variant_id") == "default":
-            captures_by_key[key] = item
+        captures_by_key.setdefault(key, []).append(item)
     agents = []
     for position, summary in enumerate(upstream["agents"], start=1):
         agent_id = summary["agent_id"]
@@ -141,9 +140,17 @@ def main() -> None:
                 "package": meta["package"],
                 "publishedAt": summary["latest_published_at"],
                 "capturedAt": summary["latest_captured_at"],
+                "versionCount": summary.get("versions", 1),
                 # ``snapshots`` replaced ``captures`` in Phistory's index
                 # schema when multi-variant capture support was introduced.
                 "snapshotCount": summary.get("snapshots", summary.get("captures")),
+                "variant": {
+                    "id": capture.get("variant_id", "default"),
+                    "label": capture.get("variant_label", "Default"),
+                    "dimensions": capture.get("variant_dimensions", {}),
+                    "observed": capture.get("observed", {}),
+                },
+                "availableVariants": available_variants,
                 "promptPath": f"data/prompts/{agent_id}.md",
                 "sourcePromptPath": str(relative_prompt),
                 "sourceUrl": f"{PHISTORY_REPO}/blob/{commit}/{relative_prompt}",
@@ -162,7 +169,15 @@ def main() -> None:
         )
 
     codex_summary = next(agent for agent in agents if agent["id"] == "codex")
-    codex_capture = captures_by_key[("codex", codex_summary["version"])]
+    codex_captures = captures_by_key[("codex", codex_summary["version"])]
+    codex_capture = next(
+        (
+            item
+            for item in codex_captures
+            if item.get("variant_id", "default") == "default"
+        ),
+        codex_captures[0],
+    )
     codex_trace_source = source / codex_capture["trace"]
     codex_trace_target = prompts_dir / "codex.trace.jsonl"
     shutil.copyfile(codex_trace_source, codex_trace_target)

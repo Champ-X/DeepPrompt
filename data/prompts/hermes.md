@@ -53,7 +53,7 @@ After difficult/iterative tasks, offer to save as a skill. If a skill you loaded
   autonomous-ai-agents: Skills for spawning and orchestrating autonomous AI coding agents and multi-agent workflows — running independent agent processes, delegating tasks, and coordinating parallel workstreams.
     - claude-code: Delegate coding to Claude Code CLI (features, PRs).
     - codex: Delegate coding to OpenAI Codex CLI (features, PRs).
-    - computer-use: Drive the desktop in the background without stealing focus.
+    - computer-use: Drive the desktop background-first; escalate on signal.
     - hermes-agent: Use, configure, theme, extend, and orchestrate Hermes Agent.
     - merge-reconciler: Neutral third-party resolution of agent merge conflicts.
     - opencode: Delegate coding to OpenCode CLI (features, PR review).
@@ -101,6 +101,7 @@ After difficult/iterative tasks, offer to save as a skill. If a skill you loaded
     - obsidian: Read, search, create, and edit notes in the Obsidian vault.
   productivity: Skills for document creation, presentations, spreadsheets, and other productivity workflows.
     - airtable: Airtable REST API via curl. Records CRUD, filters, upserts.
+    - box: Box manages cloud files, sharing, search, and metadata.
     - document-to-action-items: Extract cited obligations, deadlines, tasks from documents.
     - docx: Create, read, edit, template, and review Word .docx files.
     - google-workspace: Gmail, Calendar, Drive, Docs, Sheets via gws CLI or Python.
@@ -156,11 +157,11 @@ Reply with one short sentence.
 
 ## browser_exec
 
-Drive a real web browser via the Browser Use CLI. The `code` argument is piped verbatim to the `browser-use` CLI on stdin and executed as full Python (standard library available) with the CLI's pre-imported browser helpers; stdout comes back in the result. Start `code` with a one-line comment describing the step for the user in plain, non-technical language, max 60 chars (e.g. `# Searching Amazon for paper towels`) — the UI displays it as the step label.
+Drive a real web browser via the Browser Use CLI: `code` runs as full Python (stdlib available) with pre-imported browser helpers; stdout comes back in the result. Start `code` with a one-line comment describing the step for the user in plain language, max 60 chars (e.g. `# Searching Amazon for paper towels`) — the UI shows it as the step label.
 
-STATE: the browser session and the workspace persist across calls; Python variables do NOT (each call is a fresh interpreter). The workspace is a stable directory — path in $BH_AGENT_WORKSPACE and returned as `workspace` in every result. For multi-item tasks ('collect all N products / every entry / the full table'), append each batch to a JSON/CSV file in the workspace as you go, then read it back to assemble the final answer; define reusable functions in agent_helpers.py there — the harness auto-imports it into every call. Do aggregation in code, not in your head: dedupe, count, sort, and format with Python inside the exec. Before giving a final answer on a multi-item task, verify the collected count against what was asked and go back for anything missing.
+STATE: the browser session and workspace persist across calls; Python variables do NOT (fresh interpreter each call). The workspace dir is $BH_AGENT_WORKSPACE (also `workspace` in every result); functions defined in agent_helpers.py there are auto-imported into every call. For multi-item tasks ('all N products / every entry'), append each batch to a JSON/CSV file in the workspace, then read it back and aggregate in code — dedupe/count/sort with Python, not in your head — and verify the collected count against what was asked before answering.
 
-Batch each sub-procedure (navigate, wait, extract, act) into one call — do not spend a call per action — but for long extractions prefer several medium calls that append to workspace files over one giant call, so progress survives timeouts. For a named cloud browser, pass session=<name> (never BU_NAME env syntax). Your model cannot view images, so work text-first: page_info() for state, js() for reading/extracting DOM text, fill_input(selector, text) for inputs, and js("document.querySelector('…').click()") for clicks — skip the screenshot-driven workflow described below.
+Batch each sub-procedure (navigate, wait, extract, act) into one call — do not spend a call per action — but for long extractions prefer several medium calls that append to workspace files over one giant call, so progress survives timeouts. Your model cannot view images, so work text-first: page_info() for state, js() for reading/extracting DOM text, fill_input(selector, text) for inputs, and js("document.querySelector('…').click()") for clicks — skip the screenshot-driven workflow described below.
 
 HELPERS (pre-imported): new_tab(url) opens/navigates (use for the FIRST navigation), goto_url(url) navigates the current tab, wait_for_load() after navigation, page_info() summarizes the current page state, js(expr) evaluates a JS expression and returns its value (js('document.title'); wrap function bodies as js('(() => {...})()') — a bare '() => {...}' returns the function itself, uncalled), fill_input(selector, text) types into inputs, click_at_xy(x, y) clicks viewport coordinates, capture_screenshot() saves and prints a screenshot path, cdp('Domain.method', **kwargs) is raw CDP — cdp('Accessibility.getFullAXTree')['nodes'] lists every element's role/name/backendDOMNodeId (filter in Python before printing; it is thousands of nodes), then cdp('DOM.getBoxModel', backendNodeId=n) gives click coordinates. ensure_real_tab() recovers from a stale/internal tab. Login walls: stop and ask the user; never guess credentials.
 
@@ -174,7 +175,7 @@ HELPERS (pre-imported): new_tab(url) opens/navigates (use for the FIRST navigati
     },
     "session": {
       "type": "string",
-      "description": "Named cloud browser session (sets BU_NAME). Omit for the local default daemon. Use the same name you passed to start_remote_daemon()."
+      "description": "Named isolated browser session — its own daemon and (on cloud backends) own browser, so concurrent tasks don't share tabs. Reuse the same name on every related call; omit for the shared default session."
     },
     "timeout_s": {
       "type": "integer",
@@ -190,21 +191,7 @@ HELPERS (pre-imported): new_tab(url) opens/navigates (use for the FIRST navigati
 
 ## clarify
 
-Ask the user a question when you need clarification, feedback, or a decision before proceeding. Supports three modes:
-
-1. **Single-select multiple choice** — provide up to 4 choices. The user picks one or types their own answer via a 5th 'Other' option. List the choice you recommend FIRST: the UI labels it '(Recommended)' and highlights it by default.
-2. **Multi-select multiple choice** — set multi_select=true. The user can select multiple options via checkboxes. user_response will be a list of selected choices.
-3. **Open-ended** — omit choices entirely. The user types a free-form response.
-
-CRITICAL: when you are offering options, put each option ONLY in the `choices` array — NEVER enumerate the options inside the `question` text. The UI renders `choices` as selectable rows; options written into the question string render as dead prose the user can't pick. Right: question='Which deployment target?', choices=['staging', 'prod']. Wrong: question='Which target? 1) staging 2) prod', choices=[].
-
-Use this tool when:
-- The task is ambiguous and you need the user to choose an approach
-- You want post-task feedback ('How did that work out?')
-- You want to offer to save a skill or update memory
-- A decision has meaningful trade-offs the user should weigh in on
-
-Do NOT use this tool for simple yes/no confirmation of dangerous commands (the terminal tool handles that). Prefer making a reasonable default choice yourself when the decision is low-stakes.
+Ask the user one or more questions when you need a decision, clarification, or feedback before proceeding. Pass every question in `questions` (1-5 entries) — a single question is a one-entry array, and several INDEPENDENT questions belong in ONE call (one form beats a chain of clarify calls; if one answer would change another question, ask separately). Per question: single-select (up to 4 choices — put your recommended option FIRST, the UI marks it '(Recommended)' and auto-appends an 'Other' free-text row), multi-select (multi_select=true), or open-ended (omit choices). Options go ONLY in `choices`, never enumerated inside the question text (choices render as pickable rows; options written into the question are dead prose the user can't click). Result: {responses: [...]} in question order (plus timed_out=true if the user stopped part-way). Prefer deciding low-stakes questions yourself; don't use this for dangerous-command confirmation (the terminal tool handles that).
 
 ```json
 {
@@ -216,14 +203,26 @@ Do NOT use this tool for simple yes/no confirmation of dangerous commands (the t
       "maxItems": 5,
       "description": "The question(s). Each: question text (options excluded), optional choices (recommended first; omit for free-text), optional multi_select. Responses come back in question order with the question text echoed.",
       "items": {
-        "type": "string"
-      },
-      "maxItems": 4,
-      "description": "REQUIRED whenever you are presenting selectable options: each distinct option is its own array element (up to 4). ORDER MATTERS: put the option you actually recommend FIRST — the UI labels it '(Recommended)' and pre-selects it, so a list ordered arbitrarily recommends the wrong thing to the user. Do not write '(Recommended)' yourself. The UI renders these as pickable rows and auto-appends an 'Other (type your answer)' option. Omit this parameter entirely ONLY for a genuinely open-ended free-text question."
-    },
-    "multi_select": {
-      "type": "boolean",
-      "description": "When true, the user can select MULTIPLE options (like checkboxes). The user_response will be a list of selected choices. When false (default), single selection (radio). Has no effect when choices is omitted (open-ended question)."
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 4
+          },
+          "multi_select": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "question"
+        ]
+      }
     }
   },
   "required": [
@@ -236,23 +235,7 @@ Do NOT use this tool for simple yes/no confirmation of dangerous commands (the t
 
 Manage scheduled cron jobs: action='create' schedules a job from a prompt and/or skills; 'list' inspects jobs; 'update'/'pause'/'resume'/'remove' manage one by job_id (always list first — never guess job IDs); 'run' fires a job immediately in the BACKGROUND (returns a handle at once, outcome re-enters the conversation when done — do not wait or poll; optional 'prompt' adds transient context for that fire only).
 
-Use action='create' to schedule a new job from a prompt or one or more skills.
-Use action='list' to inspect jobs.
-Use action='update', 'pause', 'resume', 'remove', or 'run' to manage an existing job.
-
-action='run' fires the job immediately in the BACKGROUND (like delegate_task): the call returns at once with a handle and the job's outcome re-enters the conversation as a new message when it finishes. Do not wait or poll after triggering a run — just continue. Optionally pass 'prompt' with action='run' to inject transient per-run context (appended to the job's stored prompt for that single fire only, never persisted).
-
-To stop a job the user no longer wants: first action='list' to find the job_id, then action='remove' with that job_id. Never guess job IDs — always list first.
-
-Jobs run in a fresh session with no current-chat context, so prompts must be self-contained.
-If skills are provided on create, the future cron run loads those skills in order, then follows the prompt as the task instruction.
-On update, passing skills=[] clears attached skills.
-
-NOTE: The agent's final response is auto-delivered to the target. Put the primary
-user-facing content in the final response. Cron jobs run autonomously with no user
-present — they cannot ask questions or request clarification.
-
-Scheduling from cron-run sessions is disabled by default and enabled via cron.allow_agent_scheduling in config.yaml. When enabled, jobs created from a cron run are user-owned in the same flat job table as every other job, and their delivery resolves to the creating job's own persistent target — never to the ephemeral cron-run session. Prefer updating an existing job (list first, then update by job_id) over creating near-duplicates.
+Jobs run in a fresh session with no current-chat context, so prompts must be self-contained, and the agent's FINAL RESPONSE is what gets delivered — cron runs are autonomous and cannot ask questions. Prefer updating an existing job over creating near-duplicates.
 
 ```json
 {
@@ -268,7 +251,7 @@ Scheduling from cron-run sessions is disabled by default and enabled via cron.al
     },
     "prompt": {
       "type": "string",
-      "description": "For create: the full self-contained prompt. If skills are also provided, this becomes the task instruction paired with those skills. For run: optional transient context appended to the stored prompt for that single fire only (never persisted)."
+      "description": "For create: the full self-contained prompt (paired with any skills as the task instruction). For run: optional transient context for that single fire (never persisted)."
     },
     "schedule": {
       "type": "string",
@@ -300,14 +283,6 @@ Scheduling from cron-run sessions is disabled by default and enabled via cron.al
     "monitor": {
       "type": "string",
       "description": "Optional change-detector that gates the agent: an http(s) URL (fetched each tick) or a script path (same rules as `script`, run each tick) — cheap, no LLM. Output identical to the previous tick skips the agent run entirely; changed output wakes the agent with a diff injected into the prompt. First tick always runs (baseline). Output must be deterministic (no timestamps) or every tick looks changed. Incompatible with no_agent. On update, '' clears."
-    },
-    "monitor_script": {
-      "type": "string",
-      "description": "Optional monitor-mode source script (same rules as `script`: relative to ~/.hermes/scripts/, .sh/.bash via bash, else Python). Each tick it runs FIRST and its output is hashed as exact bytes: UNCHANGED output suppresses the agent run entirely (no LLM, no delivery, recorded as a silent no_change tick); CHANGED output injects a MONITOR CHANGE DETECTED block (unified diff + new output) into the prompt before a normal agent run. The first tick always runs the agent (baseline). Scripts must emit STABLE output — no timestamps or random ordering — or every tick looks changed. Mutually exclusive with monitor_url; incompatible with no_agent=True. On update, pass empty string to clear."
-    },
-    "monitor_url": {
-      "type": "string",
-      "description": "Optional http(s) URL used as the monitor source instead of a script — fetched with a bounded GET (30s timeout, 256KB cap) each tick. Same hash-suppression semantics as monitor_script. Mutually exclusive with monitor_script. On update, pass empty string to clear."
     },
     "no_agent": {
       "type": "boolean",
