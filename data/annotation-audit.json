@@ -1,9 +1,9 @@
 {
   "schemaVersion": 2,
-  "reviewedAt": "2026-08-31",
-  "sourceCommit": "7ab8e3bd55b6364eceebf907bab285f256e2c53a",
-  "baselineAnnotationCount": 324,
-  "expectedAnnotationCount": 536,
+  "reviewedAt": "2026-08-16",
+  "sourceCommit": "f74e0b2a796e852137782cb3195962cc48daa5ae",
+  "baselineAnnotationCount": 381,
+  "expectedAnnotationCount": 599,
   "categories": [
     "goal",
     "eng",
@@ -44,7 +44,25 @@
     "omp-7",
     "omp-11",
     "omp-27",
-    "pi-1"
+    "pi-1",
+    "claude-code-44",
+    "claude-code-46",
+    "minimax-code-1",
+    "minimax-code-5",
+    "minimax-code-7",
+    "minimax-code-10",
+    "minimax-code-11",
+    "minimax-code-12",
+    "minimax-code-13",
+    "minimax-code-14",
+    "minimax-code-15",
+    "minimax-code-28",
+    "minimax-code-44",
+    "hermes-24",
+    "hermes-32",
+    "hermes-39",
+    "hermes-40",
+    "hermes-41"
   ],
   "addedAnnotations": [
     "codex-47",
@@ -81,26 +99,7 @@
     "pi-13",
     "pi-14",
     "dsh-0",
-    "dsh-1",
-    "dsh-2",
-    "dsh-3",
-    "dsh-4",
-    "dsh-5",
-    "dsh-6",
-    "dsh-7",
-    "dsh-8",
-    "dsh-9",
-    "dsh-10",
-    "dsh-11",
-    "dsh-12",
-    "dsh-13",
-    "dsh-14",
-    "dsh-15",
-    "dsh-16",
-    "dsh-17",
-    "antigravity-43",
-    "antigravity-44",
-    "antigravity-45"
+    "dsh-1"
   ],
   "philosophyFramework": {
     "interpretationStatus": "editorial-inference",
@@ -116,11 +115,11 @@
     "profiles": {
       "codex": {"thesis": "可观察的受托执行", "evidenceNotes": ["codex-48", "codex-49"]},
       "claude-code": {"thesis": "组织记忆型协作者", "evidenceNotes": ["claude-code-34", "claude-code-35"]},
-      "dsh": {"thesis": "运行时显式化的状态机工程师", "evidenceNotes": ["dsh-11", "dsh-13"]},
-      "antigravity": {"thesis": "指令—数据分型的窄接口分类器", "evidenceNotes": ["antigravity-43", "antigravity-45"]},
+      "dsh": {"thesis": "以运行时事实约束行动的证据型工程师", "evidenceNotes": ["dsh-0", "dsh-1"]},
+      "antigravity": {"thesis": "功能约束下的反模板设计者", "evidenceNotes": ["antigravity-31", "antigravity-32"]},
       "grok": {"thesis": "无人值守的可验证自治工程师", "evidenceNotes": ["grok-25", "grok-26"]},
       "kimi-code": {"thesis": "边界清晰的行动主义", "evidenceNotes": ["kimi-code-31", "kimi-code-32"]},
-      "minimax-code": {"thesis": "权限与来源分型的运行时编排者", "evidenceNotes": ["minimax-code-32", "minimax-code-43"]},
+      "minimax-code": {"thesis": "连续性总管与有界分工", "evidenceNotes": ["minimax-code-31", "minimax-code-32"]},
       "mimo": {"thesis": "完备性至上的长程执行器", "evidenceNotes": ["mimo-28", "mimo-29"]},
       "openclaw": {"thesis": "有灵魂但无私欲的常驻代理", "evidenceNotes": ["openclaw-29", "openclaw-30"]},
       "hermes": {"thesis": "以持久状态组织工作的操作型代理", "evidenceNotes": ["hermes-29", "hermes-30"]},
@@ -132,20 +131,25 @@
   },
   "coverageExpansion": {
     "source": "data/coverage-annotations.json",
-    "expectedCount": 189,
-    "reviewScope": "逐行复读 14 份默认 Prompt；对行为规则、工具状态语义、安全边界、上下文策略和产品架构新增锚点；多变体另存本地证据，纯 JSON/TypeScript 结构字段不做逐字段注水。",
+    "expectedCount": 190,
+    "reviewScope": "逐行复读 14 份 Prompt；对行为规则、工具状态语义、安全边界、上下文策略和产品架构新增锚点；纯 JSON/TypeScript 结构字段不做逐字段注水。",
     "selectionRule": "新增批注必须能提供独立的规则机制、设计取舍或风险解释，并锚定当前 Prompt 中已校验出现次数的原文子串。"
   },
-  "previousSyncReview": {
-    "previousCommit": "b326cca92451d7046b9bab0ebf6b5dba988ffc9d",
+  "syncReview": {
+    "previousCommit": "7f9f5b9faf87e11b9de183aae8ca116ecdfe56a5",
     "updatedAgents": {
-      "claude-code": {"from": "2.1.226", "to": "2.1.228", "summary": "新增 Monitor noop 折叠语义，并收紧子代理同步等待条件。"},
-      "antigravity": {"from": "1.1.11", "to": "1.1.12", "summary": "网页设计原则从第一眼惊艳转向功能优先、少而更好与反模板审美。"},
-      "grok": {"from": "1.0.0", "to": "1.0.3", "summary": "重写沟通与执行策略，加入浏览器端到端验收、多模态视频条件和子代理结果整合规则。"},
-      "kimi-code": {"from": "0.34.0", "to": "0.35.0", "summary": "子代理工具白名单移除递归 Agent 编排能力。"},
-      "mimo": {"from": "0.1.10", "to": "0.1.11", "summary": "新增 memory-search skill，将原始会话轨迹开放为 SQLite 查询面。"},
-      "opencode": {"from": "1.18.15", "to": "1.18.16", "summary": "仅捕获日期变化，没有稳定规则增量。"},
-      "omp": {"from": "17.2.12", "to": "17.2.15", "summary": "大幅压缩措辞与章节结构，核心工程、委派、验证及编辑协议保持同义。"}
+      "claude-code": {"from": "2.1.228", "to": "2.1.233", "summary": "移除 TaskCreate/TaskUpdate 工具契约，新增 Workflow 可见进度与后台终态完整报告规则。"},
+      "codex": {"from": "0.147.0", "to": "0.147.0", "summary": "同版本 Default variant 重新捕获，正文工具与技能目录收敛，既有批注锚点保持有效。"},
+      "dsh": {"from": null, "to": "0.1.0-rc.6", "summary": "新增 DeepSeek Harness Default variant，覆盖现有 GUI 验证、沙箱升级、目标状态与多套编排原语。"},
+      "antigravity": {"from": "1.1.12", "to": "1.1.13", "summary": "提示词压缩，保留功能优先、反模板与真实浏览器验证等核心规则。"},
+      "grok": {"from": "1.0.3", "to": "1.0.4", "summary": "版本推进但 Default Prompt 内容哈希未变。"},
+      "minimax-code": {"from": "3.0.60", "to": "3.0.65", "summary": "重写 Persona、root session 与任务路由；内部委派改为继承原任务授权，并要求单一有界子任务。"},
+      "kimi-code": {"from": "0.35.0", "to": "0.36.1", "summary": "版本推进但 Default Prompt 内容哈希未变。"},
+      "mimo": {"from": "0.1.11", "to": "0.1.12", "summary": "新增与调整技能、工具和运行时契约，既有高价值锚点保持有效。"},
+      "hermes": {"from": "v2026.8.3", "to": "v2026.8.13", "summary": "浏览器能力合并为 browser_exec，视觉读取、分批持久化与 cron 递归排程门禁语义重写。"},
+      "opencode": {"from": "1.18.16", "to": "1.18.18", "summary": "版本与捕获元数据更新，规则正文保持稳定。"},
+      "pi": {"from": "0.84.1", "to": "0.84.2", "summary": "版本推进但 Default Prompt 内容哈希未变。"},
+      "omp": {"from": "17.2.15", "to": "17.3.5", "summary": "工具与协作契约增量更新，原有工程、委派和验证锚点继续成立。"}
     },
     "addedCoverageAnnotations": [
       "claude-code-51",
@@ -158,7 +162,21 @@
       "grok-37",
       "grok-38",
       "kimi-code-48",
-      "mimo-54"
+      "mimo-54",
+      "dsh-2",
+      "dsh-3",
+      "dsh-4",
+      "dsh-5",
+      "dsh-6",
+      "dsh-7",
+      "dsh-8",
+      "dsh-9",
+      "dsh-10",
+      "dsh-11",
+      "dsh-12",
+      "dsh-13",
+      "minimax-code-48",
+      "minimax-code-49"
     ]
   },
   "syncReview": {
@@ -226,7 +244,7 @@
   "industrySources": [
     {
       "title": "Phistory pinned upstream commit",
-      "url": "https://github.com/WEIFENG2333/phistory/tree/7ab8e3bd55b6364eceebf907bab285f256e2c53a"
+      "url": "https://github.com/WEIFENG2333/phistory/tree/f74e0b2a796e852137782cb3195962cc48daa5ae"
     },
     {
       "title": "Anthropic: Effective context engineering for AI agents",

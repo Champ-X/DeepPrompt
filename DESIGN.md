@@ -6,8 +6,8 @@
 ## 0. Meta
 
 ```yaml
-version: 1.0.0
-last_updated: 2026-08-13
+version: 1.1.0
+last_updated: 2026-08-17
 upstream_source: https://phistory.cc
 schema: https://github.com/Eldergenix/SUPER-DESIGN/schema/v1
 framework:
@@ -22,11 +22,17 @@ i18n:
 
 ## 1. Brand Narrative & Philosophy
 
-DeepPrompt is an editorial archive, not a dashboard. Warm paper, restrained ink,
-serif display type and mono metadata make the source material feel researched and
-traceable. Interaction should reveal relationships without competing with the
-prompt: the homepage is the catalogue, the reader is the evidence desk, and
-annotation motion is an explanatory instrument rather than decoration.
+DeepPrompt is a model observatory and evidence archive, not a dashboard. Cold
+paper, ink-blue structure, condensed technical display type and mono metadata
+make the source material feel inspectable and traceable. Interaction should
+reveal relationships without competing with the prompt: the homepage is the
+specimen catalogue, the reader is the evidence desk, and annotation motion is
+an explanatory instrument rather than decoration.
+
+The homepage's signature element is the **identity spectrum ledger**: fourteen
+real navigation nodes use the same Agent colors as the reader rail. It is a
+compact index rather than a decorative rainbow; semantic annotation colors
+remain a separate system.
 
 **Principles:**
 
@@ -39,20 +45,20 @@ annotation motion is an explanatory instrument rather than decoration.
 ## 2. Color System
 
 ```tokens color.primitive
-- paper       (color): #f7f4ec
-- paper-deep  (color): #efe9dc
-- ink         (color): #23201b
-- ink-soft    (color): #565049
-- rule        (color): #c9c0ac
-- rule-soft   (color): #e3dccb
+- paper       (color): #eef0ec
+- paper-deep  (color): #e2e6e1
+- ink         (color): #172027
+- ink-soft    (color): #526065
+- rule        (color): #aeb8b3
+- rule-soft   (color): #d4dad5
 - white       (color): #ffffff
-- goal        (color): oklch(0.55 0.16 28)
-- engineering (color): oklch(0.52 0.10 200)
-- persona     (color): oklch(0.56 0.13 65)
-- safety      (color): oklch(0.50 0.15 20)
-- tool        (color): oklch(0.50 0.15 285)
-- success     (color): #4f7b53
-- danger      (color): #a43f35
+- goal        (color): oklch(0.48 0.09 176)
+- engineering (color): oklch(0.53 0.09 224)
+- persona     (color): oklch(0.62 0.12 78)
+- safety      (color): oklch(0.52 0.16 28)
+- tool        (color): oklch(0.49 0.12 291)
+- success     (color): #2f766d
+- danger      (color): #b64a3a
 ```
 
 ### 2.1 Semantic layer
@@ -78,6 +84,22 @@ the light values to keep automated contrast auditing deterministic.
 | `--color-danger` | `{color.primitive.danger}` | `{color.primitive.danger}` | destructive/error state | 4.5:1 |
 | `--color-success` | `{color.primitive.success}` | `{color.primitive.success}` | source freshness state | 4.5:1 |
 
+### 2.2 Agent identity layer
+
+The paper and ink remain neutral; `--agent-color` changes with the active reader
+and is used for the page glow, masthead identity, focus ring and spectrum rail.
+It never replaces the five semantic annotation colors.
+
+| Agent | Identity color | Agent | Identity color |
+|---|---:|---|---:|
+| Codex | `#2f766d` | Claude Code | `#c15f3c` |
+| Antigravity | `#5367d9` | Grok | `#36414b` |
+| Kimi Code | `#6553b8` | MiniMax | `#2f78bc` |
+| MiMo | `#d34f3a` | OpenClaw | `#c53b32` |
+| Hermes | `#c58a2a` | Kimi CLI | `#8a4f9e` |
+| opencode | `#4d7c4d` | Oh My Pi | `#9a4d79` |
+| Pi | `#8b6f32` | DeepSeek Harness | `#356aa0` |
+
 ### 2.2 Forced-colors
 
 ```css
@@ -90,8 +112,8 @@ the light values to keep automated contrast auditing deterministic.
 ## 3. Typography
 
 ```tokens font.family
-- display (fontFamily): ["Fraunces", "Noto Serif SC", "serif"]
-- body    (fontFamily): ["Newsreader", "Noto Serif SC", "serif"]
+- display (fontFamily): ["IBM Plex Sans Condensed", "Noto Serif SC", "sans-serif"]
+- body    (fontFamily): ["Source Serif 4", "Noto Serif SC", "serif"]
 - cjk     (fontFamily): ["Noto Serif SC", "serif"]
 - mono    (fontFamily): ["JetBrains Mono", "ui-monospace", "monospace"]
 ```
@@ -138,8 +160,8 @@ direction is structural rather than illustrative.
 ## 6. Elevation & Shadow
 
 ```tokens shadow
-- quiet (shadow): "0 0.875rem 2.125rem -1.75rem rgb(40 30 10 / 0.5)"
-- float (shadow): "0 1.25rem 3rem -1.75rem rgb(40 30 10 / 0.5)"
+- quiet (shadow): "0 0.875rem 2.125rem -1.75rem rgb(23 32 39 / 0.34)"
+- float (shadow): "0 1.25rem 3rem -1.75rem rgb(23 32 39 / 0.42)"
 - focus (shadow): "0 0 0 2px var(--color-bg), 0 0 0 5px var(--color-focus-ring)"
 ```
 
@@ -174,7 +196,8 @@ both paper and raised surfaces.
 | Component | default | hover | focus-visible | active | disabled |
 |---|---|---|---|---|---|
 | Archive card | paper surface | raised, accent rule | double focus ring | inset 1% | opacity 50% |
-| Arc item | muted icon on a fading orbit | raised paper node + one name tooltip | double focus ring + tooltip | paper surface with accent orbit ring; drag preview | hidden from tab order |
+| Identity ledger node | numbered Agent color mark | tinted identity surface | double focus ring | opens Agent evidence page | — |
+| Spectrum node | identity-colored icon on a curved rail | raised paper node + one name tooltip | double focus ring + tooltip | enlarged identity ring; drag preview | hidden from tab order |
 | Top-bar tool | cell in one continuous paper rail | quiet surface tint | double focus ring | inset 2% | opacity 50% |
 | Filter chip | outlined | ink border | double focus ring | category state | opacity 50% |
 | Annotation | quiet | source preview | double focus ring | one connector visible | collapsed with source |
@@ -184,9 +207,9 @@ Every actionable surface has a minimum 44×44 CSS pixel target and visible
 
 ## 9. Layout & Responsive
 
-- Catalogue: centered hero, responsive Agent grid, then the global seven-axis and five-theme synthesis.
-- Reader ≥ 1180px: icon-only fading quarter-orbit in the upper-left corner, centered source column, annotation margins. A short press remains a native button click; pointer capture begins only after the drag threshold. The orbit also supports wheel rotation, directional keys, and drag-to-preview with release-to-commit.
-- Reader < 1180px: icon-only bottom switcher and inline annotations. Horizontal drag, wheel and directional-key behavior match the desktop orbit.
+- Catalogue: left-aligned observatory masthead plus the 14-node identity spectrum ledger, followed by a uniform responsive Agent specimen grid, then the global seven-axis and five-theme synthesis.
+- Reader ≥ 1280px: a 112px identity spectrum rail, left annotation cards, 600–720px source column and right annotation cards occupy separate grid tracks. The annotation tracks explicitly clear legacy offsets and keep a 20–32px safety gutter from the source column. A short press remains a native button click; pointer capture begins only after the drag threshold. The rail supports wheel rotation, directional keys and vertical drag-to-preview with release-to-commit.
+- Reader < 1280px: the switcher becomes an icon-only bottom dock and annotations become distinct inline cards. Horizontal drag, wheel and directional-key behavior match the desktop rail.
 - Test widths: 320, 375, 768, 1024, 1440 and 1920; no horizontal scrolling.
 - Use `dvh` for viewport-relative reader controls and safe-area insets for mobile docks.
 
@@ -197,3 +220,10 @@ analysis singular, and never expose a margin annotation whose source is inside a
 closed disclosure. Connect only the currently focused pair; passive annotations
 use matching category color and shared identity, not a web of persistent lines.
 New controls require default, hover, focus-visible, active and disabled states.
+
+## 11. Runtime Architecture
+
+- `index.html` is a lightweight catalogue shell and must not contain `.agentview` sections.
+- `data/agents/{id}.html` owns one complete Agent reader section.
+- `scripts/archive-ui.js` fetches only the selected fragment, keeps parsed nodes in an in-memory cache, and exposes an actionable HTTP-service error state.
+- The homepage remains useful before any fragment request; direct `file://` reading is not a supported full-product mode.

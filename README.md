@@ -1,6 +1,6 @@
 # Agent 提示词档案馆
 
-这是一个无构建步骤、正文无运行时数据请求的静态网站。`index.html` 内嵌 Phistory 当前归档的 14 款 Agent 最新默认 Prompt，并提供原文高亮、左右批注、主题筛选、搜索、Logo 身份系统与横向总结；最新版存在的其他捕获变体也会作为本地证据保存。
+这是一个无构建步骤的静态网站。`index.html` 是轻量目录页，14 款 Agent 的完整 Prompt 与批注拆分在 `data/agents/*.html`，进入阅读页时按需载入并缓存；页面同时提供原文高亮、左右批注、主题筛选、搜索、Logo 身份系统与横向总结。
 
 ## 运行
 
@@ -8,29 +8,31 @@
 make serve
 ```
 
-打开 `http://127.0.0.1:8765/`。页面也可以直接从文件系统打开；本地服务器主要用于浏览器验收。
+打开 `http://127.0.0.1:8765/`。由于阅读页通过 `fetch()` 载入 Agent 分片，必须经 HTTP 服务访问；直接以 `file://` 打开时首页可见，但阅读页会显示明确的服务启动提示。
 
 ## 当前快照
 
-- Phistory commit：`7ab8e3bd55b6364eceebf907bab285f256e2c53a`
-- 上游索引时间：`2026-08-29T18:47:26.094966Z`
-- 覆盖：14 个 Agent、1116 个历史版本、1165 个历史快照索引
-- 当前态批注：536 组高亮/解读；其中 324 组为仍能逐字锚定当前 Prompt 的规则解释，28 组为“设计哲学”证据，189 组来自逐句覆盖扩展（部分哲学证据同时属于覆盖扩展）
-- 最新变体：21 份本地快照；Codex 有 default / GPT-5.6 / GPT-5.5，DeepSeek Harness 有 6 种运行表面
+- Phistory commit：`f74e0b2a796e852137782cb3195962cc48daa5ae`
+- 上游索引时间：`2026-08-16T08:58:23.185214Z`
+- 覆盖：14 个 Agent、1064 个历史快照索引
+- 批注：599 组高亮/解读；原有 381 组规则解释完整保留，另有 28 组“设计哲学”证据批注与 190 组逐句覆盖扩展
 
-相较上一固定快照，本轮新增 DeepSeek Harness `0.1.1-rc.2`，并同步 Claude Code `2.1.251`、Codex `0.151.0`、Antigravity `1.1.22`、Grok `1.0.13`、MiniMax Code `3.0.68`、Kimi Code `0.39.1`、MiMo Code `0.1.13`、Hermes `v2026.8.27`、opencode `1.18.25`、Pi `0.84.4` 与 Oh My Pi `18.0.11`。Antigravity 的最新 default 捕获只有 496 字节，角色已变为会话标题生成器；页面如实展示这一捕获表面，不再把旧编码助手规则伪装成当前原文。
+相较上一固定快照，本轮新增 DeepSeek Harness `0.1.0-rc.6`，并同步 Claude Code `2.1.233`、Antigravity `1.1.13`、Grok `1.0.4`、MiniMax Code `3.0.65`、Kimi Code `0.36.1`、MiMo Code `0.1.12`、Hermes `v2026.8.13`、opencode `1.18.18`、Pi `0.84.2` 与 Oh My Pi `17.3.5`。其中 Grok、Kimi Code 与 Pi 仅版本推进而 Default Prompt 内容哈希未变；Claude、MiniMax 与 Hermes 的行为/工具契约有显著重写。
 
 ## 数据与证据
 
-- `index.html`：唯一产品入口；HTML、JS、14 份默认 Prompt 与 536 条当前态批注内嵌，并含 14 份设计哲学画像与 7 条横向分析轴。
-- `reader-controls.css`：顶部阅读工具栏与 Agent 环形切换器的独立样式层，复用现有语义 token，并覆盖桌面圆弧与移动端底部形态。
+- `index.html`：约 22 KB 的唯一产品入口，承载导航、目录卡片、七条横向分析轴和五主题总结，不再内嵌 Prompt。
+- `archive.css`：档案馆的全局 token、首页身份色谱索引、目录、阅读正文、批注和加载状态样式。
+- `reader-controls.css`：顶部阅读工具栏与 Agent 色谱切换轨的独立样式层；桌面以五节点竖向弧轨切换，窄屏回退为底部三节点形态。
+- `scripts/archive-ui.js`：路由、搜索、筛选、批注连线以及 Agent 分片按需载入/缓存。
+- `data/agents/*.html`：每个 Agent 一份可独立重建的阅读分片，包含逐字 Prompt、设计哲学画像、高亮和批注池。
 - `data/manifest.json`：固定的 Phistory commit、版本、字节数、哈希、发布日期与快照数量。
 - `data/prompts/*.md`：从固定 Phistory commit 逐字节复制的最新 `prompt.md` 证据。
 - `data/variants/<agent>/<variant>.md`：最新版所有捕获变体的逐字节本地副本；页面当前展示 `default`，其余变体用于复核与后续界面扩展。
 - `data/prompts/codex.trace.jsonl`：Codex wire trace 证据。
 - `data/annotation-audit.json`：本轮标注方法、数量、增修清单与业界一手资料。
-- `data/coverage-annotations.json`：189 条当前逐句覆盖扩展的可重建锚点、解读与出现次数契约，并保留失效覆盖批注的退役 ID。
-- `data/annotation-coverage.json`：对 16,394 个非空原文行的逐行分类报告，区分已批注、机械 schema、重复材料、结构分隔符和“已复读但无独立解读增量”。
+- `data/coverage-annotations.json`：190 条逐句覆盖扩展的可重建锚点、解读与出现次数契约。
+- `data/annotation-coverage.json`：对 17,319 个非空原文行的逐行分类报告，区分已批注、机械 schema、重复材料、结构分隔符和“已复读但无独立解读增量”。
 - `agent-icons/`：14 个 Logo 与 `SOURCES.md` 来源说明。
 
 Phistory 的 `prompt.md` 会规范化临时路径、日期、会话 ID 等易变值，便于阅读和 diff；原始 `trace.jsonl` 保留捕获到的 wire request。因此本项目对页面正文主张“与固定 Phistory `prompt.md` 快照规范化文本一致”，对 Codex 原始请求则以 trace 为证。
@@ -47,7 +49,7 @@ python3 scripts/sync_phistory.py --source /tmp/phistory-source
 python3 scripts/rebuild_archive.py
 ```
 
-`sync_phistory.py` 更新默认 Prompt、全部最新变体、图标、Codex trace 与 manifest。`rebuild_archive.py` 再从证据文件重建页面内的 14 个原文栏，并迁移现有高亮锚点；任何高亮原文在新 Prompt 中消失时，脚本会失败并要求人工 review，避免静默保留错误标注。经审查确认已从上游删除或语义反转的批注会从当前页面退役，但继续记录在 `annotation-audit.json`、`coverage-annotations.json` 与 Git 历史中。
+`sync_phistory.py` 更新证据快照、图标、Codex trace 与 manifest，并在上游存在多个 variant 时固定选择网站标记的 `default`。`rebuild_archive.py` 再更新轻量 shell 与 `data/agents/*.html`，为新 Agent 生成导航、目录卡片和独立分片，并迁移现有高亮锚点；任何高亮原文在新 Prompt 中消失时，脚本会失败并要求人工 review，避免静默保留错误标注或丢失批注。
 
 如上游只做了经过人工确认的措辞调整，可在 `rebuild_archive.py` 的 `ANCHOR_OVERRIDES` 中显式记录锚点迁移。
 
@@ -61,16 +63,16 @@ GitHub Actions 会在 `main` 分支推送与 Pull Request 时执行同一组重�
 
 校验覆盖：
 
-- 14 份页面内嵌默认 Prompt 与固定快照规范化文本一致，21 份最新变体均有本地 SHA-256 与字节数；
+- 14 份按需载入的 Agent 分片与固定快照规范化文本一致，`index.html` 不含 Agent 正文；
 - Prompt 文件的字节数和 SHA-256 与 manifest 一致；
-- 536 个高亮与 536 条批注按 ID、主题逐一配对且无重复；
-- 324 条仍适用于当前快照的规则解释继续展示；28 条哲学证据明确标记为编辑推断；189 条覆盖扩展遍及全部 14 个 Agent；
-- 16,394 个非空原文行全部进入覆盖分类，新增锚点逐条校验所在 Agent、类别、原文与预期出现次数；
+- 599 个高亮与 599 条批注按 ID、主题逐一配对且无重复；
+- 381 条原规则解释仍在；28 条哲学批注明确标记为编辑推断；190 条覆盖扩展遍及全部 14 个 Agent；
+- 17,319 个非空原文行全部进入覆盖分类，新增锚点逐条校验所在 Agent、类别、原文与预期出现次数；
 - 每条批注具备主题、标题、原文短语和解读，正文不依赖运行时 Markdown 修补；
 - 本轮新增/修订批注和审计文件均绑定同一 Phistory commit；
 - 14 个 Agent 的导航、画廊、Logo、版本、发布日期、字节数和快照数一致；
 - 页面无重复 DOM ID，并展示固定 commit 与历史快照总数。
-- Chrome 1920×1080、1440×900 与 390×844 三档无页面横向溢出，当前 Agent 的高亮/批注数一致，并核验 14 份哲学画像、7 条设计轴与 28 条哲学证据；桌面端还逐 Agent 测量相邻高亮的实际渲染距离，最大空档不得超过 4,000px。验收同时模拟 Agent 圆弧拖拽与方向键切换，并检查顶部工具不溢出及交互目标尺寸。首页截图写入 `/tmp/deepprompt-home-{wide,desktop,mobile}.png`，画像截图写入 `/tmp/deepprompt-philosophy-{wide,desktop,mobile}.png`。
+- Chrome 1920×1080、1440×900 与 390×844 三档无页面横向溢出；1280px 起在 100% 缩放下使用左右批注卡，窄屏才生成正文内卡片。桌面验收额外断言批注与正文零重叠，1440px 至少保留 16px 安全间距。初始只载入一个 Agent，遍历后 14 个分片均进入缓存；当前 Agent 的高亮/批注数一致，并核验首页和阅读页各自完整的 14 种身份色、全部哲学画像、7 条设计轴与 28 条哲学证据。桌面端还逐 Agent 测量相邻高亮的实际渲染距离，最大空档不得超过 4,000px。验收同时模拟 Agent 色谱轨拖拽与方向键切换，并检查顶部工具不溢出及交互目标尺寸。首页截图写入 `/tmp/deepprompt-home-{wide,desktop,mobile}.png`，画像截图写入 `/tmp/deepprompt-philosophy-{wide,desktop,mobile}.png`。
 
 `browser_qa.mjs` 会自启临时静态服务器并直接使用 Chrome DevTools Protocol，不依赖 npm 包；macOS 默认使用 Google Chrome，其他平台可通过 `DEEPPROMPT_CHROME` 指定 Chromium/Chrome 可执行文件。传入 URL 时也可验收一个已运行的站点。
 
@@ -78,21 +80,20 @@ GitHub Actions 会在 `main` 分支推送与 Pull Request 时执行同一组重�
 
 - 规则解释层继续回答“规则要求什么、怎样运行、边界在哪里”；仍能锚定当前文本的 324 条全部保留，已被上游删除或反转的解释转入退役审计，不制造“历史规则仍是当前规则”的错觉。
 - 新增设计哲学层：按“规则事实 → 运行机制 → 哲学推断 → 内在张力”展开，并以“哲学层（推断）”显式区分分析与原文。
-- 逐句覆盖扩展：对 14 份默认 Prompt 的每个非空行重新分类，在工具协议、技能路由、任务状态、上下文继承、定时调度、记忆、进程与权限边界中形成 189 条当前深度批注。
+- 逐句覆盖扩展：对 14 份 Prompt 的每个非空行重新分类，在工具协议、技能路由、任务状态、上下文继承、定时调度、记忆、进程与权限边界中累计形成 190 条深度批注。
 - 空白不再靠猜测解释：纯 schema、重复目录和围栏结构保留原文但不逐字段注水；其余未单列批注的句子记录为“已复读、与相邻批注意义重合或没有独立解读增量”。
 - 每个 Agent 至少选取两条高价值证据，并在页首形成“哲学命题 + 内在张力”画像。
 - 横向新增受托关系、环境可读性、上下文经济、记忆制度、证据闭环、权限与风险、协作拓扑七条设计轴。
-- Claude Code：Monitor 用 `noop` 折叠连续静默轮询；子代理只有在下一步严格依赖结果时才同步阻塞。
+- DeepSeek Harness：实现 checkout、工作目录和用户正在看的 GUI 被拆成需独立验证的事实；沙箱升级、目标状态与多代理编排都有显式路由门槛。
+- Claude Code：移除 TaskCreate/TaskUpdate 工具说明，Workflow 用可见进度树承载编排状态，后台监控必须报告全部终态而非只报成功。
 - Codex：长等待不是拖延，而是避免 busy polling 的负载策略。
 - DeepSeek Harness：把工作目录、页面可观察性、文件策略、审批模式、目标武装状态与后台作业显式化；Ralph 用“全新子代理 + 共享工作区”检验持久状态是否真正可接力。
 - Antigravity：当前 default 捕获为标题生成角色；批注聚焦指令—数据分型、拒绝执行转录请求与 3–5 词单一输出契约，旧编码助手批注完整退役并留存审计。
 - Grok：新增真实浏览器端到端验收，并要求主代理在结束前整合子代理产物；默认瞬时并发从固定 16 改为宿主配置、默认 32。
 - Kimi Code：subagent 工具白名单移除 Agent/AgentSwarm，把递归编排权收回父代理。
-- MiMo Code：新增 `memory-search` skill，将跨会话原始轨迹开放为可聚合、可核验的 SQLite 查询面。
-- MiniMax Code：最新 Mavis 仍保留身份连续性，但委派、记忆与权限制度已重写；画像改为“权限与来源分型的运行时编排者”。
-- Oh My Pi：18.0.11 明确取消“同文件并发修改会自动合并”的旧假设，改为兄弟 Agent 先通过 hub 协调、指定集成负责人，只串行化不可分割的共享写边界。
-- opencode：本次只有捕获日期变化，没有据此制造新的规则解读。
-- Pi：`Inspect` 改为 `You can inspect`，从强制动作降为按需能力。
+- MiniMax Code：Root session 成为连续性与最终集成责任面；内部委派继承原任务授权，但每个 child 必须单一有界、所有权不重叠。
+- Hermes：浏览器工具收束为 `browser_exec`，批处理、工作区持久化、视觉读取与 cron 递归排程门禁语义同步重写。
+- MiMo Code、Oh My Pi 与 opencode 同步到最新 Default Prompt；对同义或纯版本变化只迁移证据，不制造新的因果解释。
 - 既有纠错：移除“模型名导致整套措辞”的无证据因果推断；补足特权标记协议对可信预处理的依赖；修正 `apply_patch` “唯一合法方式”等过度概括。
 
 规则解释采用“原文事实 → 运行机制 → 边界/风险”三层方法；哲学扩展再增加“设计推断 → 内在张力”，且推断不冒充厂商声明。分析参考 Anthropic 的 context engineering、长程 harness、多智能体与 agent evals 实践，OpenAI 的 harness engineering、agent guardrail / prompt injection 指南，MCP 人在回路规范，以及 OWASP 的 least-privilege、excessive-agency 与 confused-deputy 风险框架。完整链接见 `data/annotation-audit.json`。

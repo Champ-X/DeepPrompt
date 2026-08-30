@@ -14,7 +14,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX_PATH = ROOT / "index.html"
+ARCHIVE_CSS_PATH = ROOT / "archive.css"
 CONTROLS_CSS_PATH = ROOT / "reader-controls.css"
+ARCHIVE_UI_PATH = ROOT / "scripts" / "archive-ui.js"
+AGENT_DIR = ROOT / "data" / "agents"
 MANIFEST_PATH = ROOT / "data" / "manifest.json"
 ANNOTATION_AUDIT_PATH = ROOT / "data" / "annotation-audit.json"
 COVERAGE_ANNOTATIONS_PATH = ROOT / "data" / "coverage-annotations.json"
@@ -162,8 +165,14 @@ class ArchiveParser(HTMLParser):
 def main() -> None:
     if not INDEX_PATH.is_file():
         fail("index.html is missing")
+    if INDEX_PATH.stat().st_size > 100_000:
+        fail("index.html exceeded the 100 KB lightweight-shell budget")
+    if not ARCHIVE_CSS_PATH.is_file():
+        fail("archive.css is missing")
     if not CONTROLS_CSS_PATH.is_file():
         fail("reader-controls.css is missing")
+    if not ARCHIVE_UI_PATH.is_file():
+        fail("scripts/archive-ui.js is missing")
     if not MANIFEST_PATH.is_file():
         fail("data/manifest.json is missing")
     if not ANNOTATION_AUDIT_PATH.is_file():
@@ -173,18 +182,41 @@ def main() -> None:
     if not COVERAGE_REPORT_PATH.is_file():
         fail("data/annotation-coverage.json is missing")
 
-    html = INDEX_PATH.read_text(encoding="utf-8")
+    shell_html = INDEX_PATH.read_text(encoding="utf-8")
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
     audit = json.loads(ANNOTATION_AUDIT_PATH.read_text(encoding="utf-8"))
     coverage_annotations = json.loads(
         COVERAGE_ANNOTATIONS_PATH.read_text(encoding="utf-8")
     )
     coverage_report = json.loads(COVERAGE_REPORT_PATH.read_text(encoding="utf-8"))
+    expected_ids = {agent["id"] for agent in manifest["agents"]}
+    fragment_paths = {path.stem: path for path in AGENT_DIR.glob("*.html")}
+    if set(fragment_paths) != expected_ids:
+        fail(
+            "Agent fragment set mismatch: "
+            f"missing={sorted(expected_ids - set(fragment_paths))}, "
+            f"extra={sorted(set(fragment_paths) - expected_ids)}"
+        )
+    fragments = {
+        agent_id: fragment_paths[agent_id].read_text(encoding="utf-8")
+        for agent_id in sorted(expected_ids)
+    }
+    for agent_id, fragment in fragments.items():
+        if fragment.count('class="agentview"') != 1 or (
+            f'id="view-{agent_id}" data-agent="{agent_id}"' not in fragment
+        ):
+            fail(f"invalid Agent fragment root for {agent_id}")
+    if 'class="agentview' in shell_html:
+        fail("index.html must remain a lightweight shell without embedded Agent views")
+    if 'href="archive.css"' not in shell_html or 'src="scripts/archive-ui.js"' not in shell_html:
+        fail("index.html does not load the split archive CSS and UI script")
+    html = shell_html + "\n" + "\n".join(fragments.values())
     parser = ArchiveParser()
-    parser.feed(html)
+    parser.feed(shell_html)
+    for fragment in fragments.values():
+        parser.feed(fragment)
     parser.close()
 
-    expected_ids = {agent["id"] for agent in manifest["agents"]}
     if set(parser.sources) != expected_ids:
         fail(
             f"archive agents mismatch: missing={sorted(expected_ids - set(parser.sources))}, "
@@ -270,10 +302,10 @@ def main() -> None:
         for profile in profiles.values()
         for note_id in profile.get("evidenceNotes", [])
     ]
-    expected_philosophy_evidence = 2 * len(expected_ids)
+    expected_philosophy_notes = len(expected_ids) * 2
     if (
-        len(philosophy_note_ids) != expected_philosophy_evidence
-        or len(set(philosophy_note_ids)) != expected_philosophy_evidence
+        len(philosophy_note_ids) != expected_philosophy_notes
+        or len(set(philosophy_note_ids)) != expected_philosophy_notes
     ):
         fail("each agent must have two unique design-philosophy evidence notes")
     retired_coverage_ids = set(coverage_annotations.get("retiredAnnotations") or [])
@@ -441,8 +473,9 @@ def main() -> None:
         )
     if "data:image/svg+xml" not in html:
         fail("inline favicon is missing")
-    if "refreshAnnotationStats()" not in html:
-        fail("annotation totals are not derived from the current DOM")
+    archive_ui = ARCHIVE_UI_PATH.read_text(encoding="utf-8")
+    if "fetch('data/agents/'" not in archive_ui or "fragmentCache" not in archive_ui:
+        fail("Agent views are not loaded and cached on demand")
     previous_deep_review_notes = {
         "claude-code-29",
         "antigravity-28",
@@ -499,7 +532,7 @@ def main() -> None:
             fail(f"coverage expansion count drift for {agent_id}")
 
     print(
-        f"PASS: archive index contains {len(expected_ids)} current prompts, "
+        f"PASS: archive shell and {len(expected_ids)} Agent fragments contain current prompts, "
         f"{total_notes} highlight/note pairs, {len(expected_ids)} logos at three identity levels, "
         "accurate versions and byte metadata; "
         f"archive sha256={hashlib.sha256(INDEX_PATH.read_bytes()).hexdigest()}"
