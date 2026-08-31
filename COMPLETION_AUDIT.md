@@ -22,6 +22,7 @@
 | 证据完整性 | 每份 Prompt 的字节数和 SHA-256 与 manifest 一致 | PASS |
 | 元数据一致性 | 版本、发布日期、历史快照数、字节数、commit 均从 manifest 重建 | PASS |
 | 入口重构 | `index.html` 从 1,552,452 字节缩减为约 22 KB；CSS、JS 与 14 份 Agent 正文/批注分离，正文按需载入并缓存 | PASS |
+| 公开发布 | GitHub 仓库已公开，README 提供线上演示、复现、贡献、安全与许可状态说明；Vercel 生产部署状态为 Ready | PASS |
 | 同步可重复 | `sync_phistory.py` 同步 default 正文与全部最新 variants，再由 `rebuild_archive.py` + `verify_archive.py` 闭环校验 | PASS |
 | 浏览器验收 | `browser_qa.mjs` 自启临时静态服务，在 1920×1080、1440×900 与 390×844 检查 DOM、批注、哲学画像与页面宽度，并逐 Agent 量测批注空档 | PASS |
 | 导航控制层 | 桌面圆弧支持点击、滚轮、拖拽预览与方向键；390px 下顶部收敛为品牌、返回和来源，搜索与复制让位于正文 | PASS |

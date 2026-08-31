@@ -1,13 +1,13 @@
 # Design System: DeepPrompt Editorial Archive
 
-> This is the closed token layer for the archive UI. New interface code uses the
+> This is the canonical token layer for the archive UI. New interface code uses the
 > semantic tokens documented here; the generated prompt corpus remains verbatim.
 
 ## 0. Meta
 
 ```yaml
-version: 1.1.0
-last_updated: 2026-08-17
+version: 1.2.0
+last_updated: 2026-08-31
 upstream_source: https://phistory.cc
 schema: https://github.com/Eldergenix/SUPER-DESIGN/schema/v1
 framework:
