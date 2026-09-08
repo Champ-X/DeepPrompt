@@ -1,63 +1,87 @@
 # Completion Audit
 
-审计日期：2026-08-31（Asia/Shanghai）
+审计日期：2026-09-08（Asia/Shanghai）
 
-## 结果
+## 结果与来源
 
-项目已同步到 Phistory commit `7ab8e3bd55b6364eceebf907bab285f256e2c53a`。页面覆盖 14 个 Agent、1116 个历史版本、1165 个历史快照索引与 537 组高亮/批注；324 组仍能锚定当前原文的规则解释全部保留，另有 28 组设计哲学证据批注和 190 组逐句覆盖扩展。上游删除或反转的旧规则不再作为当前批注展示，但仍由 Git 历史与退役审计记录保留。
+项目已同步到核查时 Phistory 可见的最新 commit [`513e18d10df1421499c63f80fb7363311b973fad`](https://github.com/WEIFENG2333/phistory/tree/513e18d10df1421499c63f80fb7363311b973fad)，上游索引时间为 `2026-09-07T01:16:23.557127Z`。已逐字节核对 14 份 default Prompt 与 21 份最新变体；manifest 索引 1,163 个历史版本、1,231 个历史快照。历史索引数不表示本仓库保存了全部历史原文。
 
-## 本轮完成项
+本地起点落后于 origin/main，先快进同步到 `7c8ade0`，再以其 8 月 29 日 Prompt 与 537 条批注为本轮比较基线。最终保留 **572 条当前批注**：314 条规则解释、28 条明确标识的哲学推断、230 条扩展。变更情况如下：
 
-| 项目 | 证据 | 结果 |
-| --- | --- | --- |
-| 上游更新 | `data/manifest.json` 锁定 8 月 29 日最新 commit；同步 14 个 Agent、1165 个快照和全部最新变体 | PASS |
-| 原文同步 | `rebuild_archive.py --check` 证明 14 份 Agent 分片与本地 Default 快照一致 | PASS |
-| 标注配对 | 537 个唯一 highlight ID 与 537 个唯一 note ID 逐一对应 | PASS |
-| 规则解释保留 | 324 组当前有效规则解释仍在；失效解释转入退役清单，不与当前 Prompt 错配 | PASS |
-| 设计哲学扩展 | 14 个 Agent 各有 2 条原文证据、1 份哲学画像与内在张力；另有 7 条横向设计轴 | PASS |
-| 逐句覆盖扩展 | 累计 190 条深度批注，遍及全部 14 个 Agent；本轮为 DSH 新增工具/目标/权限证据，并补齐 MiniMax 长工具段的视觉覆盖 | PASS |
-| 全文分类 | `annotation-coverage.json` 对 16,394 个非空原文行逐行分类，无未归类行或无法映射的批注 | PASS |
-| 推断标识 | 28 条哲学批注均显式包含“哲学层（推断）”，不冒充 Prompt 原意或厂商声明 | PASS |
-| 标注纠错 | Antigravity 的当前角色漂移、Claude、MiniMax、Kimi Code、Hermes 与 OMP 的失效/反转规则已按最新原文重建或退役 | PASS |
-| 证据完整性 | 每份 Prompt 的字节数和 SHA-256 与 manifest 一致 | PASS |
-| 元数据一致性 | 版本、发布日期、历史快照数、字节数、commit 均从 manifest 重建 | PASS |
-| 入口重构 | `index.html` 从 1,552,452 字节缩减为约 22 KB；CSS、JS 与 14 份 Agent 正文/批注分离，正文按需载入并缓存 | PASS |
-| 公开发布 | GitHub 仓库已公开，README 提供线上演示、复现、贡献、安全与许可状态说明；Vercel 生产部署状态为 Ready | PASS |
-| 同步可重复 | `sync_phistory.py` 同步 default 正文与全部最新 variants，再由 `rebuild_archive.py` + `verify_archive.py` 闭环校验 | PASS |
-| 浏览器验收 | `browser_qa.mjs` 自启临时静态服务，在 1920×1080、1440×900 与 390×844 检查 DOM、批注、哲学画像与页面宽度，并逐 Agent 量测批注空档 | PASS |
-| 导航控制层 | 桌面圆弧支持点击、滚轮、拖拽预览与方向键；390px 下顶部收敛为品牌、返回和来源，搜索与复制让位于正文 | PASS |
+| 类型 | 数量 | 说明 |
+| --- | ---: | --- |
+| 内容或锚点修订 | 160 | 包含 10 条恢复时一并纠正的历史批注，不与以下类别互斥 |
+| 新增 | 66 | 为当前原文新增规则、边界、失败模式与设计分析 |
+| 历史恢复 | 38 | Antigravity 恢复编码助手捕获后，重新核对并恢复有证据的旧批注 |
+| 退役 | 69 | 原文已删除、反转或角色已变化，保存原锚点、解读与具体理由 |
 
-## 标注 Review 结论
+数量核对：`537 − 69 + 38 + 66 = 572`。逐条修订理由见 [`data/annotation-audit.json`](data/annotation-audit.json)，退役完整记录见 [`data/retired-annotations.json`](data/retired-annotations.json)。前轮审计保留于 [`data/review-history/2026-08-31.json`](data/review-history/2026-08-31.json)。
 
-规则层继续以“原文事实、运行机制、适用边界或风险”为解读层级，重点处理了三类问题：
+## 当前版本与批注
 
-1. 删除无证据因果推断，例如不能仅凭 opencode 声明 `gpt-4.1` 就断定整套措辞为该模型专项调校。
-2. 修正过度概括，例如 Codex 的 `apply_patch` 规则对格式化和批量机械改写存在明确例外。
-3. 补足安全前提，例如 OMP 的 system 标记语义依赖可信清洗器，跨会话委派必须防止权限洗白。
+| Agent | 版本 | 上游发布时间（UTC） | 批注 |
+| --- | --- | --- | ---: |
+| Claude Code | `2.1.263` | 2026-09-06 | 48 |
+| Codex CLI | `0.153.4` | 2026-09-04 | 55 |
+| DeepSeek Harness | `0.1.2-rc.1` | 2026-09-03 | 31 |
+| Antigravity CLI | `1.1.27` | 2026-09-05 | 42 |
+| Grok Build | `1.0.13` | 2026-08-28 | 39 |
+| MiniMax Code | `3.0.68` | 2026-08-27 | 32 |
+| Kimi Code | `0.41.0` | 2026-09-04 | 46 |
+| MiMo Code | `0.1.14` | 2026-09-02 | 12 |
+| OpenClaw | `2026.9.2` | 2026-09-05 | 69 |
+| Hermes Agent | `v2026.8.31` | 2026-08-31 | 45 |
+| Kimi CLI | `1.50.0` | 2026-09-01 | 41 |
+| opencode | `1.18.29` | 2026-09-04 | 37 |
+| Pi | `0.85.1` | 2026-09-05 | 19 |
+| Oh My Pi | `18.1.13` | 2026-09-07 | 56 |
 
-本轮逐句复读延伸到 DSH 的运行时状态机、审批、目标恢复、Ralph 与后台作业语义；同时将 Antigravity 从旧编码助手解读改为当前标题生成器的“指令—数据分型”，并记录 OMP “同文件修改不保证合并”的规则反转。
+其中 12 个 Agent 的包版本前进；Kimi CLI 与 Pi 的 default 正文字节未变化，opencode 仅捕获日期改变。版本、捕获时间、SHA-256 与变体列表以 [`data/manifest.json`](data/manifest.json) 为准。
 
-设计哲学层在规则解释之上增加“哲学推断与内在张力”，形成七条横向坐标：受托关系、环境可读性、上下文经济、记忆制度、证据闭环、权限与风险、协作拓扑。每条新增批注同时保留具体规则机制，并显式标注推断身份。
+## 主要纠错与扩展
 
-## 自动验证输出
+- **Codex**：新版授权跨回合持续，按任务意图推进，确需批准时先准备可审阅结果。移除旧“诊断不能修复”的权限分类及已不存在的具体工具/Git规则，补足异步澄清、上下文连续性与完成证据。
+- **Kimi Code**：纠正 Git 操作一律重复确认的解读，保留明确 standing instruction 的例外。补充实际交付形态的验证、自动审批不等于用户要求实施、拒绝不得绕过等边界。
+- **MiMo**：当前 default 为带 StructuredOutput 的标题生成请求，旧编码/工具/记忆批注 55 条退役，新增 12 条标题角色批注。分析实体保真、检索价值、locale、48 字符上限及“Never use tools”与 StructuredOutput 的指令张力，明确不能泛化为产品全部能力。
+- **Antigravity**：default 从上一轮标题角色恢复编码助手；恢复有效历史批注并新增证据。补充紧凑轨迹、组件响应式和设计措辞张力，纠正异步通知、绝对路径等过度保证。
+- **OpenClaw**：扩展 Automations、受保护凭据引用、可见子会话、进度持久化和投递/执行的不同成功条件。补充 USER.md 偏好冲突消解、初始化不能阻塞任务、技能逐项选择与本地安装验证。
+- **Hermes / OMP**：更新持久内核的中断边界、技能原子回滚、落盘哈希 verified 的含义，以及 Eval、AgentHandle、workpool、父内核工具与无效结构化结果的处理。CLI 交付限制明确限定在本次会话。
+- **稳定快照同样复核**：纠正 worktree 等于沙箱、单次批量编辑必然原子、gitignore 能保护秘密、措辞能证明模型专项失败或 SWE-bench 来源等过度推断。修复 Kimi 批注中被强调标记破坏的 `**` 通配符，并区分工具说明与 schema 实际约束。
 
-```text
-PASS: shell and Agent fragments match the pinned prompt snapshots.
-PASS: archive shell and 14 Agent fragments contain current prompts, 537 highlight/note pairs,
-14 logos at three identity levels, accurate versions and byte metadata.
+首页 14 个题眼与哲学画像、七条设计轴和五类主题总结均同步修订，并提供可追溯的原文依据。
 
-desktop: innerWidth=1440, scrollWidth=1440, annotations=537,
-         highlights=45, notes=45, loadedAgents=1, lazy-loaded total=14
-mobile: innerWidth=390, scrollWidth=390, annotations=537,
-        highlights=45, notes=45, inlineNotes=45, loadedAgents=1
+## 防止再次错配
 
-visual coverage: 14/14 Agent measured; largest rendered gap=3,598px,
-                 regression threshold=4,000px
-```
+全量批注的唯一编辑入口为 [`data/annotations.json`](data/annotations.json)。每条记录绑定 Agent、源文件哈希、精确子串、预期出现次数、选中出现序号与起止行；引文直接由 anchor 生成。定位不再默认选择首个相同字符串，也不允许意译充当直接引文。
 
-## 已知边界
+[`data/editorial.json`](data/editorial.json) 统一维护首页和阅读页的编辑概括，以 evidenceNotes 指向当前有效批注。生成器校验其来源 commit、Agent 归属及哲学推断标识。同步脚本要求干净的上游 checkout 和唯一 default，验证器同时检查变体、来源链接与 Codex trace 的版本、字节数和哈希。
 
-- 页面正文对应 Phistory 的规范化 `prompt.md`，并不等同于未经规范化的原始 wire payload；Codex 的原始捕获另由 trace 文件提供。
-- 完整阅读依赖 HTTP 服务来载入 `data/agents/*.html`；`file://` 只保证目录页可见，并会在进入 Agent 时提示使用 `make serve`。
-- 批注是独立分析，不代表 Agent 厂商立场；设计哲学画像尤其属于由 Prompt 证据支持的编辑推断，而不是对作者动机的事实断言。
-- 上游每小时更新，固定快照只代表本次审计时点；再次同步后必须重新运行锚点迁移和完整校验。
+批注 HTML 只允许受限的内联标记；文字中的 XML/HTML 标签必须转义，避免内容被浏览器吞掉。未批注内容只做机械分类，不再自动宣称“已经复读且没有独立价值”。
+
+## 页面修复与验证
+
+- 修复移动端克隆批注的重复 DOM ID；高亮的 aria-describedby、点击定位和激活状态对应实际显示的行内卡片。
+- 原文依据链接保持独立点击行为；被主题筛选隐藏的高亮不能通过键盘重新激活。
+- 修复隐藏导航节点仍因键盘焦点覆盖当前 Agent 图标的问题，并在切换后转移焦点。
+- 首页和阅读页提供 default 捕获说明、完整本地原文、固定上游及其他最新变体链接。
+
+`make check` 已通过，结果如下：
+
+| 验证 | 结果 |
+| --- | --- |
+| 12 项回归测试 | PASS：重复段落、同一行重复引文、多行代码、错误哈希/行号/Agent、重叠、HTML 与缺失 default |
+| 重建幂等与全文分类 | PASS：shell、14 份分片及 16,394 个非空原文行的分类可重建 |
+| 来源与批注一致性 | PASS：572 组高亮/批注、21 份变体、Codex trace、14 个图标和页面元数据 |
+| 42 组阅读页检查 | PASS：14 Agent × 1920×1080、1440×900、390×844，无横向溢出、重复 ID、引文或依据错配 |
+| 交互与运行时 | PASS：懒加载、点击/拖拽/方向键、搜索/清除、主题筛选、批注激活、连线与折叠源码；无捕获到的 JS 运行时错误 |
+| 视觉间隔回归 | PASS：最大高亮间隔 3,780px，既有阈值 4,000px；OpenClaw 从 5,640px 降为 3,353px，新增的是有独立价值的规则分析 |
+
+已检查首页、桌面连线、移动端与 MiMo/OpenClaw 的截图。自动检查证明来源与显示结构的一致性；它不能替代对中文解读正确性的编辑判断。
+
+## 边界
+
+- “最新”以本次核查时 Phistory 可见的索引为准，不声称各厂商所有线上模型使用同一实时 Prompt。当前批注只对应 default，其他变体提供原文。
+- Phistory 的 prompt.md 已规范化临时路径、时间或会话值；本地证据逐字节复制，页面则解析 Markdown 后展示正文，不能把页面 HTML 当作原始 wire payload。
+- 16,394 个非空行均已进入机械分类，但没有把所有未批注代码/schema认定为低价值，也不宣称它们全部完成了人工逐行复读。
+- 设计哲学是明确标识的编辑推断，不是厂商立场、模型能力基准测试或作者动机证明。
+- 本审计记录内容修订与本地验收；发布状态以对应的 Git commit、CI 与 Vercel 部署记录为准。完整阅读通过 HTTP 加载分片，使用 `make serve`；`file://` 不支持完整阅读流程。

@@ -10,7 +10,8 @@
         <span class="mh-chip">49,001 字节</span>
       </div>
       <div class="mh-lead">题眼 · 无人值守自治, 本地可逆即行动, 完整句式, 最终回复独立成立, 浏览器端到端验收</div>
-      <div class="mh-philosophy" data-philosophy-agent="grok"><span class="ph-label">设计哲学 · editorial inference</span><h3>无人值守的可验证自治工程师</h3><p>清晰且可逆的本地任务必须当轮推进，用户界面改动则必须通过真实浏览器交互、共享路由和响应式视口的端到端证据；沟通也要脱离内部工具记录独立成立。</p><p class="ph-tension"><b>内在张力：</b>运行前提强调“没有人类操作员”，却用更重的行为验证与完整交付约束自治质量；它减少过程请示，同时把证明责任更多地压回 Agent 自身。</p></div>
+      <div class="mh-philosophy" data-philosophy-agent="grok"><span class="ph-label">设计哲学 · editorial inference</span><h3>无人值守的可验证自治工程师</h3><p>清晰且可逆的本地任务必须当轮推进，用户界面改动则必须通过真实浏览器交互、共享路由和响应式视口的端到端证据；沟通也要脱离内部工具记录独立成立。</p><p class="ph-tension"><b>内在张力：</b>运行前提强调“没有人类操作员”，却用更重的行为验证与完整交付约束自治质量；它减少过程请示，同时把证明责任更多地压回 Agent 自身。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L15-L15" target="_blank" rel="noopener noreferrer" title="工具选择也是交互设计">Grok Build L15</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L27-L27" target="_blank" rel="noopener noreferrer" title="用户消息必须跨越可见性边界">Grok Build L27</a></span></div>
+      <div class="mh-evidence"><span>批注对应 default 捕获</span> · <a href="data/prompts/grok.md" target="_blank" rel="noopener">完整原文</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md" target="_blank" rel="noopener">固定上游快照</a></div>
     </header>
     <div class="stage">
       <div class="margin left" id="mL-grok"></div>
@@ -30,7 +31,7 @@
         <p class="src reveal">&lt;/work_policy&gt;</p>
         <p class="src reveal">&lt;tool_calling&gt;</p>
         <ul class="src reveal">
-        <li><span class="hl" data-cat="tool" data-note="grok-25">Use specialized tools instead of bash commands when possible, as this provides a better user experience.</span> For file operations, prefer dedicated file tools (e.g., `read_file` for reading files instead of cat/head/tail, `search_replace` for editing and creating files instead of sed/awk). Reserve bash tools exclusively for actual system commands and terminal operations that require shell execution. <span class="hl" data-cat="tool" data-note="grok-3">NEVER use bash echo or other command-line tools to communicate</span> thoughts, explanations, or instructions to the user. Output all communication directly in your response text instead.</li>
+        <li><span class="hl kw" data-cat="tool" data-note="grok-25">Use specialized tools instead of bash commands when possible, as this provides a better user experience.</span> For file operations, prefer dedicated file tools (e.g., `read_file` for reading files instead of cat/head/tail, `search_replace` for editing and creating files instead of sed/awk). Reserve bash tools exclusively for actual system commands and terminal operations that require shell execution. <span class="hl" data-cat="tool" data-note="grok-3">NEVER use bash echo or other command-line tools to communicate</span> thoughts, explanations, or instructions to the user. Output all communication directly in your response text instead.</li>
         </ul>
         <p class="src reveal">&lt;/tool_calling&gt;</p>
         <p class="src reveal">&lt;background_tasks&gt;</p>
@@ -42,7 +43,7 @@
         <p class="src reveal">&lt;/background_tasks&gt;</p>
         <p class="src reveal">&lt;communication&gt;</p>
         <p class="src reveal"><span class="hl kw" data-cat="persona" data-note="grok-2">Communicate directly and concisely</span>, in complete sentences. Concise means being selective about what you include, not clipping the prose: <span class="hl kw" data-cat="persona" data-note="grok-0">no telegraphic fragments</span>, no shorthand the user hasn't used.</p>
-        <p class="src reveal"><span class="hl" data-cat="eng" data-note="grok-26">Write every user-facing message for a reader who has NOT seen your tool calls, internal notes, or workspace documents</span>:</p>
+        <p class="src reveal"><span class="hl kw" data-cat="eng" data-note="grok-26">Write every user-facing message for a reader who has NOT seen your tool calls, internal notes, or workspace documents</span>:</p>
         <ul class="src reveal">
         <li>Restate what you did and what you found in plain language. Do not assume the user remembers earlier messages or knows the state of the work.</li>
         <li>Define project-specific terms, abbreviations, and codenames on first use. Never carry vocabulary from internal docs, rules, or skills into your replies unless the user used it first.</li>
@@ -116,7 +117,7 @@
         <li>Every question automatically gets an "Other" choice where the user can type their own answer.</li>
         <li><span class="hl" data-cat="persona" data-note="grok-21">Put your recommended option first and append "(Recommended)" to its label</span>.</li>
         </ul>
-        <details class="rawblob reveal"><summary>展开原始工具 schema · verbatim（64 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（64 行，已折叠）</summary><pre class="code reveal"><code>{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "required": [
     "questions"
@@ -206,7 +207,7 @@
         <li>Returns current output, status, and exit code if completed</li>
         <li>If output is large, use read_file on the output_file path</li>
         </ul>
-        <details class="rawblob reveal"><summary>展开原始工具 schema · verbatim（26 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（26 行，已折叠）</summary><pre class="code reveal"><code>{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "properties": {
     "task_ids": {
@@ -241,7 +242,7 @@
         <li>Only filter by 'type' or 'glob' when you are sure of the file type; import paths may not match source file types (.js vs .ts).</li>
         <li>Output is ripgrep-style: ':' marks match lines, '-' marks context lines, grouped by file. Large results are capped and report "at least" counts.</li>
         </ul>
-        <details class="rawblob reveal"><summary>展开原始工具 schema · verbatim（60 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（60 行，已折叠）</summary><pre class="code reveal"><code>{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "required": [
     "pattern"
@@ -303,7 +304,7 @@
 }</code></pre></details>
         <h2 class="mdh h2 reveal">image_edit</h2>
         <p class="src reveal">Edit or transform existing image(s) via the xAI Imagine API; <span class="hl" data-cat="tool" data-note="grok-27">use instead of image_gen for image-to-image work</span> (preserve likeness, transfer style, remix). <span class="hl" data-cat="eng" data-note="grok-28">Returns the saved image's absolute path. When telling the user where it was saved, refer to it by its short session-relative path</span> (e.g. `images/1.jpg`) rather than the absolute path, so it renders as a clickable link that opens the image. Each required `image` is one reference — a user-attachment token (e.g. "[Image #1]"), an absolute filesystem path, or a `data:image/...;base64,...` URL (see the `image` parameter for the resolution order and details).</p>
-        <details class="rawblob reveal"><summary>展开原始工具 schema · verbatim（26 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（26 行，已折叠）</summary><pre class="code reveal"><code>{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "required": [
     "prompt",
@@ -351,7 +352,7 @@
 }</code></pre>
         <h2 class="mdh h2 reveal">image_to_video</h2>
         <p class="src reveal">Generate a video from a single source image; returns the saved video's absolute path. When telling the user where it was saved, refer to it by its short session-relative path (e.g. `videos/1.mp4`) rather than the absolute path, so it renders as a clickable link that opens the video. Provide `image` for the image to animate and optionally a `prompt` to guide the animation. Use this tool when the user provides an image and wants it animated, turned into a video, or used as the first frame. Example: image_to_video(image="/Users/me/photo.jpg", prompt="gentle camera push-in with wind moving the hair", duration=6, resolution_name="480p")</p>
-        <details class="rawblob reveal"><summary>展开原始工具 schema · verbatim（35 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（35 行，已折叠）</summary><pre class="code reveal"><code>{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "required": [
     "image"
@@ -434,7 +435,7 @@
         <p class="src reveal">**Output volume**: Every stdout line is a main-agent wake. <span class="hl" data-cat="tool" data-note="grok-16">Print only `DONE`/`FAILED`/`CANCELLED`. No progress or CHANGE lines</span>. Use `grep --line-buffered` in pipes (plain `grep` buffers and delays events by minutes).</p>
         <p class="src reveal">**Responsiveness**: Emit `FAILED` to notify immediately when any required item fails; never wait for unrelated work to finish. Include every tracked failure signal in this immediate failure condition.</p>
         <p class="src reveal">Set `persistent: true` for session-length watches (PR monitoring, log tails) -- the monitor runs until you call kill_command_or_subagent or until the session ends. Otherwise it stops at `timeout_ms` (default 10h).</p>
-        <details class="rawblob reveal"><summary>展开原始工具 schema · verbatim（33 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（33 行，已折叠）</summary><pre class="code reveal"><code>{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "required": [
     "command",
@@ -477,7 +478,7 @@
         <li>This tool can read PDF files (.pdf), PowerPoint files (.pptx), Jupyter notebooks (.ipynb files), and image files (e.g. PNG, JPG, etc).</li>
         <li>When reading an image file the contents are presented visually as this tool uses multimodal LLMs.</li>
         </ul>
-        <details class="rawblob reveal"><summary>展开原始工具 schema · verbatim（36 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（36 行，已折叠）</summary><pre class="code reveal"><code>{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "required": [
     "target_file"
@@ -515,7 +516,7 @@
 }</code></pre></details>
         <h2 class="mdh h2 reveal">reference_to_video</h2>
         <p class="src reveal">Generate a video from reference images and/or preset voices, guided by a required text prompt; returns the saved video's absolute path. When telling the user where it was saved, refer to it by its short session-relative path (e.g. `videos/1.mp4`) rather than the absolute path, so it renders as a clickable link that opens the video. Provide up to 7 `images` (style/content references: people, objects, clothing, settings) and/or up to 3 `voices` (preset voice identifiers the subjects speak in); at least one of either is required. Tag references in the prompt as `&lt;IMAGE_0&gt;`, `&lt;IMAGE_1&gt;`, ... and `&lt;AUDIO_0&gt;`, `&lt;AUDIO_1&gt;`, ... Use this tool when the user wants a video referencing existing images without locking the first frame, or wants a speaking subject with a specific voice. Example: reference_to_video(prompt="The person from &lt;IMAGE_0&gt; presents the product from &lt;IMAGE_1&gt;, speaking with the voice from &lt;AUDIO_0&gt;", images=["/Users/me/host.jpg", "/Users/me/product.jpg"], voices=["eve"], aspect_ratio="16:9", duration=10, resolution_name="480p")</p>
-        <details class="rawblob reveal"><summary>展开原始工具 schema · verbatim（46 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（46 行，已折叠）</summary><pre class="code reveal"><code>{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "required": [
     "prompt",
@@ -570,7 +571,7 @@
         <li>If the output exceeds 40000 characters, the middle is truncated (you keep the beginning and end) and the result includes the path to a log file with the full output, which you can read or search.</li>
         <li>You can use the background parameter to run the command in the background (e.g., dev servers, long builds): it returns a task id immediately and keeps running in the background. You are notified on completion, so do not poll or sleep-wait for it. You do not need to use '&amp;' at the end of the command when using this parameter.</li>
         </ul>
-        <details class="rawblob reveal"><summary>展开原始工具 schema · verbatim（34 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（34 行，已折叠）</summary><pre class="code reveal"><code>{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "required": [
     "command",
@@ -616,7 +617,7 @@
         <li><span class="hl" data-cat="goal" data-note="grok-33">Tasks auto-expire after 7 days</span></li>
         <li>For one-time delayed work, run a background terminal command (e.g. `sleep 1800 &amp;&amp; &lt;command&gt;`) instead; its completion notifies you</li>
         </ul>
-        <details class="rawblob reveal"><summary>展开原始工具 schema · verbatim（52 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（52 行，已折叠）</summary><pre class="code reveal"><code>{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "properties": {
     "task_id": {
@@ -699,7 +700,7 @@
         <li><span class="hl" data-cat="eng" data-note="grok-30">`old_string` must match exactly one place in the file.</span> If it appears more than once, add surrounding lines to make it unique, or set `replace_all` to change every occurrence (handy for renaming an identifier).</li>
         <li>To create a new file, set `old_string` to an empty string.</li>
         </ul>
-        <details class="rawblob reveal"><summary>展开原始工具 schema · verbatim（28 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（28 行，已折叠）</summary><pre class="code reveal"><code>{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "required": [
     "file_path",
@@ -730,7 +731,7 @@
         <h2 class="mdh h2 reveal">search_tool</h2>
         <p class="src reveal">Search for MCP tools by keyword and retrieve their input schemas.</p>
         <p class="src reveal">If status is "partial", some servers may still be connecting.</p>
-        <details class="rawblob reveal"><summary>展开原始工具 schema · verbatim（24 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（24 行，已折叠）</summary><pre class="code reveal"><code>{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "required": [
     "query"
@@ -784,7 +785,7 @@
         <li>grok-build</li>
         </ul>
         <p class="src reveal">If the user does not explicitly request a model, omit `model` to inherit the parent model.</p>
-        <details class="rawblob reveal"><summary>展开原始工具 schema · verbatim（61 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（61 行，已折叠）</summary><pre class="code reveal"><code>{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "required": [
     "prompt",
@@ -848,7 +849,7 @@
         <h2 class="mdh h2 reveal">todo_write</h2>
         <p class="src reveal">Create and manage a structured task list. <span class="hl" data-cat="goal" data-note="grok-31">The user sees this list live — it is your primary way to show progress.</span></p>
         <p class="src reveal">Use for any task with 3+ steps. Skip for trivial single-step work.</p>
-        <details class="rawblob reveal"><summary>展开原始工具 schema · verbatim（51 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（51 行，已折叠）</summary><pre class="code reveal"><code>{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "required": [
     "todos"
@@ -902,7 +903,7 @@
         <h2 class="mdh h2 reveal">use_tool</h2>
         <p class="src reveal">Call an MCP integration tool.</p>
         <p class="src reveal">The `tool_name` must be the qualified `server__tool` name (e.g., `linear__save_issue`). The <span class="hl" data-cat="tool" data-note="grok-23">`tool_input` must conform exactly to the tool's input schema</span> as returned by `search_tool`.</p>
-        <details class="rawblob reveal"><summary>展开原始工具 schema · verbatim（19 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（19 行，已折叠）</summary><pre class="code reveal"><code>{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "required": [
     "tool_name",
@@ -923,7 +924,7 @@
 }</code></pre></details>
         <h2 class="mdh h2 reveal">web_search</h2>
         <p class="src reveal">Search the web for up-to-date information, tailored for coding and software development tasks.</p>
-        <details class="rawblob reveal"><summary>展开原始工具 schema · verbatim（23 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（23 行，已折叠）</summary><pre class="code reveal"><code>{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "required": [
     "query"
@@ -950,7 +951,7 @@
         <p class="src reveal">Launch a workflow: a Rhai script that orchestrates subagents as one background run. Provide exactly one `source`: a registered workflow `name`, an inline `script`, a `script_path`, or a same-process `resume`. Optionally pass `args` (bound to the script's `args`) and `agent_budget`, an absolute cap on cumulative child-agent calls: every agent() and parallel() item consumes one slot (schema retries do not); default 128. <span class="hl" data-cat="tool" data-note="grok-24">The host also caps live children per run (32 by default, host-configured)</span> — larger parallel() panels are queued and still act as a barrier. The call returns immediately; progress appears in `/workflow runs` and completion is reported automatically — do not poll or sleep-wait.</p>
         <p class="src reveal">Prefer a registered workflow when one fits; author a script for bounded fan-out over a known work list, staged research and verification, or several independent perspectives. Before writing or editing a script, read the `create-workflow` skill's SKILL.md. `validate_only: true` runs a path-specific smoke check (metadata, compile, one canned-host path) — not proof that every branch or live tool works.</p>
         <p class="src reveal">A started run gets a session-unique display name (e.g. `review-changes`, `review-changes-2`) — <span class="hl" data-cat="tool" data-note="grok-32">the handle to show the user and use with `/workflow pause|resume|stop</span> &lt;name&gt;`; keep run IDs internal. Each launch persists an editable `script_path`; edit it and launch as a new run to iterate. Use the `resume` source only for a same-process paused run (process restarts are terminal); it reuses the run's original immutable source and args, and a budget-limited run resumes only with a higher `agent_budget`. Save reusable scripts to `.grok/workflows/&lt;name&gt;.rhai`.</p>
-        <details class="rawblob reveal"><summary>展开原始工具 schema · verbatim（106 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（106 行，已折叠）</summary><pre class="code reveal"><code>{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "required": [
     "source"
@@ -1083,44 +1084,44 @@
       </div>
     </div>
     <div class="notepool" id="pool-grok" hidden>
-      <article class="note kw" data-note="grok-0" data-cat="persona"><span class="tag">人格 ★</span><h3>简洁不等于电报体</h3><div class="q">no telegraphic fragments</div><p>新版明确拒绝用残句、缩写和自造术语换取表面上的短。它把简洁定义为<b>信息选择</b>而非语法裁剪：内容可以少，但留下的句子必须完整，让没有内部上下文的读者也能独立理解。</p></article>
-      <article class="note" data-note="grok-1" data-cat="eng"><span class="tag">工程纪律</span><h3>最终回复必须脱离过程独立成立</h3><div class="q">final message stands alone</div><p>工具日志和中间进度对用户可能不可见，最终交付因此必须重新说明结果、完成了什么以及关键证据。它把回复视为<b>独立的交付界面</b>，而不是工具调用流水账的最后一句。</p></article>
-      <article class="note kw" data-note="grok-2" data-cat="persona"><span class="tag">人格 ★</span><h3>直接、完整、克制</h3><div class="q">direct and concise</div><p>Grok 从“技术博客文风”转向更基础的沟通契约：直接回答、完整成句、只保留相关信息。这个变化减少了对特定文体的模仿，改用<b>读者是否一次读懂</b>作为输出质量标准。</p></article>
-      <article class="note" data-note="grok-3" data-cat="tool"><span class="tag">工具·多智能体</span><h3>别用 echo 说话</h3><div class="q">no echo to talk</div><p>严禁把 <code>echo</code> 当作对话通道:命令行只用于执行,交流走正式回复。这划清了<b>执行</b>与<b>沟通</b>的边界,避免污染终端与语义。</p></article>
-      <article class="note" data-note="grok-4" data-cat="eng"><span class="tag">工程纪律</span><h3>验证还要主动寻找回归</h3><div class="q">hunt for regressions</div><p>浏览器验收不能在新功能首次成功时停止，还要检查共享组件、状态和路由是否被连带破坏。它把验证从<b>证明改动能工作</b>扩展为<b>主动尝试证明旧行为已损坏</b>，更接近真正的回归测试。</p></article>
-      <article class="note" data-note="grok-5" data-cat="eng"><span class="tag">工程纪律</span><h3>先给答案，再安排证据</h3><div class="q">lead with the answer</div><p>用户不应先穿过过程叙述才能知道结果。Grok 要求把结论放在首位，再补充必要的变化、依据和限制，体现<b>按读者决策顺序组织信息</b>，而不是按 Agent 的执行时间线复述工作。</p></article>
-      <article class="note" data-note="grok-6" data-cat="goal"><span class="tag">目标机器</span><h3>计划模式只读</h3><div class="q">read-only plan mode</div><p>规划阶段被明确定义为<b>只读侦察</b>:先看清全局再动手。把"想"与"做"分离,降低仓促改动带来的风险。</p></article>
-      <article class="note" data-note="grok-7" data-cat="goal"><span class="tag">目标机器</span><h3>目标锁定标签内</h3><div class="q">Query-tag scoped goal</div><p>开宗明义把目标钉在 <user_query> 标签内的请求上。用结构化标签而非自然语言划定任务边界,是 Grok 把"完成什么"做成<b>可解析契约</b>的取向。</p></article>
-      <article class="note kw" data-note="grok-8" data-cat="safety"><span class="tag">安全边界 ★</span><h3>无人值守是自治前提，不是免责条款</h3><div class="q">no human operator in session</div><p>提示词明确当前会话没有实时人类操作员，意味着 Agent 必须自行推进清晰的本地工作。<b>编辑推断：自治来自运行环境的责任转移</b>，但这句话本身没有授予外部副作用权限；它说明为何不能把每一步都退回给人，而非取消风险边界。</p></article>
-      <article class="note" data-note="grok-9" data-cat="safety"><span class="tag">安全边界</span><h3>本地可逆工作当轮完成</h3><div class="q">clear reversible local work</div><p>新版明确给出一块无需对话式请示的行动区：清晰、可逆、本地的工作直接在当前轮执行，不以“要不要继续”收尾。这减少了<b>用礼貌包装的责任回退</b>；至于外部或难逆动作，本段并未额外授权，不能由此反推。</p></article>
-      <article class="note" data-note="grok-10" data-cat="persona"><span class="tag">人格</span><h3>新概念先用普通语言落地</h3><div class="q">describe in plain language</div><p>已建立的技术词可以使用，但模型不得为了显得专业自造标签；遇到尚未共享的概念，先描述它做什么。这里保护的是<b>对话中的共同词汇表</b>，防止术语先于理解、命名反过来遮蔽问题。</p></article>
-      <article class="note" data-note="grok-11" data-cat="persona"><span class="tag">人格</span><h3>进度更新稀疏而有事件意义</h3><div class="q">short and infrequent updates</div><p>中间消息应只在状态值得用户知道时出现，而不是把每次工具调用都播报一遍。它将沟通频率绑定到<b>可感知的进展或风险变化</b>，减少执行噪声，同时把完整上下文留给最终回复。</p></article>
-      <article class="note" data-note="grok-12" data-cat="tool"><span class="tag">工具·多智能体</span><h3>三型子代理</h3><div class="q">Explore/plan/general</div><p>子代理分 explore(只读探索)、plan(只读架构)、general-purpose(可写可执行)三型,按<b>能力最小化</b>原则各自限权。让探索绝无副作用,是它委派设计的安全底座。</p></article>
-      <article class="note" data-note="grok-13" data-cat="tool"><span class="tag">工具·多智能体</span><h3>续跑保上下文</h3><div class="q">Resume keeps state</div><p>用 resume_from 续跑子代理时,它保留完整 transcript 与工具状态,你<b>只需说明变化</b>而不必重述原任务。把子代理当有记忆的长期协作者,而非一次性调用。</p></article>
-      <article class="note" data-note="grok-14" data-cat="tool"><span class="tag">工具·多智能体</span><h3>子代理只拿摘要</h3><div class="q">Compacted instructions</div><p>子代理只收到<b>压缩版</b>的项目指令,若任务需要具体约定(构建、测试规范),必须把相关规则直接写进 prompt。这提醒主代理:委派的完整性靠你自己保证。</p></article>
-      <article class="note" data-note="grok-15" data-cat="tool"><span class="tag">工具·多智能体</span><h3>子代理须指定类型</h3><div class="q">subagent_type required</div><p>派发子代理时必须显式指定 <code>subagent_type</code> 选定代理类别,续跑时也必须沿用同一类型。把"派谁去做"变成强制声明的路由参数,避免运行时角色漂移。</p></article>
-      <article class="note" data-note="grok-16" data-cat="tool"><span class="tag">工具·多智能体</span><h3>每行都是一次唤醒</h3><div class="q">Every line wakes agent</div><p>monitor 的每一行 stdout 都会唤醒主代理,所以只准打印终态、禁止进度行,还得用 <code>grep --line-buffered</code>。把"输出量"直接换算成<b>唤醒开销</b>,是很硬核的成本意识。</p></article>
-      <article class="note" data-note="grok-17" data-cat="tool"><span class="tag">工具·多智能体</span><h3>分类终止语义</h3><div class="q">Typed termination</div><p>终止工具对不同对象用不同手段:bash/monitor 发信号,子代理发 Cancel+Shutdown。它区分<b>进程与代理</b>是两类实体,不用一刀切的 kill,体现编排层的抽象。</p></article>
-      <article class="note" data-note="grok-18" data-cat="tool"><span class="tag">工具·多智能体</span><h3>多图靠多次调用</h3><div class="q">One call per image</div><p>要生成多张图,就发<b>多个各带不同 prompt 的工具调用</b>,而非一次请求多张。把批量生成拆成并行的单次调用,契合它"独立工具调用可并行"的整体编排风格。</p></article>
-      <article class="note" data-note="grok-19" data-cat="eng"><span class="tag">工程纪律</span><h3>参数优先相对路径</h3><div class="q">Prefer relative paths</div><p>工具调用参数尽量用相对路径。与 mimo 等强调绝对路径的 agent 正相反,反映不同 harness 对<b>路径稳定性</b>的取舍差异。</p></article>
-      <article class="note" data-note="grok-20" data-cat="persona"><span class="tag">人格</span><h3>禁止用自造术语制造虚假精确</h3><div class="q">never coin shorthand labels</div><p>自造缩写会迫使读者先学习模型的私人词典，也可能把模糊判断伪装成正式机制。Grok 要求沿用对话已有语言，体现<b>概念所有权属于协作双方</b>，不是 Agent 单方面命名就能成立。</p></article>
-      <article class="note" data-note="grok-21" data-cat="persona"><span class="tag">人格</span><h3>推荐项要显眼</h3><div class="q">Recommend first</div><p>多选提问时把推荐项放第一、标注"(Recommended)",且每题自带"Other"让用户自填。它不只是问,还负责<b>给出有主见的默认</b>,减轻用户决策负担。</p></article>
-      <article class="note" data-note="grok-22" data-cat="tool"><span class="tag">工具·多智能体</span><h3>隔离的工作树</h3><div class="q">Isolated worktree</div><p>用 worktree 隔离模式让子代理在独立 git 工作树里改动,<b>不污染父工作区</b>,完成后保留并返回路径。为并行/试验性改动提供了干净的沙箱边界。</p></article>
-      <article class="note" data-note="grok-23" data-cat="tool"><span class="tag">工具·多智能体</span><h3>动态工具也有类型纪律</h3><div class="q">input must match discovered schema</div><p>通过 search_tool 动态发现的工具不是自由文本接口:<b>调用参数必须精确符合返回的 schema</b>。发现能力与合法调用被拆成两步,避免模型凭工具名臆造字段。</p></article>
-      <article class="note" data-note="grok-24" data-cat="tool"><span class="tag">工具·多智能体</span><h3>并发上限与调用预算是两把尺</h3><div class="q">32 default live · 128 budget</div><p><code>agent_budget=128</code> 仍限制累计子调用量，瞬时并发则改为宿主配置、默认 <b>32 live</b>；更宽的 panel 继续排队并等待 barrier。版本变化说明并发是<b>运行时资源策略</b>而非固定 Agent 能力，累计成本与峰值压力仍需分开理解。</p></article>
-      <article class="note" data-note="grok-25" data-cat="tool"><span class="tag">工具·多智能体 · 哲学层</span><h3>工具选择也是交互设计</h3><div class="q">better user experience</div><p>规则层让文件读写优先走专用工具,Shell 只承担真正终端操作;理由明确写成“更好的用户体验”。<b>哲学层（推断）：工具不只是能力入口,也是可理解、可审计的交互界面</b>,结构化调用本身会影响用户信任。</p></article>
-      <article class="note" data-note="grok-26" data-cat="eng"><span class="tag">工程纪律 · 哲学层</span><h3>用户消息必须跨越可见性边界</h3><div class="q">reader has not seen internal context</div><p>所有面向用户的文字都要假设读者看不到工具调用、内部笔记和工作区文档。<b>哲学层（推断）：沟通不是内部状态的附注，而是跨权限边界重新封装事实</b>；缺失的前提必须补齐，敏感或无关的内部细节则不应泄漏。</p></article>
-      <article class="note" data-note="grok-27" data-cat="tool"><span class="tag">工具·多智能体</span><h3>生成与编辑采用不同视觉算子</h3><div class="q">image_edit instead of image_gen</div><p>已有图像的保真编辑必须走 image_edit，新图生成才走 image_gen。工具分工显式编码了两类任务的目标函数：<b>一个优化身份与构图延续，一个优化从无到有的创造</b>，避免 Agent 只因都能“出图”就混用。</p></article>
-      <article class="note" data-note="grok-28" data-cat="eng"><span class="tag">工程纪律</span><h3>存储路径与展示路径分离</h3><div class="q">use the session-relative path</div><p>媒体工具返回绝对保存位置，但对用户必须改用短的会话相对路径，才能渲染为可点击链接。这里区分了<b>运行时寻址</b>和<b>界面可消费标识</b>：内部路径服务工具，外部路径服务读者，不应直接泄漏宿主目录结构。</p></article>
-      <article class="note" data-note="grok-29" data-cat="tool"><span class="tag">工具·多智能体</span><h3>超时默认转后台而非杀进程</h3><div class="q">backgrounded instead of killed</div><p>前台命令超过默认等待时间会返回 task ID 继续运行，而不是直接终止。它把 timeout 解释成<b>调用方停止同步等待</b>，而非工作本身失败；Agent 必须随后读取任务状态，不能把暂时无结果误报为失败。</p></article>
-      <article class="note" data-note="grok-30" data-cat="eng"><span class="tag">工程纪律</span><h3>文本替换先证明目标唯一</h3><div class="q">old_string matches exactly once</div><p>search_replace 默认只接受唯一匹配，重复出现时要补上下文或明确 replace_all。工具将“我想改这一处”的自然语言意图转成<b>可机械验证的定位前提</b>，宁可拒绝模糊编辑，也不把第一处匹配误当目标。</p></article>
-      <article class="note" data-note="grok-31" data-cat="goal"><span class="tag">目标机器</span><h3>待办列表是共享执行状态</h3><div class="q">user sees the list live</div><p>todo_write 不是 Agent 的私有草稿，而是用户实时可见的首要进度界面。计划一旦进入工具，就成为<b>双方共享、可监督的状态</b>；错误拆解、虚假完成或长期不更新都会直接损害协作可信度。</p></article>
-      <article class="note" data-note="grok-32" data-cat="tool"><span class="tag">工具·多智能体</span><h3>用户操作稳定句柄而非内部 ID</h3><div class="q">display name is the user handle</div><p>Workflow 把会话内唯一的 display name 暴露给用户用于暂停、续跑和停止，而将 run ID 留在内部。它提供一层<b>面向人的稳定控制句柄</b>：用户不必理解数据库标识，系统仍可在底层维护精确实例。</p></article>
-      <article class="note" data-note="grok-33" data-cat="goal"><span class="tag">目标机器</span><h3>定时任务默认带寿命上限</h3><div class="q">scheduled tasks expire after seven days</div><p>Scheduler 最多保留 50 个任务，而且所有任务七天后自动失效；长期持久化还必须显式选择 durable。自动化因此不是默认永久存在的幽灵进程，而是<b>具有容量和时间边界的租约</b>。</p></article>
-      <article class="note" data-note="grok-34" data-cat="safety"><span class="tag">安全边界</span><h3>搜索来源可以先设允许域</h3><div class="q">restrict search to allowed domains</div><p>Web Search 不只接受关键词，还能把结果限制在指定域名。这个字段让“只信官方文档”等证据要求进入工具参数，<b>来源治理由检索前约束，而不是在混合结果出来后再人工清洗</b>。</p></article>
-      <article class="note" data-note="grok-35" data-cat="eng"><span class="tag">工程纪律</span><h3>浏览器验收必须走完用户路径</h3><div class="q">exercise the feature end to end</div><p>新版把“页面能渲染”明确排除在充分证据之外，要求用用户真实操作方式跑通改动，并检查共享状态的其他页面。这里的验证单位不是组件截图，而是<b>跨交互、状态与路由的可观察行为</b>。</p></article>
-      <article class="note" data-note="grok-36" data-cat="eng"><span class="tag">工程纪律</span><h3>截图是视觉证据，不是行为证明</h3><div class="q">one screenshot is not verification</div><p>单张截图只能证明某一瞬间的外观，无法覆盖点击、状态转移、响应式变化或回归路径。Grok 将<b>外观检查与行为验证分层</b>：视觉变化仍需桌面和移动端检查，但功能正确性必须由真实交互链路证明。</p></article>
-      <article class="note" data-note="grok-37" data-cat="tool"><span class="tag">工具·多智能体</span><h3>视频生成从图像驱动扩展为多模态条件</h3><div class="q">voices can replace image references</div><p>参考图不再是必填：提供预设 voice 后，可以只用音频身份条件生成视频，也能和图像共同使用。工具契约因此从“多图转视频”扩展为<b>图像与声音可独立组合的条件生成接口</b>，Prompt 中还用序号标记明确绑定各模态引用。</p></article>
-      <article class="note" data-note="grok-38" data-cat="tool"><span class="tag">工具·多智能体</span><h3>委派完成不等于主任务完成</h3><div class="q">integrate subagent results before concluding</div><p>独立子代理返回结果后，主代理仍必须按需求吸收、核对并整合，不能把“子任务已结束”直接当作交付。它补上多智能体常见的最后一公里：<b>委派产生候选产物，主代理承担组合与验收责任</b>。</p></article>
+      <article class="note kw" data-note="grok-8" data-cat="safety"><span class="tag">安全边界 ★</span><h3>无人值守是自治前提，不是免责条款</h3><div class="q">There is no human operator in this session</div><p>提示词明确当前会话没有实时人类操作员，意味着 Agent 必须自行推进清晰的本地工作。<b>编辑推断：自治来自运行环境的责任转移</b>，但这句话本身没有授予外部副作用权限；它说明为何不能把每一步都退回给人，而非取消风险边界。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L3-L3" target="_blank" rel="noopener noreferrer">原文 L3</a></p></article>
+      <article class="note" data-note="grok-7" data-cat="goal"><span class="tag">目标机器</span><h3>目标锁定标签内</h3><div class="q">You are an autonomous agent that completes software engineering tasks</div><p>这次捕获将软件工程任务放在 user_query 标签中，便于区分任务正文与其他上下文。标签是接口约定；是否真正不可伪造仍取决于宿主如何组装和隔离输入。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L3-L3" target="_blank" rel="noopener noreferrer">原文 L3</a></p></article>
+      <article class="note" data-note="grok-9" data-cat="safety"><span class="tag">安全边界</span><h3>本地可逆工作当轮完成</h3><div class="q">For clear, reversible local work, do it in the current turn</div><p>新版明确给出一块无需对话式请示的行动区：清晰、可逆、本地的工作直接在当前轮执行，不以“要不要继续”收尾。这减少了<b>用礼貌包装的责任回退</b>；至于外部或难逆动作，本段并未额外授权，不能由此反推。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L8-L8" target="_blank" rel="noopener noreferrer">原文 L8</a></p></article>
+      <article class="note" data-note="grok-3" data-cat="tool"><span class="tag">工具·多智能体</span><h3>别用 echo 说话</h3><div class="q">NEVER use bash echo or other command-line tools to communicate</div><p>严禁把 <code>echo</code> 当作对话通道:命令行只用于执行,交流走正式回复。这划清了<b>执行</b>与<b>沟通</b>的边界,避免污染终端与语义。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L15-L15" target="_blank" rel="noopener noreferrer">原文 L15</a></p></article>
+      <article class="note kw" data-note="grok-25" data-cat="tool"><span class="tag">工具·多智能体 · 哲学层 ★</span><h3>工具选择也是交互设计</h3><div class="q">Use specialized tools instead of bash commands when possible, as this provides a better user experience.</div><p>规则层让文件读写优先走专用工具,Shell 只承担真正终端操作;理由明确写成“更好的用户体验”。<b>哲学层（推断）：工具不只是能力入口,也是可理解、可审计的交互界面</b>,结构化调用本身会影响用户信任。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L15-L15" target="_blank" rel="noopener noreferrer">原文 L15</a></p></article>
+      <article class="note kw" data-note="grok-2" data-cat="persona"><span class="tag">人格 ★</span><h3>直接、完整、克制</h3><div class="q">Communicate directly and concisely</div><p>Grok 从“技术博客文风”转向更基础的沟通契约：直接回答、完整成句、只保留相关信息。这个变化减少了对特定文体的模仿，改用<b>读者是否一次读懂</b>作为输出质量标准。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L25-L25" target="_blank" rel="noopener noreferrer">原文 L25</a></p></article>
+      <article class="note kw" data-note="grok-0" data-cat="persona"><span class="tag">人格 ★</span><h3>简洁不等于电报体</h3><div class="q">no telegraphic fragments</div><p>新版明确拒绝用残句、缩写和自造术语换取表面上的短。它把简洁定义为<b>信息选择</b>而非语法裁剪：内容可以少，但留下的句子必须完整，让没有内部上下文的读者也能独立理解。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L25-L25" target="_blank" rel="noopener noreferrer">原文 L25</a></p></article>
+      <article class="note kw" data-note="grok-26" data-cat="eng"><span class="tag">工程纪律 · 哲学层 ★</span><h3>用户消息必须跨越可见性边界</h3><div class="q">Write every user-facing message for a reader who has NOT seen your tool calls, internal notes, or workspace documents</div><p>所有面向用户的文字都要假设读者看不到工具调用、内部笔记和工作区文档。<b>哲学层（推断）：沟通不是内部状态的附注，而是跨权限边界重新封装事实</b>；缺失的前提必须补齐，敏感或无关的内部细节则不应泄漏。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L27-L27" target="_blank" rel="noopener noreferrer">原文 L27</a></p></article>
+      <article class="note" data-note="grok-5" data-cat="eng"><span class="tag">工程纪律</span><h3>先给答案，再安排证据</h3><div class="q">Lead with the answer</div><p>用户不应先穿过过程叙述才能知道结果。Grok 要求把结论放在首位，再补充必要的变化、依据和限制，体现<b>按读者决策顺序组织信息</b>，而不是按 Agent 的执行时间线复述工作。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L32-L32" target="_blank" rel="noopener noreferrer">原文 L32</a></p></article>
+      <article class="note" data-note="grok-11" data-cat="persona"><span class="tag">人格</span><h3>进度更新稀疏而有事件意义</h3><div class="q">Keep intermediate progress updates short and infrequent</div><p>中间消息应只在状态值得用户知道时出现，而不是把每次工具调用都播报一遍。它将沟通频率绑定到<b>可感知的进展或风险变化</b>，减少执行噪声，同时把完整上下文留给最终回复。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L37-L37" target="_blank" rel="noopener noreferrer">原文 L37</a></p></article>
+      <article class="note" data-note="grok-1" data-cat="eng"><span class="tag">工程纪律</span><h3>最终回复必须脱离过程独立成立</h3><div class="q">The final message must stand alone</div><p>工具日志和中间进度对用户可能不可见，最终交付因此必须重新说明结果、完成了什么以及关键证据。它把回复视为<b>独立的交付界面</b>，而不是工具调用流水账的最后一句。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L37-L37" target="_blank" rel="noopener noreferrer">原文 L37</a></p></article>
+      <article class="note" data-note="grok-20" data-cat="persona"><span class="tag">人格</span><h3>禁止用自造术语制造虚假精确</h3><div class="q">NEVER coin acronyms, shorthand, or technical-sounding labels of your own</div><p>自造缩写会迫使读者先学习模型的私人词典，也可能把模糊判断伪装成正式机制。Grok 要求沿用对话已有语言，体现<b>概念所有权属于协作双方</b>，不是 Agent 单方面命名就能成立。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L39-L39" target="_blank" rel="noopener noreferrer">原文 L39</a></p></article>
+      <article class="note" data-note="grok-10" data-cat="persona"><span class="tag">人格</span><h3>新概念先用普通语言落地</h3><div class="q">describe the concept in plain language</div><p>已建立的技术词可以使用，但模型不得为了显得专业自造标签；遇到尚未共享的概念，先描述它做什么。这里保护的是<b>对话中的共同词汇表</b>，防止术语先于理解、命名反过来遮蔽问题。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L39-L39" target="_blank" rel="noopener noreferrer">原文 L39</a></p></article>
+      <article class="note" data-note="grok-35" data-cat="eng"><span class="tag">工程纪律</span><h3>浏览器验收必须走完用户路径</h3><div class="q">Exercise the feature you changed end to end, interacting with it the way a user would.</div><p>新版把“页面能渲染”明确排除在充分证据之外，要求用用户真实操作方式跑通改动，并检查共享状态的其他页面。这里的验证单位不是组件截图，而是<b>跨交互、状态与路由的可观察行为</b>。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L50-L50" target="_blank" rel="noopener noreferrer">原文 L50</a></p></article>
+      <article class="note" data-note="grok-4" data-cat="eng"><span class="tag">工程纪律</span><h3>验证还要主动寻找回归</h3><div class="q">Actively hunt for regressions in existing behavior</div><p>浏览器验收不能在新功能首次成功时停止，还要检查共享组件、状态和路由是否被连带破坏。它把验证从<b>证明改动能工作</b>扩展为<b>主动尝试证明旧行为已损坏</b>，更接近真正的回归测试。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L52-L52" target="_blank" rel="noopener noreferrer">原文 L52</a></p></article>
+      <article class="note" data-note="grok-19" data-cat="eng"><span class="tag">工程纪律</span><h3>参数优先相对路径</h3><div class="q">Prefer using relative paths over absolute paths as tool call args when possible</div><p>当前工具参数优先采用相对路径，减少对宿主绝对位置的依赖；具体能否解析仍由工作目录和工具契约决定。不同 Harness 可选择不同默认值，不能从路径偏好推断总体安全性。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L65-L65" target="_blank" rel="noopener noreferrer">原文 L65</a></p></article>
+      <article class="note" data-note="grok-36" data-cat="eng"><span class="tag">工程纪律</span><h3>截图是视觉证据，不是行为证明</h3><div class="q">A single render screenshot of the changed screen is NOT verification.</div><p>单张截图只能证明某一瞬间的外观，无法覆盖点击、状态转移、响应式变化或回归路径。Grok 将<b>外观检查与行为验证分层</b>：视觉变化仍需桌面和移动端检查，但功能正确性必须由真实交互链路证明。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L78-L78" target="_blank" rel="noopener noreferrer">原文 L78</a></p></article>
+      <article class="note" data-note="grok-21" data-cat="persona"><span class="tag">人格</span><h3>推荐项要显眼</h3><div class="q">Put your recommended option first and append &quot;(Recommended)&quot; to its label</div><p>多选提问时把推荐项放第一、标注"(Recommended)",且每题自带"Other"让用户自填。它不只是问,还负责<b>给出有主见的默认</b>,减轻用户决策负担。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L109-L109" target="_blank" rel="noopener noreferrer">原文 L109</a></p></article>
+      <article class="note" data-note="grok-6" data-cat="goal"><span class="tag">目标机器</span><h3>计划模式只读</h3><div class="q">enables a read-only plan mode where you explore the codebase</div><p>规划阶段被明确定义为<b>只读侦察</b>:先看清全局再动手。把"想"与"做"分离,降低仓促改动带来的风险。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L180-L180" target="_blank" rel="noopener noreferrer">原文 L180</a></p></article>
+      <article class="note" data-note="grok-28" data-cat="eng"><span class="tag">工程纪律</span><h3>存储路径与展示路径分离</h3><div class="q">Returns the saved image&#x27;s absolute path. When telling the user where it was saved, refer to it by its short session-relative path</div><p>媒体工具返回绝对保存位置，但对用户必须改用短的会话相对路径，才能渲染为可点击链接。这里区分了<b>运行时寻址</b>和<b>界面可消费标识</b>：内部路径服务工具，外部路径服务读者，不应直接泄漏宿主目录结构。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L320-L320" target="_blank" rel="noopener noreferrer">原文 L320</a></p></article>
+      <article class="note" data-note="grok-27" data-cat="tool"><span class="tag">工具·多智能体</span><h3>生成与编辑采用不同视觉算子</h3><div class="q">use instead of image_gen for image-to-image work</div><p>参考已有图像进行修改时按契约使用 image_edit，新图使用 image_gen。工具分工能让输入方式与任务一致，但不保证模型必然保留身份、构图或所有未要求修改的细节，仍须检查产物。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L320-L320" target="_blank" rel="noopener noreferrer">原文 L320</a></p></article>
+      <article class="note" data-note="grok-18" data-cat="tool"><span class="tag">工具·多智能体</span><h3>多图靠多次调用</h3><div class="q">To produce multiple images, emit multiple tool calls with distinct prompts</div><p>要生成多张图,就发<b>多个各带不同 prompt 的工具调用</b>,而非一次请求多张。把批量生成拆成并行的单次调用,契合它"独立工具调用可并行"的整体编排风格。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L353-L353" target="_blank" rel="noopener noreferrer">原文 L353</a></p></article>
+      <article class="note" data-note="grok-17" data-cat="tool"><span class="tag">工具·多智能体</span><h3>分类终止语义</h3><div class="q">Sends SIGTERM/SIGKILL to a bash task or monitor; sends Cancel+Shutdown to a subagent</div><p>终止工具对不同对象用不同手段:bash/monitor 发信号,子代理发 Cancel+Shutdown。它区分<b>进程与代理</b>是两类实体,不用一刀切的 kill,体现编排层的抽象。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L424-L424" target="_blank" rel="noopener noreferrer">原文 L424</a></p></article>
+      <article class="note" data-note="grok-16" data-cat="tool"><span class="tag">工具·多智能体</span><h3>每行都是一次唤醒</h3><div class="q">Print only `DONE`/`FAILED`/`CANCELLED`. No progress or CHANGE lines</div><p>monitor 的每一行 stdout 都会唤醒主代理,所以只准打印终态、禁止进度行,还得用 <code>grep --line-buffered</code>。把"输出量"直接换算成<b>唤醒开销</b>,是很硬核的成本意识。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L473-L473" target="_blank" rel="noopener noreferrer">原文 L473</a></p></article>
+      <article class="note" data-note="grok-37" data-cat="tool"><span class="tag">工具·多智能体</span><h3>视频生成从图像驱动扩展为多模态条件</h3><div class="q">May be empty when `voices` is provided.</div><p>参考图不再是必填：提供预设 voice 后，可以只用音频身份条件生成视频，也能和图像共同使用。工具契约因此从“多图转视频”扩展为<b>图像与声音可独立组合的条件生成接口</b>，Prompt 中还用序号标记明确绑定各模态引用。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L583-L583" target="_blank" rel="noopener noreferrer">原文 L583</a></p></article>
+      <article class="note" data-note="grok-29" data-cat="tool"><span class="tag">工具·多智能体</span><h3>超时默认转后台而非杀进程</h3><div class="q">foreground commands exceeding the default timeout will be automatically backgrounded instead of killed</div><p>前台命令超过默认等待时间会返回 task ID 继续运行，而不是直接终止。它把 timeout 解释成<b>调用方停止同步等待</b>，而非工作本身失败；Agent 必须随后读取任务状态，不能把暂时无结果误报为失败。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L623-L623" target="_blank" rel="noopener noreferrer">原文 L623</a></p></article>
+      <article class="note" data-note="grok-33" data-cat="goal"><span class="tag">目标机器</span><h3>定时任务默认带寿命上限</h3><div class="q">Tasks auto-expire after 7 days</div><p>Scheduler 最多保留 50 个任务，而且所有任务七天后自动失效；长期持久化还必须显式选择 durable。自动化因此不是默认永久存在的幽灵进程，而是<b>具有容量和时间边界的租约</b>。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L678-L678" target="_blank" rel="noopener noreferrer">原文 L678</a></p></article>
+      <article class="note" data-note="grok-30" data-cat="eng"><span class="tag">工程纪律</span><h3>文本替换先证明目标唯一</h3><div class="q">`old_string` must match exactly one place in the file.</div><p>search_replace 默认只接受唯一匹配，重复出现时要补上下文或明确 replace_all。工具将“我想改这一处”的自然语言意图转成<b>可机械验证的定位前提</b>，宁可拒绝模糊编辑，也不把第一处匹配误当目标。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L776-L776" target="_blank" rel="noopener noreferrer">原文 L776</a></p></article>
+      <article class="note" data-note="grok-12" data-cat="tool"><span class="tag">工具·多智能体</span><h3>三型子代理</h3><div class="q">explore**: Fast, read-only agent specialized for codebase exploration</div><p>子代理分为探索、规划和通用执行等角色，工具面与说明有所区别。只读角色能缩小预期修改范围，但不能仅凭角色标签断言探索绝无副作用，仍需看实际工具权限和运行配置。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L850-L850" target="_blank" rel="noopener noreferrer">原文 L850</a></p></article>
+      <article class="note" data-note="grok-14" data-cat="tool"><span class="tag">工具·多智能体</span><h3>子代理只拿摘要</h3><div class="q">Subagents receive a compacted version of project instructions (AGENTS.md)</div><p>子代理只收到<b>压缩版</b>的项目指令,若任务需要具体约定(构建、测试规范),必须把相关规则直接写进 prompt。这提醒主代理:委派的完整性靠你自己保证。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L856-L856" target="_blank" rel="noopener noreferrer">原文 L856</a></p></article>
+      <article class="note" data-note="grok-15" data-cat="tool"><span class="tag">工具·多智能体</span><h3>子代理须指定类型</h3><div class="q">When using the spawn_subagent tool, you must specify a subagent_type parameter to select which agent type to use</div><p>派发子代理时必须显式指定 <code>subagent_type</code> 选定代理类别,续跑时也必须沿用同一类型。把"派谁去做"变成强制声明的路由参数,避免运行时角色漂移。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L857-L857" target="_blank" rel="noopener noreferrer">原文 L857</a></p></article>
+      <article class="note" data-note="grok-38" data-cat="tool"><span class="tag">工具·多智能体</span><h3>委派完成不等于主任务完成</h3><div class="q">you MUST incorporate the results into the task based on requirements BEFORE concluding.</div><p>独立子代理返回结果后，主代理仍必须按需求吸收、核对并整合，不能把“子任务已结束”直接当作交付。它补上多智能体常见的最后一公里：<b>委派产生候选产物，主代理承担组合与验收责任</b>。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L858-L858" target="_blank" rel="noopener noreferrer">原文 L858</a></p></article>
+      <article class="note" data-note="grok-13" data-cat="tool"><span class="tag">工具·多智能体</span><h3>续跑保上下文</h3><div class="q">you only need to describe what changed since the last run — don&#x27;t re-explain the original task</div><p>用 resume_from 续跑子代理时,它保留完整 transcript 与工具状态,你<b>只需说明变化</b>而不必重述原任务。把子代理当有记忆的长期协作者,而非一次性调用。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L861-L861" target="_blank" rel="noopener noreferrer">原文 L861</a></p></article>
+      <article class="note" data-note="grok-22" data-cat="tool"><span class="tag">工具·多智能体</span><h3>隔离的工作树</h3><div class="q">the child runs in an isolated git worktree whose edits don&#x27;t affect the parent workspace</div><p>worktree 模式让子代理的 Git 文件改动留在独立工作树，父工作树不会自动收到这些编辑，结果应按返回路径整合。<b>Git 工作树隔离不等于进程或网络沙箱</b>，不能据此承诺所有副作用都被隔离。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L865-L865" target="_blank" rel="noopener noreferrer">原文 L865</a></p></article>
+      <article class="note" data-note="grok-31" data-cat="goal"><span class="tag">目标机器</span><h3>待办列表是共享执行状态</h3><div class="q">The user sees this list live — it is your primary way to show progress.</div><p>todo_write 不是 Agent 的私有草稿，而是用户实时可见的首要进度界面。计划一旦进入工具，就成为<b>双方共享、可监督的状态</b>；错误拆解、虚假完成或长期不更新都会直接损害协作可信度。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L938-L938" target="_blank" rel="noopener noreferrer">原文 L938</a></p></article>
+      <article class="note" data-note="grok-23" data-cat="tool"><span class="tag">工具·多智能体</span><h3>动态工具也有类型纪律</h3><div class="q">`tool_input` must conform exactly to the tool&#x27;s input schema</div><p>通过 search_tool 动态发现的工具不是自由文本接口:<b>调用参数必须精确符合返回的 schema</b>。发现能力与合法调用被拆成两步,避免模型凭工具名臆造字段。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L1000-L1000" target="_blank" rel="noopener noreferrer">原文 L1000</a></p></article>
+      <article class="note" data-note="grok-34" data-cat="safety"><span class="tag">安全边界</span><h3>搜索来源可以先设允许域</h3><div class="q">Optional list of domains to restrict search to.</div><p>域名过滤可缩小搜索候选来源，例如优先找官方文档；它只限制检索范围，并不能证明每条结果权威或当前有效。最终仍要阅读实际页面并核对版本和适用范围。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L1041-L1041" target="_blank" rel="noopener noreferrer">原文 L1041</a></p></article>
+      <article class="note" data-note="grok-24" data-cat="tool"><span class="tag">工具·多智能体</span><h3>并发上限与调用预算是两把尺</h3><div class="q">The host also caps live children per run (32 by default, host-configured)</div><p><code>agent_budget=128</code> 仍限制累计子调用量，瞬时并发则改为宿主配置、默认 <b>32 live</b>；更宽的 panel 继续排队并等待 barrier。版本变化说明并发是<b>运行时资源策略</b>而非固定 Agent 能力，累计成本与峰值压力仍需分开理解。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L1056-L1056" target="_blank" rel="noopener noreferrer">原文 L1056</a></p></article>
+      <article class="note" data-note="grok-32" data-cat="tool"><span class="tag">工具·多智能体</span><h3>用户操作稳定句柄而非内部 ID</h3><div class="q">the handle to show the user and use with `/workflow pause|resume|stop</div><p>Workflow 把会话内唯一的 display name 暴露给用户用于暂停、续跑和停止，而将 run ID 留在内部。它提供一层<b>面向人的稳定控制句柄</b>：用户不必理解数据库标识，系统仍可在底层维护精确实例。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/513e18d10df1421499c63f80fb7363311b973fad/captures/grok/1.0.13/variants/default/prompt.md#L1060-L1060" target="_blank" rel="noopener noreferrer">原文 L1060</a></p></article>
     </div>
   </section>

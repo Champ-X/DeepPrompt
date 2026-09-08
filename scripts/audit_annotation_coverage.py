@@ -4,18 +4,17 @@
 from __future__ import annotations
 
 import argparse
+
+from annotations import load_annotations
 import json
 import re
 from collections import Counter, defaultdict
-from html.parser import HTMLParser
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-AGENT_DIR = ROOT / "data" / "agents"
 MANIFEST_PATH = ROOT / "data" / "manifest.json"
 AUDIT_PATH = ROOT / "data" / "annotation-audit.json"
-COVERAGE_PATH = ROOT / "data" / "coverage-annotations.json"
 OUTPUT_PATH = ROOT / "data" / "annotation-coverage.json"
 
 
@@ -29,74 +28,10 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-class HighlightParser(HTMLParser):
-    def __init__(self) -> None:
-        super().__init__(convert_charrefs=True)
-        self.agent: str | None = None
-        self.prose_div_depth = 0
-        self.note_id: str | None = None
-        self.chunks: list[str] = []
-        self.highlights: dict[str, list[tuple[str, str]]] = defaultdict(list)
-
-    @staticmethod
-    def classes(attrs: dict[str, str | None]) -> set[str]:
-        return set((attrs.get("class") or "").split())
-
-    def handle_starttag(self, tag: str, attrs_list) -> None:
-        attrs = dict(attrs_list)
-        classes = self.classes(attrs)
-        if tag == "section" and "agentview" in classes:
-            self.agent = str(attrs.get("data-agent"))
-        if tag == "div" and "prose-col" in classes:
-            self.prose_div_depth = 1
-        elif tag == "div" and self.prose_div_depth:
-            self.prose_div_depth += 1
-        if self.agent and self.prose_div_depth and tag == "span" and "hl" in classes:
-            self.note_id = str(attrs.get("data-note"))
-            self.chunks = []
-
-    def handle_endtag(self, tag: str) -> None:
-        if tag == "span" and self.note_id and self.agent:
-            self.highlights[self.agent].append(
-                (self.note_id, "".join(self.chunks))
-            )
-            self.note_id = None
-            self.chunks = []
-        if tag == "div" and self.prose_div_depth:
-            self.prose_div_depth -= 1
-        if tag == "section" and self.agent:
-            self.agent = None
-
-    def handle_data(self, data: str) -> None:
-        if self.note_id:
-            self.chunks.append(data)
-
-
 def comparable(value: str) -> str:
     value = re.sub(r"[`*_]", "", value)
     value = value.replace("&lt;", "<").replace("&gt;", ">")
     return re.sub(r"\s+", " ", value).strip()
-
-
-def map_highlights(
-    lines: list[str], highlights: list[tuple[str, str]]
-) -> tuple[dict[int, list[str]], list[str]]:
-    mapped: dict[int, list[str]] = defaultdict(list)
-    unmapped: list[str] = []
-    for note_id, text in highlights:
-        matches = [index for index, line in enumerate(lines) if text and text in line]
-        if not matches:
-            needle = comparable(text)
-            matches = [
-                index
-                for index, line in enumerate(lines)
-                if needle and needle in comparable(line)
-            ]
-        if not matches:
-            unmapped.append(note_id)
-            continue
-        mapped[matches[0]].append(note_id)
-    return mapped, unmapped
 
 
 def longest_run(dispositions: list[str], target: str) -> dict:
@@ -121,11 +56,15 @@ def longest_run(dispositions: list[str], target: str) -> dict:
 
 def classify_agent(
     source: str,
-    highlights: list[tuple[str, str]],
+    highlights: list[dict],
     coverage_count: int,
 ) -> dict:
     lines = source.splitlines()
-    mapped, unmapped = map_highlights(lines, highlights)
+    mapped = defaultdict(list)
+    for record in highlights:
+        for line in range(record["startLine"] - 1, record["endLine"]):
+            mapped[line].append(record["id"])
+    unmapped = []
     prose_normalized = Counter(
         comparable(line)
         for line in lines
@@ -148,14 +87,14 @@ def classify_agent(
         elif index in mapped:
             dispositions.append("annotated")
         elif in_fence:
-            dispositions.append("mechanicalSchema")
+            dispositions.append("unannotatedCode")
         elif (
             len(comparable(line)) >= 20
             and prose_normalized[comparable(line)] > 1
         ):
             dispositions.append("repeatedMaterial")
         else:
-            dispositions.append("reviewedNoIndependentNote")
+            dispositions.append("unannotatedProse")
 
     sections: list[dict] = []
     for position, (start, level, title) in enumerate(headings):
@@ -175,14 +114,14 @@ def classify_agent(
         )
         if section_notes:
             disposition = "annotated"
-        elif counts["mechanicalSchema"] >= max(
-            counts["reviewedNoIndependentNote"], 1
+        elif counts["unannotatedCode"] >= max(
+            counts["unannotatedProse"], 1
         ):
-            disposition = "mechanical-schema"
+            disposition = "unannotated-code"
         elif counts["repeatedMaterial"]:
             disposition = "repeated-material"
         else:
-            disposition = "reviewed-no-independent-note"
+            disposition = "unannotated-prose"
         sections.append(
             {
                 "level": level,
@@ -196,7 +135,7 @@ def classify_agent(
 
     non_blank_dispositions = [item for item in dispositions if item != "blank"]
     counts = Counter(non_blank_dispositions)
-    longest = longest_run(dispositions, "reviewedNoIndependentNote")
+    longest = longest_run(dispositions, "unannotatedProse")
     if longest["startLine"]:
         preview = comparable(lines[longest["startLine"] - 1])[:160]
         longest["startPreview"] = preview
@@ -205,16 +144,16 @@ def classify_agent(
         "nonBlankLines": len(non_blank_dispositions),
         "annotationCount": len(highlights),
         "coverageExpansionAnnotations": coverage_count,
-        "mappedAnnotationCount": sum(len(ids) for ids in mapped.values()),
+        "mappedAnnotationCount": len({note_id for ids in mapped.values() for note_id in ids}),
         "unmappedAnnotations": unmapped,
         "lineDispositions": {
             "annotated": counts["annotated"],
-            "mechanicalSchema": counts["mechanicalSchema"],
+            "unannotatedCode": counts["unannotatedCode"],
             "repeatedMaterial": counts["repeatedMaterial"],
-            "reviewedNoIndependentNote": counts["reviewedNoIndependentNote"],
+            "unannotatedProse": counts["unannotatedProse"],
             "structuralDelimiter": counts["structuralDelimiter"],
         },
-        "longestReviewedNoIndependentNoteRun": longest,
+        "longestUnannotatedProseRun": longest,
         "sections": sections,
     }
 
@@ -223,30 +162,16 @@ def main() -> None:
     args = parse_args()
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
     audit = json.loads(AUDIT_PATH.read_text(encoding="utf-8"))
-    coverage = json.loads(COVERAGE_PATH.read_text(encoding="utf-8"))
-    parser = HighlightParser()
-    for agent in manifest["agents"]:
-        fragment_path = AGENT_DIR / f"{agent['id']}.html"
-        if not fragment_path.is_file():
-            raise ValueError(f"missing Agent fragment: {fragment_path.relative_to(ROOT)}")
-        parser.feed(fragment_path.read_text(encoding="utf-8"))
-    parser.close()
-    retired_coverage_ids = set(coverage.get("retiredAnnotations", []))
-    active_coverage = [
-        record
-        for record in coverage["annotations"]
-        if record["id"] not in retired_coverage_ids
-    ]
-    coverage_counts = Counter(
-        record["agent"] for record in active_coverage
-    )
+    records = load_annotations(manifest)
+    active_coverage = [record for record in records if record["layer"] == "extension"]
+    coverage_counts = Counter(record["agent"] for record in active_coverage)
     agents: dict[str, dict] = {}
     for agent in manifest["agents"]:
         agent_id = agent["id"]
         source = (ROOT / agent["promptPath"]).read_text(encoding="utf-8")
         agents[agent_id] = classify_agent(
             source,
-            parser.highlights[agent_id],
+            [record for record in records if record["agent"] == agent_id],
             coverage_counts[agent_id],
         )
         if agents[agent_id]["unmappedAnnotations"]:
@@ -255,17 +180,17 @@ def main() -> None:
                 f"{agents[agent_id]['unmappedAnnotations']}"
             )
     report = {
-        "schemaVersion": 1,
+        "schemaVersion": 2,
         "reviewedAt": audit["reviewedAt"],
         "sourceCommit": manifest["source"]["commit"],
-        "annotationCount": audit["expectedAnnotationCount"],
+        "annotationCount": len(records),
         "methodology": {
             "unit": "every non-blank source line",
             "dispositions": {
-                "annotated": "At least one exact editorial anchor occurs on the line.",
-                "mechanicalSchema": "Unannotated line inside a fenced schema or code block.",
-                "repeatedMaterial": "Exact repeated prose already reviewed at another occurrence.",
-                "reviewedNoIndependentNote": "Reviewed prose with no additional standalone insight beyond adjacent notes.",
+                "annotated": "An explicitly selected source range for a reviewed annotation covers this line.",
+                "unannotatedCode": "Unannotated fenced content; may be code, examples or schema. This does not assert low editorial value.",
+                "repeatedMaterial": "Exact repeated text; repetition is detected mechanically, not proof that another occurrence was reviewed.",
+                "unannotatedProse": "No annotation selected here. This is NOT a claim of human review or absence of useful insights.",
                 "structuralDelimiter": "Code-fence delimiter retained for verbatim fidelity.",
             },
             "editorialRule": "Add a note only when a sentence contributes an independently explainable rule, failure mode, trade-off, or design-philosophy inference; do not annotate braces, primitive types, or duplicated wording merely to increase density.",

@@ -4,6 +4,11 @@
 from __future__ import annotations
 
 import hashlib
+from html import unescape
+
+from annotations import ANNOTATIONS_PATH, load_annotations
+from editorial import render_editorial
+from rebuild_archive import Highlight, render_prompt, replace_agent_prose
 import json
 import re
 import sys
@@ -20,7 +25,6 @@ ARCHIVE_UI_PATH = ROOT / "scripts" / "archive-ui.js"
 AGENT_DIR = ROOT / "data" / "agents"
 MANIFEST_PATH = ROOT / "data" / "manifest.json"
 ANNOTATION_AUDIT_PATH = ROOT / "data" / "annotation-audit.json"
-COVERAGE_ANNOTATIONS_PATH = ROOT / "data" / "coverage-annotations.json"
 COVERAGE_REPORT_PATH = ROOT / "data" / "annotation-coverage.json"
 VALID_CATEGORIES = {"goal", "eng", "persona", "safety", "tool"}
 
@@ -177,17 +181,15 @@ def main() -> None:
         fail("data/manifest.json is missing")
     if not ANNOTATION_AUDIT_PATH.is_file():
         fail("data/annotation-audit.json is missing")
-    if not COVERAGE_ANNOTATIONS_PATH.is_file():
-        fail("data/coverage-annotations.json is missing")
+    if not ANNOTATIONS_PATH.is_file():
+        fail("data/annotations.json is missing")
     if not COVERAGE_REPORT_PATH.is_file():
         fail("data/annotation-coverage.json is missing")
 
     shell_html = INDEX_PATH.read_text(encoding="utf-8")
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
     audit = json.loads(ANNOTATION_AUDIT_PATH.read_text(encoding="utf-8"))
-    coverage_annotations = json.loads(
-        COVERAGE_ANNOTATIONS_PATH.read_text(encoding="utf-8")
-    )
+    records = load_annotations(manifest)
     coverage_report = json.loads(COVERAGE_REPORT_PATH.read_text(encoding="utf-8"))
     expected_ids = {agent["id"] for agent in manifest["agents"]}
     fragment_paths = {path.stem: path for path in AGENT_DIR.glob("*.html")}
@@ -201,6 +203,9 @@ def main() -> None:
         agent_id: fragment_paths[agent_id].read_text(encoding="utf-8")
         for agent_id in sorted(expected_ids)
     }
+    editorial_shell, editorial_fragments = render_editorial(shell_html, fragments, manifest, records)
+    if editorial_shell != shell_html or editorial_fragments != fragments:
+        fail("editorial summaries or source links drift from the reviewed registry")
     for agent_id, fragment in fragments.items():
         if fragment.count('class="agentview"') != 1 or (
             f'id="view-{agent_id}" data-agent="{agent_id}"' not in fragment
@@ -230,6 +235,7 @@ def main() -> None:
     if duplicate_ids:
         fail(f"duplicate HTML ids: {duplicate_ids}")
 
+    indexed_variants = set()
     for agent in manifest["agents"]:
         agent_id = agent["id"]
         source_path = ROOT / agent["promptPath"]
@@ -244,8 +250,18 @@ def main() -> None:
         variants = agent.get("availableVariants") or []
         if not variants or not any(item.get("id") == "default" for item in variants):
             fail(f"variant index for {agent_id} must include default")
+        if len({variant["id"] for variant in variants}) != len(variants):
+            fail(f"duplicate variant identities for {agent_id}")
+        selected = next((variant for variant in variants if variant["id"] == agent["variant"]["id"]), None)
+        if (not selected or selected["id"] != "default" or selected["sha256"] != agent["sha256"]
+                or selected["prompt"] != agent["sourcePromptPath"]):
+            fail(f"displayed prompt is not the indexed default variant for {agent_id}")
+        source_url = f'{manifest["source"]["repository"]}/blob/{manifest["source"]["commit"]}/{agent["sourcePromptPath"]}'
+        if agent["sourceUrl"] != source_url:
+            fail(f"source URL is not pinned to the reviewed prompt for {agent_id}")
         for variant in variants:
             variant_path = ROOT / variant["localPromptPath"]
+            indexed_variants.add(variant_path)
             if not variant_path.is_file():
                 fail(f"missing local variant evidence: {variant_path.relative_to(ROOT)}")
             variant_payload = variant_path.read_bytes()
@@ -285,6 +301,21 @@ def main() -> None:
                 f"{stated.get('bytes')!r} != {expected_bytes!r}"
             )
 
+    if set((ROOT / "data" / "variants").rglob("*.md")) != indexed_variants:
+        fail("local variant files differ from the manifest; review stale or unindexed evidence")
+
+    codex = next(agent for agent in manifest["agents"] if agent["id"] == "codex")
+    evidence = manifest["codexEvidence"]
+    trace = (ROOT / evidence["tracePath"]).read_bytes()
+    if (evidence["version"] != codex["version"] or evidence["promptPath"] != codex["promptPath"]
+            or evidence["promptSha256"] != codex["sha256"]
+            or evidence["traceBytes"] != len(trace)
+            or evidence["traceSha256"] != hashlib.sha256(trace).hexdigest()):
+        fail("Codex trace or prompt evidence metadata drift")
+    for line in trace.decode("utf-8").splitlines():
+        if line.strip():
+            json.loads(line)
+
     total_notes = sum(parser.notes.values())
     if total_notes != audit["expectedAnnotationCount"]:
         fail(f"unexpected total annotation count: {total_notes}")
@@ -308,17 +339,8 @@ def main() -> None:
         or len(set(philosophy_note_ids)) != expected_philosophy_notes
     ):
         fail("each agent must have two unique design-philosophy evidence notes")
-    retired_coverage_ids = set(coverage_annotations.get("retiredAnnotations") or [])
-    coverage_records = [
-        record
-        for record in (coverage_annotations.get("annotations") or [])
-        if record.get("id") not in retired_coverage_ids
-    ]
+    coverage_records = [record for record in records if record["layer"] == "extension"]
     coverage_note_ids = [record.get("id") for record in coverage_records]
-    if coverage_annotations.get("sourceCommit") != manifest["source"]["commit"]:
-        fail("coverage annotations were not reviewed against the pinned source commit")
-    if coverage_annotations.get("expectedCount") != len(coverage_records):
-        fail("coverage annotation expectedCount drift")
     if len(set(coverage_note_ids)) != len(coverage_note_ids) or None in coverage_note_ids:
         fail("coverage annotation ids must be present and unique")
     coverage_agents = Counter(record.get("agent") for record in coverage_records)
@@ -329,7 +351,7 @@ def main() -> None:
     coverage_audit = audit.get("coverageExpansion") or {}
     if coverage_audit.get("expectedCount") != len(coverage_records):
         fail("annotation audit coverageExpansion count drift")
-    if coverage_audit.get("source") != "data/coverage-annotations.json":
+    if coverage_audit.get("source") != "data/annotations.json":
         fail("annotation audit coverageExpansion source drift")
     baseline_count = audit.get("baselineAnnotationCount")
     indexed_expansion_ids = set(philosophy_note_ids) | set(coverage_note_ids)
@@ -377,18 +399,34 @@ def main() -> None:
     missing_coverage_notes = set(coverage_note_ids) - set(note_id_counts)
     if missing_coverage_notes:
         fail(f"coverage notes are missing: {sorted(missing_coverage_notes)}")
-    for record in coverage_records:
-        source_path = ROOT / next(
-            agent["promptPath"]
-            for agent in manifest["agents"]
-            if agent["id"] == record["agent"]
-        )
-        source = source_path.read_text(encoding="utf-8")
-        expected_occurrences = record.get("expectedOccurrences", 1)
-        if source.count(record["anchor"]) != expected_occurrences:
-            fail(f"coverage anchor drift: {record['id']}")
-        if record["title"] not in html or record["body"] not in html:
-            fail(f"coverage note content drift: {record['id']}")
+    if set(note_id_counts) != {record["id"] for record in records}:
+        fail("rendered annotation ids differ from the reviewed registry")
+    for agent in manifest["agents"]:
+        agent_id = agent["id"]
+        fragment = fragment_paths[agent_id].read_text(encoding="utf-8")
+        agent_records = [record for record in records if record["agent"] == agent_id]
+        highlights = [Highlight(record["id"], record["category"], record["anchor"],
+                                bool(record.get("key")), record["start"])
+                      for record in agent_records]
+        rendered = render_prompt((ROOT / agent["promptPath"]).read_text(encoding="utf-8"),
+                                 agent_id, highlights)
+        if replace_agent_prose(fragment, agent_id, rendered) != fragment:
+            fail(f"highlight source text or position drift: {agent_id}")
+        for record in agent_records:
+            match = re.search(
+                rf'<article class="note(?: kw)?" data-note="{re.escape(record["id"])}" '
+                r'data-cat="([^"<>]+)"><span class="tag">.*?</span><h3>(.*?)</h3>'
+                r'<div class="q">(.*?)</div><p>(.*?)</p></article>', fragment, re.DOTALL)
+            if not match:
+                fail(f"note is missing from its own agent: {record['id']}")
+            category, title, quote, body = match.groups()
+            source_link = (f' <a class="source-ref" href="{agent["sourceUrl"]}'
+                           f'#L{record["startLine"]}-L{record["endLine"]}" '
+                           f'target="_blank" rel="noopener noreferrer">原文 L{record["startLine"]}</a>')
+            if (category != record["category"] or unescape(title) != record["title"]
+                    or unescape(quote) != record["anchor"]
+                    or body != record["body"] + source_link):
+                fail(f"note title, quote, body or source link drift: {record['id']}")
     if any(category not in VALID_CATEGORIES for _, category in note_ids):
         fail("invalid editorial note category")
     if any(category not in VALID_CATEGORIES for category, _ in highlight_ids):
@@ -476,44 +514,15 @@ def main() -> None:
     archive_ui = ARCHIVE_UI_PATH.read_text(encoding="utf-8")
     if "fetch('data/agents/'" not in archive_ui or "fragmentCache" not in archive_ui:
         fail("Agent views are not loaded and cached on demand")
-    previous_deep_review_notes = {
-        "claude-code-29",
-        "antigravity-28",
-        "grok-23",
-        "kimi-code-28",
-        "minimax-code-30",
-        "mimo-27",
-        "openclaw-28",
-        "hermes-27",
-        "kimi-26",
-        "opencode-27",
-        "omp-26",
-    }
-    audited_notes = (
-        set(audit["addedAnnotations"])
-        | set(audit["revisedAnnotations"])
-        | set(coverage_note_ids)
-    )
-    retired_audit_ids = set(retired_coverage_ids)
-    for retired_group in (audit.get("syncReview") or {}).get(
-        "retiredCurrentAnnotations", []
-    ):
-        retired_audit_ids.update(retired_group.get("ids", []))
-        range_match = re.fullmatch(
-            r"(.+-)(\d+)\.\.(\d+)", retired_group.get("idRange", "")
-        )
-        if range_match:
-            prefix, start, end = range_match.groups()
-            retired_audit_ids.update(
-                f"{prefix}{index}" for index in range(int(start), int(end) + 1)
-            )
-    required_notes = (previous_deep_review_notes | audited_notes) - retired_audit_ids
-    missing_required = required_notes - set(note_id_counts)
-    if missing_required:
-        fail(
-            "deep-review note coverage mismatch: "
-            f"missing={sorted(missing_required)}"
-        )
+    if set(audit.get("reviewedAnnotationIds", [])) != set(note_id_counts):
+        fail("editorial review must account for every current annotation")
+    if audit.get("layerCounts") != dict(Counter(record["layer"] for record in records)):
+        fail("editorial layer counts drift")
+    retired = json.loads((ROOT / audit["retiredSource"]).read_text(encoding="utf-8"))
+    if retired.get("currentSourceCommit") != manifest["source"]["commit"]:
+        fail("retired annotation ledger belongs to another snapshot")
+    if {record["id"] for record in retired["annotations"]} & set(note_id_counts):
+        fail("retired annotation is still displayed as current")
     if not (ROOT / "agent-icons" / "SOURCES.md").is_file():
         fail("logo source documentation is missing")
 

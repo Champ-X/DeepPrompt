@@ -270,7 +270,7 @@ body.mode-home .top-tools > .src-link { border-inline-start: 0; border-radius: v
 .navbtn[data-slot="0"] { --wheel-x: 3.05rem; --wheel-y: 8.05rem; --wheel-scale: 1.12; --wheel-hover-scale: 1.17; opacity: 1; }
 .navbtn[data-slot="1"] { --wheel-x: 2.05rem; --wheel-y: 11.25rem; --wheel-scale: .86; --wheel-hover-scale: .94; }
 .navbtn[data-slot="2"] { --wheel-x: .45rem; --wheel-y: 14.15rem; --wheel-scale: .78; --wheel-hover-scale: .86; }
-.navbtn.wheel-hidden { opacity: 0; pointer-events: none; transform: translate(3.05rem, 8.05rem) scale(.42); }
+.navbtn.wheel-hidden { visibility: hidden; opacity: 0; pointer-events: none; transform: translate(3.05rem, 8.05rem) scale(.42); }
 .navbtn:hover,.navbtn:focus-visible { z-index: 4; opacity: 1; border-color: var(--node-color, var(--color-border)); background: var(--color-surface-raised); box-shadow: 0 .75rem 1.5rem -1rem color-mix(in oklch, var(--node-color, var(--color-fg)) 65%, transparent); transform: translate(var(--wheel-x), var(--wheel-y)) scale(var(--wheel-hover-scale)); }
 .navbtn:hover::before,.navbtn:focus-visible::before { opacity: .72; transform: scale(1); }
 .navbtn:hover::after,.navbtn:focus-visible::after { opacity: 1; transform: translate(0,-50%); }

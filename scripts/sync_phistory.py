@@ -43,10 +43,22 @@ def sha256(payload: bytes) -> str:
 
 
 def git_commit(source: Path) -> str:
+    if subprocess.check_output(
+        ["git", "-C", str(source), "status", "--porcelain", "--untracked-files=no"],
+        text=True,
+    ).strip():
+        raise ValueError("Phistory checkout has tracked changes; pinned evidence must come from a clean commit")
     return subprocess.check_output(
         ["git", "-C", str(source), "rev-parse", "HEAD"],
         text=True,
     ).strip()
+
+
+def select_default(captures: list[dict]) -> dict:
+    variants = [item.get("variant_id", "default") for item in captures]
+    if len(set(variants)) != len(variants) or variants.count("default") != 1:
+        raise ValueError("Latest capture set needs one explicit default and unique variant IDs")
+    return captures[variants.index("default")]
 
 
 def copy_icon(source: Path, agent_id: str, destination: Path) -> str | None:
@@ -83,15 +95,17 @@ def main() -> None:
     for item in upstream["captures"]:
         key = (item["agent_id"], item["version"])
         captures_by_key.setdefault(key, []).append(item)
+    # Reject ambiguous defaults before replacing any prompt evidence.
+    defaults = {
+        summary["agent_id"]: select_default(captures_by_key[(summary["agent_id"], summary["latest_version"])])
+        for summary in upstream["agents"]
+    }
     agents = []
     for position, summary in enumerate(upstream["agents"], start=1):
         agent_id = summary["agent_id"]
         version = summary["latest_version"]
         captures = captures_by_key[(agent_id, version)]
-        capture = next(
-            (item for item in captures if item.get("variant_id", "default") == "default"),
-            captures[0],
-        )
+        capture = defaults[agent_id]
         relative_prompt = Path(capture["prompt"])
         source_prompt = source / relative_prompt
         payload = source_prompt.read_bytes()
@@ -138,8 +152,8 @@ def main() -> None:
                 "name": summary["agent"],
                 "version": version,
                 "package": meta["package"],
-                "publishedAt": summary["latest_published_at"],
-                "capturedAt": summary["latest_captured_at"],
+                "publishedAt": capture["published_at"],
+                "capturedAt": capture["captured_at"],
                 "versionCount": summary.get("versions", 1),
                 # ``snapshots`` replaced ``captures`` in Phistory's index
                 # schema when multi-variant capture support was introduced.
@@ -159,7 +173,7 @@ def main() -> None:
                 "sha256": sha256(payload),
                 "bytes": len(payload),
                 "characters": len(text),
-                "lines": text.count("\n"),
+                "lines": len(text.splitlines()),
                 "headings": headings,
                 "keywordCounts": keyword_counts,
                 "promptRole": headings[0]["text"] if headings else "Prompt",
@@ -169,15 +183,7 @@ def main() -> None:
         )
 
     codex_summary = next(agent for agent in agents if agent["id"] == "codex")
-    codex_captures = captures_by_key[("codex", codex_summary["version"])]
-    codex_capture = next(
-        (
-            item
-            for item in codex_captures
-            if item.get("variant_id", "default") == "default"
-        ),
-        codex_captures[0],
-    )
+    codex_capture = defaults["codex"]
     codex_trace_source = source / codex_capture["trace"]
     codex_trace_target = prompts_dir / "codex.trace.jsonl"
     shutil.copyfile(codex_trace_source, codex_trace_target)

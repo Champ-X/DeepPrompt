@@ -6,9 +6,9 @@
   <p>
     <a href="https://deep-prompt-woad.vercel.app"><img alt="Live on Vercel" src="https://img.shields.io/badge/live-Vercel-000000?logo=vercel&logoColor=white"></a>
     <a href="https://github.com/Champ-X/DeepPrompt/actions/workflows/verify.yml"><img alt="Verify archive" src="https://github.com/Champ-X/DeepPrompt/actions/workflows/verify.yml/badge.svg"></a>
-    <a href="https://github.com/WEIFENG2333/phistory/tree/7ab8e3bd55b6364eceebf907bab285f256e2c53a"><img alt="Phistory commit" src="https://img.shields.io/badge/Phistory-7ab8e3bd55b6-2f766d"></a>
+    <a href="https://github.com/WEIFENG2333/phistory/tree/513e18d10df1421499c63f80fb7363311b973fad"><img alt="Phistory commit" src="https://img.shields.io/badge/Phistory-513e18d10df1-2f766d"></a>
     <img alt="Agents" src="https://img.shields.io/badge/Agents-14-356aa0">
-    <img alt="Annotations" src="https://img.shields.io/badge/Annotations-537-c15f3c">
+    <img alt="Annotations" src="https://img.shields.io/badge/Annotations-572-c15f3c">
   </p>
   <p>
     <a href="https://deep-prompt-woad.vercel.app"><strong>在线阅读 →</strong></a>
@@ -19,7 +19,7 @@
   </p>
 </div>
 
-Deep Prompt 是一个可审计的 Agent System Prompt 阅读器。它将 [Phistory](https://phistory.cc) 的规范化 Prompt 快照固定到明确 commit，在保留原文的前提下提供两层分析：
+Deep Prompt 是一个可审计的 Agent System Prompt 阅读器。它将 [Phistory](https://phistory.cc) 的最新默认捕获固定到明确 commit，在保留原文的前提下提供两层分析：
 
 - **规则解释**：规则要求什么、如何运行、适用边界在哪里。
 - **设计哲学**：从规则事实推导 Agent 的自治观、权限观、上下文策略与内在张力，并明确标记为编辑推断。
@@ -42,16 +42,16 @@ Deep Prompt 是一个可审计的 Agent System Prompt 阅读器。它将 [Phisto
 
 | 指标 | 当前值 |
 | --- | ---: |
-| Phistory commit | [`7ab8e3bd55b6`](https://github.com/WEIFENG2333/phistory/tree/7ab8e3bd55b6364eceebf907bab285f256e2c53a) |
-| 上游索引时间 | `2026-08-29 18:47 UTC` |
+| Phistory commit | [`513e18d10df1`](https://github.com/WEIFENG2333/phistory/tree/513e18d10df1421499c63f80fb7363311b973fad) |
+| 上游索引时间 | `2026-09-07 01:16 UTC` |
 | Agent | 14 |
-| 历史版本 / 快照 | 1,116 / 1,165 |
-| 当前高亮 / 批注 | 537 / 537 |
-| 当前有效规则解释 | 324 |
-| 设计哲学证据 / 逐句扩展 | 28 / 190 |
-| 已复读的非空原文行 | 16,394 |
+| 历史版本 / 快照 | 1,163 / 1,231 |
+| 当前高亮 / 批注 | 572 / 572 |
+| 当前规则解释 | 314 |
+| 设计哲学证据 / 逐句扩展 | 28 / 230 |
+| 已机械分类的非空原文行 | 16,394 |
 
-已收录 Claude Code、Codex CLI、DeepSeek Harness、Antigravity CLI、Grok Build、MiniMax Code、Kimi Code、MiMo Code、OpenClaw、Hermes Agent、Kimi CLI、opencode、Oh My Pi 与 Pi。完整版本、发布时间、字节数、SHA-256 和变体信息见 [`data/manifest.json`](data/manifest.json)。
+已收录 Claude Code、Codex CLI、DeepSeek Harness、Antigravity CLI、Grok Build、MiniMax Code、Kimi Code、MiMo Code、OpenClaw、Hermes Agent、Kimi CLI、opencode、Oh My Pi 与 Pi。“最新”指截至 2026-09-08 核查时 Phistory 可见的最新捕获，不保证等同于各厂商线上所有模型的实时 Prompt。当前批注对应 default；21 份最新变体原文均已保存。完整版本、发布时间、字节数、SHA-256 和变体信息见 [`data/manifest.json`](data/manifest.json)。
 
 ## 信息架构
 
@@ -61,7 +61,7 @@ Phistory @ pinned commit
 ├─ latest default prompt.md ──→ data/prompts/*.md
 └─ latest variants          ──→ data/variants/<agent>/*.md
                                       │
-                  reviewed anchors + annotations
+       data/annotations.json + data/editorial.json
                                       ↓
 index.html + data/agents/*.html + data/manifest.json
                                       │
@@ -74,7 +74,7 @@ index.html + data/agents/*.html + data/manifest.json
 
 ## 本地运行
 
-需要 Python 3；如要运行完整浏览器验收，还需要 Chrome/Chromium 和 Node.js 22+。
+需要 Python 3.12+；如要运行完整浏览器验收，还需要 Chrome/Chromium 和 Node.js 22+。
 
 ```bash
 git clone https://github.com/Champ-X/DeepPrompt.git
@@ -96,25 +96,29 @@ make serve
 | `data/prompts/*.md` | 当前 default Prompt 的本地证据副本 |
 | `data/variants/**` | 每个 Agent 的全部最新捕获变体 |
 | `data/manifest.json` | 固定 commit、来源路径、哈希、版本与快照统计 |
-| `data/coverage-annotations.json` | 可重建的批注锚点与预期出现次数 |
-| `data/annotation-audit.json` | 标注方法、增修/退役清单与研究参考 |
-| `data/annotation-coverage.json` | 所有非空原文行的复读分类报告 |
+| `data/annotations.json` | 全量批注唯一编辑入口，绑定原文哈希、出现序号与起止行 |
+| `data/editorial.json` | 题眼、哲学画像、七条设计轴与五主题总结及其依据 |
+| `data/retired-annotations.json`, `data/review-history/` | 退役原文、解读、理由与历史审计 |
+| `data/annotation-audit.json` | 本轮语义修订、新增、恢复与退役索引 |
+| `data/annotation-coverage.json` | 非空原文行的机械映射与分类，不等于人工复读证明 |
 | `scripts/*.py`, `scripts/browser_qa.mjs` | 同步、重建、审计、一致性与浏览器验收 |
 
 视觉规范见 [`DESIGN.md`](DESIGN.md)，当前审计结论见 [`COMPLETION_AUDIT.md`](COMPLETION_AUDIT.md)。
 
 ## 证据与批注方法
 
-1. **原文层**：页面正文与固定 Phistory `prompt.md` 的规范化文本一致，字节数与 SHA-256 记录在 manifest。
+1. **原文层**：本地 `prompt.md` 与固定上游文件逐字节一致，字节数和 SHA-256 记录在 manifest；页面解析标题、列表与围栏，保留排版后的规范化正文，并提供完整原文件链接。
 2. **规则层**：按“原文事实 → 运行机制 → 边界/风险”解读，不用结论代替锚点。
 3. **哲学层**：增加“设计推断 → 内在张力”，相关批注必须显式写明“哲学层（推断）”，不冒充厂商声明。
-4. **覆盖层**：每个非空行都进入已批注、机械 schema、重复材料、结构分隔符或“已复读但无独立解读增量”之一；不为了密度给括号和基础类型注水。
-5. **变更层**：锚点消失会使重建失败。经人工确认的同义迁移记录在 `ANCHOR_OVERRIDES`，失效规则记录为 retired annotation。
+4. **覆盖层**：每个非空行机械分类为已批注、未批注围栏内容、重复材料、结构分隔符或未批注正文。它不能证明未批注行已被人工复读或没有分析价值。
+5. **定位层**：短引文直接由真实 anchor 生成。每条批注绑定 Agent、源文件哈希、锚点出现次数、选中出现序号与起止行，页面可跳到固定上游的对应行。
+6. **变更层**：来源更新或锚点移动会使重建失败。人工审阅后更新注册表与审计理由；失效规则进入退役账本，历史规则恢复也须重新核对证据。
 
 ### 证据边界
 
 - Phistory 的 `prompt.md` 会规范化临时路径、日期和会话 ID，便于阅读与 diff；它不等同于完全未处理的 wire payload。
-- Codex 原始捕获另由 `data/prompts/codex.trace.jsonl` 作为证据，其认证头和账号字段已固定脱敏。
+- Codex 的附带捕获证据见 `data/prompts/codex.trace.jsonl`，沿用上游对敏感字段的处理，并单独校验版本、字节数和哈希。它不是本项目重新发起的请求。
+- 单次捕获可能包含专用角色与会话环境。MiMo 此次 default 是标题生成请求，Antigravity 此次则是编码助手；这不代表整个产品的能力边界。
 - 批注是独立分析，不代表 Agent 厂商或 Phistory 的立场。
 - 固定快照只代表本次审计时点；上游更新后需要重新复读，不能只替换版本号。
 
@@ -123,13 +127,16 @@ make serve
 ```bash
 git clone --depth=1 https://github.com/WEIFENG2333/phistory.git /tmp/phistory-source
 python3 scripts/sync_phistory.py --source /tmp/phistory-source
+git diff -- data/prompts data/variants
+# 人工审阅后更新 annotations.json、editorial.json 与 annotation-audit.json
 python3 scripts/rebuild_archive.py
+python3 scripts/audit_annotation_coverage.py
 make check
 ```
 
 `sync_phistory.py` 复制每个 Agent 的最新 default Prompt 和全部最新 variants，并更新图标、Codex trace 与 manifest。`rebuild_archive.py` 再从证据文件重建轻量 shell 与 Agent 分片。
 
-**不要在未阅读 diff 的情况下直接提交同步结果。** Prompt 的角色、工具或权限语义可能已发生反转，Antigravity 的当前 default 捕获就是一个典型例子。
+**不要在未阅读 diff 的情况下直接提交同步结果。** Prompt 的角色、工具或权限语义可能发生反转。同步脚本要求干净的上游 checkout 与明确的 default；批注注册表与摘要绑定旧来源时，重建会主动失败，需完成语义审阅后再更新来源绑定。
 
 ## 验证
 
@@ -139,10 +146,10 @@ make check
 
 该命令会依次验证：
 
-1. 当前 shell 和 14 份 Agent 分片可由证据快照重现。
-2. 所有非空原文行已进入覆盖审计。
-3. Prompt/变体哈希、批注对、Logo、版本与页面元数据一致。
-4. Chrome 在 1920×1080、1440×900 和 390×844 三档视口下完成懒加载、切换轨、连线、折叠锚点、响应式与批注空白阈值测试。
+1. 精确定位回归：重复文本、同一行的第二处引文、多行代码、错误来源/行号/Agent、重叠与错误 HTML 标记。
+2. 当前 shell、14 份 Agent 分片和全文分类报告均可重建；画像与横向比较能追溯到有效批注。
+3. Prompt/21 份变体/Codex trace 哈希、572 组批注、Logo、版本与页面元数据一致。
+4. Chrome 在 1920×1080、1440×900 和 390×844 下逐 Agent 检查引文、来源链接、DOM ID 与页面宽度，并验证懒加载、导航、搜索、筛选、点击配对与折叠连线。
 
 GitHub Actions 在 `main` 推送和 Pull Request 上运行同一套检查。
 

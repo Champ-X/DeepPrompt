@@ -6,8 +6,8 @@
 ## 0. Meta
 
 ```yaml
-version: 1.2.0
-last_updated: 2026-08-31
+version: 1.3.0
+last_updated: 2026-09-08
 upstream_source: https://phistory.cc
 schema: https://github.com/Eldergenix/SUPER-DESIGN/schema/v1
 framework:
@@ -202,8 +202,9 @@ both paper and raised surfaces.
 | Filter chip | outlined | ink border | double focus ring | category state | opacity 50% |
 | Annotation | quiet | source preview | double focus ring | one connector visible | collapsed with source |
 
-Every actionable surface has a minimum 44×44 CSS pixel target and visible
-`focus-visible`; disabled items are non-interactive and exposed as disabled.
+Buttons and standalone controls have a minimum 44×44 CSS pixel target and visible
+`focus-visible`; inline evidence links remain part of the reading text. Disabled
+items are non-interactive and exposed as disabled.
 
 ## 9. Layout & Responsive
 
@@ -227,3 +228,11 @@ New controls require default, hover, focus-visible, active and disabled states.
 - `data/agents/{id}.html` owns one complete Agent reader section.
 - `scripts/archive-ui.js` fetches only the selected fragment, keeps parsed nodes in an in-memory cache, and exposes an actionable HTTP-service error state.
 - The homepage remains useful before any fragment request; direct `file://` reading is not a supported full-product mode.
+
+## 12. Editorial Evidence
+
+- `data/annotations.json` owns annotation content and exact source positions; quoted text is generated from the reviewed anchor.
+- `data/editorial.json` owns leads, profiles, axes and themes. Every synthesis includes links to supporting annotations at a pinned upstream commit and line range.
+- Reader mastheads identify the annotated default capture and link to the complete local source, pinned upstream file and other captured variants.
+- Source text and editorial inference remain separate. A captured title-generation request must not be presented as the full coding-agent system prompt.
+- Mobile notes use unique IDs, retain the same evidence links and act as the active description and click target for their highlights.

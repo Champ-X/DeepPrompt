@@ -160,6 +160,10 @@
     var stage = document.querySelector('#view-'+aid+' .stage');
     if(!stage) return;
     syncDisclosureAnnotations(aid);
+    stage.querySelectorAll('.hl[data-note]').forEach(function(hl){
+      var description=displayedNote(hl.dataset.note);
+      if(description) hl.setAttribute('aria-describedby',description.id);
+    });
     var stageTop = stage.getBoundingClientRect().top + window.scrollY;
     var cols = {left:[], right:[]};
     var mL = document.getElementById('mL-'+aid), mR = document.getElementById('mR-'+aid);
@@ -201,13 +205,17 @@
   // ---- activation link ----
   function clearActive(){
     document.querySelectorAll('.hl.active').forEach(function(e){e.classList.remove('active');});
-    document.querySelectorAll('.note.active').forEach(function(e){e.classList.remove('active');});
+    document.querySelectorAll('.note.active,.mobnote.active').forEach(function(e){e.classList.remove('active');});
     activeNoteId=null; clearConnector();
+  }
+  function displayedNote(noteId){
+    var selector=window.innerWidth<1280?'.mobnote':'.note';
+    return document.querySelector(selector+'[data-note="'+noteId+'"]');
   }
   function activate(noteId, scrollNote){
     clearActive();
     var hls = document.querySelectorAll('.hl[data-note="'+noteId+'"]');
-    var note = document.querySelector('.note[data-note="'+noteId+'"]');
+    var note = displayedNote(noteId);
     hls.forEach(function(h){h.classList.add('active');});
     if(note){ note.classList.add('active','seen');
       if(scrollNote) note.scrollIntoView({behavior:'smooth',block:'center'}); }
@@ -215,11 +223,12 @@
   }
 
   document.addEventListener('click', function(e){
+    if(e.target.closest('a')) return;
     var retry=e.target.closest('[data-retry-agent]');
     if(retry){ showAgent(retry.dataset.retryAgent,false,false); return; }
     var hl = e.target.closest('.hl');
     if(hl && !hl.classList.contains('dim')){ activate(hl.dataset.note, true); return; }
-    var note = e.target.closest('.note');
+    var note = e.target.closest('.note,.mobnote');
     if(note){
       var id=note.dataset.note;
       var hl2=document.querySelector('.hl[data-note="'+id+'"]');
@@ -231,7 +240,7 @@
 
   document.addEventListener('keydown',function(e){
     var hl=e.target.closest&&e.target.closest('.hl');
-    if(hl&&(e.key==='Enter'||e.key===' ')){
+    if(hl&&!hl.classList.contains('dim')&&(e.key==='Enter'||e.key===' ')){
       e.preventDefault(); activate(hl.dataset.note,true);
     }
   });
@@ -247,6 +256,7 @@
 
   // ---- catalogue / reader routing and wheel ----
   function updateWheel(aid,isPreview){
+    var focusedNode=document.activeElement;
     var activeIndex=AGENTS.indexOf(aid);
     var visibleRange=window.innerWidth<1280?1:2;
     var activeButton=document.querySelector('.navbtn[data-target="'+aid+'"] .nb-name');
@@ -267,6 +277,9 @@
       if(visible){ button.dataset.slot=String(distance); button.removeAttribute('aria-hidden'); button.tabIndex=index===activeIndex?0:-1; }
       else { delete button.dataset.slot; button.setAttribute('aria-hidden','true'); button.tabIndex=-1; }
     });
+    if(!isPreview&&focusedNode&&focusedNode.matches('.navbtn.wheel-hidden')){
+      document.querySelector('.navbtn.active').focus({preventScroll:true});
+    }
     var status=document.getElementById('wheelStatus');
     if(status) status.textContent=(isPreview?'预览 Agent：':'当前 Agent：')+activeName+'，第 '+(activeIndex+1)+' 项，共 '+AGENTS.length+' 项';
     var wheel=document.getElementById('agentWheel');
@@ -464,6 +477,7 @@
       if(!hl) return;
       var mob=n.cloneNode(true);
       mob.classList.add('mobnote'); mob.classList.remove('note');
+      mob.id='annotation-mobile-'+id;
       mob.style.top='';
       // insert after the paragraph containing hl
       var block=hl.closest('p,li,h1,h2,h3,h4,h5,h6,pre,details')||hl;

@@ -20,6 +20,7 @@ const manifest = JSON.parse(
   readFileSync(join(root, "data", "manifest.json"), "utf8"),
 );
 const expectedAnnotations = annotationAudit.expectedAnnotationCount;
+const annotations = JSON.parse(readFileSync(join(root, "data", "annotations.json"), "utf8")).annotations;
 const expectedAgents = manifest.agents.length;
 const maxVisualGapPixels = 4000;
 const profile = mkdtempSync(join(tmpdir(), "deepprompt-browser-qa-"));
@@ -100,9 +101,14 @@ async function main() {
   });
 
   let requestId = 0;
+  const runtimeErrors = [];
   const pending = new Map();
   socket.onmessage = event => {
     const message = JSON.parse(event.data);
+    if (message.method === "Runtime.exceptionThrown") runtimeErrors.push(message.params.exceptionDetails.text);
+    if (message.method === "Runtime.consoleAPICalled" && message.params.type === "error") {
+      runtimeErrors.push(message.params.args.map(arg => arg.value || arg.description).join(" "));
+    }
     if (!message.id || !pending.has(message.id)) return;
     const { resolve, reject } = pending.get(message.id);
     pending.delete(message.id);
@@ -143,6 +149,7 @@ async function main() {
   const results = [];
   const homeResults = [];
   const visualCoverage = [];
+  const readerChecks = [];
 
   for (const viewport of viewports) {
     await send("Emulation.setDeviceMetricsOverride", {
@@ -400,6 +407,64 @@ async function main() {
       writeFileSync("/tmp/deepprompt-collapsed-wide.png", collapsedScreenshot.data, "base64");
     }
 
+    // Verify each generated annotation after lazy loading and mobile cloning.
+    for (const agentId of agentIds) {
+      await send("Runtime.evaluate", {
+        expression: `document.querySelector('.navbtn[data-target="${agentId}"]').click()`,
+      }, sessionId);
+      await waitForAgent(agentId);
+      const expectedNotes = annotations.filter(note => note.agent === agentId).map(note => ({id: note.id, anchor: note.anchor}));
+      const state = (await send("Runtime.evaluate", {
+        expression: `(() => {
+          const view=document.querySelector('.agentview.active');
+          const expected=${JSON.stringify(expectedNotes)};
+          const ids=Array.from(document.querySelectorAll('[id]')).map(node=>node.id);
+          const selector=innerWidth<1280?'.mobnote':'.note';
+          const mismatches=expected.filter(item=>{
+            const hl=view.querySelector('.hl[data-note="'+item.id+'"]');
+            const note=view.querySelector(selector+'[data-note="'+item.id+'"]');
+            return !hl || !note || hl.textContent!==item.anchor || note.querySelector('.q')?.textContent!==item.anchor ||
+              hl.getAttribute('aria-describedby')!==note.id || !note.querySelector('.source-ref')?.href.includes(${JSON.stringify(manifest.source.commit)});
+          });
+          return {agent:'${agentId}',viewport:'${viewport.name}',overflow:document.documentElement.scrollWidth>innerWidth,
+            duplicateIds:ids.length-new Set(ids).size,mismatches:mismatches.map(item=>item.id),
+            hiddenNavVisible:Array.from(document.querySelectorAll('.navbtn.wheel-hidden')).some(node=>{
+              const style=getComputedStyle(node);return style.display!=='none' && style.visibility!=='hidden' && Number(style.opacity)>0;
+            }),
+            noteCount:view.querySelectorAll(selector).length,expectedCount:expected.length};
+        })()`, returnByValue: true,
+      }, sessionId)).result.value;
+      readerChecks.push(state);
+      if (['mimo','openclaw'].includes(agentId) && viewport.name !== 'desktop') {
+        await send("Runtime.evaluate", {
+          expression: "document.querySelector('.agentview.active .hl').scrollIntoView({block:'center'})",
+        }, sessionId);
+        await delay(300);
+        const shot=await send("Page.captureScreenshot", {format:"png",captureBeyondViewport:false}, sessionId);
+        writeFileSync(`/tmp/deepprompt-review-${agentId}-${viewport.name}.png`,shot.data,"base64");
+      }
+    }
+    await send("Runtime.evaluate", {expression:"document.querySelector('.navbtn[data-target=\"claude-code\"]').click()"}, sessionId);
+    await waitForAgent("claude-code");
+    const interaction = (await send("Runtime.evaluate", {
+      expression: `(() => {
+        const view=document.querySelector('.agentview.active');
+        document.querySelector('.chip[data-cat="safety"]').click();
+        const filtered=Array.from(view.querySelectorAll('.note[data-cat="safety"],.mobnote[data-cat="safety"]')).every(note=>note.classList.contains('hide'));
+        document.querySelector('.chip[data-cat="all"]').click();
+        const input=document.getElementById('promptSearch');
+        input.value='permission';input.dispatchEvent(new Event('input',{bubbles:true}));
+        const searched=view.querySelectorAll('mark.search-hit').length>0;
+        input.value='';input.dispatchEvent(new Event('input',{bubbles:true}));
+        const restored=view.querySelectorAll('mark.search-hit').length===0;
+        const hl=Array.from(view.querySelectorAll('.hl')).find(node=>node.getClientRects().length);
+        hl.click();
+        const activeNote=view.querySelector(innerWidth<1280?'.mobnote.active':'.note.active');
+        return {filtered,searched,restored,activated:activeNote?.dataset.note===hl.dataset.note};
+      })()`, returnByValue:true,
+    }, sessionId)).result.value;
+    results[results.length-1].annotationInteraction=interaction;
+
     const homeUrl = targetUrl.replace(/#.*$/, "");
     await send("Page.navigate", { url: homeUrl }, sessionId);
     await waitForExpression(`(() => {
@@ -446,6 +511,9 @@ async function main() {
   console.log(JSON.stringify(results, null, 2));
   console.log("Homepage states:");
   console.log(JSON.stringify(homeResults, null, 2));
+  console.log("Per-Agent reader checks:");
+  console.log(JSON.stringify(readerChecks, null, 2));
+  if (runtimeErrors.length) console.error("Browser runtime errors:", runtimeErrors);
   if (visualCoverage.length) {
     console.log("Visual annotation gaps:");
     console.log(JSON.stringify(visualCoverage, null, 2));
@@ -477,6 +545,7 @@ async function main() {
     result.philosophyAxes !== 7 ||
     result.philosophyEvidenceNotes !== 2 ||
     result.loadedAgents !== 1 ||
+    !['filtered','searched','restored','activated'].every(key=>result.annotationInteraction?.[key]) ||
     (result.name === "wide" && result.lazyLoadCoverage !== expectedAgents) ||
     (result.width < 1280 && result.inlineNotes !== result.notes) ||
     (result.width >= 1280 && result.inlineNotes !== 0)
@@ -499,7 +568,11 @@ async function main() {
     !result || result.pixels > maxVisualGapPixels ||
     result.philosophyCards !== 1 || result.philosophyEvidenceNotes !== 2
   );
-  if (failures.length || homeFailures.length || visualFailures.length) process.exitCode = 1;
+  const readerFailures=readerChecks.filter(result=>!result || result.overflow || result.duplicateIds || result.hiddenNavVisible || result.mismatches.length || result.noteCount!==result.expectedCount);
+  if (failures.length || homeFailures.length || visualFailures.length || readerFailures.length || runtimeErrors.length) {
+    console.error("Failed checks:",JSON.stringify({failures,homeFailures,visualFailures,readerFailures,runtimeErrors}));
+    process.exitCode = 1;
+  }
   socket.close();
 }
 
