@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
-  "reviewedAt": "2026-09-08",
-  "sourceCommit": "513e18d10df1421499c63f80fb7363311b973fad",
-  "annotationCount": 572,
+  "reviewedAt": "2026-09-19",
+  "sourceCommit": "454c869990df9563ed894971b6e0d04424c186a8",
+  "annotationCount": 619,
   "methodology": {
     "unit": "every non-blank source line",
     "dispositions": {
@@ -16,23 +16,23 @@
   },
   "agents": {
     "claude-code": {
-      "totalLines": 1507,
-      "nonBlankLines": 1291,
-      "annotationCount": 48,
-      "coverageExpansionAnnotations": 15,
-      "mappedAnnotationCount": 48,
+      "totalLines": 1447,
+      "nonBlankLines": 1236,
+      "annotationCount": 54,
+      "coverageExpansionAnnotations": 21,
+      "mappedAnnotationCount": 54,
       "unmappedAnnotations": [],
       "lineDispositions": {
-        "annotated": 40,
-        "unannotatedCode": 884,
+        "annotated": 45,
+        "unannotatedCode": 851,
         "repeatedMaterial": 0,
-        "unannotatedProse": 313,
-        "structuralDelimiter": 54
+        "unannotatedProse": 288,
+        "structuralDelimiter": 52
       },
       "longestUnannotatedProseRun": {
         "lines": 18,
-        "startLine": 1419,
-        "endLine": 1436,
+        "startLine": 1359,
+        "endLine": 1376,
         "startPreview": "The canonical multi-stage pattern — pipeline by default, each dimension verifies as soon as its review completes:"
       },
       "sections": [
@@ -40,455 +40,439 @@
           "level": 1,
           "title": "System Prompt",
           "startLine": 1,
-          "endLine": 79,
-          "annotationCount": 22,
+          "endLine": 72,
+          "annotationCount": 23,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Harness",
           "startLine": 11,
-          "endLine": 23,
-          "annotationCount": 9,
+          "endLine": 24,
+          "annotationCount": 10,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Session-specific guidance",
-          "startLine": 24,
-          "endLine": 26,
+          "startLine": 25,
+          "endLine": 27,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 2,
           "title": "Memory",
-          "startLine": 27,
-          "endLine": 49,
+          "startLine": 28,
+          "endLine": 50,
           "annotationCount": 4,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Environment",
-          "startLine": 50,
-          "endLine": 62,
+          "startLine": 51,
+          "endLine": 55,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 2,
           "title": "Context management",
-          "startLine": 63,
-          "endLine": 65,
+          "startLine": 56,
+          "endLine": 58,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Delivering work",
-          "startLine": 66,
-          "endLine": 72,
+          "startLine": 59,
+          "endLine": 65,
           "annotationCount": 4,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Corrections",
-          "startLine": 73,
-          "endLine": 79,
+          "startLine": 66,
+          "endLine": 72,
           "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 1,
           "title": "User Message",
-          "startLine": 80,
-          "endLine": 91,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 2,
-          "title": "currentDate",
-          "startLine": 84,
-          "endLine": 91,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
+          "startLine": 73,
+          "endLine": 84,
+          "annotationCount": 1,
+          "disposition": "annotated"
         },
         {
           "level": 1,
           "title": "Tools",
-          "startLine": 92,
-          "endLine": 1507,
-          "annotationCount": 26,
+          "startLine": 85,
+          "endLine": 1447,
+          "annotationCount": 30,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Agent",
-          "startLine": 94,
-          "endLine": 159,
+          "startLine": 87,
+          "endLine": 152,
           "annotationCount": 4,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "When to use",
-          "startLine": 102,
-          "endLine": 159,
+          "startLine": 95,
+          "endLine": 152,
           "annotationCount": 4,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Bash",
-          "startLine": 160,
-          "endLine": 211,
+          "startLine": 153,
+          "endLine": 201,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Git",
-          "startLine": 170,
-          "endLine": 211,
+          "startLine": 163,
+          "endLine": 201,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "CronCreate",
-          "startLine": 212,
-          "endLine": 284,
+          "startLine": 202,
+          "endLine": 274,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "One-shot tasks (recurring: false)",
-          "startLine": 218,
-          "endLine": 224,
+          "startLine": 208,
+          "endLine": 214,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Recurring jobs (recurring: true, the default)",
-          "startLine": 225,
-          "endLine": 229,
+          "startLine": 215,
+          "endLine": 219,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Avoid the :00 and :30 minute marks when the task allows it",
-          "startLine": 230,
-          "endLine": 238,
+          "startLine": 220,
+          "endLine": 228,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Session-only",
-          "startLine": 239,
-          "endLine": 242,
+          "startLine": 229,
+          "endLine": 232,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Not for live watching",
-          "startLine": 243,
-          "endLine": 246,
+          "startLine": 233,
+          "endLine": 236,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Runtime behavior",
-          "startLine": 247,
-          "endLine": 284,
+          "startLine": 237,
+          "endLine": 274,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "CronDelete",
-          "startLine": 285,
-          "endLine": 305,
+          "startLine": 275,
+          "endLine": 295,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "CronList",
-          "startLine": 306,
-          "endLine": 318,
+          "startLine": 296,
+          "endLine": 308,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "DesignSync",
-          "startLine": 319,
-          "endLine": 566,
+          "startLine": 309,
+          "endLine": 556,
           "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Edit",
-          "startLine": 567,
-          "endLine": 606,
+          "startLine": 557,
+          "endLine": 596,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "EnterWorktree",
-          "startLine": 607,
-          "endLine": 662,
+          "startLine": 597,
+          "endLine": 652,
           "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "When to Use",
-          "startLine": 611,
-          "endLine": 615,
+          "startLine": 601,
+          "endLine": 605,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "When NOT to Use",
-          "startLine": 616,
-          "endLine": 621,
+          "startLine": 606,
+          "endLine": 611,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Requirements",
-          "startLine": 622,
-          "endLine": 626,
+          "startLine": 612,
+          "endLine": 616,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Behavior",
-          "startLine": 627,
-          "endLine": 633,
+          "startLine": 617,
+          "endLine": 623,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Entering an existing worktree",
-          "startLine": 634,
-          "endLine": 639,
+          "startLine": 624,
+          "endLine": 629,
           "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "Parameters",
-          "startLine": 640,
-          "endLine": 662,
+          "startLine": 630,
+          "endLine": 652,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "ExitWorktree",
-          "startLine": 663,
-          "endLine": 719,
+          "startLine": 653,
+          "endLine": 709,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 4,
           "title": "Scope",
-          "startLine": 667,
-          "endLine": 675,
+          "startLine": 657,
+          "endLine": 665,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "When to Use",
-          "startLine": 676,
-          "endLine": 680,
+          "startLine": 666,
+          "endLine": 670,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Parameters",
-          "startLine": 681,
-          "endLine": 687,
+          "startLine": 671,
+          "endLine": 677,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Behavior",
-          "startLine": 688,
-          "endLine": 719,
+          "startLine": 678,
+          "endLine": 709,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "ListAgents",
-          "startLine": 720,
-          "endLine": 743,
+          "startLine": 710,
+          "endLine": 733,
           "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Monitor",
-          "startLine": 744,
-          "endLine": 871,
-          "annotationCount": 3,
+          "startLine": 734,
+          "endLine": 856,
+          "annotationCount": 4,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "NotebookEdit",
-          "startLine": 872,
-          "endLine": 924,
+          "startLine": 857,
+          "endLine": 909,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "PushNotification",
-          "startLine": 925,
-          "endLine": 957,
+          "startLine": 910,
+          "endLine": 942,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Read",
-          "startLine": 958,
-          "endLine": 1002,
+          "startLine": 943,
+          "endLine": 987,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "ReportFindings",
-          "startLine": 1003,
-          "endLine": 1091,
+          "startLine": 988,
+          "endLine": 1076,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "ScheduleWakeup",
-          "startLine": 1092,
-          "endLine": 1150,
+          "startLine": 1077,
+          "endLine": 1135,
           "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "Picking delaySeconds",
-          "startLine": 1102,
-          "endLine": 1116,
+          "startLine": 1087,
+          "endLine": 1101,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "The reason field",
-          "startLine": 1117,
-          "endLine": 1150,
+          "startLine": 1102,
+          "endLine": 1135,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "SendMessage",
-          "startLine": 1151,
-          "endLine": 1226,
-          "annotationCount": 1,
+          "startLine": 1136,
+          "endLine": 1211,
+          "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "SendMessage",
-          "startLine": 1153,
-          "endLine": 1226,
-          "annotationCount": 1,
+          "startLine": 1138,
+          "endLine": 1211,
+          "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "Cross-session",
-          "startLine": 1170,
-          "endLine": 1226,
-          "annotationCount": 1,
+          "startLine": 1155,
+          "endLine": 1211,
+          "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Skill",
-          "startLine": 1227,
-          "endLine": 1258,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "TaskOutput",
-          "startLine": 1259,
-          "endLine": 1304,
+          "startLine": 1212,
+          "endLine": 1243,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "TaskStop",
-          "startLine": 1305,
-          "endLine": 1332,
+          "startLine": 1244,
+          "endLine": 1271,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "WebFetch",
-          "startLine": 1333,
-          "endLine": 1363,
-          "annotationCount": 1,
+          "startLine": 1272,
+          "endLine": 1303,
+          "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "WebSearch",
-          "startLine": 1364,
-          "endLine": 1403,
+          "startLine": 1304,
+          "endLine": 1343,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "Workflow",
-          "startLine": 1404,
-          "endLine": 1480,
-          "annotationCount": 1,
+          "startLine": 1344,
+          "endLine": 1420,
+          "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Write",
-          "startLine": 1481,
-          "endLine": 1507,
+          "startLine": 1421,
+          "endLine": 1447,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         }
@@ -497,15 +481,15 @@
     "codex": {
       "totalLines": 848,
       "nonBlankLines": 685,
-      "annotationCount": 55,
-      "coverageExpansionAnnotations": 12,
-      "mappedAnnotationCount": 55,
+      "annotationCount": 56,
+      "coverageExpansionAnnotations": 13,
+      "mappedAnnotationCount": 56,
       "unmappedAnnotations": [],
       "lineDispositions": {
-        "annotated": 53,
+        "annotated": 54,
         "unannotatedCode": 351,
         "repeatedMaterial": 12,
-        "unannotatedProse": 221,
+        "unannotatedProse": 220,
         "structuralDelimiter": 48
       },
       "longestUnannotatedProseRun": {
@@ -712,7 +696,7 @@
           "title": "Tools",
           "startLine": 260,
           "endLine": 848,
-          "annotationCount": 14,
+          "annotationCount": 15,
           "disposition": "annotated"
         },
         {
@@ -776,7 +760,7 @@
           "title": "functions.exec",
           "startLine": 441,
           "endLine": 701,
-          "annotationCount": 8,
+          "annotationCount": 9,
           "disposition": "annotated"
         },
         {
@@ -840,7 +824,7 @@
           "title": "`update_goal`",
           "startLine": 580,
           "endLine": 599,
-          "annotationCount": 3,
+          "annotationCount": 4,
           "disposition": "annotated"
         },
         {
@@ -918,23 +902,23 @@
       ]
     },
     "dsh": {
-      "totalLines": 839,
-      "nonBlankLines": 731,
-      "annotationCount": 31,
-      "coverageExpansionAnnotations": 29,
-      "mappedAnnotationCount": 31,
+      "totalLines": 876,
+      "nonBlankLines": 764,
+      "annotationCount": 32,
+      "coverageExpansionAnnotations": 30,
+      "mappedAnnotationCount": 32,
       "unmappedAnnotations": [],
       "lineDispositions": {
-        "annotated": 29,
-        "unannotatedCode": 592,
+        "annotated": 30,
+        "unannotatedCode": 620,
         "repeatedMaterial": 0,
-        "unannotatedProse": 58,
-        "structuralDelimiter": 52
+        "unannotatedProse": 60,
+        "structuralDelimiter": 54
       },
       "longestUnannotatedProseRun": {
         "lines": 3,
-        "startLine": 724,
-        "endLine": 726,
+        "startLine": 761,
+        "endLine": 763,
         "startPreview": "- pipeline(items, ...stages): Promise<any[]> — run each item through the stages independently with NO barrier between stages (prefer this for multi-stage work)."
       },
       "sections": [
@@ -942,1179 +926,1131 @@
           "level": 1,
           "title": "System Prompt",
           "startLine": 1,
-          "endLine": 42,
+          "endLine": 44,
           "annotationCount": 17,
           "disposition": "annotated"
         },
         {
           "level": 1,
           "title": "User Message",
-          "startLine": 43,
-          "endLine": 52,
+          "startLine": 45,
+          "endLine": 54,
           "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 1,
           "title": "Tools",
-          "startLine": 53,
-          "endLine": 839,
-          "annotationCount": 12,
+          "startLine": 55,
+          "endLine": 876,
+          "annotationCount": 13,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "ask_user_question",
-          "startLine": 55,
-          "endLine": 120,
+          "startLine": 57,
+          "endLine": 122,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "bash",
-          "startLine": 121,
-          "endLine": 168,
+          "startLine": 123,
+          "endLine": 170,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "create_goal",
-          "startLine": 169,
-          "endLine": 191,
+          "startLine": 171,
+          "endLine": 193,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "edit",
-          "startLine": 192,
-          "endLine": 236,
+          "startLine": 194,
+          "endLine": 238,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "exit_plan_mode",
-          "startLine": 237,
-          "endLine": 255,
+          "startLine": 239,
+          "endLine": 257,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "get_goal",
-          "startLine": 256,
-          "endLine": 266,
+          "startLine": 258,
+          "endLine": 268,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "glob",
-          "startLine": 267,
-          "endLine": 289,
+          "startLine": 269,
+          "endLine": 291,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "grep",
-          "startLine": 290,
-          "endLine": 316,
+          "startLine": 292,
+          "endLine": 318,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "interrupt_agent",
-          "startLine": 317,
-          "endLine": 335,
+          "startLine": 319,
+          "endLine": 337,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "job_kill",
-          "startLine": 336,
-          "endLine": 358,
+          "startLine": 338,
+          "endLine": 360,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "job_list",
-          "startLine": 359,
-          "endLine": 369,
+          "startLine": 361,
+          "endLine": 371,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "job_output",
-          "startLine": 370,
-          "endLine": 396,
+          "startLine": 372,
+          "endLine": 398,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "list_agents",
-          "startLine": 397,
-          "endLine": 416,
+          "startLine": 399,
+          "endLine": 418,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
+          "title": "present",
+          "startLine": 419,
+          "endLine": 453,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
           "title": "ralph",
-          "startLine": 417,
-          "endLine": 439,
+          "startLine": 454,
+          "endLine": 476,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "read",
-          "startLine": 440,
-          "endLine": 466,
+          "startLine": 477,
+          "endLine": 503,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "read_image",
-          "startLine": 467,
-          "endLine": 485,
+          "startLine": 504,
+          "endLine": 522,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "send_message",
-          "startLine": 486,
-          "endLine": 509,
+          "startLine": 523,
+          "endLine": 546,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "skill",
-          "startLine": 510,
-          "endLine": 528,
+          "startLine": 547,
+          "endLine": 565,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "subagent",
-          "startLine": 529,
-          "endLine": 556,
+          "startLine": 566,
+          "endLine": 593,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "subagent_fork",
-          "startLine": 557,
-          "endLine": 584,
+          "startLine": 594,
+          "endLine": 621,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "todo_write",
-          "startLine": 585,
-          "endLine": 626,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "update_goal",
-          "startLine": 627,
-          "endLine": 674,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "web_fetch",
-          "startLine": 675,
-          "endLine": 693,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "web_search",
-          "startLine": 694,
-          "endLine": 715,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "workflow",
-          "startLine": 716,
-          "endLine": 804,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "write",
-          "startLine": 805,
-          "endLine": 839,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        }
-      ]
-    },
-    "antigravity": {
-      "totalLines": 893,
-      "nonBlankLines": 793,
-      "annotationCount": 42,
-      "coverageExpansionAnnotations": 12,
-      "mappedAnnotationCount": 42,
-      "unmappedAnnotations": [],
-      "lineDispositions": {
-        "annotated": 36,
-        "unannotatedCode": 462,
-        "repeatedMaterial": 0,
-        "unannotatedProse": 267,
-        "structuralDelimiter": 28
-      },
-      "longestUnannotatedProseRun": {
-        "lines": 13,
-        "startLine": 58,
-        "endLine": 70,
-        "startPreview": "- Implement the core design system with all tokens and utilities,"
-      },
-      "sections": [
-        {
-          "level": 1,
-          "title": "System Prompt",
-          "startLine": 1,
-          "endLine": 239,
-          "annotationCount": 32,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Technology Stack,",
-          "startLine": 16,
-          "endLine": 27,
-          "annotationCount": 3,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "Design Aesthetics,",
-          "startLine": 28,
-          "endLine": 102,
-          "annotationCount": 17,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Implementation Workflow,",
-          "startLine": 50,
-          "endLine": 71,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "SEO Best Practices,",
-          "startLine": 72,
-          "endLine": 84,
-          "annotationCount": 3,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Receiving Messages",
-          "startLine": 85,
-          "endLine": 88,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "Reactive Wakeup (No Polling Needed)",
-          "startLine": 89,
-          "endLine": 102,
-          "annotationCount": 3,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "File Format",
-          "startLine": 103,
-          "endLine": 120,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "When to Use Artifacts",
-          "startLine": 121,
-          "endLine": 137,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "Artifact Formatting Tips",
-          "startLine": 138,
-          "endLine": 199,
-          "annotationCount": 4,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Alerts",
-          "startLine": 141,
-          "endLine": 158,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Mermaid Diagrams",
-          "startLine": 159,
-          "endLine": 164,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "File Links and Media",
-          "startLine": 165,
-          "endLine": 170,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Carousels",
-          "startLine": 171,
-          "endLine": 196,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "Critical Rules",
-          "startLine": 197,
-          "endLine": 199,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 2,
-          "title": "Scratch Scripts and Files",
-          "startLine": 200,
-          "endLine": 239,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 1,
-          "title": "User Message",
-          "startLine": 240,
-          "endLine": 248,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 1,
-          "title": "Tools",
-          "startLine": 249,
-          "endLine": 893,
-          "annotationCount": 10,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "ask_question",
-          "startLine": 251,
-          "endLine": 314,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "generate_image",
-          "startLine": 315,
-          "endLine": 359,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "grep_search",
-          "startLine": 360,
-          "endLine": 417,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "list_dir",
-          "startLine": 418,
-          "endLine": 446,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "manage_task",
-          "startLine": 447,
-          "endLine": 497,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "read_url_content",
-          "startLine": 498,
-          "endLine": 526,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "replace_file_content",
-          "startLine": 527,
-          "endLine": 603,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "run_command",
-          "startLine": 604,
-          "endLine": 648,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "schedule",
-          "startLine": 649,
-          "endLine": 742,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "search_web",
-          "startLine": 743,
-          "endLine": 774,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "view_file",
-          "startLine": 775,
-          "endLine": 824,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "write_to_file",
-          "startLine": 825,
-          "endLine": 893,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        }
-      ]
-    },
-    "grok": {
-      "totalLines": 1197,
-      "nonBlankLines": 1068,
-      "annotationCount": 39,
-      "coverageExpansionAnnotations": 12,
-      "mappedAnnotationCount": 39,
-      "unmappedAnnotations": [],
-      "lineDispositions": {
-        "annotated": 33,
-        "unannotatedCode": 815,
-        "repeatedMaterial": 0,
-        "unannotatedProse": 170,
-        "structuralDelimiter": 50
-      },
-      "longestUnannotatedProseRun": {
-        "lines": 6,
-        "startLine": 519,
-        "endLine": 524,
-        "startPreview": "Usage:"
-      },
-      "sections": [
-        {
-          "level": 1,
-          "title": "System Prompt",
-          "startLine": 1,
-          "endLine": 57,
-          "annotationCount": 15,
-          "disposition": "annotated"
-        },
-        {
-          "level": 1,
-          "title": "User Message",
-          "startLine": 58,
-          "endLine": 101,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 1,
-          "title": "Tools",
-          "startLine": 102,
-          "endLine": 1197,
-          "annotationCount": 22,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "ask_user_question",
-          "startLine": 104,
-          "endLine": 177,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "enter_plan_mode",
-          "startLine": 178,
-          "endLine": 190,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "exit_plan_mode",
-          "startLine": 191,
-          "endLine": 205,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "get_command_or_subagent_output",
-          "startLine": 206,
-          "endLine": 244,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "grep",
-          "startLine": 245,
-          "endLine": 317,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "image_edit",
-          "startLine": 318,
-          "endLine": 350,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "image_gen",
-          "startLine": 351,
-          "endLine": 375,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "image_to_video",
-          "startLine": 376,
-          "endLine": 417,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "kill_command_or_subagent",
-          "startLine": 418,
-          "endLine": 442,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "list_dir",
-          "startLine": 443,
-          "endLine": 468,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "monitor",
-          "startLine": 469,
-          "endLine": 514,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "read_file",
-          "startLine": 515,
-          "endLine": 564,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "reference_to_video",
-          "startLine": 565,
-          "endLine": 617,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "run_terminal_command",
-          "startLine": 618,
-          "endLine": 664,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "scheduler_create",
-          "startLine": 665,
-          "endLine": 735,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "scheduler_delete",
-          "startLine": 736,
-          "endLine": 757,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "scheduler_list",
-          "startLine": 758,
-          "endLine": 770,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "search_replace",
-          "startLine": 771,
-          "endLine": 809,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "search_tool",
-          "startLine": 810,
-          "endLine": 842,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "spawn_subagent",
-          "startLine": 843,
-          "endLine": 935,
-          "annotationCount": 6,
-          "disposition": "annotated"
-        },
-        {
-          "level": 4,
-          "title": "Usage notes",
-          "startLine": 853,
-          "endLine": 935,
-          "annotationCount": 5,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "todo_write",
-          "startLine": 936,
-          "endLine": 995,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "use_tool",
-          "startLine": 996,
-          "endLine": 1023,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "web_search",
-          "startLine": 1024,
-          "endLine": 1053,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "workflow",
-          "startLine": 1054,
-          "endLine": 1170,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "write",
-          "startLine": 1171,
-          "endLine": 1197,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        }
-      ]
-    },
-    "minimax-code": {
-      "totalLines": 1508,
-      "nonBlankLines": 1322,
-      "annotationCount": 32,
-      "coverageExpansionAnnotations": 15,
-      "mappedAnnotationCount": 32,
-      "unmappedAnnotations": [],
-      "lineDispositions": {
-        "annotated": 32,
-        "unannotatedCode": 833,
-        "repeatedMaterial": 10,
-        "unannotatedProse": 405,
-        "structuralDelimiter": 42
-      },
-      "longestUnannotatedProseRun": {
-        "lines": 17,
-        "startLine": 299,
-        "endLine": 315,
-        "startPreview": "- docx: Unified DOCX skill — create, template-apply, edit/fill, read, repair, and compare Word documents. Use for formal Word deliverables and DOCX diagnosis. N"
-      },
-      "sections": [
-        {
-          "level": 1,
-          "title": "System Prompt",
-          "startLine": 1,
-          "endLine": 328,
-          "annotationCount": 20,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Core Judgment",
-          "startLine": 11,
-          "endLine": 21,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Task Routing",
-          "startLine": 22,
-          "endLine": 80,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 4,
-          "title": "Work directly",
-          "startLine": 27,
-          "endLine": 34,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 4,
-          "title": "Delegate",
-          "startLine": 35,
-          "endLine": 49,
-          "annotationCount": 0,
-          "disposition": "repeated-material"
-        },
-        {
-          "level": 4,
-          "title": "Brief a fresh child",
-          "startLine": 50,
-          "endLine": 61,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 4,
-          "title": "Foreground and background",
-          "startLine": 62,
-          "endLine": 68,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 4,
-          "title": "After delegation",
-          "startLine": 69,
-          "endLine": 80,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Coding Conventions",
-          "startLine": 81,
-          "endLine": 91,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Response Style",
-          "startLine": 92,
-          "endLine": 99,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "Harness",
-          "startLine": 100,
-          "endLine": 107,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Task Management",
-          "startLine": 108,
-          "endLine": 117,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "Tool Usage",
-          "startLine": 118,
-          "endLine": 171,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 4,
-          "title": "Preamble messages",
-          "startLine": 120,
-          "endLine": 140,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 4,
-          "title": "Final response",
-          "startLine": 141,
-          "endLine": 144,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 4,
-          "title": "Parallel Calls",
-          "startLine": 145,
-          "endLine": 162,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 4,
-          "title": "Avoid Redundant Reads",
-          "startLine": 163,
-          "endLine": 171,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "Factual Freshness And Search",
-          "startLine": 172,
-          "endLine": 179,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "Output Conventions",
-          "startLine": 180,
-          "endLine": 184,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "Media Output",
-          "startLine": 185,
-          "endLine": 219,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Session Role: Root Session",
-          "startLine": 220,
-          "endLine": 228,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Reporting Coverage",
-          "startLine": 229,
-          "endLine": 269,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Workspace",
-          "startLine": 270,
-          "endLine": 328,
-          "annotationCount": 5,
-          "disposition": "annotated"
-        },
-        {
-          "level": 1,
-          "title": "User Message",
-          "startLine": 329,
-          "endLine": 395,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Goal",
-          "startLine": 352,
-          "endLine": 354,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "Strategy",
-          "startLine": 355,
-          "endLine": 360,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "Tone",
-          "startLine": 361,
-          "endLine": 395,
-          "annotationCount": 0,
-          "disposition": "repeated-material"
-        },
-        {
-          "level": 1,
-          "title": "Tools",
-          "startLine": 396,
-          "endLine": 1508,
-          "annotationCount": 11,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "ask_user",
-          "startLine": 398,
-          "endLine": 537,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "bash",
-          "startLine": 538,
-          "endLine": 565,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "edit",
-          "startLine": 566,
-          "endLine": 603,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "get_goal",
-          "startLine": 604,
-          "endLine": 615,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "glob",
-          "startLine": 616,
+          "startLine": 622,
           "endLine": 663,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
-          "title": "grep",
-          "startLine": 664,
-          "endLine": 727,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "mavis",
-          "startLine": 728,
-          "endLine": 976,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "read",
-          "startLine": 977,
-          "endLine": 1007,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "request_feature_enable",
-          "startLine": 1008,
-          "endLine": 1027,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "skill",
-          "startLine": 1028,
-          "endLine": 1046,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "task",
-          "startLine": 1047,
-          "endLine": 1129,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "task_append",
-          "startLine": 1130,
-          "endLine": 1178,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "task_output",
-          "startLine": 1179,
-          "endLine": 1208,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "task_query",
-          "startLine": 1209,
-          "endLine": 1258,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "task_stop",
-          "startLine": 1259,
-          "endLine": 1281,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "todowrite",
-          "startLine": 1282,
-          "endLine": 1322,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
           "title": "update_goal",
-          "startLine": 1323,
-          "endLine": 1392,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
+          "startLine": 664,
+          "endLine": 711,
+          "annotationCount": 1,
+          "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "web_fetch",
-          "startLine": 1393,
-          "endLine": 1441,
-          "annotationCount": 1,
-          "disposition": "annotated"
+          "startLine": 712,
+          "endLine": 730,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
         },
         {
           "level": 2,
-          "title": "website_deploy",
-          "startLine": 1442,
-          "endLine": 1485,
+          "title": "web_search",
+          "startLine": 731,
+          "endLine": 752,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "workflow",
+          "startLine": 753,
+          "endLine": 841,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "write",
-          "startLine": 1486,
-          "endLine": 1508,
+          "startLine": 842,
+          "endLine": 876,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        }
+      ]
+    },
+    "antigravity": {
+      "totalLines": 730,
+      "nonBlankLines": 624,
+      "annotationCount": 29,
+      "coverageExpansionAnnotations": 14,
+      "mappedAnnotationCount": 29,
+      "unmappedAnnotations": [],
+      "lineDispositions": {
+        "annotated": 27,
+        "unannotatedCode": 373,
+        "repeatedMaterial": 0,
+        "unannotatedProse": 200,
+        "structuralDelimiter": 24
+      },
+      "longestUnannotatedProseRun": {
+        "lines": 9,
+        "startLine": 83,
+        "endLine": 91,
+        "startPreview": "### Mermaid Diagrams"
+      },
+      "sections": [
+        {
+          "level": 1,
+          "title": "System Prompt",
+          "startLine": 1,
+          "endLine": 256,
+          "annotationCount": 20,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Receiving Messages",
+          "startLine": 41,
+          "endLine": 44,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 3,
+          "title": "Reactive Wakeup (No Polling Needed)",
+          "startLine": 45,
+          "endLine": 56,
+          "annotationCount": 2,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "When to Use Artifacts",
+          "startLine": 57,
+          "endLine": 70,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "Artifact Formatting Tips",
+          "startLine": 71,
+          "endLine": 114,
+          "annotationCount": 4,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Alerts",
+          "startLine": 74,
+          "endLine": 82,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Mermaid Diagrams",
+          "startLine": 83,
+          "endLine": 96,
+          "annotationCount": 2,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "File Links",
+          "startLine": 97,
+          "endLine": 101,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Carousels",
+          "startLine": 102,
+          "endLine": 114,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 2,
+          "title": "Scratch Scripts and Files",
+          "startLine": 115,
+          "endLine": 188,
+          "annotationCount": 7,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Research",
+          "startLine": 156,
+          "endLine": 160,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Create Implementation Plan",
+          "startLine": 161,
+          "endLine": 166,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Obtain User Approval",
+          "startLine": 167,
+          "endLine": 169,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Execute",
+          "startLine": 170,
+          "endLine": 173,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Verify",
+          "startLine": 174,
+          "endLine": 188,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "Implementation Plan",
+          "startLine": 189,
+          "endLine": 231,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "Walkthrough",
+          "startLine": 232,
+          "endLine": 256,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 1,
+          "title": "User Message",
+          "startLine": 257,
+          "endLine": 265,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 1,
+          "title": "Tools",
+          "startLine": 266,
+          "endLine": 730,
+          "annotationCount": 9,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "ask_question",
+          "startLine": 268,
+          "endLine": 331,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "generate_image",
+          "startLine": 332,
+          "endLine": 376,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "manage_task",
+          "startLine": 377,
+          "endLine": 427,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "read_url_content",
+          "startLine": 428,
+          "endLine": 456,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "replace_file_content",
+          "startLine": 457,
+          "endLine": 533,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "run_command",
+          "startLine": 534,
+          "endLine": 578,
+          "annotationCount": 2,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "search_web",
+          "startLine": 579,
+          "endLine": 610,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "view_file",
+          "startLine": 611,
+          "endLine": 661,
+          "annotationCount": 2,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "write_to_file",
+          "startLine": 662,
+          "endLine": 730,
+          "annotationCount": 2,
+          "disposition": "annotated"
+        }
+      ]
+    },
+    "grok": {
+      "totalLines": 1403,
+      "nonBlankLines": 1259,
+      "annotationCount": 44,
+      "coverageExpansionAnnotations": 17,
+      "mappedAnnotationCount": 44,
+      "unmappedAnnotations": [],
+      "lineDispositions": {
+        "annotated": 36,
+        "unannotatedCode": 967,
+        "repeatedMaterial": 0,
+        "unannotatedProse": 204,
+        "structuralDelimiter": 52
+      },
+      "longestUnannotatedProseRun": {
+        "lines": 8,
+        "startLine": 898,
+        "endLine": 905,
+        "startPreview": "Doing the wrong amount of work"
+      },
+      "sections": [
+        {
+          "level": 1,
+          "title": "System Prompt",
+          "startLine": 1,
+          "endLine": 56,
+          "annotationCount": 15,
+          "disposition": "annotated"
+        },
+        {
+          "level": 1,
+          "title": "User Message",
+          "startLine": 57,
+          "endLine": 100,
+          "annotationCount": 2,
+          "disposition": "annotated"
+        },
+        {
+          "level": 1,
+          "title": "Tools",
+          "startLine": 101,
+          "endLine": 1403,
+          "annotationCount": 27,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "ask_user_question",
+          "startLine": 103,
+          "endLine": 176,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "enter_plan_mode",
+          "startLine": 177,
+          "endLine": 189,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "exit_plan_mode",
+          "startLine": 190,
+          "endLine": 204,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "get_command_or_subagent_output",
+          "startLine": 205,
+          "endLine": 243,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "grep",
+          "startLine": 244,
+          "endLine": 316,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "image_edit",
+          "startLine": 317,
+          "endLine": 349,
+          "annotationCount": 2,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "image_gen",
+          "startLine": 350,
+          "endLine": 374,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "image_to_video",
+          "startLine": 375,
+          "endLine": 416,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "kill_command_or_subagent",
+          "startLine": 417,
+          "endLine": 441,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "list_dir",
+          "startLine": 442,
+          "endLine": 467,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "monitor",
+          "startLine": 468,
+          "endLine": 513,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "read_file",
+          "startLine": 514,
+          "endLine": 563,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "reference_to_video",
+          "startLine": 564,
+          "endLine": 652,
+          "annotationCount": 3,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "run_terminal_command",
+          "startLine": 653,
+          "endLine": 699,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "scheduler_create",
+          "startLine": 700,
+          "endLine": 762,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "scheduler_delete",
+          "startLine": 763,
+          "endLine": 784,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "scheduler_list",
+          "startLine": 785,
+          "endLine": 797,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "search_replace",
+          "startLine": 798,
+          "endLine": 836,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "search_tool",
+          "startLine": 837,
+          "endLine": 869,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "send_feedback",
+          "startLine": 870,
+          "endLine": 1012,
+          "annotationCount": 2,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Overview",
+          "startLine": 872,
+          "endLine": 875,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Invocation",
+          "startLine": 876,
+          "endLine": 883,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 3,
+          "title": "Usage",
+          "startLine": 884,
+          "endLine": 889,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Confirmation",
+          "startLine": 890,
+          "endLine": 893,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 3,
+          "title": "Misc",
+          "startLine": 894,
+          "endLine": 1012,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "spawn_subagent",
+          "startLine": 1013,
+          "endLine": 1105,
+          "annotationCount": 6,
+          "disposition": "annotated"
+        },
+        {
+          "level": 4,
+          "title": "Usage notes",
+          "startLine": 1023,
+          "endLine": 1105,
+          "annotationCount": 5,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "todo_write",
+          "startLine": 1106,
+          "endLine": 1165,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "use_tool",
+          "startLine": 1166,
+          "endLine": 1193,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "web_search",
+          "startLine": 1194,
+          "endLine": 1223,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "workflow",
+          "startLine": 1224,
+          "endLine": 1376,
+          "annotationCount": 3,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "write",
+          "startLine": 1377,
+          "endLine": 1403,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        }
+      ]
+    },
+    "minimax-code": {
+      "totalLines": 1306,
+      "nonBlankLines": 1186,
+      "annotationCount": 36,
+      "coverageExpansionAnnotations": 21,
+      "mappedAnnotationCount": 36,
+      "unmappedAnnotations": [],
+      "lineDispositions": {
+        "annotated": 35,
+        "unannotatedCode": 846,
+        "repeatedMaterial": 2,
+        "unannotatedProse": 261,
+        "structuralDelimiter": 42
+      },
+      "longestUnannotatedProseRun": {
+        "lines": 17,
+        "startLine": 118,
+        "endLine": 134,
+        "startPreview": "- deploy-website: Publish the first release of an existing local website project or standalone local .html or .htm file to a public URL. Use when a user asks to"
+      },
+      "sections": [
+        {
+          "level": 1,
+          "title": "System Prompt",
+          "startLine": 1,
+          "endLine": 135,
+          "annotationCount": 15,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "Harness",
+          "startLine": 5,
+          "endLine": 20,
+          "annotationCount": 6,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "Core Judgment",
+          "startLine": 21,
+          "endLine": 32,
+          "annotationCount": 3,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "Communication & Delivery",
+          "startLine": 33,
+          "endLine": 95,
+          "annotationCount": 4,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Response Style",
+          "startLine": 34,
+          "endLine": 43,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 3,
+          "title": "Preamble messages",
+          "startLine": 44,
+          "endLine": 65,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Final response",
+          "startLine": 66,
+          "endLine": 70,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Media Output",
+          "startLine": 71,
+          "endLine": 90,
+          "annotationCount": 2,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "References",
+          "startLine": 91,
+          "endLine": 95,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 2,
+          "title": "Environment",
+          "startLine": 96,
+          "endLine": 135,
+          "annotationCount": 2,
+          "disposition": "annotated"
+        },
+        {
+          "level": 1,
+          "title": "User Message",
+          "startLine": 136,
+          "endLine": 154,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 1,
+          "title": "Tools",
+          "startLine": 155,
+          "endLine": 1306,
+          "annotationCount": 20,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "ask_user",
+          "startLine": 157,
+          "endLine": 309,
+          "annotationCount": 2,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "bash",
+          "startLine": 310,
+          "endLine": 349,
+          "annotationCount": 3,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Git",
+          "startLine": 321,
+          "endLine": 349,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "edit",
+          "startLine": 350,
+          "endLine": 388,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "get_goal",
+          "startLine": 389,
+          "endLine": 400,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "glob",
+          "startLine": 401,
+          "endLine": 448,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "grep",
+          "startLine": 449,
+          "endLine": 512,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "mavis",
+          "startLine": 513,
+          "endLine": 740,
+          "annotationCount": 3,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "read",
+          "startLine": 741,
+          "endLine": 781,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "request_feature_enable",
+          "startLine": 782,
+          "endLine": 801,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "skill",
+          "startLine": 802,
+          "endLine": 826,
+          "annotationCount": 2,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "task",
+          "startLine": 827,
+          "endLine": 911,
+          "annotationCount": 2,
+          "disposition": "annotated"
+        },
+        {
+          "level": 4,
+          "title": "When to use",
+          "startLine": 831,
+          "endLine": 840,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 4,
+          "title": "Agent types",
+          "startLine": 841,
+          "endLine": 852,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 4,
+          "title": "Context and results",
+          "startLine": 853,
+          "endLine": 861,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 4,
+          "title": "Execution and continuation",
+          "startLine": 862,
+          "endLine": 911,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "task_append",
+          "startLine": 912,
+          "endLine": 960,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "task_output",
+          "startLine": 961,
+          "endLine": 989,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "task_query",
+          "startLine": 990,
+          "endLine": 1039,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "task_stop",
+          "startLine": 1040,
+          "endLine": 1062,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "todowrite",
+          "startLine": 1063,
+          "endLine": 1108,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "update_goal",
+          "startLine": 1109,
+          "endLine": 1178,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "web_fetch",
+          "startLine": 1179,
+          "endLine": 1232,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "website_deploy",
+          "startLine": 1233,
+          "endLine": 1276,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "write",
+          "startLine": 1277,
+          "endLine": 1306,
           "annotationCount": 1,
           "disposition": "annotated"
         }
       ]
     },
     "kimi-code": {
-      "totalLines": 1523,
-      "nonBlankLines": 1273,
-      "annotationCount": 46,
-      "coverageExpansionAnnotations": 20,
-      "mappedAnnotationCount": 46,
+      "totalLines": 1553,
+      "nonBlankLines": 1301,
+      "annotationCount": 52,
+      "coverageExpansionAnnotations": 26,
+      "mappedAnnotationCount": 52,
       "unmappedAnnotations": [],
       "lineDispositions": {
-        "annotated": 39,
-        "unannotatedCode": 689,
+        "annotated": 45,
+        "unannotatedCode": 713,
         "repeatedMaterial": 0,
-        "unannotatedProse": 489,
+        "unannotatedProse": 487,
         "structuralDelimiter": 56
       },
       "longestUnannotatedProseRun": {
         "lines": 27,
-        "startLine": 686,
-        "endLine": 712,
+        "startLine": 685,
+        "endLine": 711,
         "startPreview": "- id — the task id (a ULID). Pass this to CronDelete to remove the"
       },
       "sections": [
@@ -2226,343 +2162,343 @@
           "level": 1,
           "title": "Tools",
           "startLine": 120,
-          "endLine": 1523,
-          "annotationCount": 23,
+          "endLine": 1553,
+          "annotationCount": 29,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Agent",
           "startLine": 122,
-          "endLine": 188,
+          "endLine": 187,
           "annotationCount": 7,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "AgentSwarm",
-          "startLine": 189,
-          "endLine": 251,
+          "startLine": 188,
+          "endLine": 250,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "AskUserQuestion",
-          "startLine": 252,
-          "endLine": 350,
+          "startLine": 251,
+          "endLine": 349,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "Bash",
-          "startLine": 351,
-          "endLine": 438,
+          "startLine": 350,
+          "endLine": 437,
           "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "CreateGoal",
-          "startLine": 439,
-          "endLine": 487,
+          "startLine": 438,
+          "endLine": 486,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "CronCreate",
-          "startLine": 488,
-          "endLine": 609,
+          "startLine": 487,
+          "endLine": 608,
           "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "One-shot tasks (recurring: false)",
-          "startLine": 494,
-          "endLine": 502,
+          "startLine": 493,
+          "endLine": 501,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Recurring jobs (recurring: true, the default)",
-          "startLine": 503,
-          "endLine": 507,
+          "startLine": 502,
+          "endLine": 506,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Avoid the :00 and :30 minute marks when the task allows it",
-          "startLine": 508,
-          "endLine": 516,
+          "startLine": 507,
+          "endLine": 515,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Coalesce semantics",
-          "startLine": 517,
-          "endLine": 522,
+          "startLine": 516,
+          "endLine": 521,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "Cron-fire envelope",
-          "startLine": 523,
-          "endLine": 536,
+          "startLine": 522,
+          "endLine": 535,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 4,
           "title": "7-day stale behavior",
-          "startLine": 537,
-          "endLine": 545,
+          "startLine": 536,
+          "endLine": 544,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Jitter behavior",
-          "startLine": 546,
-          "endLine": 551,
+          "startLine": 545,
+          "endLine": 550,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "One-shot vs recurring — when to pick which",
-          "startLine": 552,
-          "endLine": 555,
+          "startLine": 551,
+          "endLine": 554,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Session lifetime",
-          "startLine": 556,
-          "endLine": 567,
+          "startLine": 555,
+          "endLine": 566,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "Limits",
-          "startLine": 568,
-          "endLine": 571,
+          "startLine": 567,
+          "endLine": 570,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Returned fields",
-          "startLine": 572,
-          "endLine": 576,
+          "startLine": 571,
+          "endLine": 575,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Tell the user how to cancel or modify",
-          "startLine": 577,
-          "endLine": 609,
+          "startLine": 576,
+          "endLine": 608,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "CronDelete",
-          "startLine": 610,
-          "endLine": 672,
+          "startLine": 609,
+          "endLine": 671,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "CronList",
-          "startLine": 673,
-          "endLine": 738,
+          "startLine": 672,
+          "endLine": 737,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Edit",
-          "startLine": 739,
-          "endLine": 786,
+          "startLine": 738,
+          "endLine": 785,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "EnterPlanMode",
-          "startLine": 787,
-          "endLine": 824,
+          "startLine": 786,
+          "endLine": 823,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 2,
           "title": "ExitPlanMode",
-          "startLine": 825,
-          "endLine": 888,
+          "startLine": 824,
+          "endLine": 887,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 4,
           "title": "How This Tool Works",
-          "startLine": 829,
-          "endLine": 833,
+          "startLine": 828,
+          "endLine": 832,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "When to Use",
-          "startLine": 834,
-          "endLine": 836,
+          "startLine": 833,
+          "endLine": 835,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "What a good plan contains",
-          "startLine": 837,
-          "endLine": 839,
+          "startLine": 836,
+          "endLine": 838,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Multiple Approaches",
-          "startLine": 840,
-          "endLine": 842,
+          "startLine": 839,
+          "endLine": 841,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Before Using",
-          "startLine": 843,
-          "endLine": 888,
+          "startLine": 842,
+          "endLine": 887,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "FetchURL",
-          "startLine": 889,
-          "endLine": 911,
+          "startLine": 888,
+          "endLine": 910,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "GetGoal",
-          "startLine": 912,
-          "endLine": 928,
+          "startLine": 911,
+          "endLine": 927,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "Glob",
-          "startLine": 929,
-          "endLine": 976,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
+          "startLine": 928,
+          "endLine": 989,
+          "annotationCount": 1,
+          "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Grep",
-          "startLine": 977,
-          "endLine": 1072,
+          "startLine": 990,
+          "endLine": 1085,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "Read",
-          "startLine": 1073,
-          "endLine": 1131,
-          "annotationCount": 3,
+          "startLine": 1086,
+          "endLine": 1161,
+          "annotationCount": 7,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "SetGoalBudget",
-          "startLine": 1132,
-          "endLine": 1190,
-          "annotationCount": 1,
+          "startLine": 1162,
+          "endLine": 1220,
+          "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Skill",
-          "startLine": 1191,
-          "endLine": 1215,
+          "startLine": 1221,
+          "endLine": 1245,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "TaskList",
-          "startLine": 1216,
-          "endLine": 1265,
+          "startLine": 1246,
+          "endLine": 1295,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 2,
           "title": "TaskOutput",
-          "startLine": 1266,
-          "endLine": 1297,
+          "startLine": 1296,
+          "endLine": 1327,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "TaskStop",
-          "startLine": 1298,
-          "endLine": 1335,
+          "startLine": 1328,
+          "endLine": 1365,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "TodoList",
-          "startLine": 1336,
-          "endLine": 1406,
+          "startLine": 1366,
+          "endLine": 1436,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "UpdateGoal",
-          "startLine": 1407,
-          "endLine": 1438,
+          "startLine": 1437,
+          "endLine": 1468,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "WaitFor",
-          "startLine": 1439,
-          "endLine": 1480,
+          "startLine": 1469,
+          "endLine": 1510,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "Write",
-          "startLine": 1481,
-          "endLine": 1523,
+          "startLine": 1511,
+          "endLine": 1553,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         }
@@ -2624,23 +2560,23 @@
       ]
     },
     "openclaw": {
-      "totalLines": 5207,
-      "nonBlankLines": 4904,
-      "annotationCount": 69,
-      "coverageExpansionAnnotations": 39,
-      "mappedAnnotationCount": 69,
+      "totalLines": 5505,
+      "nonBlankLines": 5179,
+      "annotationCount": 91,
+      "coverageExpansionAnnotations": 61,
+      "mappedAnnotationCount": 91,
       "unmappedAnnotations": [],
       "lineDispositions": {
-        "annotated": 65,
-        "unannotatedCode": 4119,
-        "repeatedMaterial": 4,
-        "unannotatedProse": 594,
-        "structuralDelimiter": 122
+        "annotated": 84,
+        "unannotatedCode": 4303,
+        "repeatedMaterial": 7,
+        "unannotatedProse": 659,
+        "structuralDelimiter": 126
       },
       "longestUnannotatedProseRun": {
-        "lines": 57,
+        "lines": 60,
         "startLine": 7,
-        "endLine": 63,
+        "endLine": 66,
         "startPreview": "- read: Read files"
       },
       "sections": [
@@ -2648,134 +2584,118 @@
           "level": 1,
           "title": "System Prompt",
           "startLine": 1,
-          "endLine": 673,
-          "annotationCount": 48,
+          "endLine": 751,
+          "annotationCount": 52,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Tooling",
           "startLine": 5,
-          "endLine": 69,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Delegation",
-          "startLine": 70,
-          "endLine": 81,
+          "endLine": 72,
           "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Tool Call Style",
-          "startLine": 82,
-          "endLine": 88,
+          "startLine": 73,
+          "endLine": 79,
           "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Execution Bias",
-          "startLine": 89,
-          "endLine": 96,
+          "startLine": 80,
+          "endLine": 87,
           "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Promised Work",
-          "startLine": 97,
-          "endLine": 102,
+          "startLine": 88,
+          "endLine": 93,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Safety",
-          "startLine": 103,
-          "endLine": 116,
+          "startLine": 94,
+          "endLine": 100,
           "annotationCount": 5,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Runtime Context",
-          "startLine": 117,
-          "endLine": 119,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
+          "startLine": 101,
+          "endLine": 114,
+          "annotationCount": 1,
+          "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "OpenClaw Control",
-          "startLine": 120,
-          "endLine": 123,
+          "startLine": 115,
+          "endLine": 119,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Skills",
-          "startLine": 124,
-          "endLine": 254,
+          "startLine": 120,
+          "endLine": 255,
           "annotationCount": 6,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Skill Workshop",
-          "startLine": 255,
-          "endLine": 259,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Memory Recall",
-          "startLine": 260,
+          "startLine": 256,
           "endLine": 262,
           "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 3,
-          "title": "Workspace",
+          "title": "Memory Recall",
           "startLine": 263,
-          "endLine": 266,
+          "endLine": 268,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Workspace",
+          "startLine": 269,
+          "endLine": 272,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Documentation",
-          "startLine": 267,
-          "endLine": 274,
+          "startLine": 273,
+          "endLine": 280,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Bootstrap Pending",
-          "startLine": 275,
-          "endLine": 280,
+          "startLine": 281,
+          "endLine": 286,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Workspace Files (injected)",
-          "startLine": 281,
-          "endLine": 282,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "Assistant Output Directives",
-          "startLine": 283,
+          "startLine": 287,
           "endLine": 288,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
@@ -2800,8 +2720,8 @@
           "level": 2,
           "title": "AGENTS.md - Your Workspace",
           "startLine": 294,
-          "endLine": 430,
-          "annotationCount": 8,
+          "endLine": 419,
+          "annotationCount": 9,
           "disposition": "annotated"
         },
         {
@@ -2824,7 +2744,7 @@
           "level": 3,
           "title": "Memory",
           "startLine": 312,
-          "endLine": 342,
+          "endLine": 345,
           "annotationCount": 2,
           "disposition": "annotated"
         },
@@ -2840,806 +2760,862 @@
           "level": 4,
           "title": "MEMORY.md - Durable Facts and Decisions",
           "startLine": 328,
-          "endLine": 334,
+          "endLine": 333,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "Write It Down",
-          "startLine": 335,
-          "endLine": 342,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Red Lines",
-          "startLine": 343,
-          "endLine": 350,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "Existing Solutions Preflight",
-          "startLine": 351,
-          "endLine": 354,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
-          "title": "External vs Internal",
-          "startLine": 355,
-          "endLine": 360,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "Group Chats",
-          "startLine": 361,
-          "endLine": 378,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 4,
-          "title": "Know When to Speak",
-          "startLine": 365,
-          "endLine": 374,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 4,
-          "title": "React Like a Human",
-          "startLine": 375,
-          "endLine": 378,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "Tools",
-          "startLine": 379,
-          "endLine": 400,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 4,
-          "title": "Local notes",
-          "startLine": 383,
-          "endLine": 400,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "Automations - Be Proactive",
-          "startLine": 401,
-          "endLine": 420,
+          "startLine": 334,
+          "endLine": 341,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "Memory Maintenance",
-          "startLine": 415,
-          "endLine": 420,
+          "startLine": 342,
+          "endLine": 345,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
+          "title": "Red Lines",
+          "startLine": 346,
+          "endLine": 353,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Existing Solutions Preflight",
+          "startLine": 354,
+          "endLine": 357,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "External vs Internal",
+          "startLine": 358,
+          "endLine": 363,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 3,
+          "title": "Group Chats",
+          "startLine": 364,
+          "endLine": 379,
+          "annotationCount": 2,
+          "disposition": "annotated"
+        },
+        {
+          "level": 4,
+          "title": "Know When to Speak",
+          "startLine": 368,
+          "endLine": 375,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 4,
+          "title": "React Like a Human",
+          "startLine": 376,
+          "endLine": 379,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 3,
+          "title": "Tools",
+          "startLine": 380,
+          "endLine": 395,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 4,
+          "title": "Local notes",
+          "startLine": 384,
+          "endLine": 395,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 3,
+          "title": "Automations - Be Proactive",
+          "startLine": 396,
+          "endLine": 409,
+          "annotationCount": 2,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
           "title": "Make It Yours",
-          "startLine": 421,
-          "endLine": 424,
+          "startLine": 410,
+          "endLine": 413,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Related",
-          "startLine": 425,
-          "endLine": 429,
+          "startLine": 414,
+          "endLine": 418,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "$PHISTORY_HOME/.openclaw/workspace/SOUL.md",
-          "startLine": 430,
-          "endLine": 430,
+          "startLine": 419,
+          "endLine": 419,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 2,
           "title": "SOUL.md - Who You Are",
-          "startLine": 431,
-          "endLine": 473,
+          "startLine": 420,
+          "endLine": 464,
           "annotationCount": 5,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Core Truths",
-          "startLine": 437,
-          "endLine": 448,
+          "startLine": 426,
+          "endLine": 437,
           "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Boundaries",
-          "startLine": 449,
-          "endLine": 455,
+          "startLine": 438,
+          "endLine": 444,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Vibe",
-          "startLine": 456,
-          "endLine": 459,
+          "startLine": 445,
+          "endLine": 448,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Continuity",
-          "startLine": 460,
-          "endLine": 469,
+          "startLine": 449,
+          "endLine": 460,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Related",
-          "startLine": 470,
-          "endLine": 472,
+          "startLine": 461,
+          "endLine": 463,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "$PHISTORY_HOME/.openclaw/workspace/IDENTITY.md",
-          "startLine": 473,
-          "endLine": 473,
+          "startLine": 464,
+          "endLine": 464,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 2,
           "title": "IDENTITY.md - Who Am I?",
-          "startLine": 474,
-          "endLine": 503,
+          "startLine": 465,
+          "endLine": 495,
           "annotationCount": 0,
           "disposition": "repeated-material"
         },
         {
           "level": 3,
           "title": "Related",
-          "startLine": 500,
-          "endLine": 502,
+          "startLine": 492,
+          "endLine": 494,
           "annotationCount": 0,
           "disposition": "repeated-material"
         },
         {
           "level": 3,
           "title": "$PHISTORY_HOME/.openclaw/workspace/USER.md",
-          "startLine": 503,
-          "endLine": 503,
+          "startLine": 495,
+          "endLine": 495,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 2,
           "title": "USER.md - User Model",
-          "startLine": 504,
-          "endLine": 530,
-          "annotationCount": 1,
+          "startLine": 496,
+          "endLine": 525,
+          "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Directives",
-          "startLine": 521,
-          "endLine": 526,
+          "startLine": 514,
+          "endLine": 521,
           "annotationCount": 0,
           "disposition": "repeated-material"
         },
         {
           "level": 3,
           "title": "Related",
-          "startLine": 527,
-          "endLine": 529,
+          "startLine": 522,
+          "endLine": 524,
           "annotationCount": 0,
           "disposition": "repeated-material"
         },
         {
           "level": 3,
           "title": "$PHISTORY_HOME/.openclaw/workspace/BOOTSTRAP.md",
-          "startLine": 530,
-          "endLine": 530,
+          "startLine": 525,
+          "endLine": 525,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 2,
           "title": "BOOTSTRAP.md - Birth Sequence",
-          "startLine": 531,
-          "endLine": 673,
-          "annotationCount": 5,
+          "startLine": 526,
+          "endLine": 751,
+          "annotationCount": 9,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "1. Ask What to Call You",
-          "startLine": 546,
-          "endLine": 551,
+          "startLine": 541,
+          "endLine": 546,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "2. Choose Your Vibe",
-          "startLine": 552,
-          "endLine": 571,
+          "startLine": 547,
+          "endLine": 555,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "3. Choose Your Avatar",
+          "startLine": 556,
+          "endLine": 618,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 4,
+          "title": "Save Your Identity",
+          "startLine": 595,
+          "endLine": 618,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
-          "title": "3. Finish With Recommendations",
-          "startLine": 572,
-          "endLine": 623,
+          "title": "4. Finish With Recommendations",
+          "startLine": 619,
+          "endLine": 674,
           "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 3,
-          "title": "4. One Safety Note",
-          "startLine": 624,
-          "endLine": 638,
+          "title": "5. One Safety Note",
+          "startLine": 675,
+          "endLine": 692,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Related",
-          "startLine": 639,
-          "endLine": 641,
+          "startLine": 693,
+          "endLine": 698,
           "annotationCount": 0,
           "disposition": "repeated-material"
         },
         {
           "level": 3,
-          "title": "Silent Replies",
-          "startLine": 642,
-          "endLine": 646,
-          "annotationCount": 2,
-          "disposition": "annotated"
-        },
-        {
-          "level": 3,
           "title": "Temporal Context",
-          "startLine": 647,
-          "endLine": 651,
+          "startLine": 699,
+          "endLine": 702,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
+          "title": "Delegation",
+          "startLine": 703,
+          "endLine": 715,
+          "annotationCount": 2,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
+          "title": "Assistant Output Directives",
+          "startLine": 716,
+          "endLine": 721,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 3,
+          "title": "Silent Replies",
+          "startLine": 722,
+          "endLine": 725,
+          "annotationCount": 2,
+          "disposition": "annotated"
+        },
+        {
+          "level": 3,
           "title": "UI Presentation",
-          "startLine": 652,
-          "endLine": 655,
+          "startLine": 726,
+          "endLine": 729,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Messaging",
-          "startLine": 656,
-          "endLine": 665,
+          "startLine": 730,
+          "endLine": 741,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "message tool",
-          "startLine": 661,
-          "endLine": 665,
+          "startLine": 737,
+          "endLine": 741,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Conversation Context",
-          "startLine": 666,
-          "endLine": 667,
+          "startLine": 742,
+          "endLine": 743,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Runtime",
-          "startLine": 668,
-          "endLine": 673,
+          "startLine": 744,
+          "endLine": 751,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 1,
           "title": "User Message",
-          "startLine": 674,
-          "endLine": 677,
+          "startLine": 752,
+          "endLine": 766,
           "annotationCount": 0,
-          "disposition": "unannotated-prose"
+          "disposition": "repeated-material"
         },
         {
           "level": 1,
           "title": "Tools",
-          "startLine": 678,
-          "endLine": 5207,
-          "annotationCount": 21,
+          "startLine": 767,
+          "endLine": 5505,
+          "annotationCount": 39,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "agents_list",
-          "startLine": 680,
-          "endLine": 690,
+          "startLine": 769,
+          "endLine": 779,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "agents_wait",
-          "startLine": 691,
-          "endLine": 718,
+          "startLine": 780,
+          "endLine": 807,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "apply_patch",
-          "startLine": 719,
-          "endLine": 737,
+          "startLine": 808,
+          "endLine": 826,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "ask_user",
-          "startLine": 738,
-          "endLine": 816,
+          "startLine": 827,
+          "endLine": 905,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "automations",
-          "startLine": 817,
-          "endLine": 1429,
-          "annotationCount": 6,
+          "startLine": 906,
+          "endLine": 1526,
+          "annotationCount": 7,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "browser",
-          "startLine": 1430,
-          "endLine": 1890,
-          "annotationCount": 1,
+          "startLine": 1527,
+          "endLine": 1992,
+          "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "canvas",
-          "startLine": 1891,
-          "endLine": 1944,
+          "startLine": 1993,
+          "endLine": 2046,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "conversations_list",
-          "startLine": 1945,
-          "endLine": 1969,
+          "startLine": 2047,
+          "endLine": 2071,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "conversations_send",
-          "startLine": 1970,
-          "endLine": 1994,
+          "startLine": 2072,
+          "endLine": 2096,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "conversations_turn",
-          "startLine": 1995,
-          "endLine": 2024,
+          "startLine": 2097,
+          "endLine": 2126,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "create_goal",
-          "startLine": 2025,
-          "endLine": 2048,
+          "startLine": 2127,
+          "endLine": 2157,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "dashboard",
-          "startLine": 2049,
-          "endLine": 2155,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
+          "startLine": 2158,
+          "endLine": 2265,
+          "annotationCount": 1,
+          "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "dir_fetch",
-          "startLine": 2156,
-          "endLine": 2194,
+          "startLine": 2266,
+          "endLine": 2304,
           "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "dir_list",
-          "startLine": 2195,
-          "endLine": 2237,
+          "startLine": 2305,
+          "endLine": 2347,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "edit",
-          "startLine": 2238,
-          "endLine": 2278,
+          "startLine": 2348,
+          "endLine": 2388,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "exec",
-          "startLine": 2279,
-          "endLine": 2353,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
+          "startLine": 2389,
+          "endLine": 2463,
+          "annotationCount": 1,
+          "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "file_fetch",
-          "startLine": 2354,
-          "endLine": 2392,
+          "startLine": 2464,
+          "endLine": 2502,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "file_write",
-          "startLine": 2393,
-          "endLine": 2438,
+          "startLine": 2503,
+          "endLine": 2548,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "gateway",
-          "startLine": 2439,
-          "endLine": 2479,
+          "startLine": 2549,
+          "endLine": 2589,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "get_goal",
-          "startLine": 2480,
-          "endLine": 2490,
+          "startLine": 2590,
+          "endLine": 2600,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "image_generate",
-          "startLine": 2491,
-          "endLine": 2627,
+          "startLine": 2601,
+          "endLine": 2739,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "intent",
-          "startLine": 2628,
-          "endLine": 2702,
+          "startLine": 2740,
+          "endLine": 2814,
           "annotationCount": 0,
           "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "ls",
+          "startLine": 2815,
+          "endLine": 2838,
+          "annotationCount": 1,
+          "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "memory_get",
-          "startLine": 2703,
-          "endLine": 2737,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
+          "startLine": 2839,
+          "endLine": 2873,
+          "annotationCount": 2,
+          "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "memory_search",
-          "startLine": 2738,
-          "endLine": 2772,
+          "startLine": 2874,
+          "endLine": 2908,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "message",
-          "startLine": 2773,
-          "endLine": 3220,
+          "startLine": 2909,
+          "endLine": 3360,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "mobile_ui",
-          "startLine": 3221,
-          "endLine": 3432,
+          "startLine": 3361,
+          "endLine": 3572,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "node_inference",
-          "startLine": 3433,
-          "endLine": 3486,
+          "startLine": 3573,
+          "endLine": 3626,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "nodes",
-          "startLine": 3487,
-          "endLine": 3695,
+          "startLine": 3627,
+          "endLine": 3835,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "openclaw",
-          "startLine": 3696,
-          "endLine": 3718,
+          "startLine": 3836,
+          "endLine": 3858,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "pdf",
-          "startLine": 3719,
-          "endLine": 3759,
+          "startLine": 3859,
+          "endLine": 3899,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
+          "title": "plugins",
+          "startLine": 3900,
+          "endLine": 3956,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
           "title": "portal",
-          "startLine": 3760,
-          "endLine": 3804,
+          "startLine": 3957,
+          "endLine": 4001,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "process",
-          "startLine": 3805,
-          "endLine": 3886,
+          "startLine": 4002,
+          "endLine": 4083,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "progress_card",
-          "startLine": 3887,
-          "endLine": 3936,
+          "startLine": 4084,
+          "endLine": 4133,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "read",
-          "startLine": 3937,
-          "endLine": 3974,
+          "startLine": 4134,
+          "endLine": 4171,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "secrets",
-          "startLine": 3975,
-          "endLine": 4032,
-          "annotationCount": 1,
+          "startLine": 4172,
+          "endLine": 4229,
+          "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "session_status",
-          "startLine": 4033,
-          "endLine": 4054,
+          "startLine": 4230,
+          "endLine": 4251,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "sessions",
-          "startLine": 4055,
-          "endLine": 4209,
+          "startLine": 4252,
+          "endLine": 4406,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "sessions_history",
-          "startLine": 4210,
-          "endLine": 4250,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
+          "startLine": 4407,
+          "endLine": 4450,
+          "annotationCount": 1,
+          "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "sessions_list",
-          "startLine": 4251,
-          "endLine": 4310,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
+          "startLine": 4451,
+          "endLine": 4560,
+          "annotationCount": 1,
+          "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "sessions_search",
-          "startLine": 4311,
-          "endLine": 4337,
+          "startLine": 4561,
+          "endLine": 4587,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "sessions_send",
-          "startLine": 4338,
-          "endLine": 4375,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
+          "startLine": 4588,
+          "endLine": 4645,
+          "annotationCount": 2,
+          "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "sessions_spawn",
-          "startLine": 4376,
-          "endLine": 4551,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
+          "startLine": 4646,
+          "endLine": 4837,
+          "annotationCount": 1,
+          "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "sessions_yield",
-          "startLine": 4552,
-          "endLine": 4571,
+          "startLine": 4838,
+          "endLine": 4862,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "skill_workshop",
-          "startLine": 4572,
-          "endLine": 4747,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
+          "startLine": 4863,
+          "endLine": 5003,
+          "annotationCount": 1,
+          "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "subagents",
-          "startLine": 4748,
-          "endLine": 4774,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
+          "startLine": 5004,
+          "endLine": 5045,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "talk_voice",
+          "startLine": 5046,
+          "endLine": 5072,
+          "annotationCount": 1,
+          "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "terminal",
-          "startLine": 4775,
-          "endLine": 4819,
+          "startLine": 5073,
+          "endLine": 5117,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "transcripts",
-          "startLine": 4820,
-          "endLine": 4887,
+          "startLine": 5118,
+          "endLine": 5185,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "tts",
-          "startLine": 4888,
-          "endLine": 4915,
+          "startLine": 5186,
+          "endLine": 5213,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "update_goal",
-          "startLine": 4916,
-          "endLine": 4942,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
+          "startLine": 5214,
+          "endLine": 5240,
+          "annotationCount": 1,
+          "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "video_generate",
-          "startLine": 4943,
-          "endLine": 5043,
+          "startLine": 5241,
+          "endLine": 5341,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "view_image",
-          "startLine": 5044,
-          "endLine": 5080,
+          "startLine": 5342,
+          "endLine": 5378,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "web_fetch",
-          "startLine": 5081,
-          "endLine": 5113,
+          "startLine": 5379,
+          "endLine": 5411,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "web_search",
-          "startLine": 5114,
-          "endLine": 5184,
+          "startLine": 5412,
+          "endLine": 5482,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "write",
-          "startLine": 5185,
-          "endLine": 5207,
+          "startLine": 5483,
+          "endLine": 5505,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         }
       ]
     },
     "hermes": {
-      "totalLines": 1099,
-      "nonBlankLines": 996,
-      "annotationCount": 45,
-      "coverageExpansionAnnotations": 15,
-      "mappedAnnotationCount": 45,
+      "totalLines": 1048,
+      "nonBlankLines": 930,
+      "annotationCount": 51,
+      "coverageExpansionAnnotations": 23,
+      "mappedAnnotationCount": 51,
       "unmappedAnnotations": [],
       "lineDispositions": {
-        "annotated": 31,
-        "unannotatedCode": 761,
+        "annotated": 37,
+        "unannotatedCode": 668,
         "repeatedMaterial": 0,
-        "unannotatedProse": 162,
-        "structuralDelimiter": 42
+        "unannotatedProse": 175,
+        "structuralDelimiter": 50
       },
       "longestUnannotatedProseRun": {
         "lines": 52,
-        "startLine": 42,
-        "endLine": 93,
+        "startLine": 38,
+        "endLine": 89,
         "startPreview": "<availableskills>"
       },
       "sections": [
@@ -3647,7 +3623,7 @@
           "level": 1,
           "title": "System Prompt",
           "startLine": 1,
-          "endLine": 114,
+          "endLine": 118,
           "annotationCount": 24,
           "disposition": "annotated"
         },
@@ -3663,7 +3639,7 @@
           "level": 2,
           "title": "Parallel tool calls",
           "startLine": 11,
-          "endLine": 114,
+          "endLine": 110,
           "annotationCount": 16,
           "disposition": "annotated"
         },
@@ -3679,199 +3655,239 @@
           "level": 3,
           "title": "Mid-turn user steering",
           "startLine": 20,
-          "endLine": 36,
+          "endLine": 32,
           "annotationCount": 6,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Skills",
-          "startLine": 37,
-          "endLine": 114,
+          "startLine": 33,
+          "endLine": 110,
           "annotationCount": 4,
           "disposition": "annotated"
         },
         {
-          "level": 1,
-          "title": "User Message",
-          "startLine": 115,
+          "level": 2,
+          "title": "Hermes runtime environment",
+          "startLine": 111,
           "endLine": 118,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 1,
-          "title": "Tools",
+          "title": "User Message",
           "startLine": 119,
-          "endLine": 1099,
-          "annotationCount": 21,
+          "endLine": 122,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 1,
+          "title": "Tools",
+          "startLine": 123,
+          "endLine": 1048,
+          "annotationCount": 27,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "browser_exec",
-          "startLine": 121,
-          "endLine": 154,
+          "startLine": 125,
+          "endLine": 158,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "browser_vault_enter_code",
+          "startLine": 159,
+          "endLine": 174,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "browser_vault_fill",
+          "startLine": 175,
+          "endLine": 193,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "browser_vault_list",
+          "startLine": 194,
+          "endLine": 204,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "browser_vault_save_login",
+          "startLine": 205,
+          "endLine": 220,
+          "annotationCount": 0,
+          "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "browser_vault_unlock",
+          "startLine": 221,
+          "endLine": 243,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "clarify",
-          "startLine": 155,
-          "endLine": 196,
-          "annotationCount": 1,
-          "disposition": "annotated"
-        },
-        {
-          "level": 2,
-          "title": "cronjob",
-          "startLine": 197,
-          "endLine": 287,
+          "startLine": 244,
+          "endLine": 285,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "delegate_task",
-          "startLine": 288,
-          "endLine": 358,
-          "annotationCount": 4,
+          "startLine": 286,
+          "endLine": 363,
+          "annotationCount": 5,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "execute_code",
-          "startLine": 359,
-          "endLine": 407,
-          "annotationCount": 2,
+          "startLine": 364,
+          "endLine": 412,
+          "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "memory",
-          "startLine": 408,
-          "endLine": 493,
-          "annotationCount": 6,
+          "startLine": 413,
+          "endLine": 498,
+          "annotationCount": 5,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "patch",
-          "startLine": 494,
-          "endLine": 527,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "process",
-          "startLine": 528,
-          "endLine": 577,
+          "startLine": 499,
+          "endLine": 532,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "read_file",
-          "startLine": 578,
-          "endLine": 608,
+          "startLine": 533,
+          "endLine": 563,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "search_files",
-          "startLine": 609,
-          "endLine": 674,
-          "annotationCount": 0,
-          "disposition": "unannotated-code"
-        },
-        {
-          "level": 2,
-          "title": "session_search",
-          "startLine": 675,
-          "endLine": 733,
+          "startLine": 564,
+          "endLine": 638,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "skill_manage",
-          "startLine": 734,
-          "endLine": 803,
-          "annotationCount": 2,
+          "startLine": 639,
+          "endLine": 708,
+          "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "skill_view",
-          "startLine": 804,
-          "endLine": 826,
+          "startLine": 709,
+          "endLine": 731,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "skills_list",
-          "startLine": 827,
-          "endLine": 842,
+          "startLine": 732,
+          "endLine": 747,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "terminal",
-          "startLine": 843,
-          "endLine": 902,
-          "annotationCount": 1,
+          "startLine": 748,
+          "endLine": 807,
+          "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "text_to_speech",
-          "startLine": 903,
-          "endLine": 937,
+          "startLine": 808,
+          "endLine": 842,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
-          "title": "todo",
-          "startLine": 938,
-          "endLine": 989,
+          "title": "tool_call",
+          "startLine": 843,
+          "endLine": 878,
+          "annotationCount": 1,
+          "disposition": "annotated"
+        },
+        {
+          "level": 2,
+          "title": "tool_describe",
+          "startLine": 879,
+          "endLine": 900,
           "annotationCount": 0,
           "disposition": "unannotated-code"
+        },
+        {
+          "level": 2,
+          "title": "tool_search",
+          "startLine": 901,
+          "endLine": 938,
+          "annotationCount": 1,
+          "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "vision_analyze",
-          "startLine": 990,
-          "endLine": 1022,
+          "startLine": 939,
+          "endLine": 971,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "web_extract",
-          "startLine": 1023,
-          "endLine": 1050,
+          "startLine": 972,
+          "endLine": 999,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "web_search",
-          "startLine": 1051,
-          "endLine": 1076,
+          "startLine": 1000,
+          "endLine": 1025,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "write_file",
-          "startLine": 1077,
-          "endLine": 1099,
+          "startLine": 1026,
+          "endLine": 1048,
           "annotationCount": 2,
           "disposition": "annotated"
         }
@@ -4555,23 +4571,23 @@
       ]
     },
     "omp": {
-      "totalLines": 1802,
-      "nonBlankLines": 1650,
-      "annotationCount": 56,
-      "coverageExpansionAnnotations": 28,
-      "mappedAnnotationCount": 56,
+      "totalLines": 1806,
+      "nonBlankLines": 1654,
+      "annotationCount": 65,
+      "coverageExpansionAnnotations": 37,
+      "mappedAnnotationCount": 65,
       "unmappedAnnotations": [],
       "lineDispositions": {
-        "annotated": 54,
+        "annotated": 63,
         "unannotatedCode": 908,
         "repeatedMaterial": 3,
-        "unannotatedProse": 639,
+        "unannotatedProse": 634,
         "structuralDelimiter": 46
       },
       "longestUnannotatedProseRun": {
         "lines": 54,
-        "startLine": 995,
-        "endLine": 1048,
+        "startLine": 1002,
+        "endLine": 1055,
         "startPreview": "<examples>"
       },
       "sections": [
@@ -4579,7 +4595,7 @@
           "level": 1,
           "title": "System Prompt",
           "startLine": 1,
-          "endLine": 346,
+          "endLine": 345,
           "annotationCount": 30,
           "disposition": "annotated"
         },
@@ -4643,589 +4659,573 @@
           "level": 2,
           "title": "Internal URLs",
           "startLine": 42,
-          "endLine": 54,
+          "endLine": 53,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 2,
           "title": "Tool Inventory",
-          "startLine": 55,
-          "endLine": 66,
+          "startLine": 54,
+          "endLine": 65,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 2,
           "title": "xd:// Tool Devices",
-          "startLine": 67,
-          "endLine": 209,
+          "startLine": 66,
+          "endLine": 208,
           "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "ast_edit — AST Edit",
-          "startLine": 69,
-          "endLine": 98,
+          "startLine": 68,
+          "endLine": 97,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "Schema",
-          "startLine": 83,
-          "endLine": 98,
+          "startLine": 82,
+          "endLine": 97,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 3,
           "title": "debug — Debug",
-          "startLine": 99,
-          "endLine": 170,
+          "startLine": 98,
+          "endLine": 169,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "Schema",
-          "startLine": 105,
-          "endLine": 170,
+          "startLine": 104,
+          "endLine": 169,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 3,
           "title": "lsp — LSP",
-          "startLine": 171,
-          "endLine": 209,
+          "startLine": 170,
+          "endLine": 208,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "Schema",
-          "startLine": 193,
-          "endLine": 209,
+          "startLine": 192,
+          "endLine": 208,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "General",
-          "startLine": 210,
-          "endLine": 215,
+          "startLine": 209,
+          "endLine": 214,
           "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Tool I/O",
-          "startLine": 216,
-          "endLine": 218,
+          "startLine": 215,
+          "endLine": 217,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 2,
           "title": "Specialized Tools",
-          "startLine": 219,
-          "endLine": 233,
+          "startLine": 218,
+          "endLine": 232,
           "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "Exploration",
-          "startLine": 234,
-          "endLine": 237,
+          "startLine": 233,
+          "endLine": 236,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "AST",
-          "startLine": 238,
-          "endLine": 242,
+          "startLine": 237,
+          "endLine": 241,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 2,
           "title": "Delegation",
-          "startLine": 243,
-          "endLine": 252,
+          "startLine": 242,
+          "endLine": 251,
           "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Delegation gates",
-          "startLine": 245,
-          "endLine": 252,
+          "startLine": 244,
+          "endLine": 251,
           "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "1. Scope",
-          "startLine": 253,
-          "endLine": 256,
+          "startLine": 252,
+          "endLine": 255,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 2,
           "title": "2. Research Before Editing",
-          "startLine": 257,
-          "endLine": 261,
+          "startLine": 256,
+          "endLine": 260,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 2,
           "title": "3. Decompose",
-          "startLine": 262,
-          "endLine": 265,
+          "startLine": 261,
+          "endLine": 264,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 2,
           "title": "4. Implement",
-          "startLine": 266,
-          "endLine": 271,
+          "startLine": 265,
+          "endLine": 270,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 2,
           "title": "5. Verify",
-          "startLine": 272,
-          "endLine": 291,
+          "startLine": 271,
+          "endLine": 290,
           "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "6. Cleanup",
-          "startLine": 292,
-          "endLine": 346,
+          "startLine": 291,
+          "endLine": 345,
           "annotationCount": 9,
           "disposition": "annotated"
         },
         {
           "level": 1,
           "title": "User Message",
-          "startLine": 347,
-          "endLine": 354,
+          "startLine": 346,
+          "endLine": 353,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 1,
           "title": "Tools",
-          "startLine": 355,
-          "endLine": 1802,
-          "annotationCount": 26,
+          "startLine": 354,
+          "endLine": 1806,
+          "annotationCount": 35,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "bash",
-          "startLine": 357,
-          "endLine": 424,
+          "startLine": 356,
+          "endLine": 423,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "edit",
-          "startLine": 425,
-          "endLine": 582,
+          "startLine": 424,
+          "endLine": 581,
           "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "WRONG — empty `PUT` to delete. RIGHT: `CUT 4.=4`",
-          "startLine": 520,
-          "endLine": 522,
+          "startLine": 519,
+          "endLine": 521,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "WRONG — range sized to the post-edit content. RIGHT: `PUT 1.=1:` (body length irrelevant)",
-          "startLine": 523,
-          "endLine": 526,
+          "startLine": 522,
+          "endLine": 525,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "WRONG — `-` rows / bare context lines do not exist; the range deletes, the body is only new content.",
-          "startLine": 527,
-          "endLine": 531,
+          "startLine": 526,
+          "endLine": 530,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "RIGHT",
-          "startLine": 532,
-          "endLine": 535,
+          "startLine": 531,
+          "endLine": 534,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "WRONG — pure insertion as a widened `PUT`: retyped keepers get dropped (here line 4).",
-          "startLine": 536,
-          "endLine": 540,
+          "startLine": 535,
+          "endLine": 539,
           "annotationCount": 0,
           "disposition": "repeated-material"
         },
         {
           "level": 3,
           "title": "RIGHT — touch nothing you keep.",
-          "startLine": 541,
-          "endLine": 544,
+          "startLine": 540,
+          "endLine": 543,
           "annotationCount": 0,
           "disposition": "repeated-material"
         },
         {
           "level": 3,
           "title": "WRONG — `PUT >N*:` anchored on the closing delimiter / last visible line. RIGHT: plain `PUT >M:`",
-          "startLine": 545,
-          "endLine": 547,
+          "startLine": 544,
+          "endLine": 546,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "RIGHT",
-          "startLine": 548,
-          "endLine": 551,
+          "startLine": 547,
+          "endLine": 550,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "WRONG — body rows under register PUT; register pastes take no body. RIGHT: bodyless `PUT >20 @fn`.",
-          "startLine": 552,
-          "endLine": 582,
+          "startLine": 551,
+          "endLine": 581,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "eval",
-          "startLine": 583,
-          "endLine": 768,
-          "annotationCount": 7,
+          "startLine": 582,
+          "endLine": 775,
+          "annotationCount": 13,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "First call — set up once",
-          "startLine": 692,
-          "endLine": 696,
+          "startLine": 699,
+          "endLine": 703,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Second call — reuse, do NOT re-import",
-          "startLine": 697,
-          "endLine": 701,
+          "startLine": 704,
+          "endLine": 708,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Third call — reuse the loaded config",
-          "startLine": 702,
-          "endLine": 768,
+          "startLine": 709,
+          "endLine": 775,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "glob",
-          "startLine": 769,
-          "endLine": 870,
+          "startLine": 776,
+          "endLine": 877,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Glob files",
-          "startLine": 789,
-          "endLine": 792,
+          "startLine": 796,
+          "endLine": 799,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Multiple targets — semicolon-delimited list",
-          "startLine": 793,
-          "endLine": 796,
+          "startLine": 800,
+          "endLine": 803,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Glob gitignored files like .env",
-          "startLine": 797,
-          "endLine": 800,
+          "startLine": 804,
+          "endLine": 807,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Glob directories matching a name (returns both files and dirs; directories are suffixed with `/`)",
-          "startLine": 801,
-          "endLine": 870,
+          "startLine": 808,
+          "endLine": 877,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "grep",
-          "startLine": 871,
-          "endLine": 955,
+          "startLine": 878,
+          "endLine": 962,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "hub",
-          "startLine": 956,
-          "endLine": 1277,
-          "annotationCount": 3,
+          "startLine": 963,
+          "endLine": 1280,
+          "annotationCount": 5,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Messaging & Jobs",
-          "startLine": 961,
-          "endLine": 979,
-          "annotationCount": 2,
+          "startLine": 968,
+          "endLine": 986,
+          "annotationCount": 4,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Processes",
-          "startLine": 980,
-          "endLine": 995,
+          "startLine": 987,
+          "endLine": 1002,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "List peers",
-          "startLine": 996,
-          "endLine": 999,
+          "startLine": 1003,
+          "endLine": 1006,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Inspect parked peer history",
-          "startLine": 1000,
-          "endLine": 1003,
+          "startLine": 1007,
+          "endLine": 1010,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Fire-and-forget DM — same send wakes idle/parked peers",
-          "startLine": 1004,
-          "endLine": 1007,
+          "startLine": 1011,
+          "endLine": 1014,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Round-trip when you cannot proceed without the answer",
-          "startLine": 1008,
-          "endLine": 1011,
+          "startLine": 1015,
+          "endLine": 1018,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Completely blocked: wait for the first finished job or incoming message",
-          "startLine": 1012,
-          "endLine": 1015,
+          "startLine": 1019,
+          "endLine": 1022,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Block until a specific peer answers",
-          "startLine": 1016,
-          "endLine": 1019,
+          "startLine": 1023,
+          "endLine": 1026,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Kill a hung background job",
-          "startLine": 1020,
-          "endLine": 1023,
+          "startLine": 1027,
+          "endLine": 1030,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Snapshot every background job without waiting",
-          "startLine": 1024,
-          "endLine": 1027,
+          "startLine": 1031,
+          "endLine": 1034,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Start a dev server and wait for its log banner and port",
-          "startLine": 1028,
-          "endLine": 1031,
+          "startLine": 1035,
+          "endLine": 1038,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Follow process output after a cursor",
-          "startLine": 1032,
-          "endLine": 1035,
+          "startLine": 1039,
+          "endLine": 1042,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Drive a REPL/debugger over stdin",
-          "startLine": 1036,
-          "endLine": 1039,
+          "startLine": 1043,
+          "endLine": 1046,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Interrupt a process",
-          "startLine": 1040,
-          "endLine": 1043,
+          "startLine": 1047,
+          "endLine": 1050,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
           "title": "Block until a process is ready",
-          "startLine": 1044,
-          "endLine": 1277,
+          "startLine": 1051,
+          "endLine": 1280,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "read",
-          "startLine": 1278,
-          "endLine": 1333,
-          "annotationCount": 2,
+          "startLine": 1281,
+          "endLine": 1337,
+          "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "Selectors — append `:<sel>` to `path` (e.g. `src/foo.ts:50-200`, `src/foo.ts:raw`, `db.sqlite:users:42`)",
-          "startLine": 1287,
-          "endLine": 1295,
+          "startLine": 1290,
+          "endLine": 1299,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Source kinds",
-          "startLine": 1296,
-          "endLine": 1333,
-          "annotationCount": 2,
+          "startLine": 1300,
+          "endLine": 1337,
+          "annotationCount": 3,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "task",
-          "startLine": 1334,
-          "endLine": 1467,
+          "startLine": 1338,
+          "endLine": 1471,
           "annotationCount": 5,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Async Job Contract",
-          "startLine": 1339,
-          "endLine": 1344,
+          "startLine": 1343,
+          "endLine": 1348,
           "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Task Design",
-          "startLine": 1345,
-          "endLine": 1352,
+          "startLine": 1349,
+          "endLine": 1356,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Inputs",
-          "startLine": 1353,
-          "endLine": 1364,
+          "startLine": 1357,
+          "endLine": 1368,
           "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Communication",
-          "startLine": 1365,
-          "endLine": 1368,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "Format Contracts",
           "startLine": 1369,
-          "endLine": 1370,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "Goal         ← what the batch accomplishes",
-          "startLine": 1371,
-          "endLine": 1371,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "Constraints  ← rules and session decisions",
-          "startLine": 1372,
           "endLine": 1372,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
-          "title": "Contract     ← shared interfaces",
+          "title": "Format Contracts",
           "startLine": 1373,
+          "endLine": 1374,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 3,
+          "title": "Goal         ← what the batch accomplishes",
+          "startLine": 1375,
           "endLine": 1375,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
-          "title": "Target       ← exact files and symbols; explicit non-goals",
+          "title": "Constraints  ← rules and session decisions",
           "startLine": 1376,
           "endLine": 1376,
           "annotationCount": 0,
@@ -5233,55 +5233,55 @@
         },
         {
           "level": 3,
-          "title": "Change       ← step-by-step add/remove/rename; APIs and patterns",
+          "title": "Contract     ← shared interfaces",
           "startLine": 1377,
-          "endLine": 1377,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "Acceptance   ← observable result; no project-wide commands",
-          "startLine": 1378,
           "endLine": 1379,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 3,
-          "title": "Available Agents",
+          "title": "Target       ← exact files and symbols; explicit non-goals",
           "startLine": 1380,
-          "endLine": 1467,
+          "endLine": 1380,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 3,
+          "title": "Change       ← step-by-step add/remove/rename; APIs and patterns",
+          "startLine": 1381,
+          "endLine": 1381,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 3,
+          "title": "Acceptance   ← observable result; no project-wide commands",
+          "startLine": 1382,
+          "endLine": 1383,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 3,
+          "title": "Available Agents",
+          "startLine": 1384,
+          "endLine": 1471,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 5,
           "title": "scout (READ-ONLY)",
-          "startLine": 1382,
-          "endLine": 1385,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 5,
-          "title": "reviewer",
           "startLine": 1386,
-          "endLine": 1387,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 5,
-          "title": "security-reviewer",
-          "startLine": 1388,
           "endLine": 1389,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 5,
-          "title": "task",
+          "title": "reviewer",
           "startLine": 1390,
           "endLine": 1391,
           "annotationCount": 0,
@@ -5289,63 +5289,71 @@
         },
         {
           "level": 5,
-          "title": "sonic",
+          "title": "security-reviewer",
           "startLine": 1392,
-          "endLine": 1467,
+          "endLine": 1393,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 5,
+          "title": "task",
+          "startLine": 1394,
+          "endLine": 1395,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 5,
+          "title": "sonic",
+          "startLine": 1396,
+          "endLine": 1471,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "todo",
-          "startLine": 1468,
-          "endLine": 1668,
+          "startLine": 1472,
+          "endLine": 1672,
           "annotationCount": 2,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "Operations",
-          "startLine": 1474,
-          "endLine": 1488,
+          "startLine": 1478,
+          "endLine": 1492,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Anatomy",
-          "startLine": 1489,
-          "endLine": 1493,
+          "startLine": 1493,
+          "endLine": 1497,
           "annotationCount": 0,
           "disposition": "unannotated-prose"
         },
         {
           "level": 4,
           "title": "Rules",
-          "startLine": 1494,
-          "endLine": 1501,
+          "startLine": 1498,
+          "endLine": 1505,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 4,
           "title": "Create a list",
-          "startLine": 1502,
-          "endLine": 1515,
+          "startLine": 1506,
+          "endLine": 1519,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 3,
           "title": "Initial setup (multi-phase)",
-          "startLine": 1516,
-          "endLine": 1519,
-          "annotationCount": 0,
-          "disposition": "unannotated-prose"
-        },
-        {
-          "level": 3,
-          "title": "View current state (read-only)",
           "startLine": 1520,
           "endLine": 1523,
           "annotationCount": 0,
@@ -5353,7 +5361,7 @@
         },
         {
           "level": 3,
-          "title": "Initial setup (single phase)",
+          "title": "View current state (read-only)",
           "startLine": 1524,
           "endLine": 1527,
           "annotationCount": 0,
@@ -5361,7 +5369,7 @@
         },
         {
           "level": 3,
-          "title": "Complete one task",
+          "title": "Initial setup (single phase)",
           "startLine": 1528,
           "endLine": 1531,
           "annotationCount": 0,
@@ -5369,7 +5377,7 @@
         },
         {
           "level": 3,
-          "title": "Complete a whole phase",
+          "title": "Complete one task",
           "startLine": 1532,
           "endLine": 1535,
           "annotationCount": 0,
@@ -5377,7 +5385,7 @@
         },
         {
           "level": 3,
-          "title": "Remove all tasks",
+          "title": "Complete a whole phase",
           "startLine": 1536,
           "endLine": 1539,
           "annotationCount": 0,
@@ -5385,7 +5393,7 @@
         },
         {
           "level": 3,
-          "title": "Drop one task",
+          "title": "Remove all tasks",
           "startLine": 1540,
           "endLine": 1543,
           "annotationCount": 0,
@@ -5393,25 +5401,33 @@
         },
         {
           "level": 3,
-          "title": "Append tasks to a phase",
+          "title": "Drop one task",
           "startLine": 1544,
-          "endLine": 1668,
+          "endLine": 1547,
+          "annotationCount": 0,
+          "disposition": "unannotated-prose"
+        },
+        {
+          "level": 3,
+          "title": "Append tasks to a phase",
+          "startLine": 1548,
+          "endLine": 1672,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         },
         {
           "level": 2,
           "title": "web_search",
-          "startLine": 1669,
-          "endLine": 1760,
+          "startLine": 1673,
+          "endLine": 1764,
           "annotationCount": 1,
           "disposition": "annotated"
         },
         {
           "level": 2,
           "title": "write",
-          "startLine": 1761,
-          "endLine": 1802,
+          "startLine": 1765,
+          "endLine": 1806,
           "annotationCount": 0,
           "disposition": "unannotated-code"
         }
@@ -5419,8 +5435,8 @@
     }
   },
   "totals": {
-    "nonBlankLines": 16394,
-    "annotatedLines": 512,
-    "coverageExpansionAnnotations": 230
+    "nonBlankLines": 16499,
+    "annotatedLines": 556,
+    "coverageExpansionAnnotations": 296
   }
 }
