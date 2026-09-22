@@ -71,6 +71,21 @@ def copy_icon(source: Path, agent_id: str, destination: Path) -> str | None:
     return f"agent-icons/{icon.name}"
 
 
+def preflight_captures(source: Path, captures: list[dict]) -> dict[str, dict]:
+    """Check all selected evidence before replacing any local snapshot."""
+    metadata = {}
+    for capture in captures:
+        (source / capture["prompt"]).read_text(encoding="utf-8")
+        meta = json.loads((source / capture["meta"]).read_text(encoding="utf-8"))
+        if not isinstance(meta, dict) or not isinstance(meta.get("target"), str):
+            raise ValueError(f"Missing capture target: {capture['meta']}")
+        # Manually imported captures have provenance but no package identity.
+        if meta.get("package") is not None and not isinstance(meta["package"], str):
+            raise ValueError(f"Invalid package identity: {capture['meta']}")
+        metadata[capture["prompt"]] = meta
+    return metadata
+
+
 def main() -> None:
     args = parse_args()
     source = args.source.resolve()
@@ -100,6 +115,13 @@ def main() -> None:
         summary["agent_id"]: select_default(captures_by_key[(summary["agent_id"], summary["latest_version"])])
         for summary in upstream["agents"]
     }
+    metadata = preflight_captures(source, [
+        capture
+        for summary in upstream["agents"]
+        for capture in captures_by_key[(summary["agent_id"], summary["latest_version"])]
+    ])
+    codex_trace_source = source / defaults["codex"]["trace"]
+    trace_payload = codex_trace_source.read_bytes()
     agents = []
     for position, summary in enumerate(upstream["agents"], start=1):
         agent_id = summary["agent_id"]
@@ -113,7 +135,7 @@ def main() -> None:
         destination = prompts_dir / f"{agent_id}.md"
         shutil.copyfile(source_prompt, destination)
 
-        meta = json.loads((source / capture["meta"]).read_text(encoding="utf-8"))
+        meta = metadata[capture["prompt"]]
         available_variants = []
         for item in captures:
             variant_id = item.get("variant_id", "default")
@@ -131,6 +153,7 @@ def main() -> None:
                     "observed": item.get("observed", {}),
                     "prompt": item["prompt"],
                     "trace": item.get("trace"),
+                    "traceRedacted": item.get("trace_redacted", False),
                     "localPromptPath": str(variant_target.relative_to(ROOT)),
                     "sha256": sha256(variant_payload),
                     "bytes": len(variant_payload),
@@ -151,7 +174,7 @@ def main() -> None:
                 "id": agent_id,
                 "name": summary["agent"],
                 "version": version,
-                "package": meta["package"],
+                "package": meta.get("package"),
                 "publishedAt": capture["published_at"],
                 "capturedAt": capture["captured_at"],
                 "versionCount": summary.get("versions", 1),
@@ -178,16 +201,15 @@ def main() -> None:
                 "keywordCounts": keyword_counts,
                 "promptRole": headings[0]["text"] if headings else "Prompt",
                 "captureTarget": meta["target"],
+                "captureSource": meta.get("source"),
+                "redactions": meta.get("redactions", []),
                 "normalization": "Phistory readable snapshot; volatile runtime values are normalized.",
             }
         )
 
     codex_summary = next(agent for agent in agents if agent["id"] == "codex")
-    codex_capture = defaults["codex"]
-    codex_trace_source = source / codex_capture["trace"]
     codex_trace_target = prompts_dir / "codex.trace.jsonl"
     shutil.copyfile(codex_trace_source, codex_trace_target)
-    trace_payload = codex_trace_target.read_bytes()
 
     manifest = {
         "schemaVersion": 1,
@@ -200,8 +222,8 @@ def main() -> None:
             "upstreamUpdatedAt": upstream["updated_at"],
             "method": (
                 "Latest default prompt.md snapshots and all latest variants copied "
-                "byte-for-byte from the pinned Phistory commit. Phistory captures "
-                "requests through claude-tap."
+                "byte-for-byte from the pinned Phistory commit, including normalized "
+                "tool captures and manually imported, redacted traces."
             ),
         },
         "coverage": {

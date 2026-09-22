@@ -72,6 +72,10 @@ def render_editorial(shell: str, fragments: dict[str, str], manifest: dict, reco
         for variant in variants:
             source_links += (f' · <a href="{variant["localPromptPath"]}" target="_blank" rel="noopener">'
                              f'{html.escape(variant["label"])} 原文</a>')
+        if agent.get("captureSource"):
+            source_links += ' · <span>手工导入 · 日期为捕获标签</span>'
+        if agent.get("redactions"):
+            source_links += ' · <span title="' + html.escape(', '.join(agent['redactions']), quote=True) + '">上游已脱敏：身份、凭据、用户消息、私有记忆与会话链接</span>'
         source_links += '</div>'
         fragment = re.sub(r'\n\s*<div class="mh-evidence">.*?</div>', '', fragment, flags=re.DOTALL)
         fragment = replace_once(fragment, r'\n    </header>', lambda _: '\n      ' + source_links + '\n    </header>')

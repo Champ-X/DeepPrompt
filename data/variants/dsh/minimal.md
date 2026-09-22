@@ -1,8 +1,12 @@
 # System Prompt
 
+## Block 1 · system message
+
 You are a helpful software engineer assistant.
 
-# User Message
+# Messages
+
+## Message 1 · user · text
 
 Reply with one short sentence.
 

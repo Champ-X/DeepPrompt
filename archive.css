@@ -47,6 +47,7 @@ body[data-agent="kimi"],:is(.navbtn,.acard,.spectrum-link)[data-target="kimi"]{-
 body[data-agent="opencode"],:is(.navbtn,.acard,.spectrum-link)[data-target="opencode"]{--agent-color:#4d7c4d;--node-color:#4d7c4d;}
 body[data-agent="omp"],:is(.navbtn,.acard,.spectrum-link)[data-target="omp"]{--agent-color:#9a4d79;--node-color:#9a4d79;}
 body[data-agent="pi"],:is(.navbtn,.acard,.spectrum-link)[data-target="pi"]{--agent-color:#8b6f32;--node-color:#8b6f32;}
+body[data-agent="claude-tag"],:is(.navbtn,.acard,.spectrum-link)[data-target="claude-tag"]{--agent-color:#a65c19;--node-color:#a65c19;}
 body[data-agent="dsh"],:is(.navbtn,.acard,.spectrum-link)[data-target="dsh"]{--agent-color:#356aa0;--node-color:#356aa0;}
 body.mode-reader{
   --accent:var(--agent-color);
@@ -105,7 +106,7 @@ body{
 
 /* ---------- hero ---------- */
 .hero{max-width:1300px;margin:4rem auto 1.8rem;padding:0 2rem 0 3.15rem;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(22rem,.72fr);gap:clamp(2.5rem,5vw,5rem);align-items:start;text-align:left;position:relative;z-index:2;}
-.hero::before{content:"";position:absolute;inset-block:.25rem;inset-inline-start:2rem;width:3px;border-radius:999px;background:linear-gradient(to bottom,#2f766d 0 7.14%,#c15f3c 7.14% 14.28%,#5367d9 14.28% 21.42%,#36414b 21.42% 28.56%,#6553b8 28.56% 35.7%,#2f78bc 35.7% 42.84%,#d34f3a 42.84% 49.98%,#c53b32 49.98% 57.12%,#c58a2a 57.12% 64.26%,#8a4f9e 64.26% 71.4%,#4d7c4d 71.4% 78.54%,#9a4d79 78.54% 85.68%,#8b6f32 85.68% 92.82%,#356aa0 92.82% 100%);}
+.hero::before{content:"";position:absolute;inset-block:.25rem;inset-inline-start:2rem;width:3px;border-radius:999px;background:linear-gradient(to bottom,#2f766d 0.000% 6.667%,#c15f3c 6.667% 13.333%,#5367d9 13.333% 20.000%,#36414b 20.000% 26.667%,#6553b8 26.667% 33.333%,#2f78bc 33.333% 40.000%,#d34f3a 40.000% 46.667%,#c53b32 46.667% 53.333%,#c58a2a 53.333% 60.000%,#8a4f9e 60.000% 66.667%,#4d7c4d 66.667% 73.333%,#9a4d79 73.333% 80.000%,#8b6f32 80.000% 86.667%,#356aa0 86.667% 93.333%,#a65c19 93.333% 100.000%);}
 .hero-copy{min-width:0;}
 .hero .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;}
 .hero h1{font-family:var(--display);font-weight:600;font-size:clamp(2.2rem,5.4vw,4rem);line-height:1.03;letter-spacing:-.025em;margin:.2rem 0 .5rem;}
@@ -344,7 +345,7 @@ body.mode-reader #main{min-height:calc(100dvh - var(--topbar-height));}
 .load-retry:hover{border-color:var(--c-goal);color:var(--c-goal);}
 @keyframes archive-scan{to{transform:rotate(1turn);}}
 .acard{min-height:15.25rem;align-self:stretch;}
-.acard::after{content:counter(agent-card,decimal-leading-zero) " / 14  ·  打开证据页  ↗";display:block;margin-block-start:auto;padding-block-start:.9rem;font-family:var(--mono);font-size:.59rem;letter-spacing:.08em;color:var(--node-color,var(--color-accent));opacity:.64;transform:none;transition:opacity var(--duration-base) var(--ease-out),transform var(--duration-base) var(--ease-out);}
+.acard::after{content:counter(agent-card,decimal-leading-zero) " / " attr(data-agent-count) "  ·  打开证据页  ↗";display:block;margin-block-start:auto;padding-block-start:.9rem;font-family:var(--mono);font-size:.59rem;letter-spacing:.08em;color:var(--node-color,var(--color-accent));opacity:.64;transform:none;transition:opacity var(--duration-base) var(--ease-out),transform var(--duration-base) var(--ease-out);}
 .acard:hover::after,.acard:focus-visible::after{opacity:1;transform:translateX(.12rem);}
 
 /* ---------- annotation provenance ---------- */

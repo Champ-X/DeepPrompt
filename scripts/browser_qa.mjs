@@ -311,14 +311,17 @@ async function main() {
             }).filter(mark => mark.visible).sort((a, b) => a.y - b.y);
             const points = [{id: 'START', y: 0}, ...marks, {id: 'END', y: prose.scrollHeight}];
             let largest = {pixels: 0, from: null, to: null};
+            const excessiveGaps = [];
             for (let index = 1; index < points.length; index += 1) {
               const pixels = Math.round(points[index].y - points[index - 1].y);
+              if (pixels > ${maxVisualGapPixels}) excessiveGaps.push({pixels, from: points[index - 1].id, to: points[index].id});
               if (pixels > largest.pixels) largest = {pixels, from: points[index - 1].id, to: points[index].id};
             }
             return {
               agent: '${agentId}',
               proseHeight: Math.round(prose.scrollHeight),
               visibleHighlights: marks.length,
+              excessiveGaps,
               philosophyCards: view.querySelectorAll('.mh-philosophy').length,
               philosophyEvidenceNotes: Array.from(view.querySelectorAll('.note p')).filter(node => node.textContent.includes('哲学层（推断）')).length,
               ...largest
@@ -435,7 +438,7 @@ async function main() {
         })()`, returnByValue: true,
       }, sessionId)).result.value;
       readerChecks.push(state);
-      if (['mimo','openclaw'].includes(agentId) && viewport.name !== 'desktop') {
+      if (['mimo','openclaw','claude-tag'].includes(agentId) && viewport.name !== 'desktop') {
         await send("Runtime.evaluate", {
           expression: "document.querySelector('.agentview.active .hl').scrollIntoView({block:'center'})",
         }, sessionId);

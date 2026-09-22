@@ -6,8 +6,8 @@
 ## 0. Meta
 
 ```yaml
-version: 1.3.0
-last_updated: 2026-09-08
+version: 1.3.1
+last_updated: 2026-09-22
 upstream_source: https://phistory.cc
 schema: https://github.com/Eldergenix/SUPER-DESIGN/schema/v1
 framework:
@@ -93,6 +93,7 @@ It never replaces the five semantic annotation colors.
 | Agent | Identity color | Agent | Identity color |
 |---|---:|---|---:|
 | Codex | `#2f766d` | Claude Code | `#c15f3c` |
+| Claude Tag | `#a65c19` | | |
 | Antigravity | `#5367d9` | Grok | `#36414b` |
 | Kimi Code | `#6553b8` | MiniMax | `#2f78bc` |
 | MiMo | `#d34f3a` | OpenClaw | `#c53b32` |
@@ -208,7 +209,7 @@ items are non-interactive and exposed as disabled.
 
 ## 9. Layout & Responsive
 
-- Catalogue: left-aligned observatory masthead plus the 14-node identity spectrum ledger, followed by a uniform responsive Agent specimen grid, then the global seven-axis and five-theme synthesis.
+- Catalogue: left-aligned observatory masthead plus the 15-node identity spectrum ledger, followed by a uniform responsive Agent specimen grid, then the global seven-axis and five-theme synthesis.
 - Reader ≥ 1280px: a 112px identity spectrum rail, left annotation cards, 600–720px source column and right annotation cards occupy separate grid tracks. The annotation tracks explicitly clear legacy offsets and keep a 20–32px safety gutter from the source column. A short press remains a native button click; pointer capture begins only after the drag threshold. The rail supports wheel rotation, directional keys and vertical drag-to-preview with release-to-commit.
 - Reader < 1280px: the switcher becomes an icon-only bottom dock and annotations become distinct inline cards. Horizontal drag, wheel and directional-key behavior match the desktop rail.
 - Test widths: 320, 375, 768, 1024, 1440 and 1920; no horizontal scrolling.

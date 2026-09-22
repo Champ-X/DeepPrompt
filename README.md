@@ -6,9 +6,9 @@
   <p>
     <a href="https://deep-prompt-woad.vercel.app"><img alt="Live on Vercel" src="https://img.shields.io/badge/live-Vercel-000000?logo=vercel&logoColor=white"></a>
     <a href="https://github.com/Champ-X/DeepPrompt/actions/workflows/verify.yml"><img alt="Verify archive" src="https://github.com/Champ-X/DeepPrompt/actions/workflows/verify.yml/badge.svg"></a>
-    <a href="https://github.com/WEIFENG2333/phistory/tree/454c869990df9563ed894971b6e0d04424c186a8"><img alt="Phistory commit" src="https://img.shields.io/badge/Phistory-454c869990df-2f766d"></a>
-    <img alt="Agents" src="https://img.shields.io/badge/Agents-14-356aa0">
-    <img alt="Annotations" src="https://img.shields.io/badge/Annotations-619-c15f3c">
+    <a href="https://github.com/WEIFENG2333/phistory/tree/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8"><img alt="Phistory commit" src="https://img.shields.io/badge/Phistory-a1fc4ad1f72a-2f766d"></a>
+    <img alt="Agents" src="https://img.shields.io/badge/Agents-15-356aa0">
+    <img alt="Annotations" src="https://img.shields.io/badge/Annotations-749-c15f3c">
   </p>
   <p>
     <a href="https://deep-prompt-woad.vercel.app"><strong>在线阅读 →</strong></a>
@@ -42,18 +42,18 @@ Deep Prompt 是一个可审计的 Agent System Prompt 阅读器。它将 [Phisto
 
 | 指标 | 当前值 |
 | --- | ---: |
-| Phistory commit | [`454c869990df`](https://github.com/WEIFENG2333/phistory/tree/454c869990df9563ed894971b6e0d04424c186a8) |
-| 上游索引时间 | `2026-09-19 06:29 UTC` |
-| Agent | 14 |
-| 历史版本 / 快照 | 1,229 / 1,313 |
-| 当前高亮 / 批注 | 619 / 619 |
-| 当前规则解释 | 295 |
-| 设计哲学证据 / 逐句扩展 | 28 / 296 |
-| 已机械分类的非空原文行 | 16,499 |
+| Phistory commit | [`a1fc4ad1f72a`](https://github.com/WEIFENG2333/phistory/tree/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8) |
+| 上游索引时间 | `2026-09-22 05:18 UTC` |
+| Agent | 15 |
+| 历史版本 / 快照 | 1,241 / 1,628 |
+| 当前高亮 / 批注 | 749 / 749 |
+| 当前规则解释 | 307 |
+| 设计哲学证据 / 逐句扩展 | 30 / 412 |
+| 已机械分类的非空原文行 | 20,738 |
 
-已收录 Claude Code、Codex CLI、DeepSeek Harness、Antigravity CLI、Grok Build、MiniMax Code、Kimi Code、MiMo Code、OpenClaw、Hermes Agent、Kimi CLI、opencode、Oh My Pi 与 Pi。“最新”指截至 2026-09-19 核查时 Phistory 可见的最新捕获，不保证等同于各厂商线上所有模型的实时 Prompt。当前批注对应 default；21 份最新变体原文均已保存。完整版本、发布时间、字节数、SHA-256 和变体信息见 [`data/manifest.json`](data/manifest.json)。
+已收录 Claude Code、Codex CLI、DeepSeek Harness、Antigravity CLI、Grok Build、MiniMax Code、Kimi Code、MiMo Code、OpenClaw、Hermes Agent、Kimi CLI、opencode、Oh My Pi、Pi 与 Claude Tag。“最新”指截至 2026-09-22 核查时 Phistory 可见的最新捕获，不保证等同于各厂商线上所有模型的实时 Prompt。当前批注对应 default；23 份最新变体原文均已保存。Claude Tag 为上游手工导入并脱敏的 Slack 捕获，日期不表示软件包版本；Claude Code 同版本默认捕获已由 SDK 切换到 CLI，SDK 单独归档。完整版本、发布时间、字节数、SHA-256 和变体信息见 [`data/manifest.json`](data/manifest.json)。
 
-本轮修订 65 条既有批注、新增 76 条、退役 29 条，重点校正工具归属、审批例外、子任务可见性与记忆存放边界。退役账本累计保留 98 条记录；逐项变化见 [`COMPLETION_AUDIT.md`](COMPLETION_AUDIT.md)。
+本轮修订 14 条既有批注、新增 141 条、退役 11 条，补齐 Claude Tag，并校正捕获场景、一次性运行、共享数据与消息送达语义。退役账本累计保留 109 条记录；逐项变化见 [`COMPLETION_AUDIT.md`](COMPLETION_AUDIT.md)。
 
 ## 信息架构
 
@@ -138,7 +138,7 @@ make check
 
 `sync_phistory.py` 复制每个 Agent 的最新 default Prompt 和全部最新 variants，并更新图标、Codex trace 与 manifest。`rebuild_archive.py` 再从证据文件重建轻量 shell 与 Agent 分片。
 
-**不要在未阅读 diff 的情况下直接提交同步结果。** Prompt 的角色、工具或权限语义可能发生反转。同步脚本要求干净的上游 checkout 与明确的 default；批注注册表与摘要绑定旧来源时，重建会主动失败，需完成语义审阅后再更新来源绑定。
+**不要在未阅读 diff 的情况下直接提交同步结果。** Prompt 的角色、工具或权限语义可能发生反转。同步脚本要求干净的上游 checkout 与明确的 default，并在复制前检查全部最新变体与 Codex trace；支持没有 package 字段的手工捕获。批注注册表与摘要绑定旧来源时，重建会主动失败，需完成语义审阅后再更新来源绑定。
 
 ## 验证
 
@@ -149,8 +149,8 @@ make check
 该命令会依次验证：
 
 1. 精确定位回归：重复文本、同一行的第二处引文、多行代码、错误来源/行号/Agent、重叠与错误 HTML 标记。
-2. 当前 shell、14 份 Agent 分片和全文分类报告均可重建；画像与横向比较能追溯到有效批注。
-3. Prompt/21 份变体/Codex trace 哈希、619 组批注、Logo、版本与页面元数据一致。
+2. 当前 shell、15 份 Agent 分片和全文分类报告均可重建；画像与横向比较能追溯到有效批注。
+3. Prompt/23 份变体/Codex trace 哈希、749 组批注、Logo、版本与页面元数据一致。
 4. Chrome 在 1920×1080、1440×900 和 390×844 下逐 Agent 检查引文、来源链接、DOM ID 与页面宽度，并验证懒加载、导航、搜索、筛选、点击配对与折叠连线。
 
 GitHub Actions 在 `main` 推送和 Pull Request 上运行同一套检查。

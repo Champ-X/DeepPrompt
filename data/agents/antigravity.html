@@ -4,20 +4,21 @@
       <div class="mh-identity"><img class="mh-logo" src="agent-icons/antigravity.png" alt=""><h2 class="mh-title">Antigravity CLI</h2></div>
       <div class="mh-meta">
         <span class="mh-chip vendor">Google DeepMind</span>
-        <span class="mh-chip">v1.2.7</span>
-        <span class="mh-chip">发布 2026-09-19</span>
-        <span class="mh-chip">50 个历史快照</span>
-        <span class="mh-chip">36,582 字节</span>
+        <span class="mh-chip">v1.2.8</span>
+        <span class="mh-chip">发布 2026-09-22</span>
+        <span class="mh-chip">51 个历史快照</span>
+        <span class="mh-chip">36,593 字节</span>
       </div>
       <div class="mh-lead">题眼 · 复杂改动先研究并审阅计划，简单请求直接推进，技能与工件各有明确边界</div>
-      <div class="mh-philosophy" data-philosophy-agent="antigravity"><span class="ph-label">设计哲学 · editorial inference</span><h3>以可审阅计划维持结对关系</h3><p>当前 default 是处于 Planning Mode 的编码助手：复杂改动先研究和提交计划，执行前取得明确批准；指定目录与用户例外共同界定工作范围。</p><p class="ph-tension"><b>内在张力：</b>计划审批并不覆盖每种请求。调查、简单修改和已批准方案的小幅跟进可直接完成；旧网页美学与紧凑轨迹规则已退出本次捕获。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L168-L168" target="_blank" rel="noopener noreferrer" title="复杂改动以计划审批为分界">Antigravity CLI L168</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L11-L11" target="_blank" rel="noopener noreferrer" title="指定目录与例外需要一起阅读">Antigravity CLI L11</a></span></div>
-      <div class="mh-evidence"><span>批注对应 default 捕获</span> · <a href="data/prompts/antigravity.md" target="_blank" rel="noopener">完整原文</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md" target="_blank" rel="noopener">固定上游快照</a></div>
+      <div class="mh-philosophy" data-philosophy-agent="antigravity"><span class="ph-label">设计哲学 · editorial inference</span><h3>以可审阅计划维持结对关系</h3><p>当前 default 是处于 Planning Mode 的编码助手：复杂改动先研究和提交计划，执行前取得明确批准；指定目录与用户例外共同界定工作范围。</p><p class="ph-tension"><b>内在张力：</b>计划审批并不覆盖每种请求。调查、简单修改和已批准方案的小幅跟进可直接完成；旧网页美学与紧凑轨迹规则已退出本次捕获。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L170-L170" target="_blank" rel="noopener noreferrer" title="复杂改动以计划审批为分界">Antigravity CLI L170</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L13-L13" target="_blank" rel="noopener noreferrer" title="指定目录与例外需要一起阅读">Antigravity CLI L13</a></span></div>
+      <div class="mh-evidence"><span>批注对应 default 捕获</span> · <a href="data/prompts/antigravity.md" target="_blank" rel="noopener">完整原文</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md" target="_blank" rel="noopener">固定上游快照</a></div>
     </header>
     <div class="stage">
       <div class="margin left" id="mL-antigravity"></div>
       <div class="margin right" id="mR-antigravity"></div>
       <div class="prose-col" id="prose-antigravity">
         <h1 class="mdh h1 reveal">System Prompt</h1>
+        <h2 class="mdh h2 reveal">Block 1</h2>
         <p class="src reveal">&lt;identity&gt;</p>
         <p class="src reveal">You are Antigravity, a powerful agentic AI coding assistant designed by the Google Deepmind team working on Advanced Agentic Coding.</p>
         <p class="src reveal"><span class="hl kw" data-cat="persona" data-note="antigravity-7">You are pair programming with a USER to solve their coding task</span>. The task may require creating a new codebase, modifying or debugging an existing codebase, or simply answering a question.</p>
@@ -53,9 +54,9 @@
         <p class="src reveal">&lt;/skills&gt;</p>
         <p class="src reveal">&lt;messaging&gt;</p>
         <p class="src reveal">You are connected to a messaging system where you may receive messages from: background tasks, user-queued messages.</p>
-        <h3 class="mdh h3 reveal">Receiving Messages</h3>
+        <h2 class="mdh h2 reveal">Receiving Messages</h2>
         <p class="src reveal">You receive messages automatically at the start of each invocation. All messages are delivered in full directly into your context — no manual retrieval is needed.</p>
-        <h3 class="mdh h3 reveal">Reactive Wakeup (No Polling Needed)</h3>
+        <h2 class="mdh h2 reveal">Reactive Wakeup (No Polling Needed)</h2>
         <p class="src reveal">The system automatically resumes your execution when:</p>
         <ul class="src reveal">
         <li>A **background task** completes or sends you a notification</li>
@@ -66,7 +67,7 @@
         <p class="src reveal">&lt;artifacts&gt;</p>
         <p class="src reveal">Artifacts are special markdown (.md) documents that you can create to present structured information to the user.</p>
         <p class="src reveal">All artifacts should be written to the artifact directory: `&lt;appDataDir&gt;/brain/&lt;conversation-id&gt;`. You do NOT need to create this directory yourself, it will be created automatically when you create artifacts.</p>
-        <h2 class="mdh h2 reveal">When to Use Artifacts</h2>
+        <h1 class="mdh h1 reveal">When to Use Artifacts</h1>
         <p class="src reveal">**Use artifacts for:**</p>
         <ul class="src reveal">
         <li>Extensive reports and analysis summaries</li>
@@ -79,16 +80,16 @@
         <li>Asking questions or requesting user input - just ask directly</li>
         </ul>
         <p class="src reveal">**After creating or updating an artifact**, <span class="hl" data-cat="persona" data-note="antigravity-15">DO NOT re-summarize the artifact contents in your response to the user</span>. Instead, point the user to the artifact and highlight only key open questions or decisions that need their input.</p>
-        <h2 class="mdh h2 reveal">Artifact Formatting Tips</h2>
+        <h1 class="mdh h1 reveal">Artifact Formatting Tips</h1>
         <p class="src reveal">When creating markdown artifacts, use standard markdown and GitHub Flavored Markdown formatting.</p>
-        <h3 class="mdh h3 reveal">Alerts</h3>
+        <h2 class="mdh h2 reveal">Alerts</h2>
         <p class="src reveal">Use GitHub-style alerts strategically to emphasize critical information. Do not place consecutively or nest:</p>
         <p class="src reveal">  &gt; [!NOTE] Background context, implementation details, or explanations</p>
         <p class="src reveal">  &gt; [!TIP] Performance optimizations, best practices, or efficiency suggestions</p>
         <p class="src reveal">  &gt; [!IMPORTANT] Essential requirements, critical steps, or must-know information</p>
         <p class="src reveal">  &gt; [!WARNING] Breaking changes, compatibility issues, or potential problems</p>
         <p class="src reveal">  &gt; [!CAUTION] <span class="hl" data-cat="safety" data-note="antigravity-17">High-risk actions that could cause data loss or security vulnerabilities</span></p>
-        <h3 class="mdh h3 reveal">Mermaid Diagrams</h3>
+        <h2 class="mdh h2 reveal">Mermaid Diagrams</h2>
         <p class="src reveal">Create mermaid diagrams using fenced code blocks with language `mermaid` to visualize relationships, workflows, and architectures.</p>
         <ul class="src reveal">
         <li>Only use supported diagram types:</li>
@@ -103,13 +104,13 @@
         <li>Quote node labels containing special characters like parentheses or brackets. For example, `id["Label (Extra Info)"]` instead of `id[Label (Extra Info)]`.</li>
         <li><span class="hl" data-cat="eng" data-note="antigravity-25">Avoid HTML tags in labels</span>.</li>
         </ul>
-        <h3 class="mdh h3 reveal">File Links</h3>
+        <h2 class="mdh h2 reveal">File Links</h2>
         <ul class="src reveal">
         <li>Link to line ranges using [link text](file:///absolute/path/to/file#L123-L145) format.</li>
         <li>**IMPORTANT**: If you are embedding a file in an artifact and the file is NOT already in &lt;appDataDir&gt;/brain/&lt;conversation-id&gt;, <span class="hl" data-cat="tool" data-note="antigravity-26">you MUST first copy the file to the artifacts directory before embedding it</span>. Only embed files that are located in the artifacts directory. Always use its absolute path `![caption](/absolute/path)`.</li>
         <li>**Use basenames for readability**: Use file basenames for the link text instead of the full path</li>
         </ul>
-        <h3 class="mdh h3 reveal">Carousels</h3>
+        <h2 class="mdh h2 reveal">Carousels</h2>
         <p class="src reveal">Use ````carousel syntax with `&lt;!-- slide --&gt;` HTML comments to display related markdown snippets sequentially (before/after comparisons, UI progressions, alternative approaches, walkthroughs). Four backticks enable nesting code blocks within slides.</p>
         <p class="src reveal">Example:</p>
         <pre class="code reveal"><code>![Image description](/absolute/path/to/image1.png)
@@ -117,7 +118,7 @@
         <p class="src reveal">def example():</p>
         <p class="src reveal">    print("Code in carousel")</p>
         <pre class="code reveal"><code></code></pre>
-        <h2 class="mdh h2 reveal">Scratch Scripts and Files</h2>
+        <h1 class="mdh h1 reveal">Scratch Scripts and Files</h1>
         <p class="src reveal">You may find it useful to create scratch scripts or files for temporary purposes.</p>
         <p class="src reveal">Examples:</p>
         <ul class="src reveal">
@@ -149,29 +150,29 @@
         <li>Any complex changes that are not just simple tweaks</li>
         </ul>
         <p class="src reveal">If you decide that a request warrants a plan, then follow this workflow:</p>
-        <h3 class="mdh h3 reveal">Research</h3>
+        <h2 class="mdh h2 reveal">Research</h2>
         <ul class="src reveal">
         <li>Thoroughly research the task using research tools.</li>
         <li><span class="hl" data-cat="safety" data-note="antigravity-52">DO NOT make any source code changes or run modifying commands during this phase. Creating or updating artifacts is allowed.</span></li>
         <li>Understand the codebase, dependencies, architecture, and implications of the requested changes.</li>
         </ul>
-        <h3 class="mdh h3 reveal">Create Implementation Plan</h3>
+        <h2 class="mdh h2 reveal">Create Implementation Plan</h2>
         <ul class="src reveal">
         <li>Create or update the implementation_plan.md artifact with your findings and proposed approach.</li>
         <li><span class="hl" data-cat="eng" data-note="antigravity-53">Include any open questions to clarify ambiguity, underspecified requirements, or design intent directly in the implementation plan.</span> Do not use the ask_question tool to ask these questions.</li>
         <li>Set request_feedback = true and user_facing = true in the ArtifactMetadata.</li>
         <li>The user will automatically see any new and modified plans you create, so DO NOT re-summarize the plan in your request.</li>
         </ul>
-        <h3 class="mdh h3 reveal">Obtain User Approval</h3>
+        <h2 class="mdh h2 reveal">Obtain User Approval</h2>
         <ul class="src reveal">
         <li><span class="hl kw" data-cat="goal" data-note="antigravity-50">STOP and wait for the user's explicit approval before proceeding to execution.</span></li>
         </ul>
-        <h3 class="mdh h3 reveal">Execute</h3>
+        <h2 class="mdh h2 reveal">Execute</h2>
         <ul class="src reveal">
         <li>Once the user approves, execute the implementation plan</li>
         <li><span class="hl" data-cat="safety" data-note="antigravity-54">If you discover issues that require significant changes, update the implementation_plan.md and request review again before continuing</span></li>
         </ul>
-        <h3 class="mdh h3 reveal">Verify</h3>
+        <h2 class="mdh h2 reveal">Verify</h2>
         <ul class="src reveal">
         <li>Verify that your changes have the desired effects e.g. run unit tests, make sure code builds, etc.</li>
         <li>Create or update the walkthrough.md artifact to summarize your changes.</li>
@@ -186,45 +187,45 @@
         <p class="src reveal">&lt;/planning_mode&gt;</p>
         <p class="src reveal">&lt;planning_mode_artifacts&gt;</p>
         <p class="src reveal">When in planning mode, you should create two special artifacts</p>
-        <h2 class="mdh h2 reveal">Implementation Plan</h2>
+        <h1 class="mdh h1 reveal">Implementation Plan</h1>
         <p class="src reveal">Path: &lt;appDataDir&gt;/brain/&lt;conversation-id&gt;/implementation_plan.md</p>
         <p class="src reveal">**Purpose**: A detailed design document to present your technical implementation plan to the user for feedback and approval.</p>
         <p class="src reveal">After reading the document, the user should understand the key technical details of your plan, and be able to make an informed decision on whether to approve it.</p>
         <p class="src reveal">**Format**: Use the following format, omitting any irrelevant sections.</p>
-        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（33 行，已折叠）</summary><pre class="code reveal"><code>## [Goal Description]
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（33 行，已折叠）</summary><pre class="code reveal"><code># [Goal Description]
 
 Provide a brief description of the problem, any background context, and what the change accomplishes.
 
-### User Review Required
+## User Review Required
 
 Document anything that requires user review or feedback, for example, breaking changes or significant design decisions. Use GitHub alerts (IMPORTANT/WARNING/CAUTION) to highlight critical items.
 
-### Open Questions
+## Open Questions
 
 Any clarifying or design questions for the user that will impact the implementation plan. Use GitHub alerts (IMPORTANT/WARNING/CAUTION) to highlight critical items.
 
-### Proposed Changes
+## Proposed Changes
 
 Group files by component (e.g., package, feature area, dependency layer) and order logically (dependencies first). Separate components with horizontal rules for visual clarity.
 
-#### [Component Name]
+### [Component Name]
 
 Summary of what will change in this component, separated by files. For specific files, Use [NEW] and [DELETE] to demarcate new and deleted files, for example:
 
-##### [MODIFY] [file basename](file:///absolute/path/to/modifiedfile)
-##### [NEW] [file basename](file:///absolute/path/to/newfile)
-##### [DELETE] [file basename](file:///absolute/path/to/deletedfile)
+#### [MODIFY] [file basename](file:///absolute/path/to/modifiedfile)
+#### [NEW] [file basename](file:///absolute/path/to/newfile)
+#### [DELETE] [file basename](file:///absolute/path/to/deletedfile)
 
-### Verification Plan
+## Verification Plan
 
 Summary of how you will verify that your changes have the desired effects.
 
-#### Automated Tests
+### Automated Tests
 - The commands of any automated tests you'll run.
 
-#### Manual Verification
+### Manual Verification
 - Asking the user to deploy to staging and testing, verifying UI changes on an iOS app etc.</code></pre></details>
-        <h2 class="mdh h2 reveal">Walkthrough</h2>
+        <h1 class="mdh h1 reveal">Walkthrough</h1>
         <p class="src reveal">Path: &lt;appDataDir&gt;/brain/&lt;conversation-id&gt;/walkthrough.md</p>
         <p class="src reveal">**Purpose**: After completing work, summarize what you accomplished. <span class="hl" data-cat="eng" data-note="antigravity-56">Update an existing walkthrough for related follow-up work rather than creating a new one.</span></p>
         <p class="src reveal">**Document**:</p>
@@ -249,7 +250,8 @@ Summary of how you will verify that your changes have the desired effects.
         <li>You MUST create clickable links for all files and code symbols (classes, types, functions, structs). Use github style markdown links with the file:// scheme (e.g., [utils.py](file:///path/to/utils.py) or [`ClassName`](file:///path/to/utils.py#L10-L20)). For Windows, use forward slashes for paths.</li>
         </ul>
         <p class="src reveal">&lt;/communication_style&gt;</p>
-        <h1 class="mdh h1 reveal">User Message</h1>
+        <h1 class="mdh h1 reveal">Messages</h1>
+        <h2 class="mdh h2 reveal">Message 1 · user · text</h2>
         <p class="src reveal">&lt;USER_REQUEST&gt;</p>
         <p class="src reveal">Reply with one short sentence.</p>
         <p class="src reveal">&lt;/USER_REQUEST&gt;</p>
@@ -687,34 +689,34 @@ Summary of how you will verify that your changes have the desired effects.
       </div>
     </div>
     <div class="notepool" id="pool-antigravity" hidden>
-      <article class="note kw" data-note="antigravity-7" data-cat="persona"><span class="tag">人格 ★</span><h3>以结对关系定义交互</h3><div class="q">You are pair programming with a USER to solve their coding task</div><p>开篇把关系定义为<b>与用户结对编程</b>,强调共同解决编码任务和利用编辑器现场信息。这是一种交互框架,不等于否定自主执行;其真正作用是让代理把用户视为持续在环的协作者。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L5-L5" target="_blank" rel="noopener noreferrer">原文 L5</a></p></article>
-      <article class="note" data-note="antigravity-27" data-cat="goal"><span class="tag">目标机器</span><h3>无工作区是本次捕获条件</h3><div class="q">The user does not have any active workspace</div><p>此捕获明确没有活动工作区，因此附上新建项目落点与启用建议。不能把这理解为 Antigravity 不支持现有项目；环境注入会随用户会话变化。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L10-L10" target="_blank" rel="noopener noreferrer">原文 L10</a></p></article>
-      <article class="note" data-note="antigravity-24" data-cat="safety"><span class="tag">安全边界</span><h3>别乱写目录</h3><div class="q">you should create a reasonable subdirectory inside the default project directory</div><p>无活动工作区时，新项目应放在指定 antigravity-cli/scratch 下的合理子目录，并建议用户将其设为工作区。该授权路径本身位于 .gemini 内；后面的泛化禁令不能被解读成连指定 scratch 也不可用。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L10-L10" target="_blank" rel="noopener noreferrer">原文 L10</a></p></article>
-      <article class="note kw" data-note="antigravity-47" data-cat="safety"><span class="tag">安全边界 · 哲学层 ★</span><h3>指定目录与例外需要一起阅读</h3><div class="q">unless explicitly asked</div><p>项目文件优先落在工作区或明确给出的新项目目录；用户明确要求可改变这些默认位置。<b>哲学层（推断）：环境约束是带上下文的规则</b>，不能摘出一句禁止写 .gemini 就否定同段指定的 .gemini/antigravity-cli/scratch。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L11-L11" target="_blank" rel="noopener noreferrer">原文 L11</a></p></article>
-      <article class="note" data-note="antigravity-51" data-cat="tool"><span class="tag">工具·多智能体</span><h3>技能目录不等于已读操作手册</h3><div class="q">If a skill seems relevant to your current task, you MUST read its `SKILL.md` instructions using `view_file` before proceeding.</div><p>名称与描述用于发现相关技能，真正执行前要用 view_file 读取其正文。紧随其后的例外允许负责该部分的子代理代为读取；它转移的是阅读责任，不能当作任何人都可以跳过的豁免。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L28-L28" target="_blank" rel="noopener noreferrer">原文 L28</a></p></article>
-      <article class="note" data-note="antigravity-14" data-cat="tool"><span class="tag">工具·多智能体</span><h3>无需占着轮询等通知</h3><div class="q">you do **NOT** need to poll in a loop while waiting for messages or updates</div><p>后台任务完成或队列消息就绪时，宿主会自动唤醒 Agent。对这些承诺通知的异步工作，可以继续独立任务或停止调用工具，避免反复查询同一状态；通知到达后仍要读取和检查结果，提交后台任务本身不等于完成交付。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L51-L51" target="_blank" rel="noopener noreferrer">原文 L51</a></p></article>
-      <article class="note" data-note="antigravity-4" data-cat="tool"><span class="tag">工具·多智能体</span><h3>被动等待唤醒</h3><div class="q">The system will notify you when there is something to process</div><p>采用<b>事件驱动</b>而非轮询:有事系统会通知,无需主动反复查询。这节省算力也避免空转,把代理设计成对外部信号做出反应的响应式角色。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L51-L51" target="_blank" rel="noopener noreferrer">原文 L51</a></p></article>
-      <article class="note" data-note="antigravity-15" data-cat="persona"><span class="tag">人格</span><h3>别复述工件</h3><div class="q">DO NOT re-summarize the artifact contents in your response to the user</div><p>写完或更新 artifact 后,不要在回复里再把内容复述一遍,只需指向它并点出待决问题。避免<b>信息重复</b>,尊重用户已能直接查看工件的事实。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L68-L68" target="_blank" rel="noopener noreferrer">原文 L68</a></p></article>
-      <article class="note" data-note="antigravity-17" data-cat="safety"><span class="tag">安全边界</span><h3>分级告警语义</h3><div class="q">High-risk actions that could cause data loss or security vulnerabilities</div><p>artifact 里用 NOTE/TIP/IMPORTANT/WARNING/CAUTION <b>五级告警</b>,CAUTION 专留给可能导致数据丢失或安全漏洞的高危动作。把风险沟通做成有语义层次的视觉系统。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L80-L80" target="_blank" rel="noopener noreferrer">原文 L80</a></p></article>
-      <article class="note" data-note="antigravity-57" data-cat="eng"><span class="tag">工程纪律</span><h3>图表表达受实际渲染器限制</h3><div class="q">All other diagram types are unsupported.</div><p>此快照只列出流程图、时序图、状态图、类图、实体关系图和 XY 图；时间线或路线图改用有向流程图或表格。生成合法 Mermaid 文本与界面支持该图种是两项不同条件。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L92-L92" target="_blank" rel="noopener noreferrer">原文 L92</a></p></article>
-      <article class="note" data-note="antigravity-25" data-cat="eng"><span class="tag">工程纪律</span><h3>图表标签防坑</h3><div class="q">Avoid HTML tags in labels</div><p>含括号等特殊字符的 Mermaid 节点标签应加引号，并避免 HTML 标签。它给出具体的语法防错约定；图能否显示还受此版本支持的图类型清单约束。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L95-L95" target="_blank" rel="noopener noreferrer">原文 L95</a></p></article>
-      <article class="note" data-note="antigravity-26" data-cat="tool"><span class="tag">工具·多智能体</span><h3>先搬进工件目录</h3><div class="q">you MUST first copy the file to the artifacts directory before embedding it</div><p>嵌入媒体前，非 artifact 目录中的文件需要先复制到该目录。这让媒体符合当前界面的读取和组织约定，但不自动保证整个项目可移植或离线打开。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L99-L99" target="_blank" rel="noopener noreferrer">原文 L99</a></p></article>
-      <article class="note" data-note="antigravity-19" data-cat="tool"><span class="tag">工具·多智能体</span><h3>斜杠即快捷入口</h3><div class="q">Slash commands are user-facing shortcuts in the chat UI</div><p>斜杠命令是面向用户的 UI 入口，当前列出 /goal、/grill-me 和 /learn。Agent 应在适合的场景推荐；列出命令不等于获得自行启动长任务或持久记忆流程的授权。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L130-L130" target="_blank" rel="noopener noreferrer">原文 L130</a></p></article>
-      <article class="note" data-note="antigravity-20" data-cat="persona"><span class="tag">人格</span><h3>拷问式对齐</h3><div class="q">wants to align on a plan through an interactive interview to resolve design decisions</div><p><code>/grill-me</code> 让用户通过<b>互动式访谈</b>逐一敲定设计决策。它承认好方案往往需要来回追问才能对齐,把"审问自己的计划"做成了正式命令。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L139-L139" target="_blank" rel="noopener noreferrer">原文 L139</a></p></article>
-      <article class="note" data-note="antigravity-52" data-cat="safety"><span class="tag">安全边界</span><h3>研究阶段只允许写审阅工件</h3><div class="q">DO NOT make any source code changes or run modifying commands during this phase. Creating or updating artifacts is allowed.</div><p>Planning Mode 的 Research 阶段禁止源码改动与修改性命令，但允许创建和更新 artifacts。边界按产物用途划分：可以完善计划证据，不能一边调查一边先落地待批准的实现。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L158-L158" target="_blank" rel="noopener noreferrer">原文 L158</a></p></article>
-      <article class="note" data-note="antigravity-53" data-cat="eng"><span class="tag">工程纪律</span><h3>待决问题与实施方案放在同一审阅面</h3><div class="q">Include any open questions to clarify ambiguity, underspecified requirements, or design intent directly in the implementation plan.</div><p>计划流程把需求歧义和设计问题直接写进 implementation_plan，而不是另用 ask_question。问题与拟议改动一同呈现，用户才能判断某个答案会怎样改变方案。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L163-L163" target="_blank" rel="noopener noreferrer">原文 L163</a></p></article>
-      <article class="note kw" data-note="antigravity-50" data-cat="goal"><span class="tag">目标机器 · 哲学层 ★</span><h3>复杂改动以计划审批为分界</h3><div class="q">STOP and wait for the user&#x27;s explicit approval before proceeding to execution.</div><p>当前捕获处于 Planning Mode：复杂改动先研究、写出可审阅计划，再等待用户明确批准。<b>哲学层（推断）：结对关系通过可审阅决策维持</b>；调查、简单修改与已批准计划的轻微跟进有例外，不能把所有请求都变成审批流程。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L168-L168" target="_blank" rel="noopener noreferrer">原文 L168</a></p></article>
-      <article class="note" data-note="antigravity-54" data-cat="safety"><span class="tag">安全边界</span><h3>批准覆盖既定方案，重大偏离需要重新审阅</h3><div class="q">If you discover issues that require significant changes, update the implementation_plan.md and request review again before continuing</div><p>原计划获批后可以执行，但发现需要重大调整时要更新同一计划并重新请求审阅。这里限定的是 significant changes，不应据此为已批准方案内的每个实现细节反复停工。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L172-L172" target="_blank" rel="noopener noreferrer">原文 L172</a></p></article>
-      <article class="note" data-note="antigravity-55" data-cat="goal"><span class="tag">目标机器</span><h3>计划模式也保留直接行动通道</h3><div class="q">If you decide that a request does NOT warrant a plan, then continue your work WITHOUT making a plan or requesting user review.</div><p>解释原因、定位实现等调查，以及简单一次性修改和已批准计划的小幅跟进，不必创建计划。模式名本身不能替代任务分类；是否需要审阅取决于变化复杂度与决策影响。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L183-L183" target="_blank" rel="noopener noreferrer">原文 L183</a></p></article>
-      <article class="note" data-note="antigravity-56" data-cat="eng"><span class="tag">工程纪律</span><h3>验收记录随相关工作累积</h3><div class="q">Update an existing walkthrough for related follow-up work rather than creating a new one.</div><p>Walkthrough 应记录修改、测试和验证结果，相关跟进更新已有工件。它把方案审批与结果证据分开保存，避免把“计划要测试什么”误当成“实际已经测试通过”。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L235-L235" target="_blank" rel="noopener noreferrer">原文 L235</a></p></article>
-      <article class="note" data-note="antigravity-34" data-cat="tool"><span class="tag">工具·多智能体</span><h3>生成图片直接进入产物生命周期</h3><div class="q">saved as an artifact for use</div><p>generate_image 的结果保存为 artifact，可供应用或网站引用并继续与用户迭代。生成图像、保存路径和接入成品仍是不同步骤；当前工具说明不能证明网页已使用素材或已经验收。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L334-L334" target="_blank" rel="noopener noreferrer">原文 L334</a></p></article>
-      <article class="note" data-note="antigravity-36" data-cat="tool"><span class="tag">工具·多智能体</span><h3>网页获取分成机器通道与视觉通道</h3><div class="q">Fetch content from a URL via HTTP request (invisible to USER).</div><p>read_url_content 明确是用户不可见的 HTTP 抽取通道，适合静态文本和批处理；需要交互与视觉状态时则应使用浏览器。它把“访问网页”拆成<b>高吞吐数据面</b>与<b>可见交互面</b>，工具选择取决于任务证据类型。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L430-L430" target="_blank" rel="noopener noreferrer">原文 L430</a></p></article>
-      <article class="note" data-note="antigravity-28" data-cat="eng"><span class="tag">工程纪律</span><h3>替换内容必须可直接落位</h3><div class="q">complete drop-in replacement of the TargetContent</div><p>编辑工具要求 ReplacementContent 是目标片段的<b>完整可替换版本</b>,而不是只给差异碎片。它消除了"保留哪些旧行"的隐式猜测,让每次局部替换都有明确闭包。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L463-L463" target="_blank" rel="noopener noreferrer">原文 L463</a></p></article>
-      <article class="note" data-note="antigravity-18" data-cat="eng"><span class="tag">工程纪律</span><h3>禁用 cd</h3><div class="q">NEVER PROPOSE A cd COMMAND</div><p>用全大写硬性禁止提出 <code>cd</code> 命令,要求以工作目录参数替代。这是为了避免 shell 状态在多次调用间漂移导致的<b>路径歧义</b>,与 Claude Code 对 cd 的警惕同出一辙。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L537-L537" target="_blank" rel="noopener noreferrer">原文 L537</a></p></article>
-      <article class="note" data-note="antigravity-37" data-cat="tool"><span class="tag">工具·多智能体</span><h3>命令超时会转化为可管理任务</h3><div class="q">the command was sent to the background as a task</div><p>run_command 没有立即返回输出时，不代表命令消失，而是被提升为带 ID 的后台任务，后续通过 manage_task 读取或输入。同步调用因此平滑转为<b>持久、可寻址的异步对象</b>，避免 Agent 因一次超时重复启动同一进程。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L540-L540" target="_blank" rel="noopener noreferrer">原文 L540</a></p></article>
-      <article class="note" data-note="antigravity-38" data-cat="tool"><span class="tag">工具·多智能体</span><h3>读取上限迫使 Agent 主动切片</h3><div class="q">This range must be smaller than 800 lines</div><p>view_file 对单次行范围和字节量设双重上限，并提供 ContentOffset 继续读取。限制并非单纯削减能力，而是在工具层要求<b>把大文件阅读变成有游标的分段过程</b>，防止一个调用挤爆上下文。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L621-L621" target="_blank" rel="noopener noreferrer">原文 L621</a></p></article>
-      <article class="note" data-note="antigravity-58" data-cat="tool"><span class="tag">工具·多智能体</span><h3>总文件大小限制不能靠分页解除</h3><div class="q">Files larger than 100 MB cannot be viewed.</div><p>view_file 既限制每次最多 800 行、46080 字节，也拒绝超过 100 MB 的文件。ContentOffset 能续读单次截断，不能据此推断它绕过文件整体大小限制。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L623-L623" target="_blank" rel="noopener noreferrer">原文 L623</a></p></article>
-      <article class="note" data-note="antigravity-39" data-cat="safety"><span class="tag">安全边界</span><h3>新建默认拒绝覆盖</h3><div class="q">By default this tool will error if TargetFile already exists.</div><p>write_to_file 把新建作为默认语义，遇到既有文件会失败；只有显式 <code>Overwrite=true</code> 才整体替换。这个默认值让最危险的歧义偏向失败，体现<b>覆盖必须是有意表达的动作</b>，而不能由工具替 Agent 猜测。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L666-L666" target="_blank" rel="noopener noreferrer">原文 L666</a></p></article>
-      <article class="note" data-note="antigravity-59" data-cat="tool"><span class="tag">工具·多智能体</span><h3>工件元数据不能套用到普通文件</h3><div class="q">When creating non-artifact files, do not provide it.</div><p>write_to_file 对 artifact 要求 ArtifactMetadata，对普通文件则明确省略。用户可见性和反馈请求属于工件协议，不能因为都由同一个写文件工具产生就混用。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md#L667-L667" target="_blank" rel="noopener noreferrer">原文 L667</a></p></article>
+      <article class="note kw" data-note="antigravity-7" data-cat="persona"><span class="tag">人格 ★</span><h3>以结对关系定义交互</h3><div class="q">You are pair programming with a USER to solve their coding task</div><p>开篇把关系定义为<b>与用户结对编程</b>,强调共同解决编码任务和利用编辑器现场信息。这是一种交互框架,不等于否定自主执行;其真正作用是让代理把用户视为持续在环的协作者。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L7-L7" target="_blank" rel="noopener noreferrer">原文 L7</a></p></article>
+      <article class="note" data-note="antigravity-27" data-cat="goal"><span class="tag">目标机器</span><h3>无工作区是本次捕获条件</h3><div class="q">The user does not have any active workspace</div><p>此捕获明确没有活动工作区，因此附上新建项目落点与启用建议。不能把这理解为 Antigravity 不支持现有项目；环境注入会随用户会话变化。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L12-L12" target="_blank" rel="noopener noreferrer">原文 L12</a></p></article>
+      <article class="note" data-note="antigravity-24" data-cat="safety"><span class="tag">安全边界</span><h3>别乱写目录</h3><div class="q">you should create a reasonable subdirectory inside the default project directory</div><p>无活动工作区时，新项目应放在指定 antigravity-cli/scratch 下的合理子目录，并建议用户将其设为工作区。该授权路径本身位于 .gemini 内；后面的泛化禁令不能被解读成连指定 scratch 也不可用。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L12-L12" target="_blank" rel="noopener noreferrer">原文 L12</a></p></article>
+      <article class="note kw" data-note="antigravity-47" data-cat="safety"><span class="tag">安全边界 · 哲学层 ★</span><h3>指定目录与例外需要一起阅读</h3><div class="q">unless explicitly asked</div><p>项目文件优先落在工作区或明确给出的新项目目录；用户明确要求可改变这些默认位置。<b>哲学层（推断）：环境约束是带上下文的规则</b>，不能摘出一句禁止写 .gemini 就否定同段指定的 .gemini/antigravity-cli/scratch。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L13-L13" target="_blank" rel="noopener noreferrer">原文 L13</a></p></article>
+      <article class="note" data-note="antigravity-51" data-cat="tool"><span class="tag">工具·多智能体</span><h3>技能目录不等于已读操作手册</h3><div class="q">If a skill seems relevant to your current task, you MUST read its `SKILL.md` instructions using `view_file` before proceeding.</div><p>名称与描述用于发现相关技能，真正执行前要用 view_file 读取其正文。紧随其后的例外允许负责该部分的子代理代为读取；它转移的是阅读责任，不能当作任何人都可以跳过的豁免。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L30-L30" target="_blank" rel="noopener noreferrer">原文 L30</a></p></article>
+      <article class="note" data-note="antigravity-14" data-cat="tool"><span class="tag">工具·多智能体</span><h3>无需占着轮询等通知</h3><div class="q">you do **NOT** need to poll in a loop while waiting for messages or updates</div><p>后台任务完成或队列消息就绪时，宿主会自动唤醒 Agent。对这些承诺通知的异步工作，可以继续独立任务或停止调用工具，避免反复查询同一状态；通知到达后仍要读取和检查结果，提交后台任务本身不等于完成交付。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L53-L53" target="_blank" rel="noopener noreferrer">原文 L53</a></p></article>
+      <article class="note" data-note="antigravity-4" data-cat="tool"><span class="tag">工具·多智能体</span><h3>被动等待唤醒</h3><div class="q">The system will notify you when there is something to process</div><p>采用<b>事件驱动</b>而非轮询:有事系统会通知,无需主动反复查询。这节省算力也避免空转,把代理设计成对外部信号做出反应的响应式角色。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L53-L53" target="_blank" rel="noopener noreferrer">原文 L53</a></p></article>
+      <article class="note" data-note="antigravity-15" data-cat="persona"><span class="tag">人格</span><h3>别复述工件</h3><div class="q">DO NOT re-summarize the artifact contents in your response to the user</div><p>写完或更新 artifact 后,不要在回复里再把内容复述一遍,只需指向它并点出待决问题。避免<b>信息重复</b>,尊重用户已能直接查看工件的事实。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L70-L70" target="_blank" rel="noopener noreferrer">原文 L70</a></p></article>
+      <article class="note" data-note="antigravity-17" data-cat="safety"><span class="tag">安全边界</span><h3>分级告警语义</h3><div class="q">High-risk actions that could cause data loss or security vulnerabilities</div><p>artifact 里用 NOTE/TIP/IMPORTANT/WARNING/CAUTION <b>五级告警</b>,CAUTION 专留给可能导致数据丢失或安全漏洞的高危动作。把风险沟通做成有语义层次的视觉系统。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L82-L82" target="_blank" rel="noopener noreferrer">原文 L82</a></p></article>
+      <article class="note" data-note="antigravity-57" data-cat="eng"><span class="tag">工程纪律</span><h3>图表表达受实际渲染器限制</h3><div class="q">All other diagram types are unsupported.</div><p>此快照只列出流程图、时序图、状态图、类图、实体关系图和 XY 图；时间线或路线图改用有向流程图或表格。生成合法 Mermaid 文本与界面支持该图种是两项不同条件。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L94-L94" target="_blank" rel="noopener noreferrer">原文 L94</a></p></article>
+      <article class="note" data-note="antigravity-25" data-cat="eng"><span class="tag">工程纪律</span><h3>图表标签防坑</h3><div class="q">Avoid HTML tags in labels</div><p>含括号等特殊字符的 Mermaid 节点标签应加引号，并避免 HTML 标签。它给出具体的语法防错约定；图能否显示还受此版本支持的图类型清单约束。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L97-L97" target="_blank" rel="noopener noreferrer">原文 L97</a></p></article>
+      <article class="note" data-note="antigravity-26" data-cat="tool"><span class="tag">工具·多智能体</span><h3>先搬进工件目录</h3><div class="q">you MUST first copy the file to the artifacts directory before embedding it</div><p>嵌入媒体前，非 artifact 目录中的文件需要先复制到该目录。这让媒体符合当前界面的读取和组织约定，但不自动保证整个项目可移植或离线打开。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L101-L101" target="_blank" rel="noopener noreferrer">原文 L101</a></p></article>
+      <article class="note" data-note="antigravity-19" data-cat="tool"><span class="tag">工具·多智能体</span><h3>斜杠即快捷入口</h3><div class="q">Slash commands are user-facing shortcuts in the chat UI</div><p>斜杠命令是面向用户的 UI 入口，当前列出 /goal、/grill-me 和 /learn。Agent 应在适合的场景推荐；列出命令不等于获得自行启动长任务或持久记忆流程的授权。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L132-L132" target="_blank" rel="noopener noreferrer">原文 L132</a></p></article>
+      <article class="note" data-note="antigravity-20" data-cat="persona"><span class="tag">人格</span><h3>拷问式对齐</h3><div class="q">wants to align on a plan through an interactive interview to resolve design decisions</div><p><code>/grill-me</code> 让用户通过<b>互动式访谈</b>逐一敲定设计决策。它承认好方案往往需要来回追问才能对齐,把"审问自己的计划"做成了正式命令。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L141-L141" target="_blank" rel="noopener noreferrer">原文 L141</a></p></article>
+      <article class="note" data-note="antigravity-52" data-cat="safety"><span class="tag">安全边界</span><h3>研究阶段只允许写审阅工件</h3><div class="q">DO NOT make any source code changes or run modifying commands during this phase. Creating or updating artifacts is allowed.</div><p>Planning Mode 的 Research 阶段禁止源码改动与修改性命令，但允许创建和更新 artifacts。边界按产物用途划分：可以完善计划证据，不能一边调查一边先落地待批准的实现。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L160-L160" target="_blank" rel="noopener noreferrer">原文 L160</a></p></article>
+      <article class="note" data-note="antigravity-53" data-cat="eng"><span class="tag">工程纪律</span><h3>待决问题与实施方案放在同一审阅面</h3><div class="q">Include any open questions to clarify ambiguity, underspecified requirements, or design intent directly in the implementation plan.</div><p>计划流程把需求歧义和设计问题直接写进 implementation_plan，而不是另用 ask_question。问题与拟议改动一同呈现，用户才能判断某个答案会怎样改变方案。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L165-L165" target="_blank" rel="noopener noreferrer">原文 L165</a></p></article>
+      <article class="note kw" data-note="antigravity-50" data-cat="goal"><span class="tag">目标机器 · 哲学层 ★</span><h3>复杂改动以计划审批为分界</h3><div class="q">STOP and wait for the user&#x27;s explicit approval before proceeding to execution.</div><p>当前捕获处于 Planning Mode：复杂改动先研究、写出可审阅计划，再等待用户明确批准。<b>哲学层（推断）：结对关系通过可审阅决策维持</b>；调查、简单修改与已批准计划的轻微跟进有例外，不能把所有请求都变成审批流程。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L170-L170" target="_blank" rel="noopener noreferrer">原文 L170</a></p></article>
+      <article class="note" data-note="antigravity-54" data-cat="safety"><span class="tag">安全边界</span><h3>批准覆盖既定方案，重大偏离需要重新审阅</h3><div class="q">If you discover issues that require significant changes, update the implementation_plan.md and request review again before continuing</div><p>原计划获批后可以执行，但发现需要重大调整时要更新同一计划并重新请求审阅。这里限定的是 significant changes，不应据此为已批准方案内的每个实现细节反复停工。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L174-L174" target="_blank" rel="noopener noreferrer">原文 L174</a></p></article>
+      <article class="note" data-note="antigravity-55" data-cat="goal"><span class="tag">目标机器</span><h3>计划模式也保留直接行动通道</h3><div class="q">If you decide that a request does NOT warrant a plan, then continue your work WITHOUT making a plan or requesting user review.</div><p>解释原因、定位实现等调查，以及简单一次性修改和已批准计划的小幅跟进，不必创建计划。模式名本身不能替代任务分类；是否需要审阅取决于变化复杂度与决策影响。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L185-L185" target="_blank" rel="noopener noreferrer">原文 L185</a></p></article>
+      <article class="note" data-note="antigravity-56" data-cat="eng"><span class="tag">工程纪律</span><h3>验收记录随相关工作累积</h3><div class="q">Update an existing walkthrough for related follow-up work rather than creating a new one.</div><p>Walkthrough 应记录修改、测试和验证结果，相关跟进更新已有工件。它把方案审批与结果证据分开保存，避免把“计划要测试什么”误当成“实际已经测试通过”。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L237-L237" target="_blank" rel="noopener noreferrer">原文 L237</a></p></article>
+      <article class="note" data-note="antigravity-34" data-cat="tool"><span class="tag">工具·多智能体</span><h3>生成图片直接进入产物生命周期</h3><div class="q">saved as an artifact for use</div><p>generate_image 的结果保存为 artifact，可供应用或网站引用并继续与用户迭代。生成图像、保存路径和接入成品仍是不同步骤；当前工具说明不能证明网页已使用素材或已经验收。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L338-L338" target="_blank" rel="noopener noreferrer">原文 L338</a></p></article>
+      <article class="note" data-note="antigravity-36" data-cat="tool"><span class="tag">工具·多智能体</span><h3>网页获取分成机器通道与视觉通道</h3><div class="q">Fetch content from a URL via HTTP request (invisible to USER).</div><p>read_url_content 明确是用户不可见的 HTTP 抽取通道，适合静态文本和批处理；需要交互与视觉状态时则应使用浏览器。它把“访问网页”拆成<b>高吞吐数据面</b>与<b>可见交互面</b>，工具选择取决于任务证据类型。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L434-L434" target="_blank" rel="noopener noreferrer">原文 L434</a></p></article>
+      <article class="note" data-note="antigravity-28" data-cat="eng"><span class="tag">工程纪律</span><h3>替换内容必须可直接落位</h3><div class="q">complete drop-in replacement of the TargetContent</div><p>编辑工具要求 ReplacementContent 是目标片段的<b>完整可替换版本</b>,而不是只给差异碎片。它消除了"保留哪些旧行"的隐式猜测,让每次局部替换都有明确闭包。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L467-L467" target="_blank" rel="noopener noreferrer">原文 L467</a></p></article>
+      <article class="note" data-note="antigravity-18" data-cat="eng"><span class="tag">工程纪律</span><h3>禁用 cd</h3><div class="q">NEVER PROPOSE A cd COMMAND</div><p>用全大写硬性禁止提出 <code>cd</code> 命令,要求以工作目录参数替代。这是为了避免 shell 状态在多次调用间漂移导致的<b>路径歧义</b>,与 Claude Code 对 cd 的警惕同出一辙。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L541-L541" target="_blank" rel="noopener noreferrer">原文 L541</a></p></article>
+      <article class="note" data-note="antigravity-37" data-cat="tool"><span class="tag">工具·多智能体</span><h3>命令超时会转化为可管理任务</h3><div class="q">the command was sent to the background as a task</div><p>run_command 没有立即返回输出时，不代表命令消失，而是被提升为带 ID 的后台任务，后续通过 manage_task 读取或输入。同步调用因此平滑转为<b>持久、可寻址的异步对象</b>，避免 Agent 因一次超时重复启动同一进程。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L544-L544" target="_blank" rel="noopener noreferrer">原文 L544</a></p></article>
+      <article class="note" data-note="antigravity-38" data-cat="tool"><span class="tag">工具·多智能体</span><h3>读取上限迫使 Agent 主动切片</h3><div class="q">This range must be smaller than 800 lines</div><p>view_file 对单次行范围和字节量设双重上限，并提供 ContentOffset 继续读取。限制并非单纯削减能力，而是在工具层要求<b>把大文件阅读变成有游标的分段过程</b>，防止一个调用挤爆上下文。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L625-L625" target="_blank" rel="noopener noreferrer">原文 L625</a></p></article>
+      <article class="note" data-note="antigravity-58" data-cat="tool"><span class="tag">工具·多智能体</span><h3>总文件大小限制不能靠分页解除</h3><div class="q">Files larger than 100 MB cannot be viewed.</div><p>view_file 既限制每次最多 800 行、46080 字节，也拒绝超过 100 MB 的文件。ContentOffset 能续读单次截断，不能据此推断它绕过文件整体大小限制。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L627-L627" target="_blank" rel="noopener noreferrer">原文 L627</a></p></article>
+      <article class="note" data-note="antigravity-39" data-cat="safety"><span class="tag">安全边界</span><h3>新建默认拒绝覆盖</h3><div class="q">By default this tool will error if TargetFile already exists.</div><p>write_to_file 把新建作为默认语义，遇到既有文件会失败；只有显式 <code>Overwrite=true</code> 才整体替换。这个默认值让最危险的歧义偏向失败，体现<b>覆盖必须是有意表达的动作</b>，而不能由工具替 Agent 猜测。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L670-L670" target="_blank" rel="noopener noreferrer">原文 L670</a></p></article>
+      <article class="note" data-note="antigravity-59" data-cat="tool"><span class="tag">工具·多智能体</span><h3>工件元数据不能套用到普通文件</h3><div class="q">When creating non-artifact files, do not provide it.</div><p>write_to_file 对 artifact 要求 ArtifactMetadata，对普通文件则明确省略。用户可见性和反馈请求属于工件协议，不能因为都由同一个写文件工具产生就混用。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md#L671-L671" target="_blank" rel="noopener noreferrer">原文 L671</a></p></article>
     </div>
   </section>

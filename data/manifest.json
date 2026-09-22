@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-19T10:59:53.098693+00:00",
+  "generatedAt": "2026-09-22T10:10:45.378868+00:00",
   "source": {
     "name": "Phistory",
     "url": "https://phistory.cc/",
     "repository": "https://github.com/WEIFENG2333/phistory",
-    "commit": "454c869990df9563ed894971b6e0d04424c186a8",
-    "upstreamUpdatedAt": "2026-09-19T06:29:40.402810Z",
-    "method": "Latest default prompt.md snapshots and all latest variants copied byte-for-byte from the pinned Phistory commit. Phistory captures requests through claude-tap."
+    "commit": "a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8",
+    "upstreamUpdatedAt": "2026-09-22T05:18:18.996769Z",
+    "method": "Latest default prompt.md snapshots and all latest variants copied byte-for-byte from the pinned Phistory commit, including normalized tool captures and manually imported, redacted traces."
   },
   "coverage": {
-    "agentCount": 14,
-    "latestSnapshots": 14,
-    "totalHistoricalVersions": 1229,
-    "totalHistoricalSnapshots": 1313
+    "agentCount": 15,
+    "latestSnapshots": 15,
+    "totalHistoricalVersions": 1241,
+    "totalHistoricalSnapshots": 1628
   },
   "codexEvidence": {
     "version": "0.155.1",
     "promptPath": "data/prompts/codex.md",
-    "promptSha256": "1ff60b11d56f780b955da9b6ffeea5802f097917e4e79e717235254ff54355d0",
+    "promptSha256": "29c4984cdbaacbaa73fb65eb47e37329187bd5856d7a1a6ac5414bca25934cc4",
     "tracePath": "data/prompts/codex.trace.jsonl",
     "traceSha256": "9f9f75255d63a9223feae276a15f076dc684a22197ac5f27a6190f96dc4ebdf1",
     "traceBytes": 62305,
@@ -32,44 +32,72 @@
       "version": "2.1.278",
       "package": "@anthropic-ai/claude-code",
       "publishedAt": "2026-09-19T01:48:59.758Z",
-      "capturedAt": "2026-09-19T06:29:40.402810+00:00",
+      "capturedAt": "2026-09-21T17:13:49.126417+00:00",
       "versionCount": 423,
-      "snapshotCount": 423,
+      "snapshotCount": 726,
       "variant": {
         "id": "default",
-        "label": "Default",
-        "dimensions": {},
+        "label": "Terminal",
+        "dimensions": {
+          "surface": "terminal"
+        },
         "observed": {
+          "provider": "anthropic",
           "model": "claude-opus-5",
-          "tool_count": 23
+          "tool_count": 31,
+          "surface": "interactive-tty"
         }
       },
       "availableVariants": [
         {
           "id": "default",
-          "label": "Default",
-          "dimensions": {},
+          "label": "Terminal",
+          "dimensions": {
+            "surface": "terminal"
+          },
           "observed": {
+            "provider": "anthropic",
             "model": "claude-opus-5",
-            "tool_count": 23
+            "tool_count": 31,
+            "surface": "interactive-tty"
           },
           "prompt": "captures/claude-code/2.1.278/variants/default/prompt.md",
           "trace": "captures/claude-code/2.1.278/variants/default/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/claude-code/default.md",
-          "sha256": "1c33c436337116d5effc8af7a02c0010ad2905ae2180f80a3d307086f5ccfe2b",
-          "bytes": 78775,
-          "characters": 78437
+          "sha256": "3a185220c04a81a1a4492357e663df3cfab7e1289c9a29ff3f0036fe0135c6cf",
+          "bytes": 156721,
+          "characters": 156244
+        },
+        {
+          "id": "sdk",
+          "label": "Headless (-p)",
+          "dimensions": {
+            "surface": "headless"
+          },
+          "observed": {
+            "model": "claude-opus-5",
+            "tool_count": 23,
+            "provider": "anthropic"
+          },
+          "prompt": "captures/claude-code/2.1.278/variants/sdk/prompt.md",
+          "trace": "captures/claude-code/2.1.278/variants/sdk/trace.jsonl",
+          "traceRedacted": false,
+          "localPromptPath": "data/variants/claude-code/sdk.md",
+          "sha256": "fdbd0e9d6bbeae93533c7a9710c87743ffa321dcaca3ccf8675cf99ccee70588",
+          "bytes": 86550,
+          "characters": 86176
         }
       ],
       "promptPath": "data/prompts/claude-code.md",
       "sourcePromptPath": "captures/claude-code/2.1.278/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/claude-code/2.1.278/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/claude-code/2.1.278/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/claude-code.png",
-      "sha256": "1c33c436337116d5effc8af7a02c0010ad2905ae2180f80a3d307086f5ccfe2b",
-      "bytes": 78775,
-      "characters": 78437,
-      "lines": 1447,
+      "sha256": "3a185220c04a81a1a4492357e663df3cfab7e1289c9a29ff3f0036fe0135c6cf",
+      "bytes": 156721,
+      "characters": 156244,
+      "lines": 2496,
       "headings": [
         {
           "level": 1,
@@ -77,35 +105,71 @@
         },
         {
           "level": 2,
-          "text": "Harness"
+          "text": "Block 1"
         },
         {
           "level": 2,
-          "text": "Session-specific guidance"
+          "text": "Block 2 · cached"
         },
         {
           "level": 2,
-          "text": "Memory"
-        },
-        {
-          "level": 2,
-          "text": "Environment"
-        },
-        {
-          "level": 2,
-          "text": "Context management"
-        },
-        {
-          "level": 2,
-          "text": "Delivering work"
-        },
-        {
-          "level": 2,
-          "text": "Corrections"
+          "text": "Block 3 · cached"
         },
         {
           "level": 1,
-          "text": "User Message"
+          "text": "Harness"
+        },
+        {
+          "level": 1,
+          "text": "Session-specific guidance"
+        },
+        {
+          "level": 1,
+          "text": "Memory"
+        },
+        {
+          "level": 1,
+          "text": "Environment"
+        },
+        {
+          "level": 1,
+          "text": "Context management"
+        },
+        {
+          "level": 1,
+          "text": "Delivering work"
+        },
+        {
+          "level": 1,
+          "text": "Corrections"
+        },
+        {
+          "level": 2,
+          "text": "Block 4 · system message · cached"
+        },
+        {
+          "level": 1,
+          "text": "Environment"
+        },
+        {
+          "level": 1,
+          "text": "Messages"
+        },
+        {
+          "level": 2,
+          "text": "Message 1 · user · system-reminder"
+        },
+        {
+          "level": 1,
+          "text": "gitStatus"
+        },
+        {
+          "level": 2,
+          "text": "Message 2 · user · system-reminder"
+        },
+        {
+          "level": 2,
+          "text": "Message 3 · user · text"
         },
         {
           "level": 1,
@@ -118,6 +182,22 @@
         {
           "level": 4,
           "text": "When to use"
+        },
+        {
+          "level": 2,
+          "text": "Artifact"
+        },
+        {
+          "level": 2,
+          "text": "ArtifactComments"
+        },
+        {
+          "level": 2,
+          "text": "ArtifactData"
+        },
+        {
+          "level": 2,
+          "text": "AskUserQuestion"
         },
         {
           "level": 2,
@@ -173,6 +253,58 @@
         },
         {
           "level": 2,
+          "text": "EndConversation"
+        },
+        {
+          "level": 3,
+          "text": "Rules for use of the EndConversation tool:"
+        },
+        {
+          "level": 3,
+          "text": "Addressing potential self-harm or violent harm to others"
+        },
+        {
+          "level": 3,
+          "text": "Background forks"
+        },
+        {
+          "level": 3,
+          "text": "Using the EndConversation tool"
+        },
+        {
+          "level": 2,
+          "text": "EnterPlanMode"
+        },
+        {
+          "level": 4,
+          "text": "When to Use This Tool"
+        },
+        {
+          "level": 4,
+          "text": "When NOT to Use This Tool"
+        },
+        {
+          "level": 4,
+          "text": "What Happens in Plan Mode"
+        },
+        {
+          "level": 4,
+          "text": "Examples"
+        },
+        {
+          "level": 5,
+          "text": "GOOD - Use EnterPlanMode:"
+        },
+        {
+          "level": 5,
+          "text": "BAD - Don't use EnterPlanMode:"
+        },
+        {
+          "level": 4,
+          "text": "Important Notes"
+        },
+        {
+          "level": 2,
           "text": "EnterWorktree"
         },
         {
@@ -198,6 +330,26 @@
         {
           "level": 4,
           "text": "Parameters"
+        },
+        {
+          "level": 2,
+          "text": "ExitPlanMode"
+        },
+        {
+          "level": 4,
+          "text": "How This Tool Works"
+        },
+        {
+          "level": 4,
+          "text": "When to Use This Tool"
+        },
+        {
+          "level": 4,
+          "text": "Before Using This Tool"
+        },
+        {
+          "level": 4,
+          "text": "Examples"
         },
         {
           "level": 2,
@@ -257,6 +409,10 @@
         },
         {
           "level": 2,
+          "text": "SendFeedback"
+        },
+        {
+          "level": 2,
           "text": "SendMessage"
         },
         {
@@ -293,15 +449,17 @@
         }
       ],
       "keywordCounts": {
-        "tools": 50,
-        "safety": 15,
-        "planning": 11,
-        "memory": 35,
-        "autonomy": 14,
-        "git": 24
+        "tools": 137,
+        "safety": 24,
+        "planning": 52,
+        "memory": 49,
+        "autonomy": 19,
+        "git": 26
       },
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
+      "captureSource": null,
+      "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
@@ -320,7 +478,8 @@
         "dimensions": {},
         "observed": {
           "model": "gpt-6-astra",
-          "tool_count": 11
+          "tool_count": 11,
+          "provider": "openai-responses"
         }
       },
       "availableVariants": [
@@ -330,14 +489,16 @@
           "dimensions": {},
           "observed": {
             "model": "gpt-6-astra",
-            "tool_count": 11
+            "tool_count": 11,
+            "provider": "openai-responses"
           },
           "prompt": "captures/codex/0.155.1/variants/default/prompt.md",
           "trace": "captures/codex/0.155.1/variants/default/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/codex/default.md",
-          "sha256": "1ff60b11d56f780b955da9b6ffeea5802f097917e4e79e717235254ff54355d0",
-          "bytes": 69128,
-          "characters": 69116
+          "sha256": "29c4984cdbaacbaa73fb65eb47e37329187bd5856d7a1a6ac5414bca25934cc4",
+          "bytes": 69370,
+          "characters": 69348
         },
         {
           "id": "gpt-5.6",
@@ -347,14 +508,16 @@
           },
           "observed": {
             "model": "gpt-5.6",
-            "tool_count": 17
+            "tool_count": 17,
+            "provider": "openai-responses"
           },
           "prompt": "captures/codex/0.155.1/variants/gpt-5.6/prompt.md",
           "trace": "captures/codex/0.155.1/variants/gpt-5.6/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/codex/gpt-5.6.md",
-          "sha256": "e3756b84bbcc5b2c680e2869af7915500d7f490efed299d44e74c9e43fd26343",
-          "bytes": 44227,
-          "characters": 44083
+          "sha256": "c3701c27f6b204c9bea48192fcced26fe20a30c14c4f6f80fbe3c5e92d7662f4",
+          "bytes": 44339,
+          "characters": 44189
         },
         {
           "id": "gpt-5.5",
@@ -364,121 +527,155 @@
           },
           "observed": {
             "model": "gpt-5.5",
-            "tool_count": 14
+            "tool_count": 14,
+            "provider": "openai-responses"
           },
           "prompt": "captures/codex/0.155.1/variants/gpt-5.5/prompt.md",
           "trace": "captures/codex/0.155.1/variants/gpt-5.5/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/codex/gpt-5.5.md",
-          "sha256": "73ce40e844486084468afefee66a204cfe1350b19f6a999f1d0ffe0d6f9acc6a",
-          "bytes": 42169,
-          "characters": 42153
+          "sha256": "8e5dcd04e57966d345edd69731aaff46fd13507c1605d9f673733fa9518e9424",
+          "bytes": 42276,
+          "characters": 42254
         }
       ],
       "promptPath": "data/prompts/codex.md",
       "sourcePromptPath": "captures/codex/0.155.1/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/codex/0.155.1/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/codex/0.155.1/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/codex.png",
-      "sha256": "1ff60b11d56f780b955da9b6ffeea5802f097917e4e79e717235254ff54355d0",
-      "bytes": 69128,
-      "characters": 69116,
-      "lines": 848,
+      "sha256": "29c4984cdbaacbaa73fb65eb47e37329187bd5856d7a1a6ac5414bca25934cc4",
+      "bytes": 69370,
+      "characters": 69348,
+      "lines": 865,
       "headings": [
         {
           "level": 1,
-          "text": "Developer Prompt"
+          "text": "System Prompt"
         },
         {
           "level": 2,
-          "text": "When to ask the user for permission"
-        },
-        {
-          "level": 2,
-          "text": "Autonomy and persistence"
-        },
-        {
-          "level": 2,
-          "text": "Personality"
-        },
-        {
-          "level": 3,
-          "text": "Writing style"
-        },
-        {
-          "level": 3,
-          "text": "Technical communication"
-        },
-        {
-          "level": 4,
-          "text": "Writing PR descriptions"
-        },
-        {
-          "level": 2,
-          "text": "Working with the user"
-        },
-        {
-          "level": 3,
-          "text": "Intermediate commentary"
-        },
-        {
-          "level": 3,
-          "text": "Final answer"
-        },
-        {
-          "level": 4,
-          "text": "Formatting rules"
-        },
-        {
-          "level": 4,
-          "text": "Visualizations"
-        },
-        {
-          "level": 2,
-          "text": "Rules for getting work done"
-        },
-        {
-          "level": 2,
-          "text": "Using skills"
-        },
-        {
-          "level": 3,
-          "text": "When to use a skill"
-        },
-        {
-          "level": 3,
-          "text": "How to use skills"
-        },
-        {
-          "level": 2,
-          "text": "Apps (Connectors)"
-        },
-        {
-          "level": 2,
-          "text": "Plugins"
-        },
-        {
-          "level": 3,
-          "text": "How to use plugins"
-        },
-        {
-          "level": 3,
-          "text": "Skills"
-        },
-        {
-          "level": 4,
-          "text": "Skill roots"
-        },
-        {
-          "level": 4,
-          "text": "Available skills"
-        },
-        {
-          "level": 3,
-          "text": "request_user_input availability"
+          "text": "Block 1 · developer message"
         },
         {
           "level": 1,
-          "text": "User Message"
+          "text": "When to ask the user for permission"
+        },
+        {
+          "level": 1,
+          "text": "Autonomy and persistence"
+        },
+        {
+          "level": 1,
+          "text": "Personality"
+        },
+        {
+          "level": 2,
+          "text": "Writing style"
+        },
+        {
+          "level": 2,
+          "text": "Technical communication"
+        },
+        {
+          "level": 3,
+          "text": "Writing PR descriptions"
+        },
+        {
+          "level": 1,
+          "text": "Working with the user"
+        },
+        {
+          "level": 2,
+          "text": "Intermediate commentary"
+        },
+        {
+          "level": 2,
+          "text": "Final answer"
+        },
+        {
+          "level": 3,
+          "text": "Formatting rules"
+        },
+        {
+          "level": 3,
+          "text": "Visualizations"
+        },
+        {
+          "level": 1,
+          "text": "Rules for getting work done"
+        },
+        {
+          "level": 1,
+          "text": "Using skills"
+        },
+        {
+          "level": 2,
+          "text": "When to use a skill"
+        },
+        {
+          "level": 2,
+          "text": "How to use skills"
+        },
+        {
+          "level": 1,
+          "text": "Apps (Connectors)"
+        },
+        {
+          "level": 1,
+          "text": "Plugins"
+        },
+        {
+          "level": 2,
+          "text": "How to use plugins"
+        },
+        {
+          "level": 2,
+          "text": "Block 2 · developer message"
+        },
+        {
+          "level": 2,
+          "text": "Skills"
+        },
+        {
+          "level": 3,
+          "text": "Skill roots"
+        },
+        {
+          "level": 3,
+          "text": "Available skills"
+        },
+        {
+          "level": 2,
+          "text": "Block 3 · developer message"
+        },
+        {
+          "level": 2,
+          "text": "Block 4 · developer message"
+        },
+        {
+          "level": 2,
+          "text": "request_user_input availability"
+        },
+        {
+          "level": 2,
+          "text": "Block 5 · developer message"
+        },
+        {
+          "level": 2,
+          "text": "Block 6 · developer message"
+        },
+        {
+          "level": 1,
+          "text": "Messages"
+        },
+        {
+          "level": 2,
+          "text": "Message 1 · user · input_text"
+        },
+        {
+          "level": 2,
+          "text": "Message 2 · user · input_text"
         },
         {
           "level": 1,
@@ -593,8 +790,10 @@
         "autonomy": 12,
         "git": 2
       },
-      "promptRole": "Developer Prompt",
+      "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
+      "captureSource": null,
+      "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
@@ -616,7 +815,8 @@
         "observed": {
           "model": "deepseek-flash",
           "tool_count": 27,
-          "mode": "standard"
+          "mode": "standard",
+          "provider": "openai-chat"
         }
       },
       "availableVariants": [
@@ -629,14 +829,16 @@
           "observed": {
             "model": "deepseek-flash",
             "tool_count": 27,
-            "mode": "standard"
+            "mode": "standard",
+            "provider": "openai-chat"
           },
           "prompt": "captures/dsh/0.1.5-rc.2/variants/default/prompt.md",
           "trace": "captures/dsh/0.1.5-rc.2/variants/default/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/dsh/default.md",
-          "sha256": "8a562744a25ec2611a2d1ca646b4de4dead7ca60224676fe5fc3a189bfac85d4",
-          "bytes": 38404,
-          "characters": 38302
+          "sha256": "c83cf437b2086e4a6656c7565e15e25a265175c374f15b793ebe81de4da09141",
+          "bytes": 38490,
+          "characters": 38383
         },
         {
           "id": "standard",
@@ -648,14 +850,16 @@
           "observed": {
             "model": "deepseek-flash",
             "tool_count": 27,
-            "mode": "standard"
+            "mode": "standard",
+            "provider": "openai-chat"
           },
           "prompt": "captures/dsh/0.1.5-rc.2/variants/standard/prompt.md",
           "trace": "captures/dsh/0.1.5-rc.2/variants/standard/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/dsh/standard.md",
-          "sha256": "8a562744a25ec2611a2d1ca646b4de4dead7ca60224676fe5fc3a189bfac85d4",
-          "bytes": 38404,
-          "characters": 38302
+          "sha256": "c83cf437b2086e4a6656c7565e15e25a265175c374f15b793ebe81de4da09141",
+          "bytes": 38490,
+          "characters": 38383
         },
         {
           "id": "minimal",
@@ -667,14 +871,16 @@
           "observed": {
             "model": "deepseek-flash",
             "tool_count": 1,
-            "mode": "minimal"
+            "mode": "minimal",
+            "provider": "openai-chat"
           },
           "prompt": "captures/dsh/0.1.5-rc.2/variants/minimal/prompt.md",
           "trace": "captures/dsh/0.1.5-rc.2/variants/minimal/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/dsh/minimal.md",
-          "sha256": "df6e6e051475a9f05d4e018f27f2c1d413aad747ffa96503e584305695ac068a",
-          "bytes": 959,
-          "characters": 959
+          "sha256": "cc9badd403d20e6949c23466d66e87df92b0603f80e0d489f1bf22a62cd3a2e4",
+          "bytes": 1015,
+          "characters": 1012
         },
         {
           "id": "headless",
@@ -684,14 +890,16 @@
           },
           "observed": {
             "model": "deepseek-flash",
-            "tool_count": 25
+            "tool_count": 25,
+            "provider": "openai-chat"
           },
           "prompt": "captures/dsh/0.1.5-rc.2/variants/headless/prompt.md",
           "trace": "captures/dsh/0.1.5-rc.2/variants/headless/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/dsh/headless.md",
-          "sha256": "b74ccd124c6769dc0560fd26e0a3260b7f24f31ec76a92c74f910b65247e08ca",
-          "bytes": 32611,
-          "characters": 32513
+          "sha256": "fe8502388f0bfbff8e115040e69352eb08b059244efbc282472becce91ad8693",
+          "bytes": 32697,
+          "characters": 32594
         },
         {
           "id": "cordis",
@@ -703,14 +911,16 @@
           "observed": {
             "model": "deepseek-flash",
             "tool_count": 34,
-            "mode": "cordis"
+            "mode": "cordis",
+            "provider": "openai-chat"
           },
           "prompt": "captures/dsh/0.1.5-rc.2/variants/cordis/prompt.md",
           "trace": "captures/dsh/0.1.5-rc.2/variants/cordis/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/dsh/cordis.md",
-          "sha256": "093fea63727d12b7121ed782ed43bee7e784019d83909600f4911bceed65c981",
-          "bytes": 59977,
-          "characters": 59863
+          "sha256": "3238b8bd83ed8aee92b8c0c59f850adcbd3791f146109767813fe5642206515d",
+          "bytes": 60093,
+          "characters": 59972
         },
         {
           "id": "code",
@@ -722,33 +932,47 @@
           "observed": {
             "model": "deepseek-flash",
             "tool_count": 1,
-            "mode": "ptc"
+            "mode": "ptc",
+            "provider": "openai-chat"
           },
           "prompt": "captures/dsh/0.1.5-rc.2/variants/code/prompt.md",
           "trace": "captures/dsh/0.1.5-rc.2/variants/code/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/dsh/code.md",
-          "sha256": "d24820d72da6e6536dc7960785e9fd874ef433bdeaa901ea687bc26a5e6dd31e",
-          "bytes": 36405,
-          "characters": 36317
+          "sha256": "735c5bb8b51c4847b770672c5b07fec2dcbf612b0d767551e1f8f9a07bd99849",
+          "bytes": 36490,
+          "characters": 36397
         }
       ],
       "promptPath": "data/prompts/dsh.md",
       "sourcePromptPath": "captures/dsh/0.1.5-rc.2/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/dsh/0.1.5-rc.2/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/dsh/0.1.5-rc.2/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/dsh.svg",
-      "sha256": "8a562744a25ec2611a2d1ca646b4de4dead7ca60224676fe5fc3a189bfac85d4",
-      "bytes": 38404,
-      "characters": 38302,
-      "lines": 876,
+      "sha256": "c83cf437b2086e4a6656c7565e15e25a265175c374f15b793ebe81de4da09141",
+      "bytes": 38490,
+      "characters": 38383,
+      "lines": 882,
       "headings": [
         {
           "level": 1,
           "text": "System Prompt"
         },
         {
+          "level": 2,
+          "text": "Block 1 · system message"
+        },
+        {
           "level": 1,
-          "text": "User Message"
+          "text": "Messages"
+        },
+        {
+          "level": 2,
+          "text": "Message 1 · user · text"
+        },
+        {
+          "level": 2,
+          "text": "Message 2 · user · text"
         },
         {
           "level": 1,
@@ -873,23 +1097,26 @@
       },
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
+      "captureSource": null,
+      "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
       "order": 4,
       "id": "antigravity",
       "name": "Antigravity CLI",
-      "version": "1.2.7",
+      "version": "1.2.8",
       "package": "google-antigravity/antigravity-cli",
-      "publishedAt": "2026-09-19T01:01:46Z",
-      "capturedAt": "2026-09-19T01:29:27.225255+00:00",
-      "versionCount": 50,
-      "snapshotCount": 50,
+      "publishedAt": "2026-09-22T04:12:17Z",
+      "capturedAt": "2026-09-22T05:18:18.996769+00:00",
+      "versionCount": 51,
+      "snapshotCount": 51,
       "variant": {
         "id": "default",
         "label": "Default",
         "dimensions": {},
         "observed": {
+          "provider": "gemini",
           "model": "MODEL_GOOGLE_GEMINI_2_5_FLASH",
           "tool_count": 9
         }
@@ -900,142 +1127,152 @@
           "label": "Default",
           "dimensions": {},
           "observed": {
+            "provider": "gemini",
             "model": "MODEL_GOOGLE_GEMINI_2_5_FLASH",
             "tool_count": 9
           },
-          "prompt": "captures/antigravity/1.2.7/variants/default/prompt.md",
-          "trace": "captures/antigravity/1.2.7/variants/default/trace.jsonl",
+          "prompt": "captures/antigravity/1.2.8/variants/default/prompt.md",
+          "trace": "captures/antigravity/1.2.8/variants/default/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/antigravity/default.md",
-          "sha256": "a30c7c6932f25553fc4350caf0c23559247b92e6eb19a783b17638a8910abbe4",
-          "bytes": 36582,
-          "characters": 36580
+          "sha256": "ed7fa0245cc25aa08d9dd07bc251fef1af7baa98c88cdb86a3be852208a90029",
+          "bytes": 36593,
+          "characters": 36589
         }
       ],
       "promptPath": "data/prompts/antigravity.md",
-      "sourcePromptPath": "captures/antigravity/1.2.7/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/antigravity/1.2.7/variants/default/prompt.md",
+      "sourcePromptPath": "captures/antigravity/1.2.8/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/antigravity/1.2.8/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/antigravity.png",
-      "sha256": "a30c7c6932f25553fc4350caf0c23559247b92e6eb19a783b17638a8910abbe4",
-      "bytes": 36582,
-      "characters": 36580,
-      "lines": 730,
+      "sha256": "ed7fa0245cc25aa08d9dd07bc251fef1af7baa98c88cdb86a3be852208a90029",
+      "bytes": 36593,
+      "characters": 36589,
+      "lines": 734,
       "headings": [
         {
           "level": 1,
           "text": "System Prompt"
         },
         {
-          "level": 3,
+          "level": 2,
+          "text": "Block 1"
+        },
+        {
+          "level": 2,
           "text": "Receiving Messages"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Reactive Wakeup (No Polling Needed)"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "When to Use Artifacts"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Artifact Formatting Tips"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Alerts"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Mermaid Diagrams"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "File Links"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Carousels"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Scratch Scripts and Files"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Research"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Create Implementation Plan"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Obtain User Approval"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Execute"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Verify"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Implementation Plan"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "[Goal Description]"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "User Review Required"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Open Questions"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Proposed Changes"
         },
         {
-          "level": 4,
+          "level": 3,
           "text": "[Component Name]"
         },
         {
-          "level": 5,
+          "level": 4,
           "text": "[MODIFY] [file basename](file:///absolute/path/to/modifiedfile)"
         },
         {
-          "level": 5,
+          "level": 4,
           "text": "[NEW] [file basename](file:///absolute/path/to/newfile)"
         },
         {
-          "level": 5,
+          "level": 4,
           "text": "[DELETE] [file basename](file:///absolute/path/to/deletedfile)"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Verification Plan"
         },
         {
-          "level": 4,
+          "level": 3,
           "text": "Automated Tests"
         },
         {
-          "level": 4,
+          "level": 3,
           "text": "Manual Verification"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Walkthrough"
         },
         {
           "level": 1,
-          "text": "User Message"
+          "text": "Messages"
+        },
+        {
+          "level": 2,
+          "text": "Message 1 · user · text"
         },
         {
           "level": 1,
@@ -1088,25 +1325,714 @@
       },
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
+      "captureSource": null,
+      "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
       "order": 5,
+      "id": "claude-tag",
+      "name": "Claude Tag",
+      "version": "2026-09-22",
+      "package": null,
+      "publishedAt": "2026-09-21T18:25:04.925057+00:00",
+      "capturedAt": "2026-09-21T18:25:04.925057+00:00",
+      "versionCount": 1,
+      "snapshotCount": 1,
+      "variant": {
+        "id": "default",
+        "label": "Default",
+        "dimensions": {
+          "surface": "slack"
+        },
+        "observed": {
+          "provider": "anthropic",
+          "model": "claude-sonnet-5",
+          "tool_count": 85
+        }
+      },
+      "availableVariants": [
+        {
+          "id": "default",
+          "label": "Default",
+          "dimensions": {
+            "surface": "slack"
+          },
+          "observed": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-5",
+            "tool_count": 85
+          },
+          "prompt": "captures/claude-tag/2026-09-22/variants/default/prompt.md",
+          "trace": "captures/claude-tag/2026-09-22/variants/default/trace.jsonl",
+          "traceRedacted": true,
+          "localPromptPath": "data/variants/claude-tag/default.md",
+          "sha256": "bb32c8dcfb5fb0a73b8d201ef479312b04f3982fee9baf4474702e87dd95bc50",
+          "bytes": 323145,
+          "characters": 322014
+        }
+      ],
+      "promptPath": "data/prompts/claude-tag.md",
+      "sourcePromptPath": "captures/claude-tag/2026-09-22/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/claude-tag/2026-09-22/variants/default/prompt.md",
+      "phistoryUrl": "https://phistory.cc/",
+      "icon": "agent-icons/claude-tag.svg",
+      "sha256": "bb32c8dcfb5fb0a73b8d201ef479312b04f3982fee9baf4474702e87dd95bc50",
+      "bytes": 323145,
+      "characters": 322014,
+      "lines": 3768,
+      "headings": [
+        {
+          "level": 1,
+          "text": "System Prompt"
+        },
+        {
+          "level": 2,
+          "text": "Block 1"
+        },
+        {
+          "level": 2,
+          "text": "Block 2 · cached"
+        },
+        {
+          "level": 2,
+          "text": "Block 3 · cached"
+        },
+        {
+          "level": 1,
+          "text": "System"
+        },
+        {
+          "level": 1,
+          "text": "Doing tasks"
+        },
+        {
+          "level": 1,
+          "text": "Executing actions with care"
+        },
+        {
+          "level": 1,
+          "text": "Using your tools"
+        },
+        {
+          "level": 1,
+          "text": "Tone and style"
+        },
+        {
+          "level": 1,
+          "text": "Text output (does not apply to tool calls)"
+        },
+        {
+          "level": 1,
+          "text": "Session-specific guidance"
+        },
+        {
+          "level": 1,
+          "text": "Environment"
+        },
+        {
+          "level": 1,
+          "text": "Context management"
+        },
+        {
+          "level": 1,
+          "text": "Your current remote execution environment"
+        },
+        {
+          "level": 2,
+          "text": "Environment configuration"
+        },
+        {
+          "level": 2,
+          "text": "Disk space"
+        },
+        {
+          "level": 2,
+          "text": "Pre-installed browser"
+        },
+        {
+          "level": 1,
+          "text": "You are @Claude, a teammate in Slack"
+        },
+        {
+          "level": 2,
+          "text": "Reading the turn"
+        },
+        {
+          "level": 2,
+          "text": "Whether to reply"
+        },
+        {
+          "level": 2,
+          "text": "How you write"
+        },
+        {
+          "level": 2,
+          "text": "Cadence"
+        },
+        {
+          "level": 2,
+          "text": "Live status"
+        },
+        {
+          "level": 3,
+          "text": "Check-ins"
+        },
+        {
+          "level": 2,
+          "text": "Doing the work"
+        },
+        {
+          "level": 2,
+          "text": "First asks and capability questions"
+        },
+        {
+          "level": 2,
+          "text": "Claims and evidence"
+        },
+        {
+          "level": 2,
+          "text": "Under pressure"
+        },
+        {
+          "level": 2,
+          "text": "Delivering"
+        },
+        {
+          "level": 2,
+          "text": "Between your tools and the thread"
+        },
+        {
+          "level": 2,
+          "text": "Connecting people"
+        },
+        {
+          "level": 2,
+          "text": "Housekeeping"
+        },
+        {
+          "level": 2,
+          "text": "Sessions, and what survives them"
+        },
+        {
+          "level": 2,
+          "text": "Rich layouts"
+        },
+        {
+          "level": 2,
+          "text": "Repository Access"
+        },
+        {
+          "level": 2,
+          "text": "Links to other Claude sessions"
+        },
+        {
+          "level": 2,
+          "text": "Artifacts"
+        },
+        {
+          "level": 2,
+          "text": "Coordinating with helper sessions (claim records)"
+        },
+        {
+          "level": 2,
+          "text": "Figma"
+        },
+        {
+          "level": 1,
+          "text": "Permission denials"
+        },
+        {
+          "level": 2,
+          "text": "GitHub Integration"
+        },
+        {
+          "level": 3,
+          "text": "Attribution footer on every GitHub post"
+        },
+        {
+          "level": 3,
+          "text": "PR Activity Events"
+        },
+        {
+          "level": 4,
+          "text": "Handling PR Activity Events"
+        },
+        {
+          "level": 4,
+          "text": "Driving a PR to green"
+        },
+        {
+          "level": 4,
+          "text": "PR state notices"
+        },
+        {
+          "level": 3,
+          "text": "Repository Scope"
+        },
+        {
+          "level": 2,
+          "text": "Proxy-injected credentials"
+        },
+        {
+          "level": 2,
+          "text": "Git Operations"
+        },
+        {
+          "level": 1,
+          "text": "Model identity"
+        },
+        {
+          "level": 2,
+          "text": "Block 4 · system message · cached"
+        },
+        {
+          "level": 1,
+          "text": "Environment"
+        },
+        {
+          "level": 1,
+          "text": "Messages"
+        },
+        {
+          "level": 2,
+          "text": "Message 1 · user · system-reminder"
+        },
+        {
+          "level": 1,
+          "text": "Memory"
+        },
+        {
+          "level": 2,
+          "text": "Types of memory"
+        },
+        {
+          "level": 2,
+          "text": "What NOT to save in memory"
+        },
+        {
+          "level": 2,
+          "text": "How to save memories"
+        },
+        {
+          "level": 2,
+          "text": "When to access memories"
+        },
+        {
+          "level": 2,
+          "text": "Before recommending from memory"
+        },
+        {
+          "level": 2,
+          "text": "Memory and other forms of persistence"
+        },
+        {
+          "level": 1,
+          "text": "workerToolsContext"
+        },
+        {
+          "level": 2,
+          "text": "Message 2 · user · system-reminder"
+        },
+        {
+          "level": 2,
+          "text": "Message 3 · user · text"
+        },
+        {
+          "level": 1,
+          "text": "Tools"
+        },
+        {
+          "level": 2,
+          "text": "Agent"
+        },
+        {
+          "level": 2,
+          "text": "Glob"
+        },
+        {
+          "level": 2,
+          "text": "Grep"
+        },
+        {
+          "level": 2,
+          "text": "ListAgents"
+        },
+        {
+          "level": 2,
+          "text": "Read"
+        },
+        {
+          "level": 2,
+          "text": "ReadNotifications"
+        },
+        {
+          "level": 2,
+          "text": "SendMessage"
+        },
+        {
+          "level": 3,
+          "text": "SendMessage"
+        },
+        {
+          "level": 4,
+          "text": "Cross-session"
+        },
+        {
+          "level": 2,
+          "text": "Skill"
+        },
+        {
+          "level": 2,
+          "text": "TaskStop"
+        },
+        {
+          "level": 2,
+          "text": "Workflow"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__add_repo"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__archive_session"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__check_repo_access"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__create_session"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__create_trigger"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__delete_trigger"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__fire_trigger"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__get_event"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__get_session"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__interrupt_session"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__list_environments"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__list_events"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__list_repos"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__list_sessions"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__list_triggers"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__register_repo_root"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__send_later"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__send_message"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__set_session_tags"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__set_session_title"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__subscribe_pr_activity"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__unarchive_session"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__unsubscribe_pr_activity"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__unwatch_url"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__update_trigger"
+        },
+        {
+          "level": 2,
+          "text": "mcp__claude-code-remote__watch_url"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__add_bookmark"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__add_channel_connector"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__append_to_canvas"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__code_channel_create"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__create_canvas"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__delete_reply"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__edit_canvas"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__fetch_channel"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__fetch_file"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__fetch_thread"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__find_connector_holders"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__get_channel_session_id"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__get_connector_status"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__list_bookmarks"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__list_canvas_sections"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__list_canvases"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__list_channel_members"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__list_channel_subscriptions"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__list_emoji"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__list_pins"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__list_usergroups"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__no_reply_needed"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__pin_message"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__post_message"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__post_standing_relay"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__react"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__redact_isolated_reply"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__remove_bookmark"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__reply"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__request_standing_consent"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__revoke_mcp_access"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__search"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__search_channels"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__search_users"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__set_thread_label"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__standing_session_status"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__start_standing_session"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__start_thread_session"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__stop_standing_session"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__subscribe_channel"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__subscribe_thread"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__switch_model"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__unpin_message"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__unreact"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__unsubscribe_channel"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__unsubscribe_thread"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__update_channel_plugins"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__update_reply"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__upload_file"
+        }
+      ],
+      "keywordCounts": {
+        "tools": 203,
+        "safety": 50,
+        "planning": 23,
+        "memory": 162,
+        "autonomy": 10,
+        "git": 33
+      },
+      "promptRole": "System Prompt",
+      "captureTarget": "manually imported trace",
+      "captureSource": {
+        "kind": "user-provided trace",
+        "sha256": "924ac7287301147ade1212eb5b917bd50dc2dda91ab11fff283e74ffc894062d"
+      },
+      "redactions": [
+        "authorization and session headers",
+        "organization and user metadata",
+        "email addresses and local paths",
+        "the captured user message",
+        "private channel memory content",
+        "private Claude session links"
+      ],
+      "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
+    },
+    {
+      "order": 6,
       "id": "grok",
       "name": "Grok Build",
-      "version": "1.0.34",
+      "version": "1.0.40",
       "package": "@xai-official/grok",
-      "publishedAt": "2026-09-16T04:15:07.803Z",
-      "capturedAt": "2026-09-16T17:14:41.608864+00:00",
-      "versionCount": 135,
-      "snapshotCount": 135,
+      "publishedAt": "2026-09-20T23:48:33.620Z",
+      "capturedAt": "2026-09-21T05:20:39.513651+00:00",
+      "versionCount": 136,
+      "snapshotCount": 136,
       "variant": {
         "id": "default",
         "label": "Default",
         "dimensions": {},
         "observed": {
           "model": "grok-build",
-          "tool_count": 26
+          "tool_count": 26,
+          "provider": "openai-responses"
         }
       },
       "availableVariants": [
@@ -1116,33 +2042,51 @@
           "dimensions": {},
           "observed": {
             "model": "grok-build",
-            "tool_count": 26
+            "tool_count": 26,
+            "provider": "openai-responses"
           },
-          "prompt": "captures/grok/1.0.34/variants/default/prompt.md",
-          "trace": "captures/grok/1.0.34/variants/default/trace.jsonl",
+          "prompt": "captures/grok/1.0.40/variants/default/prompt.md",
+          "trace": "captures/grok/1.0.40/variants/default/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/grok/default.md",
-          "sha256": "ab9c194faf45aaca3651da38475083240f522100da23ccc4cb020bef05ef8796",
-          "bytes": 59124,
-          "characters": 59072
+          "sha256": "58007e309108f1741b207baffb10f5ae6dd1a57551d590bfdd272eee5718ae76",
+          "bytes": 63041,
+          "characters": 62974
         }
       ],
       "promptPath": "data/prompts/grok.md",
-      "sourcePromptPath": "captures/grok/1.0.34/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/grok/1.0.34/variants/default/prompt.md",
+      "sourcePromptPath": "captures/grok/1.0.40/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/grok/1.0.40/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/grok.png",
-      "sha256": "ab9c194faf45aaca3651da38475083240f522100da23ccc4cb020bef05ef8796",
-      "bytes": 59124,
-      "characters": 59072,
-      "lines": 1403,
+      "sha256": "58007e309108f1741b207baffb10f5ae6dd1a57551d590bfdd272eee5718ae76",
+      "bytes": 63041,
+      "characters": 62974,
+      "lines": 1527,
       "headings": [
         {
           "level": 1,
           "text": "System Prompt"
         },
         {
+          "level": 2,
+          "text": "Block 1 · system message"
+        },
+        {
           "level": 1,
-          "text": "User Message"
+          "text": "Messages"
+        },
+        {
+          "level": 2,
+          "text": "Message 1 · user · text"
+        },
+        {
+          "level": 2,
+          "text": "Message 2 · user · system-reminder"
+        },
+        {
+          "level": 2,
+          "text": "Message 3 · user · text"
         },
         {
           "level": 1,
@@ -1278,19 +2222,21 @@
         }
       ],
       "keywordCounts": {
-        "tools": 41,
-        "safety": 3,
-        "planning": 17,
-        "memory": 8,
+        "tools": 34,
+        "safety": 7,
+        "planning": 15,
+        "memory": 9,
         "autonomy": 5,
-        "git": 3
+        "git": 4
       },
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
+      "captureSource": null,
+      "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 6,
+      "order": 7,
       "id": "minimax-code",
       "name": "MiniMax Code",
       "version": "3.0.73",
@@ -1305,7 +2251,8 @@
         "dimensions": {},
         "observed": {
           "model": "minimax-code-capture",
-          "tool_count": 20
+          "tool_count": 20,
+          "provider": "anthropic"
         }
       },
       "availableVariants": [
@@ -1315,25 +2262,27 @@
           "dimensions": {},
           "observed": {
             "model": "minimax-code-capture",
-            "tool_count": 20
+            "tool_count": 20,
+            "provider": "anthropic"
           },
           "prompt": "captures/minimax-code/3.0.73/variants/default/prompt.md",
           "trace": "captures/minimax-code/3.0.73/variants/default/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/minimax-code/default.md",
-          "sha256": "30308e4dffdf7fdb7b270a0b52fb747d5c70e915686a499be64dbc962187b479",
-          "bytes": 70930,
-          "characters": 70700
+          "sha256": "f3072604c4fa9a3b628f4dfb574433a35416b2bc8280836b463f23ddd3c55de4",
+          "bytes": 70990,
+          "characters": 70756
         }
       ],
       "promptPath": "data/prompts/minimax-code.md",
       "sourcePromptPath": "captures/minimax-code/3.0.73/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/minimax-code/3.0.73/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/minimax-code/3.0.73/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/minimax-code.svg",
-      "sha256": "30308e4dffdf7fdb7b270a0b52fb747d5c70e915686a499be64dbc962187b479",
-      "bytes": 70930,
-      "characters": 70700,
-      "lines": 1306,
+      "sha256": "f3072604c4fa9a3b628f4dfb574433a35416b2bc8280836b463f23ddd3c55de4",
+      "bytes": 70990,
+      "characters": 70756,
+      "lines": 1310,
       "headings": [
         {
           "level": 1,
@@ -1341,43 +2290,51 @@
         },
         {
           "level": 2,
+          "text": "Block 1 · cached"
+        },
+        {
+          "level": 1,
           "text": "Harness"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Core Judgment"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Communication & Delivery"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Response Style"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Preamble messages"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Final response"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Media Output"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "References"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Environment"
         },
         {
           "level": 1,
-          "text": "User Message"
+          "text": "Messages"
+        },
+        {
+          "level": 2,
+          "text": "Message 1 · user · system-reminder · cached"
         },
         {
           "level": 1,
@@ -1494,25 +2451,28 @@
       },
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
+      "captureSource": null,
+      "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 7,
+      "order": 8,
       "id": "kimi-code",
       "name": "Kimi Code",
-      "version": "2.0.1",
+      "version": "2.0.2",
       "package": "@moonshot-ai/kimi-code",
-      "publishedAt": "2026-09-18T13:21:56.632Z",
-      "capturedAt": "2026-09-18T16:40:38.480613+00:00",
-      "versionCount": 76,
-      "snapshotCount": 76,
+      "publishedAt": "2026-09-19T12:16:26.024Z",
+      "capturedAt": "2026-09-19T14:43:39.253767+00:00",
+      "versionCount": 77,
+      "snapshotCount": 77,
       "variant": {
         "id": "default",
         "label": "Default",
         "dimensions": {},
         "observed": {
           "model": "kimi-for-coding",
-          "tool_count": 25
+          "tool_count": 25,
+          "provider": "openai-chat"
         }
       },
       "availableVariants": [
@@ -1522,25 +2482,27 @@
           "dimensions": {},
           "observed": {
             "model": "kimi-for-coding",
-            "tool_count": 25
+            "tool_count": 25,
+            "provider": "openai-chat"
           },
-          "prompt": "captures/kimi-code/2.0.1/variants/default/prompt.md",
-          "trace": "captures/kimi-code/2.0.1/variants/default/trace.jsonl",
+          "prompt": "captures/kimi-code/2.0.2/variants/default/prompt.md",
+          "trace": "captures/kimi-code/2.0.2/variants/default/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/kimi-code/default.md",
-          "sha256": "63dc6b9b1a2eebffa32083eb6a7b8894b0608309d22a3fbed28fa1a83b62c121",
-          "bytes": 86183,
-          "characters": 85965
+          "sha256": "d4b848bd0044cb0ce4c97c782e5f02104b8836cad5cf88c89af23b002917201c",
+          "bytes": 86182,
+          "characters": 85957
         }
       ],
       "promptPath": "data/prompts/kimi-code.md",
-      "sourcePromptPath": "captures/kimi-code/2.0.1/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/kimi-code/2.0.1/variants/default/prompt.md",
+      "sourcePromptPath": "captures/kimi-code/2.0.2/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/kimi-code/2.0.2/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/kimi-code.png",
-      "sha256": "63dc6b9b1a2eebffa32083eb6a7b8894b0608309d22a3fbed28fa1a83b62c121",
-      "bytes": 86183,
-      "characters": 85965,
-      "lines": 1553,
+      "sha256": "d4b848bd0044cb0ce4c97c782e5f02104b8836cad5cf88c89af23b002917201c",
+      "bytes": 86182,
+      "characters": 85957,
+      "lines": 1564,
       "headings": [
         {
           "level": 1,
@@ -1548,51 +2510,67 @@
         },
         {
           "level": 2,
+          "text": "Block 1 · system message"
+        },
+        {
+          "level": 1,
           "text": "Communicating with the user"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Tool use"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Coding"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Risky actions"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Delivering work"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Context management"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Environment"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Project information"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Skills"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Available skills"
         },
         {
-          "level": 4,
+          "level": 3,
           "text": "Built-in"
         },
         {
           "level": 1,
-          "text": "User Message"
+          "text": "Messages"
+        },
+        {
+          "level": 2,
+          "text": "Message 1 · user · text"
+        },
+        {
+          "level": 2,
+          "text": "Message 2 · user · system-reminder"
+        },
+        {
+          "level": 2,
+          "text": "Message 3 · user · system-reminder"
         },
         {
           "level": 1,
@@ -1777,10 +2755,12 @@
       },
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
+      "captureSource": null,
+      "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 8,
+      "order": 9,
       "id": "mimo",
       "name": "MiMo Code",
       "version": "0.1.14",
@@ -1795,7 +2775,8 @@
         "dimensions": {},
         "observed": {
           "model": "gpt-4.1",
-          "tool_count": 1
+          "tool_count": 1,
+          "provider": "openai-responses"
         }
       },
       "availableVariants": [
@@ -1805,33 +2786,43 @@
           "dimensions": {},
           "observed": {
             "model": "gpt-4.1",
-            "tool_count": 1
+            "tool_count": 1,
+            "provider": "openai-responses"
           },
           "prompt": "captures/mimo/0.1.14/variants/default/prompt.md",
           "trace": "captures/mimo/0.1.14/variants/default/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/mimo/default.md",
-          "sha256": "868e0ea14c847f304305d4d769fe41415859a7bb25aa567d1d186aa2ba574bb5",
-          "bytes": 3277,
-          "characters": 3253
+          "sha256": "dcd2c48951d2444a593a845aaff977bd558e297403b3c3781f7ada9e76702a8a",
+          "bytes": 3339,
+          "characters": 3312
         }
       ],
       "promptPath": "data/prompts/mimo.md",
       "sourcePromptPath": "captures/mimo/0.1.14/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/mimo/0.1.14/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/mimo/0.1.14/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/mimo.png",
-      "sha256": "868e0ea14c847f304305d4d769fe41415859a7bb25aa567d1d186aa2ba574bb5",
-      "bytes": 3277,
-      "characters": 3253,
-      "lines": 87,
+      "sha256": "dcd2c48951d2444a593a845aaff977bd558e297403b3c3781f7ada9e76702a8a",
+      "bytes": 3339,
+      "characters": 3312,
+      "lines": 91,
       "headings": [
         {
           "level": 1,
           "text": "System Prompt"
         },
         {
+          "level": 2,
+          "text": "Block 1 · system message"
+        },
+        {
           "level": 1,
-          "text": "User Message"
+          "text": "Messages"
+        },
+        {
+          "level": 2,
+          "text": "Message 1 · user · input_text"
         },
         {
           "level": 1,
@@ -1852,10 +2843,12 @@
       },
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
+      "captureSource": null,
+      "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 9,
+      "order": 10,
       "id": "openclaw",
       "name": "OpenClaw",
       "version": "2026.9.5",
@@ -1870,7 +2863,8 @@
         "dimensions": {},
         "observed": {
           "model": "phistory-dummy",
-          "tool_count": 57
+          "tool_count": 57,
+          "provider": "openai-responses"
         }
       },
       "availableVariants": [
@@ -1880,301 +2874,315 @@
           "dimensions": {},
           "observed": {
             "model": "phistory-dummy",
-            "tool_count": 57
+            "tool_count": 57,
+            "provider": "openai-responses"
           },
           "prompt": "captures/openclaw/2026.9.5/variants/default/prompt.md",
           "trace": "captures/openclaw/2026.9.5/variants/default/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/openclaw/default.md",
-          "sha256": "ae7b76b7504f5b67f12d9c4c020eba8b02f5abbd9209af23dd067668339546d2",
-          "bytes": 184406,
-          "characters": 184354
+          "sha256": "8977c4f43fd39aeb6602a777f25304369fb8a1049acad8a2fa79ab33940f515c",
+          "bytes": 184437,
+          "characters": 184380
         }
       ],
       "promptPath": "data/prompts/openclaw.md",
       "sourcePromptPath": "captures/openclaw/2026.9.5/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/openclaw/2026.9.5/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/openclaw/2026.9.5/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/openclaw.png",
-      "sha256": "ae7b76b7504f5b67f12d9c4c020eba8b02f5abbd9209af23dd067668339546d2",
-      "bytes": 184406,
-      "characters": 184354,
-      "lines": 5505,
+      "sha256": "8977c4f43fd39aeb6602a777f25304369fb8a1049acad8a2fa79ab33940f515c",
+      "bytes": 184437,
+      "characters": 184380,
+      "lines": 5511,
       "headings": [
         {
           "level": 1,
           "text": "System Prompt"
         },
         {
-          "level": 3,
+          "level": 2,
+          "text": "Block 1 · system message"
+        },
+        {
+          "level": 2,
           "text": "Tooling"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Tool Call Style"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Execution Bias"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Promised Work"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Safety"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Runtime Context"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "OpenClaw Control"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Skills"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Skill Workshop"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Memory Recall"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Workspace"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Documentation"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Bootstrap Pending"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Workspace Files (injected)"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Project Context"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "$PHISTORY_HOME/.openclaw/workspace/AGENTS.md"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "AGENTS.md - Your Workspace"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "First Run"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Session Startup"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Memory"
         },
         {
-          "level": 4,
+          "level": 3,
           "text": "USER.md - Durable User Directives"
         },
         {
-          "level": 4,
+          "level": 3,
           "text": "MEMORY.md - Durable Facts and Decisions"
         },
         {
-          "level": 4,
+          "level": 3,
           "text": "Write It Down"
         },
         {
-          "level": 4,
+          "level": 3,
           "text": "Memory Maintenance"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Red Lines"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Existing Solutions Preflight"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "External vs Internal"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Group Chats"
         },
         {
-          "level": 4,
+          "level": 3,
           "text": "Know When to Speak"
         },
         {
-          "level": 4,
+          "level": 3,
           "text": "React Like a Human"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Tools"
         },
         {
-          "level": 4,
+          "level": 3,
           "text": "Local notes"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Automations - Be Proactive"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Make It Yours"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Related"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "$PHISTORY_HOME/.openclaw/workspace/SOUL.md"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "SOUL.md - Who You Are"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Core Truths"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Boundaries"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Vibe"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Continuity"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Related"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "$PHISTORY_HOME/.openclaw/workspace/IDENTITY.md"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "IDENTITY.md - Who Am I?"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Related"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "$PHISTORY_HOME/.openclaw/workspace/USER.md"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "USER.md - User Model"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Directives"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Related"
-        },
-        {
-          "level": 3,
-          "text": "$PHISTORY_HOME/.openclaw/workspace/BOOTSTRAP.md"
         },
         {
           "level": 2,
+          "text": "$PHISTORY_HOME/.openclaw/workspace/BOOTSTRAP.md"
+        },
+        {
+          "level": 1,
           "text": "BOOTSTRAP.md - Birth Sequence"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "1. Ask What to Call You"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "2. Choose Your Vibe"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "3. Choose Your Avatar"
         },
         {
-          "level": 4,
+          "level": 3,
           "text": "Save Your Identity"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "4. Finish With Recommendations"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "5. One Safety Note"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Related"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Temporal Context"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Delegation"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Assistant Output Directives"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Silent Replies"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "UI Presentation"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Messaging"
         },
         {
-          "level": 4,
+          "level": 3,
           "text": "message tool"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Conversation Context"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Runtime"
         },
         {
           "level": 1,
-          "text": "User Message"
+          "text": "Messages"
+        },
+        {
+          "level": 2,
+          "text": "Message 1 · user · input_text"
+        },
+        {
+          "level": 2,
+          "text": "Message 2 · user · input_text"
         },
         {
           "level": 1,
@@ -2419,25 +3427,28 @@
       },
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
+      "captureSource": null,
+      "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 10,
+      "order": 11,
       "id": "hermes",
       "name": "Hermes Agent",
-      "version": "v2026.9.14",
+      "version": "v2026.9.21",
       "package": "NousResearch/hermes-agent",
-      "publishedAt": "2026-09-14T16:04:14Z",
-      "capturedAt": "2026-09-14T17:03:32.220149+00:00",
-      "versionCount": 32,
-      "snapshotCount": 32,
+      "publishedAt": "2026-09-21T18:10:55Z",
+      "capturedAt": "2026-09-21T18:46:54.974050+00:00",
+      "versionCount": 33,
+      "snapshotCount": 33,
       "variant": {
         "id": "default",
         "label": "Default",
         "dimensions": {},
         "observed": {
+          "provider": "openai-chat",
           "model": "phistory-dummy",
-          "tool_count": 25
+          "tool_count": 24
         }
       },
       "availableVariants": [
@@ -2446,26 +3457,28 @@
           "label": "Default",
           "dimensions": {},
           "observed": {
+            "provider": "openai-chat",
             "model": "phistory-dummy",
-            "tool_count": 25
+            "tool_count": 24
           },
-          "prompt": "captures/hermes/v2026.9.14/variants/default/prompt.md",
-          "trace": "captures/hermes/v2026.9.14/variants/default/trace.jsonl",
+          "prompt": "captures/hermes/v2026.9.21/variants/default/prompt.md",
+          "trace": "captures/hermes/v2026.9.21/variants/default/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/hermes/default.md",
-          "sha256": "ff19fe20d3a5bae9bb900b54c07d4996ddc5d60328795b8f56b1b3a52ff30a4e",
-          "bytes": 55943,
-          "characters": 55771
+          "sha256": "1d9f11aaa5e6f7f9014f8fbf1a5f1b6a134801d02ff5276d1c4cdcf03178f588",
+          "bytes": 53166,
+          "characters": 53005
         }
       ],
       "promptPath": "data/prompts/hermes.md",
-      "sourcePromptPath": "captures/hermes/v2026.9.14/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/hermes/v2026.9.14/variants/default/prompt.md",
+      "sourcePromptPath": "captures/hermes/v2026.9.21/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/hermes/v2026.9.21/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/hermes.png",
-      "sha256": "ff19fe20d3a5bae9bb900b54c07d4996ddc5d60328795b8f56b1b3a52ff30a4e",
-      "bytes": 55943,
-      "characters": 55771,
-      "lines": 1048,
+      "sha256": "1d9f11aaa5e6f7f9014f8fbf1a5f1b6a134801d02ff5276d1c4cdcf03178f588",
+      "bytes": 53166,
+      "characters": 53005,
+      "lines": 983,
       "headings": [
         {
           "level": 1,
@@ -2473,31 +3486,35 @@
         },
         {
           "level": 2,
+          "text": "Block 1 · system message"
+        },
+        {
+          "level": 1,
           "text": "Finishing the job"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Parallel tool calls"
         },
         {
-          "level": 3,
-          "text": "Skill Safety Rule"
-        },
-        {
-          "level": 3,
+          "level": 2,
           "text": "Mid-turn user steering"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Skills"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Hermes runtime environment"
         },
         {
           "level": 1,
-          "text": "User Message"
+          "text": "Messages"
+        },
+        {
+          "level": 2,
+          "text": "Message 1 · user · text"
         },
         {
           "level": 1,
@@ -2557,10 +3574,6 @@
         },
         {
           "level": 2,
-          "text": "skill_manage"
-        },
-        {
-          "level": 2,
           "text": "skill_view"
         },
         {
@@ -2605,34 +3618,37 @@
         }
       ],
       "keywordCounts": {
-        "tools": 54,
-        "safety": 2,
-        "planning": 7,
-        "memory": 29,
+        "tools": 53,
+        "safety": 1,
+        "planning": 6,
+        "memory": 27,
         "autonomy": 5,
         "git": 1
       },
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
+      "captureSource": null,
+      "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 11,
+      "order": 12,
       "id": "kimi",
       "name": "Kimi CLI",
-      "version": "1.50.0",
+      "version": "1.51.0",
       "package": "MoonshotAI/kimi-cli",
-      "publishedAt": "2026-09-01T16:53:20Z",
-      "capturedAt": "2026-09-01T17:26:02.987502+00:00",
-      "versionCount": 22,
-      "snapshotCount": 22,
+      "publishedAt": "2026-09-21T16:02:35Z",
+      "capturedAt": "2026-09-21T17:12:32.530144+00:00",
+      "versionCount": 23,
+      "snapshotCount": 23,
       "variant": {
         "id": "default",
         "label": "Default",
         "dimensions": {},
         "observed": {
           "model": "gpt-4.1",
-          "tool_count": 15
+          "tool_count": 15,
+          "provider": "openai-responses"
         }
       },
       "availableVariants": [
@@ -2642,89 +3658,99 @@
           "dimensions": {},
           "observed": {
             "model": "gpt-4.1",
-            "tool_count": 15
+            "tool_count": 15,
+            "provider": "openai-responses"
           },
-          "prompt": "captures/kimi/1.50.0/variants/default/prompt.md",
-          "trace": "captures/kimi/1.50.0/variants/default/trace.jsonl",
+          "prompt": "captures/kimi/1.51.0/variants/default/prompt.md",
+          "trace": "captures/kimi/1.51.0/variants/default/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/kimi/default.md",
-          "sha256": "61a7316388aee2fcf94cf56461ea9d427a776d10f72989a3c64dce913eaeb369",
-          "bytes": 52113,
-          "characters": 52057
+          "sha256": "be7e6d779f123b599a4d8b3695cbd696121af233ee76445d8bbd69a5eca0a496",
+          "bytes": 52161,
+          "characters": 52102
         }
       ],
       "promptPath": "data/prompts/kimi.md",
-      "sourcePromptPath": "captures/kimi/1.50.0/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/kimi/1.50.0/variants/default/prompt.md",
+      "sourcePromptPath": "captures/kimi/1.51.0/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/kimi/1.51.0/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/kimi.png",
-      "sha256": "61a7316388aee2fcf94cf56461ea9d427a776d10f72989a3c64dce913eaeb369",
-      "bytes": 52113,
-      "characters": 52057,
-      "lines": 1089,
+      "sha256": "be7e6d779f123b599a4d8b3695cbd696121af233ee76445d8bbd69a5eca0a496",
+      "bytes": 52161,
+      "characters": 52102,
+      "lines": 1093,
       "headings": [
         {
           "level": 1,
-          "text": "Developer Prompt"
+          "text": "System Prompt"
         },
         {
           "level": 2,
+          "text": "Block 1 · developer message"
+        },
+        {
+          "level": 1,
           "text": "Prompt and Tool Use"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "General Guidelines for Coding"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "General Guidelines for Research and Data Processing"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Working Environment"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Operating System"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Date and Time"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Working Directory"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Project Information"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Skills"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "What are skills?"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Available skills"
         },
         {
-          "level": 4,
+          "level": 3,
           "text": "Built-in"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "How to use skills"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Ultimate Reminders"
         },
         {
           "level": 1,
-          "text": "User Message"
+          "text": "Messages"
+        },
+        {
+          "level": 2,
+          "text": "Message 1 · user · input_text"
         },
         {
           "level": 1,
@@ -2819,25 +3845,28 @@
         "autonomy": 6,
         "git": 6
       },
-      "promptRole": "Developer Prompt",
+      "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
+      "captureSource": null,
+      "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 12,
+      "order": 13,
       "id": "opencode",
       "name": "opencode",
-      "version": "1.18.31",
+      "version": "1.18.32",
       "package": "opencode-ai",
-      "publishedAt": "2026-09-14T17:47:43.078Z",
-      "capturedAt": "2026-09-14T21:02:29.192895+00:00",
-      "versionCount": 115,
-      "snapshotCount": 115,
+      "publishedAt": "2026-09-21T22:50:42.463Z",
+      "capturedAt": "2026-09-22T00:15:20.213894+00:00",
+      "versionCount": 116,
+      "snapshotCount": 116,
       "variant": {
         "id": "default",
         "label": "Default",
         "dimensions": {},
         "observed": {
+          "provider": "openai-responses",
           "model": "gpt-4.1",
           "tool_count": 10
         }
@@ -2848,26 +3877,28 @@
           "label": "Default",
           "dimensions": {},
           "observed": {
+            "provider": "openai-responses",
             "model": "gpt-4.1",
             "tool_count": 10
           },
-          "prompt": "captures/opencode/1.18.31/variants/default/prompt.md",
-          "trace": "captures/opencode/1.18.31/variants/default/trace.jsonl",
+          "prompt": "captures/opencode/1.18.32/variants/default/prompt.md",
+          "trace": "captures/opencode/1.18.32/variants/default/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/opencode/default.md",
-          "sha256": "5348ae8c3fad4d026d7a7658c8cd24b451f6343f9162e5d30ee2da11e96c70fe",
-          "bytes": 32736,
-          "characters": 32734
+          "sha256": "8f53361bf2895cbfc8e25475d624316c0abf2ccd4c76465919b67cb4eda490b1",
+          "bytes": 32785,
+          "characters": 32780
         }
       ],
       "promptPath": "data/prompts/opencode.md",
-      "sourcePromptPath": "captures/opencode/1.18.31/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/opencode/1.18.31/variants/default/prompt.md",
+      "sourcePromptPath": "captures/opencode/1.18.32/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/opencode/1.18.32/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/opencode.png",
-      "sha256": "5348ae8c3fad4d026d7a7658c8cd24b451f6343f9162e5d30ee2da11e96c70fe",
-      "bytes": 32736,
-      "characters": 32734,
-      "lines": 645,
+      "sha256": "8f53361bf2895cbfc8e25475d624316c0abf2ccd4c76465919b67cb4eda490b1",
+      "bytes": 32785,
+      "characters": 32780,
+      "lines": 649,
       "headings": [
         {
           "level": 1,
@@ -2875,59 +3906,67 @@
         },
         {
           "level": 2,
+          "text": "Block 1 · system message"
+        },
+        {
+          "level": 1,
           "text": "Workflow"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "1. Fetch Provided URLs"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "2. Deeply Understand the Problem"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "3. Codebase Investigation"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "4. Internet Research"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "5. Develop a Detailed Plan"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "6. Making Code Changes"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "7. Debugging"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Communication Guidelines"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Memory"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Reading Files and Folders"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Writing Prompts"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Git"
         },
         {
           "level": 1,
-          "text": "User Message"
+          "text": "Messages"
+        },
+        {
+          "level": 2,
+          "text": "Message 1 · user · input_text"
         },
         {
           "level": 1,
@@ -3008,25 +4047,28 @@
       },
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
+      "captureSource": null,
+      "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 13,
+      "order": 14,
       "id": "pi",
       "name": "Pi",
-      "version": "0.85.1",
+      "version": "0.87.0",
       "package": "@earendil-works/pi-coding-agent",
-      "publishedAt": "2026-09-05T12:17:19.281Z",
-      "capturedAt": "2026-09-05T13:05:08.660769+00:00",
-      "versionCount": 45,
-      "snapshotCount": 45,
+      "publishedAt": "2026-09-21T16:51:53.584Z",
+      "capturedAt": "2026-09-21T17:12:43.910569+00:00",
+      "versionCount": 48,
+      "snapshotCount": 48,
       "variant": {
         "id": "default",
         "label": "Default",
         "dimensions": {},
         "observed": {
           "model": "gpt-4.1",
-          "tool_count": 4
+          "tool_count": 4,
+          "provider": "openai-responses"
         }
       },
       "availableVariants": [
@@ -3036,33 +4078,43 @@
           "dimensions": {},
           "observed": {
             "model": "gpt-4.1",
-            "tool_count": 4
+            "tool_count": 4,
+            "provider": "openai-responses"
           },
-          "prompt": "captures/pi/0.85.1/variants/default/prompt.md",
-          "trace": "captures/pi/0.85.1/variants/default/trace.jsonl",
+          "prompt": "captures/pi/0.87.0/variants/default/prompt.md",
+          "trace": "captures/pi/0.87.0/variants/default/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/pi/default.md",
-          "sha256": "c3270fb4e0132a0c3227e448b5bdd5828934ce1fb103b1c885725aacf681fbb6",
-          "bytes": 5827,
-          "characters": 5827
+          "sha256": "763fb7c7d3fef270b0dc65bff947426c52c86f2d133c1c038e913d269e5237fe",
+          "bytes": 5896,
+          "characters": 5893
         }
       ],
       "promptPath": "data/prompts/pi.md",
-      "sourcePromptPath": "captures/pi/0.85.1/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/pi/0.85.1/variants/default/prompt.md",
+      "sourcePromptPath": "captures/pi/0.87.0/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/pi/0.87.0/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/pi.png",
-      "sha256": "c3270fb4e0132a0c3227e448b5bdd5828934ce1fb103b1c885725aacf681fbb6",
-      "bytes": 5827,
-      "characters": 5827,
-      "lines": 154,
+      "sha256": "763fb7c7d3fef270b0dc65bff947426c52c86f2d133c1c038e913d269e5237fe",
+      "bytes": 5896,
+      "characters": 5893,
+      "lines": 165,
       "headings": [
         {
           "level": 1,
           "text": "System Prompt"
         },
         {
+          "level": 2,
+          "text": "Block 1 · system message"
+        },
+        {
           "level": 1,
-          "text": "User Message"
+          "text": "Messages"
+        },
+        {
+          "level": 2,
+          "text": "Message 1 · user · input_text"
         },
         {
           "level": 1,
@@ -3086,7 +4138,7 @@
         }
       ],
       "keywordCounts": {
-        "tools": 5,
+        "tools": 6,
         "safety": 0,
         "planning": 0,
         "memory": 0,
@@ -3095,23 +4147,26 @@
       },
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
+      "captureSource": null,
+      "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 14,
+      "order": 15,
       "id": "omp",
       "name": "Oh My Pi",
-      "version": "18.2.6",
+      "version": "18.2.8",
       "package": "@oh-my-pi/pi-coding-agent",
-      "publishedAt": "2026-09-18T18:17:53.560Z",
-      "capturedAt": "2026-09-18T19:55:24.585194+00:00",
-      "versionCount": 103,
-      "snapshotCount": 103,
+      "publishedAt": "2026-09-21T17:42:15.710Z",
+      "capturedAt": "2026-09-21T18:47:06.753372+00:00",
+      "versionCount": 105,
+      "snapshotCount": 105,
       "variant": {
         "id": "default",
         "label": "Default",
         "dimensions": {},
         "observed": {
+          "provider": "openai-responses",
           "model": "gpt-4.1",
           "tool_count": 11
         }
@@ -3122,26 +4177,28 @@
           "label": "Default",
           "dimensions": {},
           "observed": {
+            "provider": "openai-responses",
             "model": "gpt-4.1",
             "tool_count": 11
           },
-          "prompt": "captures/omp/18.2.6/variants/default/prompt.md",
-          "trace": "captures/omp/18.2.6/variants/default/trace.jsonl",
+          "prompt": "captures/omp/18.2.8/variants/default/prompt.md",
+          "trace": "captures/omp/18.2.8/variants/default/trace.jsonl",
+          "traceRedacted": false,
           "localPromptPath": "data/variants/omp/default.md",
-          "sha256": "70b8276a83df80b10a2acad9a67ea244f0417e0a8740671ffa48cf6e7099916f",
-          "bytes": 72765,
-          "characters": 72301
+          "sha256": "acdf2d5015a20d6caab67a8a2af872be96b7c3112418394ad180a7a81047f53d",
+          "bytes": 78329,
+          "characters": 77831
         }
       ],
       "promptPath": "data/prompts/omp.md",
-      "sourcePromptPath": "captures/omp/18.2.6/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/454c869990df9563ed894971b6e0d04424c186a8/captures/omp/18.2.6/variants/default/prompt.md",
+      "sourcePromptPath": "captures/omp/18.2.8/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/a1fc4ad1f72ad6bf98a2c85b3f0b00cda33190d8/captures/omp/18.2.8/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/omp.svg",
-      "sha256": "70b8276a83df80b10a2acad9a67ea244f0417e0a8740671ffa48cf6e7099916f",
-      "bytes": 72765,
-      "characters": 72301,
-      "lines": 1806,
+      "sha256": "acdf2d5015a20d6caab67a8a2af872be96b7c3112418394ad180a7a81047f53d",
+      "bytes": 78329,
+      "characters": 77831,
+      "lines": 1858,
       "headings": [
         {
           "level": 1,
@@ -3149,123 +4206,135 @@
         },
         {
           "level": 2,
+          "text": "Block 1"
+        },
+        {
+          "level": 1,
           "text": "Engineering"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Personality"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Tone"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Reasoning Format"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Succinct Patterns"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Escalation"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Skills & Rules"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Internal URLs"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Tool Inventory"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "xd:// Tool Devices"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "ast_edit — AST Edit"
         },
         {
-          "level": 4,
+          "level": 3,
           "text": "Schema"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "debug — Debug"
         },
         {
-          "level": 4,
+          "level": 3,
           "text": "Schema"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "lsp — LSP"
         },
         {
-          "level": 4,
+          "level": 3,
           "text": "Schema"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "General"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Tool I/O"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Specialized Tools"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Exploration"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "AST"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "Delegation"
         },
         {
-          "level": 3,
+          "level": 2,
           "text": "Delegation gates"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "1. Scope"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "2. Research Before Editing"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "3. Decompose"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "4. Implement"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "5. Verify"
         },
         {
-          "level": 2,
+          "level": 1,
           "text": "6. Cleanup"
         },
         {
           "level": 1,
-          "text": "User Message"
+          "text": "Messages"
+        },
+        {
+          "level": 2,
+          "text": "Message 1 · user · system-reminder"
+        },
+        {
+          "level": 2,
+          "text": "Message 2 · user · input_text"
         },
         {
           "level": 1,
@@ -3565,7 +4634,7 @@
         }
       ],
       "keywordCounts": {
-        "tools": 60,
+        "tools": 61,
         "safety": 1,
         "planning": 26,
         "memory": 19,
@@ -3574,6 +4643,8 @@
       },
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
+      "captureSource": null,
+      "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     }
   ]

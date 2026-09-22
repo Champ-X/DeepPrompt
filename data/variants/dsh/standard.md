@@ -1,5 +1,7 @@
 # System Prompt
 
+## Block 1 · system message
+
 You are an AI agent powered by DeepSeek Harness.
 
 You are a coding agent powered by the deepseek-flash model.
@@ -42,9 +44,13 @@ You are interacting with the user through the DeepSeek Harness Web GUI at http:/
 
 Your working directory is $PHISTORY_WORKSPACE.
 
-# User Message
+# Messages
+
+## Message 1 · user · text
 
 Reply with one short sentence.
+
+## Message 2 · user · text
 
 Current runtime context. This snapshot supersedes earlier runtime-context snapshots.
 

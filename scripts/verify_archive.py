@@ -8,7 +8,7 @@ from html import unescape
 
 from annotations import ANNOTATIONS_PATH, load_annotations
 from editorial import render_editorial
-from rebuild_archive import Highlight, render_prompt, replace_agent_prose
+from rebuild_archive import Highlight, display_version, render_prompt, replace_agent_prose
 import json
 import re
 import sys
@@ -147,7 +147,7 @@ class ArchiveParser(HTMLParser):
                 self.capture_chunks = []
         if self._metadata_agent and tag == "span":
             text = "".join(self._metadata_chunks).strip()
-            if re.fullmatch(r"v\S+", text):
+            if re.fullmatch(r"v\S+|\d{4}-\d{2}-\d{2}", text):
                 self.stated_meta[self._metadata_agent]["version"] = text
             elif text.endswith("字节"):
                 self.stated_meta[self._metadata_agent]["bytes"] = text
@@ -288,7 +288,7 @@ def main() -> None:
                 f"{parser.highlights[agent_id]} highlights vs {parser.notes[agent_id]} notes"
             )
         stated = parser.stated_meta[agent_id]
-        expected_version = agent["version"] if agent["version"].startswith("v") else f"v{agent['version']}"
+        expected_version = display_version(agent["version"])
         if stated.get("version") != expected_version:
             fail(
                 f"version metadata mismatch for {agent_id}: "

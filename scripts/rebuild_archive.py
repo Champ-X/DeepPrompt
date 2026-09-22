@@ -204,7 +204,7 @@ def update_fragment(
 
 
 def display_version(version: str) -> str:
-    return version if version.startswith("v") else f"v{version}"
+    return version if version.startswith("v") or re.fullmatch(r"\d{4}-\d{2}-\d{2}", version) else f"v{version}"
 
 
 def update_metadata(
@@ -219,6 +219,9 @@ def update_metadata(
     total_bytes = sum(agent["bytes"] for agent in manifest["agents"])
     total_notes = sum(note_counts.values())
     agent_count = len(manifest["agents"])
+    source = re.sub(r'(\d+)( / archive nodes)', rf'{agent_count}\g<2>', source)
+    source = re.sub(r'(<button class="acard"[^>]*?)(?: data-agent-count="\d+")?>',
+                    lambda match: match[1] + f' data-agent-count="{agent_count}">', source)
     source = re.sub(
         r'(name="description" content=")\d+( 款)',
         rf"\g<1>{agent_count}\g<2>",
@@ -358,8 +361,8 @@ def update_metadata(
                 count=1,
             )
             fragment = re.sub(
-                r'(<span class="mh-chip">发布 )[^<]+',
-                rf"\g<1>{agent['publishedAt'][:10]}",
+                r'<span class="mh-chip">(?:发布|捕获) [^<]+',
+                '<span class="mh-chip">' + ('捕获 ' if agent.get('captureSource') else '发布 ') + agent['publishedAt'][:10],
                 fragment,
                 count=1,
             )
