@@ -108,7 +108,7 @@ Platform: cli
 Host: Linux (6.17.0-1022-azure)
 User home directory: $PHISTORY_HOME
 Current working directory: $PHISTORY_WORKSPACE
-Scratch directory: $PHISTORY_HOME/.hermes/cache/scratch (TMPDIR points here; write temporary files and probes there, never under the system temp dir; entries are pruned after 72h)
+Scratch directory: $PHISTORY_HOME/.hermes/cache/scratch (TMPDIR points here; write temporary files and probes there, never under the system temp dir; entries idle for 24h are pruned)
 
 <!-- End Hermes runtime environment -->
 
@@ -732,6 +732,11 @@ PTY: pty=true + background=true for interactive CLIs (they hang without a termin
           }
         }
       ]
+    },
+    "heartbeat": {
+      "type": "integer",
+      "minimum": 60,
+      "description": "With background=true: also notify every N seconds (min 60) with the output since the last notice. For long jobs you must react to mid-run (merge trains, full suites); implies notify=true."
     }
   },
   "required": [
@@ -835,7 +840,7 @@ Load the full JSON schemas for tools returned by `tool_search`. Required before 
 
 ## tool_search
 
-Search 4 additional tools that are loaded on demand. Takes a list of queries searched in parallel against the same catalog; send one query per distinct capability you need. Returns matching tool names grouped per query plus a shared map with each tool's description. Follow with `tool_describe` to load full parameter schemas, then `tool_call` to invoke. Tools listed at the top of this system prompt are already available and do not need to be searched.
+Search 4 additional tools that are loaded on demand. Takes a list of queries searched in parallel against the same catalog; send one query per distinct capability you need. Queries are keyword searches, not questions: the app or service name plus an action and object, no filler words (`gmail send email`, `nvidia driver status`, not `what's my GPU driver version?`); a word no tool contains makes the query return nothing. Returns matching tool names grouped per query plus a shared map with each tool's description. Follow with `tool_describe` to load full parameter schemas, then `tool_call` to invoke. Tools listed at the top of this system prompt are already available and do not need to be searched.
 
 Every deferred capability is listed below. If a tool name appears here, do NOT claim it is unavailable — load it with `tool_describe` (skip `tool_search` when you already see the exact name).
 
@@ -858,7 +863,7 @@ todo tools (1):
       "items": {
         "type": "string"
       },
-      "description": "Search queries, each a few keywords describing one capability (e.g. ['create github issue', 'send slack message']). Searched in parallel; results come back grouped per query. A single string is accepted and treated as one query."
+      "description": "Keyword queries, one per capability: app or service name + action + object (e.g. ['github create issue', 'slack send message', 'gmail fetch emails']). Not questions or sentences: every word must appear in tool text, or the query returns nothing. Searched in parallel; results come back grouped per query. A single string is accepted and treated as one query."
     },
     "limit": {
       "type": "integer",

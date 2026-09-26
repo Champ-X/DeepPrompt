@@ -45,6 +45,10 @@ class SyncRegressionTests(unittest.TestCase):
                 patch("sys.argv", ["sync_phistory.py", "--source", str(self.source)]):
             sync_phistory.main()
 
+    def site_files(self):
+        return {str(path.relative_to(self.root)): path.read_bytes()
+                for path in self.root.rglob("*") if path.is_file()}
+
     def test_manual_import_without_package_preserves_provenance(self):
         self.run_sync()
         manifest = json.loads((self.root / "data/manifest.json").read_text())
@@ -84,6 +88,98 @@ class SyncRegressionTests(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             self.run_sync()
         self.assertEqual((self.root / "data/prompts/codex.md").read_text(), "reviewed old prompt")
+
+    def test_invalid_later_index_fields_preserve_all_managed_files(self):
+        self.run_sync()
+        before = self.site_files()
+        path = self.source / "captures/index.json"
+        original = json.loads(path.read_text())
+        cases = [
+            ("capture", "published_at", None),
+            ("capture", "captured_at", "not-a-date"),
+            ("capture", "variant_dimensions", []),
+            ("capture", "trace_redacted", "false"),
+            ("agent", "agent", None),
+            ("agent", "snapshots", "2"),
+            ("agent", "versions", False),
+            ("index", "updated_at", "not-a-date"),
+        ]
+        (self.source / "codex.md").write_text("changed before failing later capture")
+        for target, field, value in cases:
+            with self.subTest(target=target, field=field):
+                index = json.loads(json.dumps(original))
+                item = {"capture": index["captures"][-1], "agent": index["agents"][-1],
+                        "index": index}[target]
+                if value is None:
+                    del item[field]
+                else:
+                    item[field] = value
+                path.write_text(json.dumps(index))
+                with self.assertRaises(ValueError):
+                    self.run_sync()
+                self.assertEqual(self.site_files(), before)
+
+    def test_invalid_codex_jsonl_preserves_all_managed_files(self):
+        self.run_sync()
+        before = self.site_files()
+        (self.source / "codex.md").write_text("changed source")
+        for payload in [b'{"ok": true}\nnot json\n', b"\xff", b"\n \n"]:
+            with self.subTest(payload=payload):
+                (self.source / "trace.jsonl").write_bytes(payload)
+                with self.assertRaises(ValueError):
+                    self.run_sync()
+                self.assertEqual(self.site_files(), before)
+
+    def test_unreadable_later_icon_preserves_all_managed_files(self):
+        self.run_sync()
+        before = self.site_files()
+        (self.source / "codex.md").write_text("changed source")
+        (self.source / "docs/agent-icons/claude-tag.svg").mkdir(parents=True)
+        with self.assertRaises(IsADirectoryError):
+            self.run_sync()
+        self.assertEqual(self.site_files(), before)
+
+    def test_success_removes_only_previously_indexed_obsolete_variants(self):
+        path = self.source / "captures/index.json"
+        index = json.loads(path.read_text())
+        index["captures"].append(dict(index["captures"][0], variant_id="old-model"))
+        path.write_text(json.dumps(index))
+        self.run_sync()
+        retired = self.root / "data/variants/codex/old-model.md"
+        self.assertTrue(retired.is_file())
+        unknown = self.root / "data/variants/codex/unindexed.md"
+        unknown.write_text("preserve for explicit review")
+        index["captures"].pop()
+        path.write_text(json.dumps(index))
+        self.run_sync()
+        self.assertFalse(retired.exists())
+        self.assertEqual(unknown.read_text(), "preserve for explicit review")
+        self.assertTrue((self.root / "data/variants/codex/default.md").is_file())
+
+    def test_failed_sync_does_not_remove_old_variants(self):
+        path = self.source / "captures/index.json"
+        index = json.loads(path.read_text())
+        index["captures"].append(dict(index["captures"][0], variant_id="old-model"))
+        path.write_text(json.dumps(index))
+        self.run_sync()
+        before = self.site_files()
+        index["captures"].pop()
+        del index["captures"][-1]["published_at"]
+        path.write_text(json.dumps(index))
+        with self.assertRaises(ValueError):
+            self.run_sync()
+        self.assertEqual(self.site_files(), before)
+
+    def test_unsafe_previous_manifest_path_cannot_be_deleted(self):
+        self.run_sync()
+        path = self.root / "data/manifest.json"
+        manifest = json.loads(path.read_text())
+        manifest["agents"][0]["availableVariants"][0]["localPromptPath"] = "data/prompts/codex.md"
+        path.write_text(json.dumps(manifest))
+        before = self.site_files()
+        with self.assertRaisesRegex(ValueError, "Invalid managed variant path"):
+            self.run_sync()
+        self.assertEqual(self.site_files(), before)
 
 
 if __name__ == "__main__":

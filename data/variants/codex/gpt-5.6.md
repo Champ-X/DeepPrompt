@@ -349,6 +349,7 @@ The `image_gen.imagegen` tool enables image generation from descriptions and edi
 
 Guidelines:
 - imagegen needs a few minutes to finish. In code-mode, use the first-line @exec directive to give the initial call 120 seconds and the same yield for any waits that follow. Once it finishes, return the image with generatedImage(result).
+- Avoid printing the full result or its base64 image data with `text()` or `notify()`; print only small metadata when needed.
 - Omit both `referenced_image_paths` and `num_last_images_to_include` when generating a brand new image.
 - For edits, use `referenced_image_paths` when every target image has a local file path.
 - If you have not seen a local image yet, use `view_image` to inspect it before editing.
@@ -539,11 +540,11 @@ Send a message to an existing agent. Use interrupt=true to redirect work immedia
 
 
         Available model overrides (optional; inherited parent model is preferred):
-- `gpt-6-astra`: Our most capable model for complex, demanding work. Reasoning efforts: low (default), medium, high, xhigh, max, ultra. Service tiers: priority.
-- `gpt-5.6-sol`: Latest frontier agentic coding model. Reasoning efforts: low (default), medium, high, xhigh, max, ultra. Service tiers: priority, ultrafast.
-- `gpt-5.6-terra`: Balanced agentic coding model for everyday work. Reasoning efforts: low, medium (default), high, xhigh, max, ultra. Service tiers: priority.
-- `gpt-5.6-luna`: Fast and affordable agentic coding model. Reasoning efforts: low, medium (default), high, xhigh, max. Service tiers: priority.
-- `gpt-5.5`: Frontier model for complex coding, research, and real-world work. Reasoning efforts: low, medium (default), high, xhigh. Service tiers: priority.
+- `gpt-6-astra`: Frontier intelligence for the most demanding work. Reasoning efforts: low (default), medium, high, xhigh, max, ultra. Service tiers: priority.
+- `gpt-6-sol`: Workhorse model for coding and everyday work. Reasoning efforts: low, medium (default), high, xhigh, max, ultra. Service tiers: priority.
+- `gpt-6-luna`: Fast and affordable model for easier tasks. Reasoning efforts: low, medium (default), high, xhigh, max. Service tiers: priority.
+- `gpt-5.6-sol`: Older coding model for complex work. Reasoning efforts: low (default), medium, high, xhigh, max, ultra. Service tiers: priority.
+- `gpt-5.6-terra`: Older balanced model for straightforward work. Reasoning efforts: low, medium (default), high, xhigh, max, ultra. Service tiers: priority.
         Spawn a sub-agent for a well-scoped task. Returns the spawned agent id plus the user-facing nickname when available. Spawned agents inherit your current model by default. Omit `model` to use that preferred default; set `model` only when an explicit override is needed.
 This spawn_agent tool provides you access to sub-agents that inherit your current model by default. Do not set the `model` field unless the user explicitly asks for a different model. You should follow the rules and guidelines below to use this tool.
 

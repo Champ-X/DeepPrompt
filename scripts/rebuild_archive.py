@@ -207,6 +207,12 @@ def display_version(version: str) -> str:
     return version if version.startswith("v") or re.fullmatch(r"\d{4}-\d{2}-\d{2}", version) else f"v{version}"
 
 
+def display_snapshot_date(agent: dict) -> str:
+    if (agent.get("captureSource") or {}).get("kind") == "user-provided trace":
+        return "捕获 " + agent["capturedAt"][:10]
+    return "发布 " + agent["publishedAt"][:10]
+
+
 def update_metadata(
     shell: str,
     fragments: dict[str, str],
@@ -362,7 +368,7 @@ def update_metadata(
             )
             fragment = re.sub(
                 r'<span class="mh-chip">(?:发布|捕获) [^<]+',
-                '<span class="mh-chip">' + ('捕获 ' if agent.get('captureSource') else '发布 ') + agent['publishedAt'][:10],
+                '<span class="mh-chip">' + display_snapshot_date(agent),
                 fragment,
                 count=1,
             )

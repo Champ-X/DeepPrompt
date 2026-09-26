@@ -7,7 +7,6 @@ import argparse
 import hashlib
 import json
 import re
-import shutil
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
@@ -61,29 +60,80 @@ def select_default(captures: list[dict]) -> dict:
     return captures[variants.index("default")]
 
 
-def copy_icon(source: Path, agent_id: str, destination: Path) -> str | None:
+def prepare_icon(source: Path, agent_id: str, files: dict[Path, bytes]) -> str | None:
     candidates = sorted((source / "docs" / "agent-icons").glob(f"{agent_id}.*"))
     if not candidates:
         return None
     icon = candidates[0]
-    target = destination / icon.name
-    shutil.copyfile(icon, target)
+    files[ROOT / "agent-icons" / icon.name] = icon.read_bytes()
     return f"agent-icons/{icon.name}"
 
 
-def preflight_captures(source: Path, captures: list[dict]) -> dict[str, dict]:
+def required_string(item: dict, field: str) -> str:
+    value = item.get(field)
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"Missing or invalid {field}")
+    return value
+
+
+def validate_identity(value: str) -> None:
+    if not isinstance(value, str) or not re.fullmatch(r"[a-zA-Z0-9][a-zA-Z0-9._-]*", value):
+        raise ValueError(f"Invalid archive identity: {value!r}")
+
+
+def validate_date(item: dict, field: str) -> None:
+    datetime.fromisoformat(required_string(item, field).replace("Z", "+00:00"))
+
+
+def preflight_captures(source: Path, captures: list[dict]) -> dict[str, tuple[bytes, dict]]:
     """Check all selected evidence before replacing any local snapshot."""
-    metadata = {}
+    prepared = {}
     for capture in captures:
-        (source / capture["prompt"]).read_text(encoding="utf-8")
-        meta = json.loads((source / capture["meta"]).read_text(encoding="utf-8"))
-        if not isinstance(meta, dict) or not isinstance(meta.get("target"), str):
+        prompt_path = required_string(capture, "prompt")
+        meta_path = required_string(capture, "meta")
+        payload = (source / prompt_path).read_bytes()
+        payload.decode("utf-8")
+        validate_date(capture, "published_at")
+        validate_date(capture, "captured_at")
+        validate_identity(capture.get("variant_id", "default"))
+        if "variant_label" in capture:
+            required_string(capture, "variant_label")
+        for field in ("variant_dimensions", "observed"):
+            if not isinstance(capture.get(field, {}), dict):
+                raise ValueError(f"Invalid {field}: {prompt_path}")
+        if type(capture.get("trace_redacted", False)) is not bool:
+            raise ValueError(f"Invalid trace_redacted: {prompt_path}")
+        if capture.get("trace") is not None:
+            required_string(capture, "trace")
+        meta = json.loads((source / meta_path).read_text(encoding="utf-8"))
+        if not isinstance(meta, dict):
             raise ValueError(f"Missing capture target: {capture['meta']}")
+        required_string(meta, "target")
         # Manually imported captures have provenance but no package identity.
         if meta.get("package") is not None and not isinstance(meta["package"], str):
             raise ValueError(f"Invalid package identity: {capture['meta']}")
-        metadata[capture["prompt"]] = meta
-    return metadata
+        if meta.get("source") is not None and not isinstance(meta["source"], dict):
+            raise ValueError(f"Invalid capture source: {meta_path}")
+        if not isinstance(meta.get("redactions", []), list) or any(
+            not isinstance(item, str) for item in meta.get("redactions", [])
+        ):
+            raise ValueError(f"Invalid redactions: {meta_path}")
+        prepared[prompt_path] = (payload, meta)
+    return prepared
+
+
+def indexed_variant_paths(manifest: dict) -> set[Path]:
+    """Only files explicitly managed by the old manifest may be retired."""
+    paths = set()
+    for agent in manifest["agents"]:
+        for variant in agent.get("availableVariants", []):
+            validate_identity(agent["id"])
+            validate_identity(variant["id"])
+            expected = Path("data/variants") / agent["id"] / f"{variant['id']}.md"
+            if variant["localPromptPath"] != str(expected):
+                raise ValueError(f"Invalid managed variant path: {variant['localPromptPath']}")
+            paths.add(ROOT / expected)
+    return paths
 
 
 def main() -> None:
@@ -97,10 +147,29 @@ def main() -> None:
     commit = git_commit(source)
     prompts_dir = ROOT / "data" / "prompts"
     variants_dir = ROOT / "data" / "variants"
-    icons_dir = ROOT / "agent-icons"
-    prompts_dir.mkdir(parents=True, exist_ok=True)
-    variants_dir.mkdir(parents=True, exist_ok=True)
-    icons_dir.mkdir(parents=True, exist_ok=True)
+    manifest_path = ROOT / "data" / "manifest.json"
+    previous_variants = indexed_variant_paths(json.loads(manifest_path.read_text(encoding="utf-8"))) if manifest_path.exists() else set()
+    validate_date(upstream, "updated_at")
+    if not isinstance(upstream.get("agents"), list) or not upstream["agents"]:
+        raise ValueError("Phistory index needs agent summaries")
+    if not isinstance(upstream.get("captures"), list):
+        raise ValueError("Phistory index needs captures")
+    seen_agents = set()
+    for summary in upstream["agents"]:
+        agent_id = required_string(summary, "agent_id")
+        validate_identity(agent_id)
+        if agent_id in seen_agents:
+            raise ValueError(f"Duplicate agent summary: {agent_id}")
+        seen_agents.add(agent_id)
+        required_string(summary, "agent")
+        required_string(summary, "latest_version")
+        for field, value in (
+            ("versions", summary.get("versions", 1)),
+            ("snapshots", summary.get("snapshots", summary.get("captures"))),
+        ):
+            if type(value) is not int or value < 1:
+                raise ValueError(f"Invalid {field}: {agent_id}")
+    files: dict[Path, bytes] = {}
 
     # Phistory may publish several variants for one agent/version.  The site
     # labels ``default`` as the canonical latest prompt, so keep this archive
@@ -115,13 +184,18 @@ def main() -> None:
         summary["agent_id"]: select_default(captures_by_key[(summary["agent_id"], summary["latest_version"])])
         for summary in upstream["agents"]
     }
-    metadata = preflight_captures(source, [
+    prepared = preflight_captures(source, [
         capture
         for summary in upstream["agents"]
         for capture in captures_by_key[(summary["agent_id"], summary["latest_version"])]
     ])
     codex_trace_source = source / defaults["codex"]["trace"]
     trace_payload = codex_trace_source.read_bytes()
+    trace_lines = [line for line in trace_payload.decode("utf-8").splitlines() if line.strip()]
+    if not trace_lines:
+        raise ValueError("Codex trace is empty")
+    for line in trace_lines:
+        json.loads(line)
     agents = []
     for position, summary in enumerate(upstream["agents"], start=1):
         agent_id = summary["agent_id"]
@@ -129,22 +203,18 @@ def main() -> None:
         captures = captures_by_key[(agent_id, version)]
         capture = defaults[agent_id]
         relative_prompt = Path(capture["prompt"])
-        source_prompt = source / relative_prompt
-        payload = source_prompt.read_bytes()
+        payload, meta = prepared[capture["prompt"]]
         text = payload.decode("utf-8")
         destination = prompts_dir / f"{agent_id}.md"
-        shutil.copyfile(source_prompt, destination)
+        files[destination] = payload
 
-        meta = metadata[capture["prompt"]]
         available_variants = []
         for item in captures:
             variant_id = item.get("variant_id", "default")
-            variant_source = source / item["prompt"]
-            variant_payload = variant_source.read_bytes()
+            variant_payload, _ = prepared[item["prompt"]]
             variant_text = variant_payload.decode("utf-8")
             variant_target = variants_dir / agent_id / f"{variant_id}.md"
-            variant_target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(variant_source, variant_target)
+            files[variant_target] = variant_payload
             available_variants.append(
                 {
                     "id": variant_id,
@@ -192,7 +262,7 @@ def main() -> None:
                 "sourcePromptPath": str(relative_prompt),
                 "sourceUrl": f"{PHISTORY_REPO}/blob/{commit}/{relative_prompt}",
                 "phistoryUrl": "https://phistory.cc/",
-                "icon": copy_icon(source, agent_id, icons_dir),
+                "icon": prepare_icon(source, agent_id, files),
                 "sha256": sha256(payload),
                 "bytes": len(payload),
                 "characters": len(text),
@@ -209,7 +279,7 @@ def main() -> None:
 
     codex_summary = next(agent for agent in agents if agent["id"] == "codex")
     codex_trace_target = prompts_dir / "codex.trace.jsonl"
-    shutil.copyfile(codex_trace_source, codex_trace_target)
+    files[codex_trace_target] = trace_payload
 
     manifest = {
         "schemaVersion": 1,
@@ -247,10 +317,16 @@ def main() -> None:
         },
         "agents": agents,
     }
-    (ROOT / "data" / "manifest.json").write_text(
-        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    serialized = json.dumps(manifest, ensure_ascii=False, indent=2) + "\n"
+    obsolete_variants = previous_variants - indexed_variant_paths(manifest)
+    # All source reads and validation finish above. Publish only prepared bytes,
+    # so an invalid later capture cannot leave earlier evidence overwritten.
+    for destination, payload in files.items():
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(payload)
+    manifest_path.write_text(serialized, encoding="utf-8")
+    for path in obsolete_variants:
+        path.unlink(missing_ok=True)
 
     print(
         f"Synced {len(agents)} agents from Phistory {commit[:12]} "

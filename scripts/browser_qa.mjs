@@ -416,7 +416,9 @@ async function main() {
         expression: `document.querySelector('.navbtn[data-target="${agentId}"]').click()`,
       }, sessionId);
       await waitForAgent(agentId);
-      const expectedNotes = annotations.filter(note => note.agent === agentId).map(note => ({id: note.id, anchor: note.anchor}));
+      const expectedNotes = annotations.filter(note => note.agent === agentId).map(note => ({
+        id: note.id, anchor: note.anchor, title: note.title, body: note.body,
+      }));
       const state = (await send("Runtime.evaluate", {
         expression: `(() => {
           const view=document.querySelector('.agentview.active');
@@ -426,7 +428,12 @@ async function main() {
           const mismatches=expected.filter(item=>{
             const hl=view.querySelector('.hl[data-note="'+item.id+'"]');
             const note=view.querySelector(selector+'[data-note="'+item.id+'"]');
+            const body=note?.querySelector('p')?.cloneNode(true);
+            body?.querySelector('.source-ref')?.remove();
+            const expectedBody=document.createElement('p');
+            expectedBody.innerHTML=item.body;
             return !hl || !note || hl.textContent!==item.anchor || note.querySelector('.q')?.textContent!==item.anchor ||
+              note.querySelector('h3')?.textContent!==item.title || body?.innerHTML.trim()!==expectedBody.innerHTML.trim() ||
               hl.getAttribute('aria-describedby')!==note.id || !note.querySelector('.source-ref')?.href.includes(${JSON.stringify(manifest.source.commit)});
           });
           return {agent:'${agentId}',viewport:'${viewport.name}',overflow:document.documentElement.scrollWidth>innerWidth,

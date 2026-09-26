@@ -933,7 +933,7 @@ If mapping feedback is incredibly unclear, only then may you use ask_user_questi
 After drafting feedback and ending your turn, tell the user the draft is saved locally for this session. In the Grok CLI they review and send it by typing `/feedback` and opening the Drafts tab; from any other client, have them resume this session in the Grok CLI first.
 
 ### Misc
-This session's drafts file is $PHISTORY_HOME/.grok/sessions/%2Ftmp%2Fphistory-work-xu5zei04/01a0c268-bdae-79f2-979b-2e36fffc9f50/feedback_drafts.json.
+This session's drafts file is $PHISTORY_HOME/.grok/sessions/%2Ftmp%2Fphistory-work-w02eq_61/01a0cb37-9c6c-76c0-afdb-e2b0fa278825/feedback_drafts.json.
 If the user's feedback can be answered from the docs (for example UI element locations or setup), read the Grok Build docs locally or online and answer alongside the created draft.
 
 Doing the wrong amount of work

@@ -10,6 +10,24 @@ from pathlib import Path
 EDITORIAL_PATH = Path(__file__).resolve().parents[1] / "data" / "editorial.json"
 
 
+def render_capture_provenance(agent: dict) -> str:
+    """Describe only the provenance and redactions the selected capture reports."""
+    parts = []
+    source = agent.get("captureSource") or {}
+    kind = source.get("kind")
+    if kind == "user-provided trace":
+        label = "手工导入"
+        if re.fullmatch(r"\d{4}-\d{2}-\d{2}", agent["version"]):
+            label += " · 日期为捕获标签"
+        parts.append(f"<span>{label}</span>")
+    elif kind:
+        parts.append(f"<span>捕获来源：{html.escape(kind)}</span>")
+    if agent.get("redactions"):
+        redactions = "；".join(agent["redactions"])
+        parts.append(f"<span>上游声明已脱敏：{html.escape(redactions)}</span>")
+    return "".join(" · " + part for part in parts)
+
+
 def render_editorial(shell: str, fragments: dict[str, str], manifest: dict, records: list[dict]):
     data = json.loads(EDITORIAL_PATH.read_text(encoding="utf-8"))
     agents = {agent["id"]: agent for agent in manifest["agents"]}
@@ -72,10 +90,7 @@ def render_editorial(shell: str, fragments: dict[str, str], manifest: dict, reco
         for variant in variants:
             source_links += (f' · <a href="{variant["localPromptPath"]}" target="_blank" rel="noopener">'
                              f'{html.escape(variant["label"])} 原文</a>')
-        if agent.get("captureSource"):
-            source_links += ' · <span>手工导入 · 日期为捕获标签</span>'
-        if agent.get("redactions"):
-            source_links += ' · <span title="' + html.escape(', '.join(agent['redactions']), quote=True) + '">上游已脱敏：身份、凭据、用户消息、私有记忆与会话链接</span>'
+        source_links += render_capture_provenance(agent)
         source_links += '</div>'
         fragment = re.sub(r'\n\s*<div class="mh-evidence">.*?</div>', '', fragment, flags=re.DOTALL)
         fragment = replace_once(fragment, r'\n    </header>', lambda _: '\n      ' + source_links + '\n    </header>')

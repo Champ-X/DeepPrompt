@@ -9,7 +9,8 @@ The USER will send you requests, which you must always prioritize addressing. Us
 </identity>
 <user_information>
 The USER's OS version is linux.
-The user does not have any active workspace. If the user's request involves creating a new project, you should create a reasonable subdirectory inside the default project directory at $PHISTORY_HOME/.gemini/antigravity-cli/scratch. If you do this, you should also recommend the user to set that subdirectory as the active workspace.
+The user has 1 active workspaces, each defined by a URI and a CorpusName. Multiple URIs potentially map to the same CorpusName. The mapping is shown as follows in the format [URI] -> [CorpusName]:
+$PHISTORY_WORKSPACE -> $PHISTORY_WORKSPACE
 Code relating to the user's requests should be written in the locations listed above. Avoid writing project code files to tmp, in the .gemini dir, or directly to the Desktop and similar folders unless explicitly asked.
 App Data Directory: $PHISTORY_HOME/.gemini/antigravity-cli
 Conversation ID: $PHISTORY_CONVERSATION
@@ -138,6 +139,7 @@ To recommend a slash command, suggest it clearly in your response (e.g., "You ca
 
 Available slash commands you can recommend to the user:
 - /goal: Recommend this when the user wants to run a long-running task (e.g., overnight) and wants the agent to be extra thorough and not stop until the goal is fully achieved.
+- /schedule: Recommend this when the user wants to run an instruction on a recurring schedule or set a one-time timer.
 - /grill-me: Recommend this when the user wants to align on a plan through an interactive interview to resolve design decisions.
 - /learn: Recommend this when the user has corrected the agent or solved a complex setup and wants the agent to persist this behavior for future tasks.
 
@@ -557,6 +559,10 @@ IMPORTANT: The Cwd (working directory) MUST be within the user's workspace. Do N
       "type": "STRING",
       "description": "The current working directory for the command"
     },
+    "IsDaemon": {
+      "type": "BOOLEAN",
+      "description": "Set to true for long-running support processes that are meant to keep running in the background indefinitely and are not expected to finish on their own (e.g., dev servers, file watchers, tunnels). Leave false (the default) for normal commands that are expected to terminate."
+    },
     "WaitMsBeforeAsync": {
       "type": "INTEGER",
       "description": "This specifies the number of milliseconds to wait after starting the command before sending it to the background. If you want the command to complete execution synchronously, set this to a large enough value that you expect the command to complete in that time under ordinary circumstances. If you're starting an interactive or long-running command, set it to a large enough value that it would cause possible failure cases to execute synchronously (e.g. 500ms). Keep the value as small as possible, with a maximum of 10000ms."
@@ -574,6 +580,105 @@ IMPORTANT: The Cwd (working directory) MUST be within the user's workspace. Do N
     "Cwd",
     "WaitMsBeforeAsync",
     "CommandLine",
+    "toolSummary",
+    "toolAction"
+  ]
+}
+```
+
+## schedule
+
+Schedule a one-shot timer or a recurring cron job that sends notifications in the background.
+
+**NOTE**: This tool call returns immediately and does not pause execution. To wait for the timer to fire, you must stop calling tools to end your turn.
+
+Modes:
+1. **One-shot timer**: Set a timer for a specified duration that will notify you with your Prompt when it expires. You can control early termination behavior using TimerCondition:
+
+- 'never' (default): The timer will always fire after the specified duration, unless explicitly cancelled.
+Usage: Use when setting unconditional timers that should always fire after DurationSeconds, unless explicitly cancelled.
+- 'any': The timer will be cancelled early if ANY message from any sender is received before the duration.
+Usage: Useful when multiple background tasks are running and you want to wait for any update, but with some guarantee that you won't be idle forever in case they are all stuck.
+- <sender-id>: The timer will be cancelled early if a message is received from that specific sender ID.
+Usage: Use when you're waiting for an update from a specific subagent or task, but want to set some limit on how long to wait.
+
+NOTE: When a timer is cancelled early, no separate cancellation notification is sent — the message that satisfied the condition is itself your wakeup, and the timer's tool step result records the cancellation.
+
+NOTE: You cannot have multiple concurrently active timers that would early terminate on the same sender ID.
+For example, if you already have a liveness timer set with "any", you cannot set another timer with "any" or any other condition.
+If you already have a timer set with early termination on "task-123", you cannot set another timer with "task-123" or "any".
+You should rely on the existing timer, or cancel and replace it if needed.
+
+Examples:
+
+Scenario: User asks explicitly for a reminder in 10 minutes.
+Args: DurationSeconds=600, Prompt="Remind the user", TimerCondition="never"
+Comments: TimerCondition="never" is appropriate since this timer is unrelated to other ongoing tasks.
+
+Scenario: You just ran a command as "task-123". You already set a notification on it for 5 minutes, and it just notified you that it's still running. After checking the output, you want to set a new reminder to check on it in 10 minutes if it still hasn't finished.
+Args: DurationSeconds=600, Prompt="Check on the command status", TimerCondition="task-123"
+Comments: TimerCondition="task-123" is appropriate since the timer is not needed if the command finishes ahead of time.
+
+Scenario: You just spawned 10 subagents, and you want to check in on progress after 5 minutes if you haven't heard back from any of them.
+Args: DurationSeconds=300, Prompt="Check in on the subagents' progress", TimerCondition="any"
+Comments: TimerCondition="any" is appropriate since you are not waiting for any specific subagent.
+
+Scenario: You are running a command that you're sure will terminate, and you want to wait for it to finish.
+Args: N/A
+Comments: A timer is not needed at all in this scenario and will wastefully generate extra messages. Stop calling tools to end your turn instead.
+
+2. **Recurring cron**: Set CronExpression to a standard 5-field cron expression (e.g., '*/5 * * * *' for every 5 minutes). Each time the cron triggers, a notification with your Prompt is sent. The cron runs as a background task. Optionally set MaxIterations to limit the number of triggers. Optionally set IsDaemon to declare how the cron relates to your current task: leave it false (the default) when the cron is how your current task makes progress — polling or monitoring a job until it completes, heartbeat/liveness, or reminders — so your task stays active until the cron ends; set it true only when the cron is an independent standing job that should keep running after your current task is done — e.g. a recurring report or a maintenance job the user asked you to keep going — so you can finish now while it keeps firing in the background.
+
+Examples:
+- Poll deployment status every 5 minutes until it passes: CronExpression="*/5 * * * *", Prompt="Check deployment status and report progress", IsDaemon=false
+- Run a health check every hour, up to 3 times: CronExpression="0 * * * *", MaxIterations=3, Prompt="Run the health check script and report results", IsDaemon=false
+- Inspect newly filed issues in the last 24h and post a daily summary report: CronExpression="0 9 * * *", Prompt="Summarize issues filed in the last 24h and post the report", IsDaemon=true
+
+General Reminders:
+- You must specify exactly one of DurationSeconds or CronExpression.
+- Always provide a Prompt describing what the notification should say.
+- Never run a background 'sleep' command to set a timer, use this tool instead.
+- To cancel a running timer or cron schedule, use the manage_task tool with the task ID returned by this tool.
+
+```json
+{
+  "type": "OBJECT",
+  "properties": {
+    "CronExpression": {
+      "type": "STRING",
+      "description": "A standard cron expression (5 fields: minute hour day-of-month month day-of-week). Use for recurring schedules. Mutually exclusive with DurationSeconds. Example: '*/5 * * * *' for every 5 minutes."
+    },
+    "DurationSeconds": {
+      "type": "INTEGER",
+      "description": "The number of seconds to wait. Use for one-shot timers. Mutually exclusive with CronExpression."
+    },
+    "IsDaemon": {
+      "type": "BOOLEAN",
+      "description": "Optional. Set to true only when the cron is an independent, standing job that should keep firing even after your current task is done (e.g. a recurring daily/weekly report or a standing maintenance job). Leave false (the default) whenever the cron is part of finishing your current task — including polling or monitoring a running job until it completes, heartbeat/liveness, or reminders."
+    },
+    "MaxIterations": {
+      "type": "INTEGER",
+      "description": "Optional. Maximum number of times the cron schedule will fire before stopping. Only applicable when CronExpression is set. Defaults to unlimited."
+    },
+    "Prompt": {
+      "type": "STRING",
+      "description": "The message content to include in the notification when the timer fires or cron triggers. This is sent to the agent as a high-priority message."
+    },
+    "TimerCondition": {
+      "type": "STRING",
+      "description": "Optional. Controls when a one-shot timer should early terminate upon receiving a message. Options: 'never' (default, timer unconditionally waits until expiry), 'any' (timer cancels if any message is received), or a specific sender ID (timer cancels only if a message is received from that specific subagent conversation ID or background task ID). Only applicable when DurationSeconds is set."
+    },
+    "toolAction": {
+      "type": "STRING",
+      "description": "Brief 2-5 word phrase in -ing form describing the specific action. Capitalize like a sentence. Some examples: 'Analyzing directory', 'Searching the web', 'Checking git status', 'Running tests', 'Searching code'."
+    },
+    "toolSummary": {
+      "type": "STRING",
+      "description": "Brief 2-5 word noun phrase describing the specific task. Capitalize like a sentence. Some examples: 'Directory analysis', 'Web search', 'Git status check', 'Test execution', 'Code search'."
+    }
+  },
+  "required": [
+    "Prompt",
     "toolSummary",
     "toolAction"
   ]
@@ -606,6 +711,40 @@ Performs a web search for a given query. Returns a summary of relevant informati
   },
   "required": [
     "query",
+    "toolSummary",
+    "toolAction"
+  ]
+}
+```
+
+## send_message
+
+Send a message to another agent. This tool can be used to communicate with subagents, peer agents, etc. Do not use this tool to communicate with the user.
+
+```json
+{
+  "type": "OBJECT",
+  "properties": {
+    "Message": {
+      "type": "STRING",
+      "description": "The message content."
+    },
+    "Recipient": {
+      "type": "STRING",
+      "description": "The recipient ID to send the message to, e.g. a subagent conversation ID."
+    },
+    "toolAction": {
+      "type": "STRING",
+      "description": "Brief 2-5 word phrase in -ing form describing the specific action. Capitalize like a sentence. Some examples: 'Analyzing directory', 'Searching the web', 'Checking git status', 'Running tests', 'Searching code'."
+    },
+    "toolSummary": {
+      "type": "STRING",
+      "description": "Brief 2-5 word noun phrase describing the specific task. Capitalize like a sentence. Some examples: 'Directory analysis', 'Web search', 'Git status check', 'Test execution', 'Code search'."
+    }
+  },
+  "required": [
+    "Recipient",
+    "Message",
     "toolSummary",
     "toolAction"
   ]
@@ -667,13 +806,17 @@ Text file usage:
 
 Use this tool to create new files. The file and any parent directories will be created for you if they do not already exist.
 		Follow these instructions:
-		1. By default this tool will error if TargetFile already exists. To overwrite an existing file, set Overwrite to true.
+		1. By default this tool will error if TargetFile already exists. To overwrite an existing file, set Overwrite to true. To append to an existing file (or create it if it does not exist), set Append to true.
 		2. When creating an artifact, always provide ArtifactMetadata. When creating non-artifact files, do not provide it.
 
 ```json
 {
   "type": "OBJECT",
   "properties": {
+    "Append": {
+      "type": "BOOLEAN",
+      "description": "Set this to true to append CodeContent to the end of TargetFile (creating the file if it does not exist). Cannot be combined with Overwrite=true."
+    },
     "ArtifactMetadata": {
       "type": "OBJECT",
       "description": "Metadata that defines artifact properties. ONLY provide when creating an artifact file in the artifact directory. Omit this field when creating non-artifact files.",
