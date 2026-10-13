@@ -6,8 +6,8 @@
 ## 0. Meta
 
 ```yaml
-version: 1.3.1
-last_updated: 2026-09-22
+version: 1.4.0
+last_updated: 2026-10-13
 upstream_source: https://phistory.cc
 schema: https://github.com/Eldergenix/SUPER-DESIGN/schema/v1
 framework:
@@ -22,17 +22,29 @@ i18n:
 
 ## 1. Brand Narrative & Philosophy
 
-DeepPrompt is a model observatory and evidence archive, not a dashboard. Cold
-paper, ink-blue structure, condensed technical display type and mono metadata
-make the source material feel inspectable and traceable. Interaction should
-reveal relationships without competing with the prompt: the homepage is the
-specimen catalogue, the reader is the evidence desk, and annotation motion is
-an explanatory instrument rather than decoration.
+DeepPrompt is a source-grounded field guide for people studying how coding
+Agents behave. Its opening should explain the reading experience immediately:
+a rule in its original language, an interpretation, and a link to inspect the
+complete context. The page's job is to move a reader from discovery to evidence.
 
-The homepage's signature element is the **identity spectrum ledger**: fourteen
-real navigation nodes use the same Agent colors as the reader rail. It is a
-compact index rather than a decorative rainbow; semantic annotation colors
-remain a separate system.
+The signature is the **source-to-annotation preview**: a navy source window with
+a mint interpretation card connected to the actual quote. The quote, annotation,
+version and pinned upstream line link are generated from the same reviewed
+registry as the reader. This is real archive content, never a fictional demo.
+The compact identity index underneath offers direct Agent navigation without
+competing with this reading example.
+
+Palette: mist `#f3f5f8`, cool paper `#e7edf2`, ink `#23344c`, slate `#536479`,
+navy `#263e59`, and mint `#b4e3d7`. Use Songti/Noto Serif SC for the Chinese
+headline and editorial titles, IBM Plex Sans Condensed with system sans-serif
+for catalogue controls and descriptions, and JetBrains Mono for verbatim text
+and provenance. Keep Agent identity colors separate from annotation semantics.
+
+Layout: a two-column introduction and evidence preview; a quiet snapshot strip;
+a searchable three-column Agent catalogue; then the existing comparative essays.
+On mobile, use the same linear reading order with a one-column catalogue.
+The aesthetic emphasis lives in the evidence preview; avoid decorative grids,
+rainbow chrome, large statistic tiles, and repeated arbitrary card numbering.
 
 **Principles:**
 
@@ -45,12 +57,12 @@ remain a separate system.
 ## 2. Color System
 
 ```tokens color.primitive
-- paper       (color): #eef0ec
-- paper-deep  (color): #e2e6e1
-- ink         (color): #172027
-- ink-soft    (color): #526065
-- rule        (color): #aeb8b3
-- rule-soft   (color): #d4dad5
+- paper       (color): #f3f5f8
+- paper-deep  (color): #e7edf2
+- ink         (color): #23344c
+- ink-soft    (color): #536479
+- rule        (color): #b3bfcc
+- rule-soft   (color): #dce3ea
 - white       (color): #ffffff
 - goal        (color): oklch(0.48 0.09 176)
 - engineering (color): oklch(0.53 0.09 224)
@@ -115,7 +127,8 @@ It never replaces the five semantic annotation colors.
 ```tokens font.family
 - display (fontFamily): ["IBM Plex Sans Condensed", "Noto Serif SC", "sans-serif"]
 - body    (fontFamily): ["Source Serif 4", "Noto Serif SC", "serif"]
-- cjk     (fontFamily): ["Noto Serif SC", "serif"]
+- cjk     (fontFamily): ["Noto Serif SC", "Songti SC", "serif"]
+- ui      (fontFamily): ["IBM Plex Sans Condensed", "-apple-system", "PingFang SC", "sans-serif"]
 - mono    (fontFamily): ["JetBrains Mono", "ui-monospace", "monospace"]
 ```
 
@@ -197,8 +210,11 @@ both paper and raised surfaces.
 | Component | default | hover | focus-visible | active | disabled |
 |---|---|---|---|---|---|
 | Archive card | paper surface | raised, accent rule | double focus ring | inset 1% | opacity 50% |
-| Identity ledger node | numbered Agent color mark | tinted identity surface | double focus ring | opens Agent evidence page | — |
-| Spectrum node | identity-colored icon on a curved rail | raised paper node + one name tooltip | double focus ring + tooltip | enlarged identity ring; drag preview | hidden from tab order |
+| Identity link | compact label and Agent color dot | tinted identity surface | visible outline | opens Agent evidence page | — |
+| Catalogue search | labeled native search input | quiet boundary | visible focus-within ring | filters name, vendor and editorial lead | — |
+| Catalogue sort | native select | quiet boundary | visible outline | default, name or annotation count | — |
+| Spectrum node | 48px icon target on a curved rail | tinted surface + one name tooltip | visible outline + tooltip | single identity ring; dashed preview ring | hidden from tab order |
+| Agent name menu | native select showing current name | quiet tint | visible outline | direct choice from every Agent | — |
 | Top-bar tool | cell in one continuous paper rail | quiet surface tint | double focus ring | inset 2% | opacity 50% |
 | Filter chip | outlined | ink border | double focus ring | category state | opacity 50% |
 | Annotation | quiet | source preview | double focus ring | one connector visible | collapsed with source |
@@ -209,9 +225,9 @@ items are non-interactive and exposed as disabled.
 
 ## 9. Layout & Responsive
 
-- Catalogue: left-aligned observatory masthead plus the 15-node identity spectrum ledger, followed by a uniform responsive Agent specimen grid, then the global seven-axis and five-theme synthesis.
-- Reader ≥ 1280px: a 112px identity spectrum rail, left annotation cards, 600–720px source column and right annotation cards occupy separate grid tracks. The annotation tracks explicitly clear legacy offsets and keep a 20–32px safety gutter from the source column. A short press remains a native button click; pointer capture begins only after the drag threshold. The rail supports wheel rotation, directional keys and vertical drag-to-preview with release-to-commit.
-- Reader < 1280px: the switcher becomes an icon-only bottom dock and annotations become distinct inline cards. Horizontal drag, wheel and directional-key behavior match the desktop rail.
+- Catalogue: two-column introduction and source-bound preview, snapshot statistics and compact 15-Agent direct links, followed by a searchable three-column Agent grid, then the global seven-axis and five-theme synthesis. At 1023px the grid uses two columns; at 560px one. The hero becomes linear at 760px.
+- Reader ≥ 1280px: a floating 128×352px Agent dial sits 12px from the left edge. Five 48px icon targets follow a restrained arc; a single colored ring marks the selected Agent, while the count and native name menu remain visible. Left annotation cards, a 600–720px source column and right annotation cards occupy separate grid tracks, with a 20–32px source safety gutter.
+- Reader < 1280px: the switcher becomes a 232×108px bottom dock with three 48px targets and the current-name menu. Annotations become inline cards. The reader reserves enough bottom padding to keep the final content above the dock.
 - Test widths: 320, 375, 768, 1024, 1440 and 1920; no horizontal scrolling.
 - Use `dvh` for viewport-relative reader controls and safe-area insets for mobile docks.
 
@@ -237,3 +253,36 @@ New controls require default, hover, focus-visible, active and disabled states.
 - Reader mastheads identify the annotated default capture and link to the complete local source, pinned upstream file and other captured variants.
 - Source text and editorial inference remain separate. A captured title-generation request must not be presented as the full coding-agent system prompt.
 - Mobile notes use unique IDs, retain the same evidence links and act as the active description and click target for their highlights.
+
+## 13. Catalogue interactions and evidence preview
+
+- Search matches Agent names, vendors and reviewed leads; multiple words narrow
+  results. It does not fetch the full prompt corpus or claim to be full-text search.
+- The result count is an ARIA live status. An empty state explains how to recover
+  and offers a clear-search button. Escape clears; Command/Control K focuses search.
+- Sorting moves real card nodes, preserving logical keyboard order. Switching
+  back to default restores the original curated order.
+- The homepage preview must rebuild from `codex-25`; a missing or retired note
+  requires an explicit editorial replacement. Browser QA verifies its exact quote
+  and pinned line URL against the registry.
+- Native details, select and search controls retain their browser behavior.
+  Long text wraps, focus remains visible, motion respects reduced-motion.
+
+## 14. Agent dial input contract
+
+- Non-zoom wheel events on the icon rail are always consumed. Normalize line/page
+  deltas, accumulate small trackpad increments to 40px, and switch once per gesture.
+  A 180ms idle period starts a new gesture; inertial tails cannot scroll the page
+  or cause repeated switches. Control-wheel/pinch zoom stays with the browser.
+- Only the icon rail is draggable; the native name menu keeps its own behavior.
+  Capture the primary pointer after 8px of movement on the intended axis. Preview
+  at 52px per Agent on desktop and 64px on mobile, with a small continuous offset.
+- Preview uses a dashed ring and a release hint, while the committed Agent,
+  aria-current, URL, live status and select value remain unchanged. Release commits
+  one navigation; Escape, pointer cancellation, lost capture, blur or resize cancels.
+  Suppress only the drag's synthetic click, not the next deliberate click.
+- Keep focused content out of aria-hidden subtrees during a drag, then restore focus
+  to the actual selection. Arrow keys switch; Home/End jump to first/last; ignore
+  held-key repeat. Do not intercept the native select's own keyboard controls.
+- Mobile horizontal gestures coexist with vertical page panning and pinch zoom.
+  All node hit targets stay 48px; scale logos if needed, never shrink the buttons.

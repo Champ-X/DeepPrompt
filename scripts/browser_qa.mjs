@@ -148,16 +148,21 @@ async function main() {
   ];
   const results = [];
   const homeResults = [];
+  const catalogueChecks = [];
   const visualCoverage = [];
   const readerChecks = [];
 
   for (const viewport of viewports) {
+    // Each viewport starts from a fresh document, including after in-page navigation.
+    await send("Page.navigate", {url:"about:blank"}, sessionId);
+    await waitForExpression("document.URL === 'about:blank'");
     await send("Emulation.setDeviceMetricsOverride", {
       width: viewport.width,
       height: viewport.height,
       deviceScaleFactor: 1,
       mobile: viewport.mobile,
     }, sessionId);
+    await send("Emulation.setTouchEmulationEnabled", {enabled:viewport.mobile}, sessionId);
     await send("Page.navigate", { url: targetUrl }, sessionId);
     await waitForAgent("claude-code");
     await delay(200);
@@ -189,13 +194,19 @@ async function main() {
             tabStops: Array.from(wheel.querySelectorAll('.navbtn')).filter(node => node.tabIndex === 0).length,
             uniqueNodeColors: new Set(Array.from(wheel.querySelectorAll('.navbtn')).map(node => getComputedStyle(node).getPropertyValue('--node-color').trim()).filter(Boolean)).size,
             visibleLabels: Array.from(wheel.querySelectorAll('.nb-name,.nb-sub,.nb-badge')).filter(node => getComputedStyle(node).display !== 'none').length,
-            instructionNodes: wheel.querySelectorAll('.wheel-heading,.wheel-hint,.wheel-index,.wheel-control').length
+            minTargetSize: Math.min(...Array.from(wheel.querySelectorAll('.navbtn:not(.wheel-hidden)')).map(node => {const r=node.getBoundingClientRect();return Math.min(r.width,r.height);})),
+            currentMarkers: wheel.querySelectorAll('.navbtn[aria-current="true"]').length,
+            selectValue: wheel.querySelector('#agentSelect')?.value,
+            selectOptions: wheel.querySelectorAll('#agentSelect option').length,
+            selectVisible: Boolean(wheel.querySelector('#agentSelect')?.getClientRects().length),
+            countText: wheel.querySelector('#wheelCount')?.textContent.trim(),
+            withinViewport: rect.left>=0 && rect.right<=innerWidth && rect.top>=0 && rect.bottom<=innerHeight
           };
         })(),
         topbar: (() => {
           const bar = document.querySelector('.topbar').getBoundingClientRect();
           const tools = document.querySelector('.top-tools').getBoundingClientRect();
-          const targets = Array.from(document.querySelectorAll('.topbar button,.topbar a,.topbar .searchbox')).filter(node => getComputedStyle(node).display !== 'none');
+          const targets = Array.from(document.querySelectorAll('.topbar button,.topbar a,.topbar .searchbox')).filter(node => node.getClientRects().length && getComputedStyle(node).visibility !== 'hidden');
           return {
             height: Math.round(bar.height),
             right: Math.round(tools.right),
@@ -238,54 +249,150 @@ async function main() {
       returnByValue: true,
     }, sessionId);
     const metrics = evaluation.result.value;
-    if (viewport.name === "wide") {
-      const centerOf = async selector => (await send("Runtime.evaluate", {
-        expression: `(() => { const r=document.querySelector(${JSON.stringify(selector)})?.getBoundingClientRect(); return r ? {x:r.left+r.width/2,y:r.top+r.height/2} : null; })()`,
-        returnByValue: true,
-      }, sessionId)).result.value;
+    const initialWheelScreenshot=await send("Page.captureScreenshot",{format:"png",captureBeyondViewport:false},sessionId);
+    writeFileSync(`/tmp/deepprompt-wheel-initial-${viewport.name}.png`,initialWheelScreenshot.data,"base64");
+    if (viewport.name === "wide" || viewport.mobile) {
+      const evaluate = async expression => (await send("Runtime.evaluate", {expression,returnByValue:true},sessionId)).result.value;
+      const centerOf = selector => evaluate(`(() => {const r=document.querySelector(${JSON.stringify(selector)})?.getBoundingClientRect();return r?{x:r.left+r.width/2,y:r.top+r.height/2}:null;})()`);
       const clickAt = async point => {
         await send("Input.dispatchMouseEvent", {type:"mousePressed",x:point.x,y:point.y,button:"left",buttons:1,clickCount:1}, sessionId);
         await send("Input.dispatchMouseEvent", {type:"mouseReleased",x:point.x,y:point.y,button:"left",buttons:0,clickCount:1}, sessionId);
         await delay(320);
       };
-      const activeAgent = async () => (await send("Runtime.evaluate", {
-        expression: "document.querySelector('.agentview.active')?.dataset.agent || null",
-        returnByValue: true,
-      }, sessionId)).result.value;
+      const keyPress = async (key,modifiers=0) => {
+        const windowsVirtualKeyCode={ArrowLeft:37,ArrowUp:38,ArrowRight:39,ArrowDown:40,Home:36,End:35,Enter:13,Escape:27,Tab:9}[key];
+        await send("Input.dispatchKeyEvent", {type:"rawKeyDown",key,code:key,windowsVirtualKeyCode,modifiers}, sessionId);
+        await send("Input.dispatchKeyEvent", {type:"keyUp",key,code:key,windowsVirtualKeyCode,modifiers}, sessionId);
+      };
+      const activeAgent = () => evaluate("document.querySelector('.agentview.active')?.dataset.agent || null");
+      // Programmatic clicks only establish a known starting point; every tested gesture uses CDP input.
+      const resetAgent = async (id="claude-code") => {
+        await evaluate(`document.querySelector('.navbtn[data-target="${id}"]')?.click()`);
+        await waitForAgent(id);
+        await delay(360);
+      };
+      const pointerDrag = async (point,travel) => {
+        await send("Input.dispatchMouseEvent", {type:"mousePressed",x:point.x,y:point.y,button:"left",buttons:1,clickCount:1}, sessionId);
+        await send("Input.dispatchMouseEvent", {type:"mouseMoved",x:point.x,y:point.y-travel/2,button:"left",buttons:1}, sessionId);
+        await send("Input.dispatchMouseEvent", {type:"mouseMoved",x:point.x,y:point.y-travel,button:"left",buttons:1}, sessionId);
+      };
+      const releasePointer = (point,travel) => send("Input.dispatchMouseEvent", {type:"mouseReleased",x:point.x,y:point.y-travel,button:"left",buttons:0,clickCount:1}, sessionId);
+      const previewState = () => evaluate(`({agent:document.querySelector('.agentview.active')?.dataset.agent,
+        current:document.querySelector('.navbtn[aria-current="true"]')?.dataset.target,
+        active:document.querySelector('.navbtn.active')?.dataset.target,
+        preview:document.querySelector('.navbtn.preview')?.dataset.target,
+        select:document.getElementById('agentSelect')?.value})`);
+      const checks = {};
 
-      await clickAt(await centerOf('.navbtn[data-target="antigravity"]'));
-      await waitForAgent("antigravity");
-      const clickedTo = await activeAgent();
-      await send("Runtime.evaluate", {expression:"document.querySelector('.navbtn[data-target=\"claude-code\"]')?.click()"}, sessionId);
-      await waitForAgent("claude-code");
-      const resetTo = await activeAgent();
+      if (viewport.name === "wide") {
+        const hoverBefore=await centerOf('.navbtn.active');
+        await send("Input.dispatchMouseEvent",{type:"mouseMoved",x:hoverBefore.x,y:hoverBefore.y},sessionId);
+        await delay(280);
+        const hoverAfter=await centerOf('.navbtn.active');
+        checks.hoverStableTarget=Math.hypot(hoverAfter.x-hoverBefore.x,hoverAfter.y-hoverBefore.y)<2;
+        await clickAt(await centerOf('.navbtn[data-target="antigravity"]'));
+        await waitForAgent("antigravity");
+        checks.neighborClick = await activeAgent()==="antigravity";
+        await resetAgent("dsh");
+        await resetAgent();
 
-      const dragGeometry = (await send("Runtime.evaluate", {
-        expression: `(() => {
-          const active=document.querySelector('.navbtn.active').getBoundingClientRect();
-          const start={x:active.left+active.width/2,y:active.top+active.height/2};
-          return {start,end:{x:start.x,y:start.y-50}};
-        })()`,
-        returnByValue: true,
-      }, sessionId)).result.value;
-      await send("Input.dispatchMouseEvent", {type:"mousePressed",x:dragGeometry.start.x,y:dragGeometry.start.y,button:"left",buttons:1,clickCount:1}, sessionId);
-      await send("Input.dispatchMouseEvent", {type:"mouseMoved",x:(dragGeometry.start.x+dragGeometry.end.x)/2,y:(dragGeometry.start.y+dragGeometry.end.y)/2,button:"left",buttons:1}, sessionId);
-      await send("Input.dispatchMouseEvent", {type:"mouseMoved",x:dragGeometry.end.x,y:dragGeometry.end.y,button:"left",buttons:1}, sessionId);
-      await send("Input.dispatchMouseEvent", {type:"mouseReleased",x:dragGeometry.end.x,y:dragGeometry.end.y,button:"left",buttons:0,clickCount:1}, sessionId);
-      await waitForAgent("dsh");
-      const draggedTo = await activeAgent();
+        const wheelPoint=await centerOf('.navbtn.active');
+        const wheelEvent=amount=>send("Input.dispatchMouseEvent",{type:"mouseWheel",x:wheelPoint.x,y:wheelPoint.y,deltaX:0,deltaY:amount},sessionId);
+        await evaluate("window.scrollTo({top:450,behavior:'instant'})");
+        await delay(100);
+        const scrollBefore=await evaluate("scrollY");
+        const historyBefore=await evaluate("history.length");
+        for(let index=0;index<7;index++){await wheelEvent(5);await delay(18);}
+        checks.smallWheelAccumulation = await activeAgent()==="claude-code" && Math.abs(await evaluate("scrollY")-scrollBefore)<2;
+        await wheelEvent(5);
+        // Keep the same burst active while scrolling settles, including momentum beyond the old 260ms lock.
+        for(let index=0;index<18;index++){await wheelEvent(70);await delay(35);}
+        await waitForAgent("dsh");
+        const lockedScroll=await evaluate("scrollY");
+        for(let index=0;index<6;index++){await wheelEvent(70);await delay(35);}
+        checks.wheelMomentumSingleStep = await activeAgent()==="dsh" && await evaluate("history.length")===historyBefore+1;
+        checks.wheelMomentumNoPageScroll = Math.abs(await evaluate("scrollY")-lockedScroll)<2;
+        await delay(230);
+        await wheelEvent(-45);
+        await waitForAgent("claude-code");
+        checks.wheelNewGesture = await activeAgent()==="claude-code";
+        await delay(360);
 
-      await send("Runtime.evaluate", {expression:"document.querySelector('.navbtn.active')?.focus({preventScroll:true})"}, sessionId);
-      await send("Input.dispatchKeyEvent", {type:"rawKeyDown",key:"ArrowLeft",code:"ArrowLeft"}, sessionId);
-      await send("Input.dispatchKeyEvent", {type:"keyUp",key:"ArrowLeft",code:"ArrowLeft"}, sessionId);
-      await waitForAgent("claude-code");
-      const keyboardReturnedTo = await activeAgent();
-      const interactionState = (await send("Runtime.evaluate", {
-        expression: `({draggingClassCleared:!document.getElementById('agentWheel').classList.contains('dragging')})`,
-        returnByValue: true,
-      }, sessionId)).result.value;
-      metrics.wheelInteraction = {clickedTo,resetTo,draggedTo,keyboardReturnedTo,...interactionState};
-      await send("Runtime.evaluate", {expression:"window.scrollTo(0,0)"}, sessionId);
+        let point=await centerOf('.navbtn.active');
+        const historyBeforeCancel=await evaluate("history.length");
+        await pointerDrag(point,60);
+        const preview=await previewState();
+        checks.dragPreview = preview.agent==="claude-code" && preview.current==="claude-code" && preview.active==="claude-code" && preview.select==="claude-code" && preview.preview==="dsh";
+        await keyPress("Escape");
+        await releasePointer(point,60);
+        await delay(200);
+        checks.dragEscapeCancel = await activeAgent()==="claude-code" && await evaluate("history.length")===historyBeforeCancel && await evaluate("!document.querySelector('.navbtn.preview') && !document.getElementById('agentWheel').classList.contains('dragging')");
+        point=await centerOf('.navbtn.active');
+        await pointerDrag(point,60);
+        await releasePointer(point,60);
+        await waitForAgent("dsh");
+        checks.dragReleaseCommit = await activeAgent()==="dsh";
+        await delay(200);
+
+        await evaluate("document.querySelector('.navbtn.active').focus({preventScroll:true})");
+        await keyPress("ArrowLeft");
+        await waitForAgent("claude-code");
+        checks.keyboardArrow = await evaluate("document.activeElement===document.querySelector('.navbtn.active')");
+        await keyPress("ArrowRight",1);
+        await waitForAgent("dsh");
+        checks.keyboardModifiedSingleStep=await activeAgent()==="dsh";
+        await keyPress("Home");
+        const firstId=await evaluate("document.querySelector('.navbtn').dataset.target");
+        await waitForAgent(firstId);
+        checks.keyboardHome = await activeAgent()===firstId;
+        await keyPress("End");
+        const lastId=await evaluate("Array.from(document.querySelectorAll('.navbtn')).at(-1).dataset.target");
+        await waitForAgent(lastId);
+        checks.keyboardEnd = await activeAgent()===lastId;
+        await send("Input.dispatchKeyEvent", {type:"rawKeyDown",key:"ArrowRight",code:"ArrowRight",autoRepeat:true}, sessionId);
+        await send("Input.dispatchKeyEvent", {type:"keyUp",key:"ArrowRight",code:"ArrowRight"}, sessionId);
+        checks.keyboardRepeatIgnored = await activeAgent()===lastId;
+        await resetAgent();
+
+        await evaluate("document.querySelector('.navbtn.active').focus({preventScroll:true})");
+        await keyPress("Tab");
+        checks.nativeSelectTabFocus=await evaluate("document.activeElement.id==='agentSelect'");
+        // Headless Chrome on macOS does not dispatch CDP keys into the OS select popup.
+        // Tab focus is real input; value/change below verifies the browser integration contract.
+        await evaluate(`(() => {const select=document.getElementById('agentSelect');select.value=${JSON.stringify(firstId)};select.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+        await waitForAgent(firstId);
+        checks.nativeSelectIntegration = await evaluate(`document.getElementById('agentSelect').value===${JSON.stringify(firstId)} && document.querySelector('.navbtn.active').dataset.target===${JSON.stringify(firstId)}`);
+        await resetAgent();
+      } else {
+        const touch = (type,point) => send("Input.dispatchTouchEvent", {type,touchPoints:point?[{x:point.x,y:point.y,id:1,radiusX:6,radiusY:6,force:1}]:[]},sessionId);
+        let point=await centerOf('.navbtn.active');
+        await touch("touchStart",point);
+        await delay(40);
+        await touch("touchMove",{x:point.x-36,y:point.y});
+        await delay(40);
+        await touch("touchMove",{x:point.x-72,y:point.y});
+        await delay(60);
+        const preview=await previewState();
+        checks.touchPreview = preview.agent==="claude-code" && preview.current==="claude-code" && preview.preview==="dsh";
+        if(!checks.touchPreview) console.error("Unexpected touch preview:",preview);
+        await touch("touchEnd");
+        await waitForAgent("dsh");
+        checks.touchCommit = await activeAgent()==="dsh";
+        await delay(220);
+        await resetAgent();
+        point=await centerOf('.navbtn.active');
+        const historyBeforeCancel=await evaluate("history.length");
+        await touch("touchStart",point);
+        await delay(40);
+        await touch("touchMove",{x:point.x-72,y:point.y});
+        await delay(60);
+        await touch("touchCancel");
+        await delay(160);
+        checks.touchCancel = await activeAgent()==="claude-code" && await evaluate("history.length")===historyBeforeCancel && await evaluate("!document.querySelector('.navbtn.preview') && !document.getElementById('agentWheel').classList.contains('dragging')");
+      }
+      checks.draggingClassCleared = await evaluate("!document.getElementById('agentWheel').classList.contains('dragging')");
+      metrics.wheelInteraction=checks;
+      await evaluate("window.scrollTo({top:0,behavior:'instant'})");
       await delay(120);
     }
     const screenshot = await send("Page.captureScreenshot", {
@@ -516,11 +623,51 @@ async function main() {
       captureBeyondViewport: false,
     }, sessionId);
     writeFileSync(`/tmp/deepprompt-home-${viewport.name}.png`, homeScreenshot.data, "base64");
+    const catalogue = await send("Runtime.evaluate", {
+      expression: `(() => {
+        const input = document.getElementById('catalogSearch');
+        const sort = document.getElementById('catalogSort');
+        const cards = () => Array.from(document.querySelectorAll('.acard:not([hidden])'));
+        const query = text => { input.value=text; input.dispatchEvent(new Event('input', {bubbles:true})); };
+        const changeSort = value => { sort.value=value; sort.dispatchEvent(new Event('change', {bubbles:true})); };
+        query('openai');
+        const vendorSearch = cards().length===1 && cards()[0].dataset.target==='codex';
+        query('no-agent-matches-this-query');
+        const emptyState = cards().length===0 && !document.getElementById('catalogEmpty').hidden;
+        document.getElementById('clearCatalogSearch').click();
+        const reset = cards().length===${expectedAgents} && document.activeElement===input;
+        changeSort('name');
+        const names=cards().map(card=>card.querySelector('.ac-name').textContent);
+        const nameSort=names.every((name,index)=>!index || names[index-1].localeCompare(name,'en')<=0);
+        changeSort('notes');
+        const counts=cards().map(card=>parseInt(card.querySelector('.ac-stats span').textContent,10));
+        const noteSort=counts.every((count,index)=>!index || counts[index-1]>=count);
+        changeSort('default');
+        const preview=document.querySelector('.preview-source blockquote');
+        const source=document.querySelector('.preview-source>a');
+        return {vendorSearch,emptyState,reset,nameSort,noteSort,
+          previewQuote:preview?.textContent,
+          previewSource:source?.href,
+          overflow:document.documentElement.scrollWidth>innerWidth,
+          loadedAgents:window.__archiveDiagnostics.loadedAgents().length};
+      })()`, returnByValue:true,
+    }, sessionId);
+    catalogueChecks.push({viewport:viewport.name,...catalogue.result.value});
+    await send("Runtime.evaluate", {expression:"document.activeElement.blur();document.getElementById('catalog').scrollIntoView({behavior:'instant',block:'start'})"}, sessionId);
+    const catalogueShot=await send("Page.captureScreenshot", {format:"png",captureBeyondViewport:false}, sessionId);
+    writeFileSync(`/tmp/deepprompt-catalogue-${viewport.name}.png`, catalogueShot.data, "base64");
+    // The mobile preview is below the fold; entering a reader must reset its position.
+    await send("Runtime.evaluate", {expression:"document.querySelector('.preview-open').scrollIntoView({behavior:'instant'});document.querySelector('.preview-open').click()"}, sessionId);
+    await waitForAgent('codex');
+    await waitForExpression(`(() => {const r=document.querySelector('.agentview.active .masthead').getBoundingClientRect();return r.top>=60 && r.top<innerHeight/2;})()`);
+    catalogueChecks.at(-1).previewNavigation=true;
   }
 
   console.log(JSON.stringify(results, null, 2));
   console.log("Homepage states:");
   console.log(JSON.stringify(homeResults, null, 2));
+  console.log("Catalogue interaction checks:");
+  console.log(JSON.stringify(catalogueChecks, null, 2));
   console.log("Per-Agent reader checks:");
   console.log(JSON.stringify(readerChecks, null, 2));
   if (runtimeErrors.length) console.error("Browser runtime errors:", runtimeErrors);
@@ -535,15 +682,21 @@ async function main() {
     result.mode !== "reader" ||
     !result.wheelVisible ||
     result.wheel.visibleLabels !== 0 ||
-    result.wheel.instructionNodes !== 0 ||
     result.wheel.tabStops !== 1 ||
+    result.wheel.currentMarkers !== 1 ||
+    result.wheel.minTargetSize < 44 ||
+    result.wheel.selectValue !== "claude-code" ||
+    result.wheel.selectOptions !== expectedAgents ||
+    !result.wheel.selectVisible ||
+    !result.wheel.withinViewport ||
+    !new RegExp(`^02\\s*/\\s*${expectedAgents}$`).test(result.wheel.countText) ||
     result.wheel.uniqueNodeColors !== expectedAgents ||
     result.topbar.right > result.innerWidth ||
     result.topbar.minTargetHeight < 42 ||
     (result.width >= 1280 && (!result.sideGeometry || result.sideGeometry.overlaps !== 0 || result.sideGeometry.leftGap < 16 || result.sideGeometry.rightGap < 16)) ||
-    (result.name === "wide" && (result.wheelInteraction?.clickedTo !== "antigravity" || result.wheelInteraction?.resetTo !== "claude-code" || result.wheelInteraction?.draggedTo !== "dsh" || result.wheelInteraction?.keyboardReturnedTo !== "claude-code" || !result.wheelInteraction?.draggingClassCleared)) ||
-    (result.width >= 1280 && (result.wheel.width < 108 || result.wheel.width > 116 || result.wheel.height < 280 || result.wheel.height > 330 || result.wheel.left !== 0 || result.wheel.top > 180 || result.wheel.visibleItems !== 5)) ||
-    (result.width < 1280 && result.wheel.visibleItems !== 3) ||
+    ((result.name === "wide" || result.name === "mobile") && (!result.wheelInteraction || Object.values(result.wheelInteraction).some(passed => passed !== true))) ||
+    (result.width >= 1280 && (Math.abs(result.wheel.width-128)>2 || Math.abs(result.wheel.height-352)>4 || result.wheel.left!==12 || result.wheel.top>180 || result.wheel.visibleItems!==5)) ||
+    (result.width < 1280 && (result.wheel.visibleItems!==3 || Math.abs(result.wheel.width-232)>2 || Math.abs(result.wheel.height-108)>4)) ||
     result.homeSynthesisVisible ||
     result.collapsedMarginOrphans !== 0 ||
     result.activeAgent !== "claude-code" ||
@@ -579,8 +732,14 @@ async function main() {
     result.philosophyCards !== 1 || result.philosophyEvidenceNotes !== 2
   );
   const readerFailures=readerChecks.filter(result=>!result || result.overflow || result.duplicateIds || result.hiddenNavVisible || result.mismatches.length || result.noteCount!==result.expectedCount);
-  if (failures.length || homeFailures.length || visualFailures.length || readerFailures.length || runtimeErrors.length) {
-    console.error("Failed checks:",JSON.stringify({failures,homeFailures,visualFailures,readerFailures,runtimeErrors}));
+  const previewNote=annotations.find(note=>note.id==='codex-25');
+  const previewAgent=manifest.agents.find(agent=>agent.id==='codex');
+  const catalogueFailures=catalogueChecks.filter(result=>
+    !['vendorSearch','emptyState','reset','nameSort','noteSort','previewNavigation'].every(key=>result[key]) ||
+    result.overflow || result.loadedAgents!==0 || result.previewQuote!==previewNote.anchor ||
+    result.previewSource!==previewAgent.sourceUrl+'#L'+previewNote.startLine+'-L'+previewNote.endLine);
+  if (failures.length || homeFailures.length || visualFailures.length || readerFailures.length || catalogueFailures.length || runtimeErrors.length) {
+    console.error("Failed checks:",JSON.stringify({failures,homeFailures,visualFailures,readerFailures,catalogueFailures,runtimeErrors}));
     process.exitCode = 1;
   }
   socket.close();

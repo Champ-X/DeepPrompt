@@ -6,9 +6,9 @@
   <p>
     <a href="https://deep-prompt-woad.vercel.app"><img alt="Live on Vercel" src="https://img.shields.io/badge/live-Vercel-000000?logo=vercel&logoColor=white"></a>
     <a href="https://github.com/Champ-X/DeepPrompt/actions/workflows/verify.yml"><img alt="Verify archive" src="https://github.com/Champ-X/DeepPrompt/actions/workflows/verify.yml/badge.svg"></a>
-    <a href="https://github.com/WEIFENG2333/phistory/tree/07bf377dba7541400c4f90b233b9c581de536952"><img alt="Phistory commit" src="https://img.shields.io/badge/Phistory-07bf377dba75-2f766d"></a>
+    <a href="https://github.com/WEIFENG2333/phistory/tree/444c615c31fae7e5162f50375ddb2d0853231df9"><img alt="Phistory commit" src="https://img.shields.io/badge/Phistory-444c615c31fa-2f766d"></a>
     <img alt="Agents" src="https://img.shields.io/badge/Agents-15-356aa0">
-    <img alt="Annotations" src="https://img.shields.io/badge/Annotations-734-c15f3c">
+    <img alt="Annotations" src="https://img.shields.io/badge/Annotations-758-c15f3c">
   </p>
   <p>
     <a href="https://deep-prompt-woad.vercel.app"><strong>在线阅读 →</strong></a>
@@ -35,6 +35,7 @@ Deep Prompt 是一个可审计的 Agent System Prompt 阅读器。它将 [Phisto
 - 中央为固定快照的原始 Prompt，不用摘要替代证据。
 - 批注与原文锚点一一对应，支持搜索、主题筛选与视觉连线。
 - 首页用七条设计轴和五个主题比较不同 Agent，详情页保留单个 Agent 的语境。
+- Agent 目录支持按名称、厂商或主题检索，并按名称或批注数排序；首页证据示例直接绑定当前原文与批注。目录检索不替代阅读页中的原文搜索。
 - 上游规则被删除或反转时，旧批注进入退役审计，不冒充当前规则。
 - 每次同步都经过哈希、锚点、DOM、响应式和真实 Chrome 交互验收。
 
@@ -42,18 +43,18 @@ Deep Prompt 是一个可审计的 Agent System Prompt 阅读器。它将 [Phisto
 
 | 指标 | 当前值 |
 | --- | ---: |
-| Phistory commit | [`07bf377dba75`](https://github.com/WEIFENG2333/phistory/tree/07bf377dba7541400c4f90b233b9c581de536952) |
-| 上游索引时间 | `2026-09-26 01:53 UTC` |
+| Phistory commit | [`444c615c31fa`](https://github.com/WEIFENG2333/phistory/tree/444c615c31fae7e5162f50375ddb2d0853231df9) |
+| 上游索引时间 | `2026-10-12 23:10 UTC` |
 | Agent | 15 |
-| 历史版本 / 快照 | 1,267 / 1,671 |
-| 当前高亮 / 批注 | 734 / 734 |
-| 当前规则解释 | 297 |
-| 设计哲学证据 / 逐句扩展 | 30 / 407 |
-| 已机械分类的非空原文行 | 16,069 |
+| 历史版本 / 快照 | 1,358 / 1,804 |
+| 当前高亮 / 批注 | 758 / 758 |
+| 当前规则解释 | 290 |
+| 设计哲学证据 / 逐句扩展 | 30 / 438 |
+| 已机械分类的非空原文行 | 16,221 |
 
-已收录 Claude Code、Codex CLI、DeepSeek Harness、Antigravity CLI、Grok Build、MiniMax Code、Kimi Code、MiMo Code、OpenClaw、Hermes Agent、Kimi CLI、opencode、Oh My Pi、Pi 与 Claude Tag。“最新”指截至 2026-09-26 核查时 Phistory 可见的最新捕获，不保证等同于各厂商线上所有模型的实时 Prompt。当前批注对应 default；23 份最新变体原文均已保存。Claude Tag 为上游手工导入并脱敏的 Slack 捕获，日期不表示软件包版本；Claude Code 默认捕获保持 CLI 入口，SDK 单独归档。完整版本、发布时间、字节数、SHA-256 和变体信息见 [`data/manifest.json`](data/manifest.json)。
+已收录 Claude Code、Codex CLI、DeepSeek Harness、Antigravity CLI、Grok Build、MiniMax Code、Kimi Code、MiMo Code、OpenClaw、Hermes Agent、Kimi CLI、opencode、Oh My Pi、Pi 与 Claude Tag。“最新”指截至 2026-10-13 核查时 Phistory 可见的最新捕获，不保证等同于各厂商线上所有模型的实时 Prompt。本轮已读取 phistory.cc 首页，并核对全部 latest 版本与原文哈希前缀和固定上游一致。当前批注对应 default；23 份最新变体原文均已保存。Claude Tag 为上游手工导入并脱敏的 Slack 捕获，日期不表示软件包版本；Claude Code 默认捕获保持 CLI 入口，SDK 单独归档。完整版本、发布时间、字节数、SHA-256 和变体信息见 [`data/manifest.json`](data/manifest.json)。
 
-本轮修订 73 条既有批注、新增 54 条、退役 69 条，重点校正工具按需发现、调度、授权与结构化输出边界。退役账本累计保留 178 条记录；逐项变化见 [`COMPLETION_AUDIT.md`](COMPLETION_AUDIT.md)。
+本轮修订 69 条既有批注、新增 48 条、退役 24 条，重点校正被移除的规划/Ralph 规则、委派条件、后台期限、通知授权与并发写入边界。退役账本累计保留 202 条记录；逐项变化见 [`COMPLETION_AUDIT.md`](COMPLETION_AUDIT.md)。
 
 ## 信息架构
 
@@ -86,13 +87,15 @@ make serve
 
 打开 <http://127.0.0.1:8765/>。阅读页使用 `fetch()` 加载 Agent 分片，因此不要直接用 `file://` 打开 `index.html`。
 
+阅读器的 Agent 切换器支持点击、单次滚动切换、拖拽预览后松手确认，以及方向键与 Home/End。按 Esc 可取消拖拽；点击底部名称菜单可直接选择全部 Agent。移动端采用底部横向切换，并保留上下滑动页面的手势。
+
 ## 项目结构
 
 | 路径 | 职责 |
 | --- | --- |
 | `index.html` | 首页目录、七条横向设计轴、五主题总结与阅读壳 |
 | `archive.css` | 全局 token、首页、阅读器、批注和加载状态 |
-| `reader-controls.css` | 顶部工具栏与 Agent 色谱切换轨 |
+| `reader-controls.css` | 顶部工具栏、Agent 弧形切换器与全部 Agent 菜单 |
 | `scripts/archive-ui.js` | 路由、搜索、筛选、批注连线与分片懒加载 |
 | `data/agents/*.html` | 可独立重建的 Agent 阅读分片 |
 | `data/prompts/*.md` | 当前 default Prompt 的本地证据副本 |
@@ -150,7 +153,7 @@ make check
 
 1. 精确定位回归：重复文本、同一行的第二处引文、多行代码、错误来源/行号/Agent、重叠与错误 HTML 标记。
 2. 当前 shell、15 份 Agent 分片和全文分类报告均可重建；画像与横向比较能追溯到有效批注。
-3. Prompt/23 份变体/Codex trace 哈希、734 组批注、Logo、版本与页面元数据一致。
+3. Prompt/23 份变体/Codex trace 哈希、758 组批注、Logo、版本与页面元数据一致。
 4. Chrome 在 1920×1080、1440×900 和 390×844 下逐 Agent 检查批注标题与正文、精确引文、来源链接、DOM ID 与页面宽度，并验证懒加载、导航、搜索、筛选、点击配对与折叠连线。
 
 GitHub Actions 在 `main` 推送和 Pull Request 上运行同一套检查。

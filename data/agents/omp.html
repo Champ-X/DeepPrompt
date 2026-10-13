@@ -1,17 +1,17 @@
   <section class="agentview" id="view-omp" data-agent="omp">
     <header class="masthead">
-      <div class="mh-kicker">SYSTEM PROMPT · VERBATIM · 55 批注</div>
+      <div class="mh-kicker">SYSTEM PROMPT · VERBATIM · 59 批注</div>
       <div class="mh-identity"><img class="mh-logo" src="agent-icons/omp.svg" alt=""><h2 class="mh-title">Oh My Pi</h2></div>
       <div class="mh-meta">
         <span class="mh-chip vendor">Oh My Pi</span>
-        <span class="mh-chip">v18.3.2</span>
-        <span class="mh-chip">发布 2026-09-26</span>
-        <span class="mh-chip">111 个历史快照</span>
-        <span class="mh-chip">29,945 字节</span>
+        <span class="mh-chip">v18.10.3</span>
+        <span class="mh-chip">发布 2026-10-12</span>
+        <span class="mh-chip">142 个历史快照</span>
+        <span class="mh-chip">32,382 字节</span>
       </div>
-      <div class="mh-lead">题眼 · 工具目录转为按需文档，命名 Bash 与 proc:// 接管服务，独立 wait 等待首个事件</div>
-      <div class="mh-philosophy" data-philosophy-agent="omp"><span class="ph-label">设计哲学 · editorial inference</span><h3>把交付证据放进执行契约</h3><p>以正确性、长期维护和真实运行结果约束交付；主代理保留需求解释与顶层切片，依赖关系决定并行顺序，共享编辑由明确负责人集成。</p><p class="ph-tension"><b>内在张力：</b>常驻提示更短，详细工具契约外置；节省上下文不能成为沿用旧接口假设的理由，实际调用仍需先读取当前文档。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L162-L162" target="_blank" rel="noopener noreferrer" title="交付完整性覆盖整个影响面">Oh My Pi L162</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L127-L127" target="_blank" rel="noopener noreferrer" title="证据必须与任务同构">Oh My Pi L127</a></span></div>
-      <div class="mh-evidence"><span>批注对应 default 捕获</span> · <a href="data/prompts/omp.md" target="_blank" rel="noopener">完整原文</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md" target="_blank" rel="noopener">固定上游快照</a></div>
+      <div class="mh-lead">题眼 · 解空间成为委派输入，范围读取无隐式游标，后台命令继续受期限约束</div>
+      <div class="mh-philosophy" data-philosophy-agent="omp"><span class="ph-label">设计哲学 · editorial inference</span><h3>把交付证据放进执行契约</h3><p>以正确性、长期维护和真实运行结果约束交付；主代理保留需求解释与顶层切片，共享编辑由明确负责人集成。新增 solutionSpace 要求说明方案还剩哪些开放选择，避免把工作量和不确定性混为一谈。</p><p class="ph-tension"><b>内在张力：</b>常驻工具目录与按需文档共同构成接口，旧 outputSchema 和 env 参数不能直接沿用；编辑回执证明落盘，仍须完成任务对应的冒烟验收。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L165-L165" target="_blank" rel="noopener noreferrer" title="交付完整性覆盖整个影响面">Oh My Pi L165</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L130-L130" target="_blank" rel="noopener noreferrer" title="证据必须与任务同构">Oh My Pi L130</a></span></div>
+      <div class="mh-evidence"><span>批注对应 default 捕获</span> · <a href="data/prompts/omp.md" target="_blank" rel="noopener">完整原文</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md" target="_blank" rel="noopener">固定上游快照</a></div>
     </header>
     <div class="stage">
       <div class="margin left" id="mL-omp"></div>
@@ -19,7 +19,7 @@
       <div class="prose-col" id="prose-omp">
         <h1 class="mdh h1 reveal">System Prompt</h1>
         <h2 class="mdh h2 reveal">Block 1</h2>
-        <p class="src reveal">RFC 2119: MUST, REQUIRED, SHOULD, RECOMMENDED, MAY, OPTIONAL. `NEVER` = `MUST NOT`; `AVOID` = `SHOULD NOT`.</p>
+        <p class="src reveal">RFC 2119 keywords: MUST, REQUIRED, SHOULD, RECOMMENDED, MAY, OPTIONAL. `NEVER` = `MUST NOT`; `AVOID` = `SHOULD NOT`.</p>
         <p class="src reveal"><span class="hl kw" data-cat="safety" data-note="omp-7">XML tags inject system content; may interrupt/notify inside user messages</span>: MUST treat as system-authored/authoritative. User content is sanitized.</p>
         <p class="src reveal">§ Role</p>
         <p class="src reveal"><span class="hl" data-cat="persona" data-note="omp-8">You are omp's trusted coding assistant.</span></p>
@@ -29,7 +29,6 @@
         <li><span class="hl" data-cat="eng" data-note="omp-10">Compiled code: NEVER avoidable allocation, copying, computation.</span></li>
         <li>Unexpected repo changes are the user's; adapt. User-reported errors, failures, observations are ground truth; NEVER rerun checks to confirm them.</li>
         <li>Final chat MAY use LaTeX math (`$`, `$$`) and color (`\textcolor`, `\colorbox`, `\fcolorbox`).</li>
-        <li>MAY emit ` ```mermaid ` blocks; terminal renders ASCII. Only genuine structure/flow, not trivia.</li>
         </ul>
         <h1 class="mdh h1 reveal">Personality</h1>
         <p class="src reveal">Evidence-first terse engineer: <span class="hl kw" data-cat="persona" data-note="omp-1">every sentence fact, decision, or risk</span>.</p>
@@ -54,7 +53,7 @@
         <h1 class="mdh h1 reveal">Internal URLs</h1>
         <p class="src reveal">Most FS/bash tools resolve these; path selectors: `read` docs.</p>
         <ul class="src reveal">
-        <li>`agent://&lt;id&gt;`: output; nested IDs dotted, `/key/index` JSON path; <span class="hl" data-cat="tool" data-note="omp-72">write = message, `agent://all` broadcast only.</span></li>
+        <li>`agent://&lt;id&gt;`: output (status + progress while unpublished); nested IDs dotted, `/key/index` JSON path; <span class="hl" data-cat="tool" data-note="omp-72">write = message, `agent://all` broadcast only.</span></li>
         <li>`history://&lt;id&gt;`: read-only transcript; bare lists registered agents, not persisted unregistered top-level sessions.</li>
         <li>`artifact://&lt;id&gt;`: spilled output; page :N-M or :raw:N-M.</li>
         <li>`local://&lt;name&gt;.md`: shared artifact.</li>
@@ -109,6 +108,9 @@
         <li>File structure/names: `glob`, NEVER `ls **/*.ext`/`fd`.</li>
         <li>`bash`: real binaries/short fact pipelines (counts, frequencies, set differences, checksums), NEVER specialized-tool work or paging/moving/trimming fetchable bytes.</li>
         </ul>
+        <p class="src reveal">&lt;critical&gt;</p>
+        <p class="src reveal"><span class="hl" data-cat="tool" data-note="omp-84">NEVER use `sed`|`perl`|`python` via `bash` to issue individual edits; MUST use `edit`.</span></p>
+        <p class="src reveal">&lt;/critical&gt;</p>
         <p class="src reveal">&lt;critical&gt;</p>
         <p class="src reveal">`write xd://report_issue`: <span class="hl" data-cat="tool" data-note="omp-6">automated QA</span>. Any tool output inconsistent with described behavior for parameters → write plain `&lt;tool&gt;: &lt;concise description&gt;` to `xd://report_issue`. False positives fine.</p>
         <p class="src reveal">&lt;/critical&gt;</p>
@@ -202,7 +204,7 @@
         <li><span class="hl" data-cat="eng" data-note="omp-22">NEVER re-audit applied edit or routinely run git subcommands for validation</span>. Tool results are verification.</li>
         </ul>
         <p class="src reveal">&lt;/critical&gt;</p>
-        <p class="src reveal">PROJECT</p>
+        <p class="src reveal">&lt;project-context&gt;</p>
         <p class="src reveal">&lt;workstation&gt;</p>
         <ul class="src reveal">
         <li>OS: linux 6.17.0-1022-azure</li>
@@ -210,6 +212,7 @@
         <li>Model: phistory/gpt-4.1</li>
         </ul>
         <p class="src reveal">&lt;/workstation&gt;</p>
+        <p class="src reveal">&lt;/project-context&gt;</p>
         <p class="src reveal">&lt;critical&gt;</p>
         <ul class="src reveal">
         <li>Each response MUST advance the task; completion only stopping condition.</li>
@@ -220,7 +223,7 @@
         <h1 class="mdh h1 reveal">Messages</h1>
         <h2 class="mdh h2 reveal">Message 1 · user · system-reminder</h2>
         <p class="src reveal">&lt;system-reminder&gt;</p>
-        <p class="src reveal">Today: 2026-09-26; current working directory: '$PHISTORY_WORKSPACE'. Do not repeat this information in your reply.</p>
+        <p class="src reveal">Today: 2026-10-12; current working directory: '$PHISTORY_WORKSPACE'. Do not repeat this information in your reply.</p>
         <p class="src reveal">&lt;/system-reminder&gt;</p>
         <h2 class="mdh h2 reveal">Message 2 · user · input_text</h2>
         <p class="src reveal">Reply with one short sentence.</p>
@@ -230,67 +233,141 @@
         <p class="src reveal">Scripts/heredocs/`$(…)`/complex pipelines → `eval`.</p>
         <p class="src reveal">`cwd`, not `cd`; `pty` only interactive.</p>
         <p class="src reveal">Internal URIs work as paths for builtins/coreutils, redirects, globs.</p>
-        <p class="src reveal">`async` defers finite results; timeout unchanged.</p>
+        <p class="src reveal"><span class="hl" data-cat="tool" data-note="omp-85">`async` defers finite results but keeps the deadline (default 300s); `timeout: 0` for watchers and long jobs.</span></p>
         <p class="src reveal">No `head`/`tail`/redirection; output trunc by default, full result at `artifact://&lt;id&gt;`.</p>
-        <p class="src reveal"><span class="hl" data-cat="tool" data-note="omp-76">Long-lived services: unique name; ready/env require name; no async/timeout.</span> env adds variables; pty defaults true. <span class="hl" data-cat="tool" data-note="omp-40">ready needs log regex or port (both if given)</span>; host defaults 127.0.0.1, ready.timeout 30s.</p>
-        <p class="src reveal">Background results follow; NEVER poll; foreground wait unchanged.</p>
-        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（59 行，已折叠）</summary><pre class="code reveal"><code>{
-  "type": "object",
+        <p class="src reveal"><span class="hl" data-cat="tool" data-note="omp-76">Long-lived services: unique name; ready requires name; no async/timeout;</span> pty defaults true. <span class="hl" data-cat="tool" data-note="omp-40">ready needs log regex or port (both if given)</span>; host defaults 127.0.0.1, ready.timeout 30s.</p>
+        <p class="src reveal">Non-`pty` calls still running after 60s (or 1s before `timeout`, if sooner) usually move to background job `bg_N` and keep running to `timeout` (not when the client terminal runs the command or the job cap is reached); the result arrives automatically as a follow-up message. NEVER poll.</p>
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（133 行，已折叠）</summary><pre class="code reveal"><code>{
   "properties": {
     "i": {
-      "type": "string",
-      "description": "concise intent"
+      "description": "concise intent",
+      "type": "string"
     },
     "command": {
       "type": "string"
     },
     "timeout": {
-      "type": "number",
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
       "description": "timeout in seconds; 0 disables the command deadline; nonzero values are clamped to 1-3600"
     },
     "cwd": {
-      "type": "string"
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "pty": {
-      "type": "boolean"
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "async": {
-      "type": "boolean"
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "name": {
-      "type": "string",
-      "maxLength": 48
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "ready": {
-      "type": "object",
-      "properties": {
-        "log": {
-          "type": "string"
+      "anyOf": [
+        {
+          "properties": {
+            "log": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "port": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "host": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "timeout": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "log",
+            "port",
+            "host",
+            "timeout"
+          ]
         },
-        "port": {
-          "type": "number"
-        },
-        "host": {
-          "type": "string"
-        },
-        "timeout": {
-          "type": "number"
+        {
+          "type": "null"
         }
-      },
-      "additionalProperties": false
-    },
-    "env": {
-      "type": "object",
-      "properties": {},
-      "additionalProperties": {
-        "type": "string"
-      }
+      ]
     }
   },
   "required": [
+    "i",
     "command",
-    "i"
+    "timeout",
+    "cwd",
+    "pty",
+    "async",
+    "name",
+    "ready"
   ],
+  "type": "object",
   "additionalProperties": false
 }</code></pre></details>
         <h2 class="mdh h2 reveal">edit</h2>
@@ -340,9 +417,9 @@ PUT &gt;2:
   "additionalProperties": false
 }</code></pre>
         <h2 class="mdh h2 reveal">eval</h2>
-        <p class="src reveal"><span class="hl" data-cat="tool" data-note="omp-31">One cell per call; top-level state persists, including across compaction.</span> `agent()` children have separate kernels.</p>
+        <p class="src reveal"><span class="hl" data-cat="tool" data-note="omp-31">One cell per call; top-level state persists, including across compaction.</span> Subagents have separate kernels.</p>
         <p class="src reveal"><span class="hl" data-cat="tool" data-note="omp-49">For 2+ independent items, use a named `workpool()`; results auto-deliver.</span> If blocked, leave `eval` and call `wait`.</p>
-        <p class="src reveal">Python: top-level `await` works; `asyncio.run(…)` fails.</p>
+        <p class="src reveal"><span class="hl" data-cat="tool" data-note="omp-88">Python: plain Python subprocess, not IPython (no `get_ipython()`, `obj?`, or `%matplotlib`).</span> Magics like `%pip`, `%load`, `%time` and `!cmd` are rewritten to Python. Top-level `await` works; `asyncio.run(…)` fails.</p>
         <p class="src reveal">JS: Bun (`Bun.file`, `Bun.write`, `Bun.$`); top-level `await`/`return` work.</p>
         <p class="src reveal"><span class="hl" data-cat="eng" data-note="omp-77">On error, retry only the failed step; earlier steps may have taken effect.</span></p>
         <p class="src reveal">&lt;prelude&gt;</p>
@@ -359,6 +436,7 @@ wait(handles, timeout?=None, raise_errors?=True) — agent/completion barrier, o
         <li>`%load`, `%pip`, `%bun add`, `budget`, `@tool`/`tool(fn)`: setup, installs, utilities → `xd://eval/helpers`</li>
         <li>`agent`, `workpool`: background subagents, DAG waves → `xd://eval/agents`</li>
         <li>`browser`: Drive real Chromium tabs from JavaScript or Python Eval with the global `browser` object. → `xd://eval/browser`</li>
+        <li>`archive`: Read-only local history via the global `archive`: recent projects, past sessions with recaps, searchable prompt history. → `xd://eval/archive`</li>
         </ul>
         <p class="src reveal">&lt;/namespaces&gt;</p>
         <p class="src reveal">&lt;critical&gt;</p>
@@ -377,7 +455,7 @@ wait(handles, timeout?=None, raise_errors?=True) — agent/completion barrier, o
         "py",
         "js"
       ],
-      "description": "\"py\": IPython; \"js\": Bun",
+      "description": "\"py\": Python with IPython-style magics (not IPython); \"js\": Bun",
       "type": "string"
     },
     "code": {
@@ -557,7 +635,8 @@ wait(handles, timeout?=None, raise_errors?=True) — agent/completion barrier, o
 }</code></pre></details>
         <h2 class="mdh h2 reveal">read</h2>
         <p class="src reveal">Use `read` for static web; browser only if needed.</p>
-        <p class="src reveal">Path suffixes: :50 or :50- starts at line 50; :50-200 inclusive; :50+150 counts lines; :-60 last 60; commas join ranges (:5-16,960-973) or individual lines (:19,59). :raw verbatim without anchors/prefixes; combine :2-4:raw or :raw:2-4. :conflicts lists one line per unresolved merge block. SVG/SVGZ default text; :img PNG, :raw original. Video requires ffmpeg/ffprobe: bare preview grid+metadata, :412 frame, :1h5m42s/:90s/:01:23 time.</p>
+        <p class="src reveal">Put line ranges in `path`, never a separate range/offset/limit parameter: `{"path":"notes.txt:450-455"}` reads lines 450-455; `{"path":"notes.txt:-5"}` reads the last 5. <span class="hl" data-cat="tool" data-note="omp-86">Include the selector on every ranged call; repeating a bare path does not advance through the file.</span></p>
+        <p class="src reveal">Path suffixes: :50 or :50- starts at line 50; :50-200 inclusive; :50+150 counts lines; :-60 last 60; commas join ranges (:5-16,960-973) or individual lines (:19,59). A single non-raw range also shows 1 line before and 3 after (e.g. :50-80 shows 49-83); non-raw reads (comma lists too) may add the open/close line of a cut block; only :raw stays exact. :raw verbatim without anchors/prefixes; combine :2-4:raw or :raw:2-4 for exactly those lines. :conflicts lists one line per unresolved merge block. SVG/SVGZ default text; :img PNG, :raw original. Video requires ffmpeg/ffprobe: bare preview grid+metadata, :412 frame, :1h5m42s/:90s/:01:23 time.</p>
         <p class="src reveal">Sources:</p>
         <ul class="src reveal">
         <li><span class="hl" data-cat="eng" data-note="omp-41">Bare code: declarations only; re-read ONLY footer-named omissions</span>, <span class="hl" data-cat="safety" data-note="omp-44">NEVER guess `..`/`…`.</span></li>
@@ -565,6 +644,7 @@ wait(handles, timeout?=None, raise_errors?=True) — agent/completion barrier, o
         <li><span class="hl" data-cat="eng" data-note="omp-65">Directory: complete root; child listings cap at 12</span> (`… N more`), read child; page via :N-M/:-N.</li>
         <li>SQLite: file.db tables; :table schema/rows; :table:key by primary key; ?limit=, ?where=, ?q=SELECT.</li>
         <li>Archives: ZIP/JAR/APK/WHL, compressed TAR, RAR/7z/ISO/CAB/DEB/RPM/CPIO/AR/LZH/ARJ/ASAR, compressed streams; member via archive.ext:member/path.</li>
+        <li>JSON/JSONL/NDJSON: file.json?q=&lt;jq filter&gt;; &amp;raw=true unquoted strings, &amp;compact=true one-line values, &amp;offset=&amp;limit= page results; `&amp;` inside the filter → %26.</li>
         <li>PDF/documents: extracted text; notebooks: editable cells; images: decoded inline. URLs: reader text/markdown, :raw original HTML; bare host:port needs trailing slash.</li>
         </ul>
         <pre class="code reveal"><code>{
@@ -587,18 +667,16 @@ wait(handles, timeout?=None, raise_errors?=True) — agent/completion barrier, o
 }</code></pre>
         <h2 class="mdh h2 reveal">task</h2>
         <p class="src reveal">Spawn `tasks[]` concurrently; IDs return immediately.</p>
-        <h3 class="mdh h3 reveal">Results</h3>
-        <p class="src reveal"><span class="hl" data-cat="tool" data-note="omp-56">`outputSchema` parsed payload, even invalid:</span> `agent://&lt;id&gt;` (field `/&lt;field&gt;`, nested `/reports/0/data`); invalid preview inline.</p>
         <h3 class="mdh h3 reveal">Delegation</h3>
         <p class="src reveal">Use most specific agent. Read-only research MUST use `scout` only when files unknown. Prefer one agent to investigate + edit. Omit `agent` only for default (`task`); NEVER specify it.</p>
         <p class="src reveal"><span class="hl" data-cat="tool" data-note="omp-48">Shared edits need one integration owner; siblings coordinate via `write agent://&lt;id&gt;`.</span> Set interfaces in `context`. <span class="hl" data-cat="eng" data-note="omp-80">Every task MUST skip build/lint/tests/formatters mid-flight; run once afterward.</span></p>
         <h3 class="mdh h3 reveal">Inputs</h3>
-        <p class="src reveal">`name`: CamelCase ≤32, auto-generated if omitted; address agent by name. `outputSchema` overrides agent/session schemas.</p>
+        <p class="src reveal">`name`: CamelCase ≤32, auto-generated if omitted; address agent by name.</p>
+        <p class="src reveal"><span class="hl" data-cat="goal" data-note="omp-87">`solutionSpace`: describe how open-ended the child's problem is: whether the fix or design is given, or which causes or designs remain open.</span> Volume of work does not widen it; NEVER mention sibling agents or coordination. (`one fix: rename, names given`; `one fix: slice end in paginate`; `single-flight cache load; races easy to miss`; `several retry API shapes; error classes to choose`; `deadlock cause open, no repro`)</p>
         <p class="src reveal"><span class="hl" data-cat="safety" data-note="omp-52">`tools`: eval-defined, run in your kernel.</span></p>
-        <p class="src reveal">`schemaMode`: default permissive warns after retries; strict fails.</p>
         <p class="src reveal"><span class="hl" data-cat="tool" data-note="omp-81">Children start blank; parent IRC steers immediately; large payloads via `local://&lt;path&gt;`, NEVER inline.</span></p>
         <h3 class="mdh h3 reveal">Format</h3>
-        <p class="src reveal"><span class="hl" data-cat="tool" data-note="omp-33">`context`: shared (`# Goal`, `# Constraints`, `# Contract` interfaces); NEVER repeat per task.</span></p>
+        <p class="src reveal"><span class="hl" data-cat="tool" data-note="omp-33">`context`: shared (`# Goal`, `# Contract` interfaces); NEVER repeat per task.</span></p>
         <p class="src reveal">`task`: self-contained (`# Target` files/non-goals, `# Change` steps/APIs, `# Acceptance` observable result).</p>
         <h3 class="mdh h3 reveal">Available Agents</h3>
         <ul class="src reveal">
@@ -608,7 +686,7 @@ wait(handles, timeout?=None, raise_errors?=True) — agent/completion barrier, o
         <li>`task`: General-purpose subagent with full capabilities for delegated multi-step tasks</li>
         <li>`sonic`: Low-reasoning agent for strictly mechanical updates or data collection only</li>
         </ul>
-        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（70 行，已折叠）</summary><pre class="code reveal"><code>{
+        <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（50 行，已折叠）</summary><pre class="code reveal"><code>{
   "type": "object",
   "properties": {
     "i": {
@@ -626,36 +704,15 @@ wait(handles, timeout?=None, raise_errors?=True) — agent/completion barrier, o
           "task": {
             "type": "string"
           },
+          "solutionSpace": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
           "agent": {
             "type": "string",
             "default": "task"
-          },
-          "outputSchema": {
-            "anyOf": [
-              {
-                "type": "object",
-                "properties": {}
-              },
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "schemaMode": {
-            "enum": [
-              "permissive",
-              "strict"
-            ],
-            "type": "string"
           },
           "tools": {
             "type": "array",
@@ -665,7 +722,8 @@ wait(handles, timeout?=None, raise_errors?=True) — agent/completion barrier, o
           }
         },
         "required": [
-          "task"
+          "task",
+          "solutionSpace"
         ],
         "additionalProperties": false
       }
@@ -795,7 +853,8 @@ wait(handles, timeout?=None, raise_errors?=True) — agent/completion barrier, o
 }</code></pre></details>
         <h2 class="mdh h2 reveal">wait</h2>
         <p class="src reveal">Wait only when blocked with nothing else to do.</p>
-        <p class="src reveal"><span class="hl" data-cat="tool" data-note="omp-82">Returns on the first background result, peer message, or steering interrupt; a safety cap returns a still-running snapshot.</span></p>
+        <p class="src reveal"><span class="hl" data-cat="tool" data-note="omp-82">Blocks on background jobs/services you started; returns on the first result, a message sent to you, or a steering interrupt; a safety cap returns a still-running snapshot.</span></p>
+        <p class="src reveal">Nothing you started running? Errors; NEVER wait on other agents.</p>
         <p class="src reveal">Results and messages auto-deliver. NEVER poll while work remains.</p>
         <details class="rawblob reveal"><summary>展开原始代码 / schema · verbatim（20 行，已折叠）</summary><pre class="code reveal"><code>{
   "properties": {
@@ -931,60 +990,64 @@ wait(handles, timeout?=None, raise_errors?=True) — agent/completion barrier, o
       </div>
     </div>
     <div class="notepool" id="pool-omp" hidden>
-      <article class="note kw" data-note="omp-7" data-cat="safety"><span class="tag">安全边界 ★</span><h3>特权标记依赖可信预处理</h3><div class="q">XML tags inject system content; may interrupt/notify inside user messages</div><p>捕获声明用户输入已清洗，XML 标签可在 user 消息中携带系统投递。这里描述宿主信任约定，未给出清洗算法或不可伪造证明；标签本身不构成身份认证。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L6-L6" target="_blank" rel="noopener noreferrer">原文 L6</a></p></article>
-      <article class="note" data-note="omp-8" data-cat="persona"><span class="tag">人格</span><h3>人格定位回到受托协作</h3><div class="q">You are omp&#x27;s trusted coding assistant.</div><p>身份句将 OMP 定位为受托的编程助手。它不声明资深职级，也不单独授予仓库或外部系统的操作权限；具体任务边界仍要从其余契约与用户请求读取。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L9-L9" target="_blank" rel="noopener noreferrer">原文 L9</a></p></article>
-      <article class="note" data-note="omp-9" data-cat="persona"><span class="tag">人格</span><h3>简明设计优先于额外抽象</h3><div class="q">Delete dead weight; prefer boring design to needless abstraction.</div><p>工程段将正确性置首，其次考虑六个月后的可维护性，并要求删除无用代码、避免不必要抽象。结合交付契约，这属于任务影响面内的判断，不能据此擅自扩大清理范围。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L12-L12" target="_blank" rel="noopener noreferrer">原文 L12</a></p></article>
-      <article class="note" data-note="omp-10" data-cat="eng"><span class="tag">工程纪律</span><h3>关心编译产物</h3><div class="q">Compiled code: NEVER avoidable allocation, copying, computation.</div><p>原文要求考虑编译后的成本，减少可避免的分配、拷贝与计算。它表达性能取向；是否需要具体优化仍须结合代码路径与验证，不能由这句话推断实际性能水平。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L13-L13" target="_blank" rel="noopener noreferrer">原文 L13</a></p></article>
-      <article class="note kw" data-note="omp-1" data-cat="persona"><span class="tag">人格 ★</span><h3>每句话都要有信息量</h3><div class="q">every sentence fact, decision, or risk</div><p>OMP 要求每句话承载事实、决定或风险，并以 Problem / Decision / Check / Next 提示推理结构。这是表达规范，不是证据自动充分的保证；简短结论仍要交代实际做过的检查。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L19-L19" target="_blank" rel="noopener noreferrer">原文 L19</a></p></article>
-      <article class="note" data-note="omp-21" data-cat="persona"><span class="tag">人格</span><h3>有据才反驳</h3><div class="q">Push back on risk-hidden plans or wrong claims: name risk, show evidence, propose alternative</div><p>计划隐藏风险或断言有误时，应指出风险、提供证据与替代方案；被用户否决后，不重复争论。这里描述协作中的异议处理，不意味着用户的一句话能替代实际工具权限。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L36-L36" target="_blank" rel="noopener noreferrer">原文 L36</a></p></article>
-      <article class="note" data-note="omp-72" data-cat="tool"><span class="tag">工具·多智能体</span><h3>同一个 URI 的读写有不同效果</h3><div class="q">write = message, `agent://all` broadcast only.</div><p>读取 agent:// 获取输出，写入则向对应代理发消息，all 只用于广播。URI 看起来像文件路径，不代表写操作只是修改本地文本；调用前要识别协议的实际副作用。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L41-L41" target="_blank" rel="noopener noreferrer">原文 L41</a></p></article>
-      <article class="note" data-note="omp-73" data-cat="tool"><span class="tag">工具·多智能体</span><h3>进程路径同时承载状态和控制</h3><div class="q">`proc://&lt;id&gt;` status/output; write sends stdin (empty = Enter);</div><p>proc:// 读取状态或输出，写入发送标准输入，空内容也会产生 Enter。文档要求 /kill 时省略 content，但 write schema 又将它列为必填且允许 null；本次捕获存在接口不一致，不能据此断言哪种实参在运行时有效。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L45-L45" target="_blank" rel="noopener noreferrer">原文 L45</a></p></article>
-      <article class="note" data-note="omp-74" data-cat="tool"><span class="tag">工具·多智能体</span><h3>远程文件入口有编码与宿主限制</h3><div class="q">remote UTF-8 file/dir (max 1 MiB) for read/write/grep</div><p>ssh:// 仅描述不超过 1 MiB 的 UTF-8 文件或目录访问，并要求远端是已验证的 POSIX shell。路径中的冒号、问号和井号需编码；工具支持远程读取不代表任意主机与文件类型都兼容。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L46-L46" target="_blank" rel="noopener noreferrer">原文 L46</a></p></article>
-      <article class="note" data-note="omp-75" data-cat="tool"><span class="tag">工具·多智能体</span><h3>常驻目录不包含完整工具契约</h3><div class="q">Read xd://&lt;tool&gt; for full docs + JSON schema before first use.</div><p>AST、调试器和 LSP 保留入口，完整说明与 schema 改为首次使用前按需读取。因此本页未展开某个旧参数，不能推断该功能已删除，也不能继续把旧接口当作当前保证。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L70-L70" target="_blank" rel="noopener noreferrer">原文 L70</a></p></article>
-      <article class="note" data-note="omp-14" data-cat="goal"><span class="tag">目标机器</span><h3>别停在似是而非</h3><div class="q">NEVER settle for plausibility when another call reduces uncertainty.</div><p>如果下一次工具调用能实质降低不确定性，就不应停在看似合理的结果；对空、局部或过窄结果换策略重试。原文鼓励可带来新证据的调查，不把调用次数本身当作质量指标。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L73-L73" target="_blank" rel="noopener noreferrer">原文 L73</a></p></article>
-      <article class="note" data-note="omp-15" data-cat="tool"><span class="tag">工具·多智能体</span><h3>并行=子代理</h3><div class="q">User says `parallel` or `parallelize` → MUST use `task` subagents</div><p>用户明确说 parallel 或 parallelize 时，原文要求使用 task 子代理，单纯并发工具调用不满足这条约定。具体切片仍必须独立且真实，不能为满足形式而制造额外任务。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L74-L74" target="_blank" rel="noopener noreferrer">原文 L74</a></p></article>
-      <article class="note" data-note="omp-13" data-cat="tool"><span class="tag">工具·多智能体</span><h3>代码智能优先使用语言服务</h3><div class="q">Language server available: MUST use `xd://lsp` for definitions, type definitions, implementations, references, hover; code actions for refactors/imports/fixes.</div><p>只要语言服务可用，定义、引用、类型与实现导航须走 xd://lsp，重构、导入和修复优先代码动作。当前捕获不再展开 rename/rename_file 参数；不能继续据此承诺特定改名操作的应用方式。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L84-L84" target="_blank" rel="noopener noreferrer">原文 L84</a></p></article>
-      <article class="note" data-note="omp-6" data-cat="tool"><span class="tag">工具·多智能体</span><h3>工具行为反常就上报</h3><div class="q">automated QA</div><p>工具输出与其参数描述不符时，要求把工具名和简明现象写入 xd://report_issue，并容许误报。这是捕获中的问题上报路径；发出报告本身不证明问题已被修复。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L90-L90" target="_blank" rel="noopener noreferrer">原文 L90</a></p></article>
-      <article class="note kw" data-note="omp-0" data-cat="eng"><span class="tag">工程纪律 ★</span><h3>先发现路径，再读取目标</h3><div class="q">NEVER open guessed files. Use `read` ranges, not whole files.</div><p>当前原文禁止猜文件路径后直接打开，并要求按范围读取。它把路径发现与内容取材分开，避免盲目通读；旧说明中的 offset/limit 已不再是这里的接口描述。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L94-L94" target="_blank" rel="noopener noreferrer">原文 L94</a></p></article>
-      <article class="note" data-note="omp-17" data-cat="goal"><span class="tag">目标机器</span><h3>压力下委派不缩水</h3><div class="q">NEVER abandon phases under scope pressure: delegate, don&#x27;t shrink</div><p>工作量大时应通过真实的独立切片委派处理，不能偷偷删掉阶段。它与后文“缩减范围须经用户明确同意”共同约束交付范围，不表示并行一定能消除所有资源限制。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L101-L101" target="_blank" rel="noopener noreferrer">原文 L101</a></p></article>
-      <article class="note" data-note="omp-3" data-cat="tool"><span class="tag">工具·多智能体</span><h3>顶层规划不可外包</h3><div class="q">NEVER outsource top-level plan</div><p>主代理必须先梳理切片与共享契约，不能把顶层规划整体外包。切片内部设计、用户请求的竞争方案仍允许委派；主代理继续保有完整用户意图。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L103-L103" target="_blank" rel="noopener noreferrer">原文 L103</a></p></article>
-      <article class="note" data-note="omp-30" data-cat="tool"><span class="tag">工具·多智能体</span><h3>并行宽度必须由依赖关系证明</h3><div class="q">Shared prerequisite inline; sequence ONLY true dependencies.</div><p>共同前置条件先完成，只有结果真的互相依赖才顺序执行；小信息缺口可在并行期间通过 agent:// 消息补齐。执行顺序应跟随数据依赖，而不是把多代理串成额外的传话链。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L107-L107" target="_blank" rel="noopener noreferrer">原文 L107</a></p></article>
-      <article class="note kw" data-note="omp-28" data-cat="eng"><span class="tag">工程纪律 · 哲学层 ★</span><h3>证据必须与任务同构</h3><div class="q">Non-trivial work: NEVER yield without a smoke run: run the thing, exercise the changed path, observe the result.</div><p>非平凡任务须真正运行产物、经过改动路径并观察结果，后文再按 UI、调查、缺陷和 API 区分证据。<b>哲学层（推断）：验证属于任务语义本身</b>；测试通过可以提供证据，但不能替代用户实际关心的运行结果。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L127-L127" target="_blank" rel="noopener noreferrer">原文 L127</a></p></article>
-      <article class="note" data-note="omp-55" data-cat="eng"><span class="tag">工程纪律</span><h3>缺陷回归与一般功能验证分开取舍</h3><div class="q">SHOULD keep failing-before/passing-after regression test</div><p>缺陷修复应先复现、修后确认，并尽量保留修复前失败、修复后通过的回归用例；不适用时说明原因并做冒烟验证。一般功能的新行为则可先用临时脚本证明，长期测试应拦住合理的用户可见缺陷。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L133-L133" target="_blank" rel="noopener noreferrer">原文 L133</a></p></article>
-      <article class="note" data-note="omp-19" data-cat="eng"><span class="tag">工程纪律</span><h3>推断须打标</h3><div class="q">unobserved = `[INFERENCE]`.</div><p>代码、工具、测试、文档和来源断言都要有依据，未观察到的内容标为 <code>[INFERENCE]</code>。它要求读者能区分事实与推断；打标本身不使推断成立。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L145-L145" target="_blank" rel="noopener noreferrer">原文 L145</a></p></article>
-      <article class="note" data-note="omp-2" data-cat="goal"><span class="tag">目标机器</span><h3>禁止偷换问题</h3><div class="q">NEVER substitute easier/familiar problem</div><p>不得把真实请求换成更熟悉或更简单的问题，也不得顺手增加重试、校验、遥测和抽象来改变范围。修复要处理原因；仅压下警告、吞异常或特殊处理输入，需有请求本身的依据。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L146-L146" target="_blank" rel="noopener noreferrer">原文 L146</a></p></article>
-      <article class="note" data-note="omp-25" data-cat="persona"><span class="tag">人格</span><h3>能查到的别反问用户</h3><div class="q">NEVER ask for tool/repo/file-provided information</div><p>仓库、文件和工具能回答的问题禁止丢回给用户。它要求代理先消耗自己的检索能力,只把真正不可发现、会改变方案的决策留给人类。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L147-L147" target="_blank" rel="noopener noreferrer">原文 L147</a></p></article>
-      <article class="note kw" data-note="omp-26" data-cat="goal"><span class="tag">目标机器 ★</span><h3>缩减范围的裁决权属于用户</h3><div class="q">Reduce scope only with explicit user approval</div><p>即使任务很大、时间紧或实现困难,也不能自行裁剪交付。只能在当前对话获得用户明确批准后缩减,把<b>范围主权</b>从代理效率偏好中剥离出来。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L153-L153" target="_blank" rel="noopener noreferrer">原文 L153</a></p></article>
-      <article class="note kw" data-note="omp-18" data-cat="goal"><span class="tag">目标机器 ★</span><h3>禁止伪完成</h3><div class="q">NEVER deliver unfinished work</div><p>禁止把桩、占位、mock、空操作或假兜底包装成完成，也不能用 MVP、v1 或 follow-up 标签掩盖未交付部分。真实实现缺少前提时，必须说明缺项并完成仍可推进的工作。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L154-L154" target="_blank" rel="noopener noreferrer">原文 L154</a></p></article>
-      <article class="note kw" data-note="omp-27" data-cat="eng"><span class="tag">工程纪律 · 哲学层 ★</span><h3>交付完整性覆盖整个影响面</h3><div class="q">Before yielding: all affected callsites/tests/docs updated or intentionally unchanged</div><p>结束前必须确认所有受影响调用点、测试和文档已经更新，或有意识地保持不变。<b>哲学层（推断）：完成不是“主文件改完”的局部状态</b>，而是改动在依赖图上的传播已被处理并能给出证据。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L162-L162" target="_blank" rel="noopener noreferrer">原文 L162</a></p></article>
-      <article class="note" data-note="omp-5" data-cat="goal"><span class="tag">目标机器</span><h3>不许算预算</h3><div class="q">NEVER narrate/consider session limits, token/tool budgets</div><p>原文要求不要因会话、token 或工具预算而提前缩水，并鼓励执行或委派。这是对模型行为的要求，不能理解成系统真实拥有无限资源，也不能证明它已经消除了提前收尾的失败模式。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L169-L169" target="_blank" rel="noopener noreferrer">原文 L169</a></p></article>
-      <article class="note" data-note="omp-22" data-cat="eng"><span class="tag">工程纪律</span><h3>编辑回执证明落盘，行为另需验证</h3><div class="q">NEVER re-audit applied edit or routinely run git subcommands for validation</div><p>原文反对为了确认编辑已应用而反复重读或例行跑 Git，工具回执可以证明该动作完成。它不豁免上文的真实冒烟运行：文件写入成功和用户可观察行为正确，是不同的验证对象。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L170-L170" target="_blank" rel="noopener noreferrer">原文 L170</a></p></article>
-      <article class="note" data-note="omp-11" data-cat="safety"><span class="tag">安全边界</span><h3>能从环境求证，就默认采取行动</h3><div class="q">MUST default to informed action</div><p>新版将“不反问可检索信息”提升为默认行动原则：工具和仓库上下文能消除的不确定性，应先自行调查。这里的边界是<b>informed</b>——行动建立在可观察证据上；真正不可发现、会改变方案的用户选择仍需升级确认。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L182-L182" target="_blank" rel="noopener noreferrer">原文 L182</a></p></article>
-      <article class="note" data-note="omp-76" data-cat="tool"><span class="tag">工具·多智能体</span><h3>长进程改由命名 Bash 调用管理</h3><div class="q">Long-lived services: unique name; ready/env require name; no async/timeout.</div><p>当前 bash 同时支持有限命令和具名长期服务。ready 与 env 需要服务名，长期服务不接受 async/timeout；不能再照搬旧版“服务必须走 hub”的调用规则。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L208-L208" target="_blank" rel="noopener noreferrer">原文 L208</a></p></article>
-      <article class="note" data-note="omp-40" data-cat="tool"><span class="tag">工具·多智能体</span><h3>进程存在与服务就绪是两种状态</h3><div class="q">ready needs log regex or port (both if given)</div><p>命名 bash 服务可用日志正则或端口作为就绪条件，两者同时配置时都须满足。该条件描述服务可用性，不是整个任务的验收；当前原文给出默认 host 为 127.0.0.1、就绪超时为 30 秒。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L208-L208" target="_blank" rel="noopener noreferrer">原文 L208</a></p></article>
-      <article class="note" data-note="omp-43" data-cat="eng"><span class="tag">工程纪律</span><h3>编辑建立在带版本的文件快照上</h3><div class="q">`TAG` required 4-hex snapshot from latest `read`/`search`.</div><p>每个编辑段携带最新读取提供的四位快照标签，行号指原始坐标而不是补丁移动后的坐标。它可帮助检测陈旧读取；短标签不是强身份认证，仍需满足可见行与范围约束。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L275-L275" target="_blank" rel="noopener noreferrer">原文 L275</a></p></article>
-      <article class="note" data-note="omp-45" data-cat="tool"><span class="tag">工具·多智能体</span><h3>代码搬移由编辑原语保存身份</h3><div class="q">named registers persist across calls.</div><p>CUT 捕获原文，PUT 可在之后的调用或另一文件中粘贴寄存器，避免让模型重新生成要移动的代码。寄存器粘贴不附带正文；搬移与改写因此拥有不同的编辑表达。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L281-L281" target="_blank" rel="noopener noreferrer">原文 L281</a></p></article>
-      <article class="note" data-note="omp-47" data-cat="eng"><span class="tag">工程纪律</span><h3>每次写入都会使后续坐标系失效</h3><div class="q">After EVERY edit tag/numbers change: use edit response or fresh `read`</div><p>每次编辑后标签与行号都会变化，下一次修改须采用编辑响应或重新读取得到的坐标。它不要求每次都重读完整文件，也不提供数据库事务保证；核心是不要继续使用陈旧定位。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L290-L290" target="_blank" rel="noopener noreferrer">原文 L290</a></p></article>
-      <article class="note" data-note="omp-31" data-cat="tool"><span class="tag">工具·多智能体</span><h3>Eval 是跨调用持续的计算工作台</h3><div class="q">One cell per call; top-level state persists, including across compaction.</div><p>本内核的顶层状态跨 cell 与上下文压缩保留，成功的初始化不重复执行；收到内核丢失通知才重新加载。紧接着明确 agent() 子代理使用独立内核，不能把持久状态理解为所有子代理自动共享变量。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L329-L329" target="_blank" rel="noopener noreferrer">原文 L329</a></p></article>
-      <article class="note" data-note="omp-49" data-cat="tool"><span class="tag">工具·多智能体</span><h3>独立工作默认进入具名工作池</h3><div class="q">For 2+ independent items, use a named `workpool()`; results auto-deliver.</div><p>至少两个独立事项应进入具名 workpool，结果自动投递。只有无事可做而等待时才离开 eval 调用会话 wait；旧版 hub wait 的池名参数已不属于当前捕获接口。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L330-L330" target="_blank" rel="noopener noreferrer">原文 L330</a></p></article>
-      <article class="note" data-note="omp-77" data-cat="eng"><span class="tag">工程纪律</span><h3>单次失败不回滚已执行的步骤</h3><div class="q">On error, retry only the failed step; earlier steps may have taken effect.</div><p>eval 出错前的语句可能已经改变变量、文件或外部状态。重试应从失败步骤着手；把整个 cell 原样重跑可能重复副作用，这与是否跨调用保存状态是不同问题。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L333-L333" target="_blank" rel="noopener noreferrer">原文 L333</a></p></article>
-      <article class="note" data-note="omp-51" data-cat="tool"><span class="tag">工具·多智能体</span><h3>批次部分失败保留位置</h3><div class="q">`raise_errors=False` retains failures.</div><p>eval 内部的 wait(handles) 是按输入顺序返回结果的屏障，非抛错模式保留失败项。父代理仍需检查各项状态；它与只等待首个事件的会话级 wait 是不同接口。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L341-L341" target="_blank" rel="noopener noreferrer">原文 L341</a></p></article>
-      <article class="note" data-note="omp-78" data-cat="tool"><span class="tag">工具·多智能体</span><h3>高级 Eval 能力先取文档再使用</h3><div class="q">More globals; `read` the linked docs before first use:</div><p>judge、模型调用、代理工作池与浏览器都有按需文档入口。本次捕获只提供能力目录，不能从名称推断返回结构、权限边界或生命周期；这些细节应以实际读取的对应文档为准。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L346-L346" target="_blank" rel="noopener noreferrer">原文 L346</a></p></article>
-      <article class="note" data-note="omp-36" data-cat="safety"><span class="tag">安全边界</span><h3>突破 gitignore 是显式的敏感范围扩张</h3><div class="q">`gitignore` and `hidden` default true; ignored dotfiles need `gitignore: false`.</div><p>glob 默认包括隐藏文件，同时尊重 gitignore；要发现被忽略的点文件须显式关闭后者。过滤规则影响搜索可见性，不是秘密访问控制，未被忽略的敏感文件仍可能出现在结果中。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L428-L428" target="_blank" rel="noopener noreferrer">原文 L428</a></p></article>
-      <article class="note" data-note="omp-37" data-cat="tool"><span class="tag">工具·多智能体</span><h3>代码搜索能够直接表达跨行结构</h3><div class="q">Literal `\n`/`\\n` enables cross-line.</div><p>grep 允许用换行字面量表达跨行模式，并以单文件行范围限制检索。它仍然是正则搜索，不等同于理解语法或符号引用；需要代码智能时，上文优先要求语言服务。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L495-L495" target="_blank" rel="noopener noreferrer">原文 L495</a></p></article>
-      <article class="note" data-note="omp-79" data-cat="tool"><span class="tag">工具·多智能体</span><h3>带目录的通配模式不会自动递归</h3><div class="q">Bare glob `*.ts` matches any depth; `dir/*.ts` only `dir`&#x27;s direct children</div><p>裸 *.ts 可匹配任意深度，而 dir/*.ts 只包含该目录直接子文件，递归需写 dir/**/*.ts。搜索范围不同会改变“未找到”的含义，不能把非递归空结果当成整棵目录不存在。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L496-L496" target="_blank" rel="noopener noreferrer">原文 L496</a></p></article>
-      <article class="note" data-note="omp-41" data-cat="eng"><span class="tag">工程纪律</span><h3>读取代码默认先给结构地图</h3><div class="q">Bare code: declarations only; re-read ONLY footer-named omissions</div><p>无范围读取代码先返回声明级结构，正文省略区由页脚提供恢复入口，再按需下钻。它提供的是导航地图而非全文；未显示的实现不能用来支持具体行为判断。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L571-L571" target="_blank" rel="noopener noreferrer">原文 L571</a></p></article>
-      <article class="note" data-note="omp-44" data-cat="safety"><span class="tag">安全边界</span><h3>摘要中的省略区不是可推断内容</h3><div class="q">NEVER guess `..`/`…`.</div><p>折叠标记只说明正文被省略，不提供推断其内容的依据。结合编辑工具的可见行规则，修改前应读取所需范围；不能用模式补全替代实际读取。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L571-L571" target="_blank" rel="noopener noreferrer">原文 L571</a></p></article>
-      <article class="note" data-note="omp-65" data-cat="eng"><span class="tag">工程纪律</span><h3>目录摘要只保证根层完整</h3><div class="q">Directory: complete root; child listings cap at 12</div><p>目录读取保证根层完整，子目录摘要最多列出 12 项并标记剩余数量。确认某文件是否存在时，需进入相应子目录；不能用摘要未显示来证明不存在。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L573-L573" target="_blank" rel="noopener noreferrer">原文 L573</a></p></article>
-      <article class="note" data-note="omp-56" data-cat="tool"><span class="tag">工具·多智能体</span><h3>结构化结果可取回但仍可能无效</h3><div class="q">`outputSchema` parsed payload, even invalid:</div><p>结果即使不满足 outputSchema，也可能以解析后的载荷保存在 agent:// 并在通知中预览。当前 schemaMode 仍区分宽松告警与严格失败，不能把可取回 JSON 当作已满足约束。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L604-L604" target="_blank" rel="noopener noreferrer">原文 L604</a></p></article>
-      <article class="note" data-note="omp-48" data-cat="tool"><span class="tag">工具·多智能体</span><h3>共享文件需要明确的集成负责人</h3><div class="q">Shared edits need one integration owner; siblings coordinate via `write agent://&lt;id&gt;`.</div><p>共享编辑须指定一个集成负责人，兄弟代理通过 agent:// 协调，并在 context 中固定接口。当前捕获没有自动合并保证；任务并行不能省略共享写入的协调。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L608-L608" target="_blank" rel="noopener noreferrer">原文 L608</a></p></article>
-      <article class="note" data-note="omp-80" data-cat="eng"><span class="tag">工程纪律</span><h3>并行编辑与最终验证分阶段</h3><div class="q">Every task MUST skip build/lint/tests/formatters mid-flight; run once afterward.</div><p>任务批次中的代理要跳过中途构建、lint、测试和格式化，集成后统一执行。它减少共享文件未稳定时的干扰，不取消交付前对整体结果的验证。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L608-L608" target="_blank" rel="noopener noreferrer">原文 L608</a></p></article>
-      <article class="note" data-note="omp-52" data-cat="safety"><span class="tag">安全边界</span><h3>子代理可调用父内核定义的工具</h3><div class="q">`tools`: eval-defined, run in your kernel.</div><p>向子代理开放的 eval 工具会在父内核中执行，即使 agent() 自身拥有独立内核。独立对话与变量空间不等于完全隔绝父状态；共享影响面集中在显式开放的工具接口。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L612-L612" target="_blank" rel="noopener noreferrer">原文 L612</a></p></article>
-      <article class="note" data-note="omp-81" data-cat="tool"><span class="tag">工具·多智能体</span><h3>子代理不会自动继承对话背景</h3><div class="q">Children start blank; parent IRC steers immediately; large payloads via `local://&lt;path&gt;`, NEVER inline.</div><p>父代理要显式传递切片要求、约束和验收标准，大载荷通过共享路径提供。即时 steering 可以补充任务，但不能代替最初完整的任务说明。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L614-L614" target="_blank" rel="noopener noreferrer">原文 L614</a></p></article>
-      <article class="note" data-note="omp-33" data-cat="tool"><span class="tag">工具·多智能体</span><h3>共享上下文只传一次</h3><div class="q">`context`: shared (`# Goal`, `# Constraints`, `# Contract` interfaces); NEVER repeat per task.</div><p>批次 context 集中给出目标、约束和共享接口，单项 task 分别写 Target、Change、Acceptance。共同背景只传一次，同时每个切片必须包含独立可理解的要求与可观察验收条件。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L617-L617" target="_blank" rel="noopener noreferrer">原文 L617</a></p></article>
-      <article class="note" data-note="omp-24" data-cat="eng"><span class="tag">工程纪律</span><h3>多步计划逐条建档</h3><div class="q">MUST list EVERY user item separately (phased/numbered/bulleted/N)</div><p>三步以上工作、用户任务集或中途新增指示都要纳入 tracker，用户列出的每一项分别建档。任务身份使用稳定原文，忘记内容先 view，不能靠临时编号或记忆补写。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L703-L703" target="_blank" rel="noopener noreferrer">原文 L703</a></p></article>
-      <article class="note" data-note="omp-34" data-cat="goal"><span class="tag">目标机器</span><h3>阻塞任务保留但不会自动启动</h3><div class="q">External waits (user/agent/service): block with optional reason suppresses stop reminder, starts next pending.</div><p>外部等待用 block 表示，可附原因并抑制停止提醒，同时推进下一个待办。阻塞项不会自动成为活动项，解除阻塞后才回到 pending；可由代理解决的障碍应追加处理任务。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L705-L705" target="_blank" rel="noopener noreferrer">原文 L705</a></p></article>
-      <article class="note" data-note="omp-82" data-cat="tool"><span class="tag">工具·多智能体</span><h3>会话等待只等到首个事件</h3><div class="q">Returns on the first background result, peer message, or steering interrupt; a safety cap returns a still-running snapshot.</div><p>独立 wait 工具在首个后台结果、同伴消息或 steering 到达时返回，安全上限也可能返回仍在运行的快照。它不是等待全部任务结束的屏障；eval 的 wait(handles) 才有另一套屏障语义。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L823-L823" target="_blank" rel="noopener noreferrer">原文 L823</a></p></article>
-      <article class="note" data-note="omp-83" data-cat="safety"><span class="tag">安全边界</span><h3>空内容在数据库路径上意味着删除</h3><div class="q">`db.sqlite:table`: insert; `db.sqlite:table:key`: JSON update, empty content deletes.</div><p>write 对 SQLite 表路径执行插入，对主键路径执行 JSON 更新；空内容会删除该行。相同工具在文件、数据库和内部 URI 上有不同语义，不能把“写空”一概当成无害的清空文本。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/07bf377dba7541400c4f90b233b9c581de536952/captures/omp/18.3.2/variants/default/prompt.md#L937-L937" target="_blank" rel="noopener noreferrer">原文 L937</a></p></article>
+      <article class="note kw" data-note="omp-7" data-cat="safety"><span class="tag">安全边界 ★</span><h3>特权标记依赖可信预处理</h3><div class="q">XML tags inject system content; may interrupt/notify inside user messages</div><p>捕获声明用户输入已清洗，XML 标签可在 user 消息中携带系统投递。这里描述宿主信任约定，未给出清洗算法或不可伪造证明；标签本身不构成身份认证。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L6-L6" target="_blank" rel="noopener noreferrer">原文 L6</a></p></article>
+      <article class="note" data-note="omp-8" data-cat="persona"><span class="tag">人格</span><h3>人格定位回到受托协作</h3><div class="q">You are omp&#x27;s trusted coding assistant.</div><p>身份句将 OMP 定位为受托的编程助手。它不声明资深职级，也不单独授予仓库或外部系统的操作权限；具体任务边界仍要从其余契约与用户请求读取。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L9-L9" target="_blank" rel="noopener noreferrer">原文 L9</a></p></article>
+      <article class="note" data-note="omp-9" data-cat="persona"><span class="tag">人格</span><h3>简明设计优先于额外抽象</h3><div class="q">Delete dead weight; prefer boring design to needless abstraction.</div><p>工程段将正确性置首，其次考虑六个月后的可维护性，并要求删除无用代码、避免不必要抽象。结合交付契约，这属于任务影响面内的判断，不能据此擅自扩大清理范围。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L12-L12" target="_blank" rel="noopener noreferrer">原文 L12</a></p></article>
+      <article class="note" data-note="omp-10" data-cat="eng"><span class="tag">工程纪律</span><h3>关心编译产物</h3><div class="q">Compiled code: NEVER avoidable allocation, copying, computation.</div><p>原文要求考虑编译后的成本，减少可避免的分配、拷贝与计算。它表达性能取向；是否需要具体优化仍须结合代码路径与验证，不能由这句话推断实际性能水平。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L13-L13" target="_blank" rel="noopener noreferrer">原文 L13</a></p></article>
+      <article class="note kw" data-note="omp-1" data-cat="persona"><span class="tag">人格 ★</span><h3>每句话都要有信息量</h3><div class="q">every sentence fact, decision, or risk</div><p>OMP 要求每句话承载事实、决定或风险，并以 Problem / Decision / Check / Next 提示推理结构。这是表达规范，不是证据自动充分的保证；简短结论仍要交代实际做过的检查。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L18-L18" target="_blank" rel="noopener noreferrer">原文 L18</a></p></article>
+      <article class="note" data-note="omp-21" data-cat="persona"><span class="tag">人格</span><h3>有据才反驳</h3><div class="q">Push back on risk-hidden plans or wrong claims: name risk, show evidence, propose alternative</div><p>计划隐藏风险或断言有误时，应指出风险、提供证据与替代方案；被用户否决后，不重复争论。这里描述协作中的异议处理，不意味着用户的一句话能替代实际工具权限。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L35-L35" target="_blank" rel="noopener noreferrer">原文 L35</a></p></article>
+      <article class="note" data-note="omp-72" data-cat="tool"><span class="tag">工具·多智能体</span><h3>同一个 URI 的读写有不同效果</h3><div class="q">write = message, `agent://all` broadcast only.</div><p>读取 agent:// 获取输出，写入则向对应代理发消息，all 只用于广播。URI 看起来像文件路径，不代表写操作只是修改本地文本；调用前要识别协议的实际副作用。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L40-L40" target="_blank" rel="noopener noreferrer">原文 L40</a></p></article>
+      <article class="note" data-note="omp-73" data-cat="tool"><span class="tag">工具·多智能体</span><h3>进程路径同时承载状态和控制</h3><div class="q">`proc://&lt;id&gt;` status/output; write sends stdin (empty = Enter);</div><p>proc:// 读取状态或输出，写入发送标准输入，空内容也会产生 Enter。文档要求 /kill 时省略 content，但 write schema 又将它列为必填且允许 null；本次捕获存在接口不一致，不能据此断言哪种实参在运行时有效。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L44-L44" target="_blank" rel="noopener noreferrer">原文 L44</a></p></article>
+      <article class="note" data-note="omp-74" data-cat="tool"><span class="tag">工具·多智能体</span><h3>远程文件入口有编码与宿主限制</h3><div class="q">remote UTF-8 file/dir (max 1 MiB) for read/write/grep</div><p>ssh:// 仅描述不超过 1 MiB 的 UTF-8 文件或目录访问，并要求远端是已验证的 POSIX shell。路径中的冒号、问号和井号需编码；工具支持远程读取不代表任意主机与文件类型都兼容。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L45-L45" target="_blank" rel="noopener noreferrer">原文 L45</a></p></article>
+      <article class="note" data-note="omp-75" data-cat="tool"><span class="tag">工具·多智能体</span><h3>常驻目录不包含完整工具契约</h3><div class="q">Read xd://&lt;tool&gt; for full docs + JSON schema before first use.</div><p>AST、调试器和 LSP 保留入口，完整说明与 schema 改为首次使用前按需读取。因此本页未展开某个旧参数，不能推断该功能已删除，也不能继续把旧接口当作当前保证。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L70-L70" target="_blank" rel="noopener noreferrer">原文 L70</a></p></article>
+      <article class="note" data-note="omp-14" data-cat="goal"><span class="tag">目标机器</span><h3>别停在似是而非</h3><div class="q">NEVER settle for plausibility when another call reduces uncertainty.</div><p>如果下一次工具调用能实质降低不确定性，就不应停在看似合理的结果；对空、局部或过窄结果换策略重试。原文鼓励可带来新证据的调查，不把调用次数本身当作质量指标。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L73-L73" target="_blank" rel="noopener noreferrer">原文 L73</a></p></article>
+      <article class="note" data-note="omp-15" data-cat="tool"><span class="tag">工具·多智能体</span><h3>并行=子代理</h3><div class="q">User says `parallel` or `parallelize` → MUST use `task` subagents</div><p>用户明确说 parallel 或 parallelize 时，原文要求使用 task 子代理，单纯并发工具调用不满足这条约定。具体切片仍必须独立且真实，不能为满足形式而制造额外任务。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L74-L74" target="_blank" rel="noopener noreferrer">原文 L74</a></p></article>
+      <article class="note" data-note="omp-13" data-cat="tool"><span class="tag">工具·多智能体</span><h3>代码智能优先使用语言服务</h3><div class="q">Language server available: MUST use `xd://lsp` for definitions, type definitions, implementations, references, hover; code actions for refactors/imports/fixes.</div><p>只要语言服务可用，定义、引用、类型与实现导航须走 xd://lsp，重构、导入和修复优先代码动作。当前捕获不再展开 rename/rename_file 参数；不能继续据此承诺特定改名操作的应用方式。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L84-L84" target="_blank" rel="noopener noreferrer">原文 L84</a></p></article>
+      <article class="note" data-note="omp-84" data-cat="tool"><span class="tag">工具·多智能体</span><h3>局部修改必须走专门编辑接口</h3><div class="q">NEVER use `sed`|`perl`|`python` via `bash` to issue individual edits; MUST use `edit`.</div><p>新增 critical 明确禁止经 Bash 用 sed、Perl 或 Python 做单处修改，要求 edit。结合带快照标签和原始行坐标的编辑合同，这能保留工具可检查的定位；它不意味着所有 Python 计算或脚本任务均被禁止。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L89-L89" target="_blank" rel="noopener noreferrer">原文 L89</a></p></article>
+      <article class="note" data-note="omp-6" data-cat="tool"><span class="tag">工具·多智能体</span><h3>工具行为反常就上报</h3><div class="q">automated QA</div><p>工具输出与其参数描述不符时，要求把工具名和简明现象写入 xd://report_issue，并容许误报。这是捕获中的问题上报路径；发出报告本身不证明问题已被修复。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L93-L93" target="_blank" rel="noopener noreferrer">原文 L93</a></p></article>
+      <article class="note kw" data-note="omp-0" data-cat="eng"><span class="tag">工程纪律 ★</span><h3>先发现路径，再读取目标</h3><div class="q">NEVER open guessed files. Use `read` ranges, not whole files.</div><p>当前原文禁止猜文件路径后直接打开，并要求按范围读取。它把路径发现与内容取材分开，避免盲目通读；旧说明中的 offset/limit 已不再是这里的接口描述。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L97-L97" target="_blank" rel="noopener noreferrer">原文 L97</a></p></article>
+      <article class="note" data-note="omp-17" data-cat="goal"><span class="tag">目标机器</span><h3>压力下委派不缩水</h3><div class="q">NEVER abandon phases under scope pressure: delegate, don&#x27;t shrink</div><p>工作量大时应通过真实的独立切片委派处理，不能偷偷删掉阶段。它与后文“缩减范围须经用户明确同意”共同约束交付范围，不表示并行一定能消除所有资源限制。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L104-L104" target="_blank" rel="noopener noreferrer">原文 L104</a></p></article>
+      <article class="note" data-note="omp-3" data-cat="tool"><span class="tag">工具·多智能体</span><h3>顶层规划不可外包</h3><div class="q">NEVER outsource top-level plan</div><p>主代理必须先梳理切片与共享契约，不能把顶层规划整体外包。切片内部设计、用户请求的竞争方案仍允许委派；主代理继续保有完整用户意图。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L106-L106" target="_blank" rel="noopener noreferrer">原文 L106</a></p></article>
+      <article class="note" data-note="omp-30" data-cat="tool"><span class="tag">工具·多智能体</span><h3>并行宽度必须由依赖关系证明</h3><div class="q">Shared prerequisite inline; sequence ONLY true dependencies.</div><p>共同前置条件先完成，只有结果真的互相依赖才顺序执行；小信息缺口可在并行期间通过 agent:// 消息补齐。执行顺序应跟随数据依赖，而不是把多代理串成额外的传话链。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L110-L110" target="_blank" rel="noopener noreferrer">原文 L110</a></p></article>
+      <article class="note kw" data-note="omp-28" data-cat="eng"><span class="tag">工程纪律 · 哲学层 ★</span><h3>证据必须与任务同构</h3><div class="q">Non-trivial work: NEVER yield without a smoke run: run the thing, exercise the changed path, observe the result.</div><p>非平凡任务须真正运行产物、经过改动路径并观察结果，后文再按 UI、调查、缺陷和 API 区分证据。<b>哲学层（推断）：验证属于任务语义本身</b>；测试通过可以提供证据，但不能替代用户实际关心的运行结果。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L130-L130" target="_blank" rel="noopener noreferrer">原文 L130</a></p></article>
+      <article class="note" data-note="omp-55" data-cat="eng"><span class="tag">工程纪律</span><h3>缺陷回归与一般功能验证分开取舍</h3><div class="q">SHOULD keep failing-before/passing-after regression test</div><p>缺陷修复应先复现、修后确认，并尽量保留修复前失败、修复后通过的回归用例；不适用时说明原因并做冒烟验证。一般功能的新行为则可先用临时脚本证明，长期测试应拦住合理的用户可见缺陷。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L136-L136" target="_blank" rel="noopener noreferrer">原文 L136</a></p></article>
+      <article class="note" data-note="omp-19" data-cat="eng"><span class="tag">工程纪律</span><h3>推断须打标</h3><div class="q">unobserved = `[INFERENCE]`.</div><p>代码、工具、测试、文档和来源断言都要有依据，未观察到的内容标为 <code>[INFERENCE]</code>。它要求读者能区分事实与推断；打标本身不使推断成立。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L148-L148" target="_blank" rel="noopener noreferrer">原文 L148</a></p></article>
+      <article class="note" data-note="omp-2" data-cat="goal"><span class="tag">目标机器</span><h3>禁止偷换问题</h3><div class="q">NEVER substitute easier/familiar problem</div><p>不得把真实请求换成更熟悉或更简单的问题，也不得顺手增加重试、校验、遥测和抽象来改变范围。修复要处理原因；仅压下警告、吞异常或特殊处理输入，需有请求本身的依据。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L149-L149" target="_blank" rel="noopener noreferrer">原文 L149</a></p></article>
+      <article class="note" data-note="omp-25" data-cat="persona"><span class="tag">人格</span><h3>能查到的别反问用户</h3><div class="q">NEVER ask for tool/repo/file-provided information</div><p>仓库、文件和工具能回答的问题禁止丢回给用户。它要求代理先消耗自己的检索能力,只把真正不可发现、会改变方案的决策留给人类。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L150-L150" target="_blank" rel="noopener noreferrer">原文 L150</a></p></article>
+      <article class="note kw" data-note="omp-26" data-cat="goal"><span class="tag">目标机器 ★</span><h3>缩减范围的裁决权属于用户</h3><div class="q">Reduce scope only with explicit user approval</div><p>即使任务很大、时间紧或实现困难,也不能自行裁剪交付。只能在当前对话获得用户明确批准后缩减,把<b>范围主权</b>从代理效率偏好中剥离出来。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L156-L156" target="_blank" rel="noopener noreferrer">原文 L156</a></p></article>
+      <article class="note kw" data-note="omp-18" data-cat="goal"><span class="tag">目标机器 ★</span><h3>禁止伪完成</h3><div class="q">NEVER deliver unfinished work</div><p>禁止把桩、占位、mock、空操作或假兜底包装成完成，也不能用 MVP、v1 或 follow-up 标签掩盖未交付部分。真实实现缺少前提时，必须说明缺项并完成仍可推进的工作。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L157-L157" target="_blank" rel="noopener noreferrer">原文 L157</a></p></article>
+      <article class="note kw" data-note="omp-27" data-cat="eng"><span class="tag">工程纪律 · 哲学层 ★</span><h3>交付完整性覆盖整个影响面</h3><div class="q">Before yielding: all affected callsites/tests/docs updated or intentionally unchanged</div><p>结束前必须确认所有受影响调用点、测试和文档已经更新，或有意识地保持不变。<b>哲学层（推断）：完成不是“主文件改完”的局部状态</b>，而是改动在依赖图上的传播已被处理并能给出证据。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L165-L165" target="_blank" rel="noopener noreferrer">原文 L165</a></p></article>
+      <article class="note" data-note="omp-5" data-cat="goal"><span class="tag">目标机器</span><h3>不许算预算</h3><div class="q">NEVER narrate/consider session limits, token/tool budgets</div><p>原文要求不要因会话、token 或工具预算而提前缩水，并鼓励执行或委派。这是对模型行为的要求，不能理解成系统真实拥有无限资源，也不能证明它已经消除了提前收尾的失败模式。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L172-L172" target="_blank" rel="noopener noreferrer">原文 L172</a></p></article>
+      <article class="note" data-note="omp-22" data-cat="eng"><span class="tag">工程纪律</span><h3>编辑回执证明落盘，行为另需验证</h3><div class="q">NEVER re-audit applied edit or routinely run git subcommands for validation</div><p>原文反对为了确认编辑已应用而反复重读或例行跑 Git，工具回执可以证明该动作完成。它不豁免上文的真实冒烟运行：文件写入成功和用户可观察行为正确，是不同的验证对象。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L173-L173" target="_blank" rel="noopener noreferrer">原文 L173</a></p></article>
+      <article class="note" data-note="omp-11" data-cat="safety"><span class="tag">安全边界</span><h3>能从环境求证，就默认采取行动</h3><div class="q">MUST default to informed action</div><p>新版将“不反问可检索信息”提升为默认行动原则：工具和仓库上下文能消除的不确定性，应先自行调查。这里的边界是<b>informed</b>——行动建立在可观察证据上；真正不可发现、会改变方案的用户选择仍需升级确认。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L186-L186" target="_blank" rel="noopener noreferrer">原文 L186</a></p></article>
+      <article class="note" data-note="omp-85" data-cat="tool"><span class="tag">工具·多智能体</span><h3>后台化不延长命令期限</h3><div class="q">`async` defers finite results but keeps the deadline (default 300s); `timeout: 0` for watchers and long jobs.</div><p>async 只延后有限命令的结果交付，默认 300 秒期限仍生效；watcher 或长任务可显式 timeout:0。非 pty 调用通常在 60 秒或期限前一秒转后台，但客户端终端执行和 job 上限有例外；结果自动投递，不能靠轮询或重新启动续命。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L210-L210" target="_blank" rel="noopener noreferrer">原文 L210</a></p></article>
+      <article class="note" data-note="omp-76" data-cat="tool"><span class="tag">工具·多智能体</span><h3>长进程改由命名 Bash 调用管理</h3><div class="q">Long-lived services: unique name; ready requires name; no async/timeout;</div><p>当前 bash 用唯一 name 管理长期服务，ready 需要服务名，服务模式不接受 async/timeout，pty 默认开启。本轮 Schema 不再包含 env，不能继续沿用旧 env 参数；命名服务与有限后台命令也有不同生命周期。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L212-L212" target="_blank" rel="noopener noreferrer">原文 L212</a></p></article>
+      <article class="note" data-note="omp-40" data-cat="tool"><span class="tag">工具·多智能体</span><h3>进程存在与服务就绪是两种状态</h3><div class="q">ready needs log regex or port (both if given)</div><p>命名 bash 服务可用日志正则或端口作为就绪条件，两者同时配置时都须满足。该条件描述服务可用性，不是整个任务的验收；当前原文给出默认 host 为 127.0.0.1、就绪超时为 30 秒。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L212-L212" target="_blank" rel="noopener noreferrer">原文 L212</a></p></article>
+      <article class="note" data-note="omp-43" data-cat="eng"><span class="tag">工程纪律</span><h3>编辑建立在带版本的文件快照上</h3><div class="q">`TAG` required 4-hex snapshot from latest `read`/`search`.</div><p>每个编辑段携带最新读取提供的四位快照标签，行号指原始坐标而不是补丁移动后的坐标。它可帮助检测陈旧读取；短标签不是强身份认证，仍需满足可见行与范围约束。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L353-L353" target="_blank" rel="noopener noreferrer">原文 L353</a></p></article>
+      <article class="note" data-note="omp-45" data-cat="tool"><span class="tag">工具·多智能体</span><h3>代码搬移由编辑原语保存身份</h3><div class="q">named registers persist across calls.</div><p>CUT 捕获原文，PUT 可在之后的调用或另一文件中粘贴寄存器，避免让模型重新生成要移动的代码。寄存器粘贴不附带正文；搬移与改写因此拥有不同的编辑表达。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L359-L359" target="_blank" rel="noopener noreferrer">原文 L359</a></p></article>
+      <article class="note" data-note="omp-47" data-cat="eng"><span class="tag">工程纪律</span><h3>每次写入都会使后续坐标系失效</h3><div class="q">After EVERY edit tag/numbers change: use edit response or fresh `read`</div><p>每次编辑后标签与行号都会变化，下一次修改须采用编辑响应或重新读取得到的坐标。它不要求每次都重读完整文件，也不提供数据库事务保证；核心是不要继续使用陈旧定位。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L368-L368" target="_blank" rel="noopener noreferrer">原文 L368</a></p></article>
+      <article class="note" data-note="omp-31" data-cat="tool"><span class="tag">工具·多智能体</span><h3>Eval 是跨调用持续的计算工作台</h3><div class="q">One cell per call; top-level state persists, including across compaction.</div><p>本内核的顶层状态跨 cell 与上下文压缩保留，成功初始化不重复执行；收到内核丢失通知才重新加载。子代理使用独立内核，因此持久状态不等于所有子代理共享变量；向子代理显式开放的父内核工具另有共享影响面。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L407-L407" target="_blank" rel="noopener noreferrer">原文 L407</a></p></article>
+      <article class="note" data-note="omp-49" data-cat="tool"><span class="tag">工具·多智能体</span><h3>独立工作默认进入具名工作池</h3><div class="q">For 2+ independent items, use a named `workpool()`; results auto-deliver.</div><p>至少两个独立事项应进入具名 workpool，结果自动投递。只有无事可做而等待时才离开 eval 调用会话 wait；旧版 hub wait 的池名参数已不属于当前捕获接口。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L408-L408" target="_blank" rel="noopener noreferrer">原文 L408</a></p></article>
+      <article class="note" data-note="omp-88" data-cat="tool"><span class="tag">工具·多智能体</span><h3>兼容魔法语法不等于 IPython 内核</h3><div class="q">Python: plain Python subprocess, not IPython (no `get_ipython()`, `obj?`, or `%matplotlib`).</div><p>eval 的 Python 是普通子进程，部分 %pip、%load、%time 与 !cmd 会被改写成 Python；get_ipython、对象问号查询和 %matplotlib 不可由这些兼容语法推定可用。顶层 await 可用而 asyncio.run 失败，执行代码应遵循实际内核合同。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L409-L409" target="_blank" rel="noopener noreferrer">原文 L409</a></p></article>
+      <article class="note" data-note="omp-77" data-cat="eng"><span class="tag">工程纪律</span><h3>单次失败不回滚已执行的步骤</h3><div class="q">On error, retry only the failed step; earlier steps may have taken effect.</div><p>eval 出错前的语句可能已经改变变量、文件或外部状态。重试应从失败步骤着手；把整个 cell 原样重跑可能重复副作用，这与是否跨调用保存状态是不同问题。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L411-L411" target="_blank" rel="noopener noreferrer">原文 L411</a></p></article>
+      <article class="note" data-note="omp-51" data-cat="tool"><span class="tag">工具·多智能体</span><h3>批次部分失败保留位置</h3><div class="q">`raise_errors=False` retains failures.</div><p>eval 内部的 wait(handles) 是按输入顺序返回结果的屏障，非抛错模式保留失败项。父代理仍需检查各项状态；它与只等待首个事件的会话级 wait 是不同接口。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L419-L419" target="_blank" rel="noopener noreferrer">原文 L419</a></p></article>
+      <article class="note" data-note="omp-78" data-cat="tool"><span class="tag">工具·多智能体</span><h3>高级 Eval 能力先取文档再使用</h3><div class="q">More globals; `read` the linked docs before first use:</div><p>judge、模型调用、代理工作池与浏览器都有按需文档入口。本次捕获只提供能力目录，不能从名称推断返回结构、权限边界或生命周期；这些细节应以实际读取的对应文档为准。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L424-L424" target="_blank" rel="noopener noreferrer">原文 L424</a></p></article>
+      <article class="note" data-note="omp-36" data-cat="safety"><span class="tag">安全边界</span><h3>突破 gitignore 是显式的敏感范围扩张</h3><div class="q">`gitignore` and `hidden` default true; ignored dotfiles need `gitignore: false`.</div><p>glob 默认包括隐藏文件，同时尊重 gitignore；要发现被忽略的点文件须显式关闭后者。过滤规则影响搜索可见性，不是秘密访问控制，未被忽略的敏感文件仍可能出现在结果中。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L507-L507" target="_blank" rel="noopener noreferrer">原文 L507</a></p></article>
+      <article class="note" data-note="omp-37" data-cat="tool"><span class="tag">工具·多智能体</span><h3>代码搜索能够直接表达跨行结构</h3><div class="q">Literal `\n`/`\\n` enables cross-line.</div><p>grep 允许用换行字面量表达跨行模式，并以单文件行范围限制检索。它仍然是正则搜索，不等同于理解语法或符号引用；需要代码智能时，上文优先要求语言服务。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L574-L574" target="_blank" rel="noopener noreferrer">原文 L574</a></p></article>
+      <article class="note" data-note="omp-79" data-cat="tool"><span class="tag">工具·多智能体</span><h3>带目录的通配模式不会自动递归</h3><div class="q">Bare glob `*.ts` matches any depth; `dir/*.ts` only `dir`&#x27;s direct children</div><p>裸 *.ts 可匹配任意深度，而 dir/*.ts 只包含该目录直接子文件，递归需写 dir/**/*.ts。搜索范围不同会改变“未找到”的含义，不能把非递归空结果当成整棵目录不存在。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L575-L575" target="_blank" rel="noopener noreferrer">原文 L575</a></p></article>
+      <article class="note" data-note="omp-86" data-cat="tool"><span class="tag">工具·多智能体</span><h3>范围读取不维护隐式分页游标</h3><div class="q">Include the selector on every ranged call; repeating a bare path does not advance through the file.</div><p>每次范围读取都要把选择器放进 path，重复裸路径不会自动翻页。普通单范围会附加前一行、后三行，还可能补齐结构边界；只有 :raw 保持精确范围，不能把展示的上下文行误当成请求本身的边界。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L647-L647" target="_blank" rel="noopener noreferrer">原文 L647</a></p></article>
+      <article class="note" data-note="omp-41" data-cat="eng"><span class="tag">工程纪律</span><h3>读取代码默认先给结构地图</h3><div class="q">Bare code: declarations only; re-read ONLY footer-named omissions</div><p>无范围读取代码先返回声明级结构，正文省略区由页脚提供恢复入口，再按需下钻。它提供的是导航地图而非全文；未显示的实现不能用来支持具体行为判断。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L652-L652" target="_blank" rel="noopener noreferrer">原文 L652</a></p></article>
+      <article class="note" data-note="omp-44" data-cat="safety"><span class="tag">安全边界</span><h3>摘要中的省略区不是可推断内容</h3><div class="q">NEVER guess `..`/`…`.</div><p>折叠标记只说明正文被省略，不提供推断其内容的依据。结合编辑工具的可见行规则，修改前应读取所需范围；不能用模式补全替代实际读取。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L652-L652" target="_blank" rel="noopener noreferrer">原文 L652</a></p></article>
+      <article class="note" data-note="omp-65" data-cat="eng"><span class="tag">工程纪律</span><h3>目录摘要只保证根层完整</h3><div class="q">Directory: complete root; child listings cap at 12</div><p>目录读取保证根层完整，子目录摘要最多列出 12 项并标记剩余数量。确认某文件是否存在时，需进入相应子目录；不能用摘要未显示来证明不存在。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L654-L654" target="_blank" rel="noopener noreferrer">原文 L654</a></p></article>
+      <article class="note" data-note="omp-48" data-cat="tool"><span class="tag">工具·多智能体</span><h3>共享文件需要明确的集成负责人</h3><div class="q">Shared edits need one integration owner; siblings coordinate via `write agent://&lt;id&gt;`.</div><p>共享编辑须指定一个集成负责人，兄弟代理通过 agent:// 协调，并在 context 中固定接口。当前捕获没有自动合并保证；任务并行不能省略共享写入的协调。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L686-L686" target="_blank" rel="noopener noreferrer">原文 L686</a></p></article>
+      <article class="note" data-note="omp-80" data-cat="eng"><span class="tag">工程纪律</span><h3>并行编辑与最终验证分阶段</h3><div class="q">Every task MUST skip build/lint/tests/formatters mid-flight; run once afterward.</div><p>任务批次中的代理要跳过中途构建、lint、测试和格式化，集成后统一执行。它减少共享文件未稳定时的干扰，不取消交付前对整体结果的验证。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L686-L686" target="_blank" rel="noopener noreferrer">原文 L686</a></p></article>
+      <article class="note" data-note="omp-87" data-cat="goal"><span class="tag">目标机器</span><h3>委派显式描述方案的不确定性</h3><div class="q">`solutionSpace`: describe how open-ended the child&#x27;s problem is: whether the fix or design is given, or which causes or designs remain open.</div><p>task 新增必填 solutionSpace，用来说明修复或设计是否已定、哪些原因和方案仍开放；工作量大不等于解空间宽。此字段不写兄弟代理或协调安排，接口与交接仍由 context/task 承担，避免把组织规模当成问题难度。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L690-L690" target="_blank" rel="noopener noreferrer">原文 L690</a></p></article>
+      <article class="note" data-note="omp-52" data-cat="safety"><span class="tag">安全边界</span><h3>子代理可调用父内核定义的工具</h3><div class="q">`tools`: eval-defined, run in your kernel.</div><p>向子代理开放的 eval 工具在父内核执行，而子代理自身使用独立内核。独立对话与变量空间不等于完全隔绝父状态；共享影响面集中在显式开放的工具接口，调用仍需遵守接口约束。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L691-L691" target="_blank" rel="noopener noreferrer">原文 L691</a></p></article>
+      <article class="note" data-note="omp-81" data-cat="tool"><span class="tag">工具·多智能体</span><h3>子代理不会自动继承对话背景</h3><div class="q">Children start blank; parent IRC steers immediately; large payloads via `local://&lt;path&gt;`, NEVER inline.</div><p>父代理要显式传递切片要求、约束和验收标准，大载荷通过共享路径提供。即时 steering 可以补充任务，但不能代替最初完整的任务说明。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L692-L692" target="_blank" rel="noopener noreferrer">原文 L692</a></p></article>
+      <article class="note" data-note="omp-33" data-cat="tool"><span class="tag">工具·多智能体</span><h3>共享上下文只传一次</h3><div class="q">`context`: shared (`# Goal`, `# Contract` interfaces); NEVER repeat per task.</div><p>批次 context 只集中表达 Goal 与 Contract 共享接口，单项 task 分别给出 Target、Change、Acceptance。共同背景不在每项重复，但各切片仍须自足，并写清文件、非目标与可观察验收条件。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L695-L695" target="_blank" rel="noopener noreferrer">原文 L695</a></p></article>
+      <article class="note" data-note="omp-24" data-cat="eng"><span class="tag">工程纪律</span><h3>多步计划逐条建档</h3><div class="q">MUST list EVERY user item separately (phased/numbered/bulleted/N)</div><p>三步以上工作、用户任务集或中途新增指示都要纳入 tracker，用户列出的每一项分别建档。任务身份使用稳定原文，忘记内容先 view，不能靠临时编号或记忆补写。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L761-L761" target="_blank" rel="noopener noreferrer">原文 L761</a></p></article>
+      <article class="note" data-note="omp-34" data-cat="goal"><span class="tag">目标机器</span><h3>阻塞任务保留但不会自动启动</h3><div class="q">External waits (user/agent/service): block with optional reason suppresses stop reminder, starts next pending.</div><p>外部等待用 block 表示，可附原因并抑制停止提醒，同时推进下一个待办。阻塞项不会自动成为活动项，解除阻塞后才回到 pending；可由代理解决的障碍应追加处理任务。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L763-L763" target="_blank" rel="noopener noreferrer">原文 L763</a></p></article>
+      <article class="note" data-note="omp-82" data-cat="tool"><span class="tag">工具·多智能体</span><h3>会话等待只等到首个事件</h3><div class="q">Blocks on background jobs/services you started; returns on the first result, a message sent to you, or a steering interrupt; a safety cap returns a still-running snapshot.</div><p>会话 wait 仅在无其他工作可做时等待自己启动的后台任务或服务，首个结果、发给自己的消息或 steering 即可返回，安全上限也可能只给运行中快照。未启动工作会报错，不能用它等待别的代理；eval wait(handles) 的屏障是另一接口。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L881-L881" target="_blank" rel="noopener noreferrer">原文 L881</a></p></article>
+      <article class="note" data-note="omp-83" data-cat="safety"><span class="tag">安全边界</span><h3>空内容在数据库路径上意味着删除</h3><div class="q">`db.sqlite:table`: insert; `db.sqlite:table:key`: JSON update, empty content deletes.</div><p>write 对 SQLite 表路径执行插入，对主键路径执行 JSON 更新；空内容会删除该行。相同工具在文件、数据库和内部 URI 上有不同语义，不能把“写空”一概当成无害的清空文本。 <a class="source-ref" href="https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md#L996-L996" target="_blank" rel="noopener noreferrer">原文 L996</a></p></article>
     </div>
   </section>

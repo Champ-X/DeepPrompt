@@ -1,6 +1,6 @@
 # System Prompt
 
-## Block 1 · system message
+## Block 1
 
 You are a helpful software engineer assistant.
 

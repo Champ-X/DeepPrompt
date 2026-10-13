@@ -258,34 +258,37 @@
   function updateWheel(aid,isPreview){
     var focusedNode=document.activeElement;
     var activeIndex=AGENTS.indexOf(aid);
+    var selectedIndex=AGENTS.indexOf(current);
     var visibleRange=window.innerWidth<1280?1:2;
-    var activeButton=document.querySelector('.navbtn[data-target="'+aid+'"] .nb-name');
-    var activeName=activeButton?activeButton.textContent.trim():aid;
+    var activeName=agentName(aid);
     document.querySelectorAll('.navbtn').forEach(function(button,index){
       var distance=index-activeIndex;
       if(distance>AGENTS.length/2) distance-=AGENTS.length;
       if(distance<-AGENTS.length/2) distance+=AGENTS.length;
       var visible=Math.abs(distance)<=visibleRange;
-      var name=button.querySelector('.nb-name');
-      var accessibleName=name?name.textContent.trim():button.dataset.target;
+      var accessibleName=agentName(button.dataset.target);
       button.dataset.agentLabel=accessibleName;
       button.classList.toggle('wheel-hidden',!visible);
-      button.classList.toggle('active',index===activeIndex);
-      button.toggleAttribute('aria-current',index===activeIndex);
-      button.setAttribute('aria-label',index===activeIndex?'当前 Agent：'+accessibleName:'切换到 '+accessibleName);
-      button.title=accessibleName;
-      if(visible){ button.dataset.slot=String(distance); button.removeAttribute('aria-hidden'); button.tabIndex=index===activeIndex?0:-1; }
+      button.classList.toggle('active',index===selectedIndex);
+      button.classList.toggle('preview',!!isPreview&&index===activeIndex);
+      if(index===selectedIndex) button.setAttribute('aria-current','true');
+      else button.removeAttribute('aria-current');
+      button.setAttribute('aria-label',index===selectedIndex?'当前 Agent：'+accessibleName:'切换到 '+accessibleName);
+      button.removeAttribute('title');
+      if(visible){ button.dataset.slot=String(distance); button.removeAttribute('aria-hidden'); button.tabIndex=index===selectedIndex?0:-1; }
       else { delete button.dataset.slot; button.setAttribute('aria-hidden','true'); button.tabIndex=-1; }
     });
     if(!isPreview&&focusedNode&&focusedNode.matches('.navbtn.wheel-hidden')){
       document.querySelector('.navbtn.active').focus({preventScroll:true});
     }
-    var status=document.getElementById('wheelStatus');
-    if(status) status.textContent=(isPreview?'预览 Agent：':'当前 Agent：')+activeName+'，第 '+(activeIndex+1)+' 项，共 '+AGENTS.length+' 项';
-    var wheel=document.getElementById('agentWheel');
-    if(wheel) wheel.dataset.index=String(activeIndex+1).padStart(2,'0')+' / '+String(AGENTS.length).padStart(2,'0');
-    var promptSearch=document.getElementById('promptSearch');
-    if(promptSearch&&!isPreview) promptSearch.placeholder='搜索 '+activeName+' 的 Prompt / 批注';
+    if(!isPreview){
+      document.getElementById('wheelStatus').textContent='当前 Agent：'+activeName+'，第 '+(activeIndex+1)+' 项，共 '+AGENTS.length+' 项';
+      document.getElementById('agentSelect').value=aid;
+      document.getElementById('promptSearch').placeholder='搜索 '+activeName+' 的 Prompt / 批注';
+    }
+    document.getElementById('wheelCount').textContent=String(activeIndex+1).padStart(2,'0')+' / '+String(AGENTS.length).padStart(2,'0');
+    document.getElementById('wheelMode').textContent=isPreview?'松手切换':'切换 Agent';
+    document.getElementById('wheelPreview').textContent=activeName;
   }
 
   function pushRoute(hash){
@@ -294,6 +297,8 @@
   }
 
   function showHome(doScroll, updateRoute){
+    cancelWheelDrag();
+    resetWheelGesture();
     navigationToken++;
     document.body.classList.add('mode-home');
     document.body.classList.remove('mode-reader');
@@ -306,6 +311,7 @@
 
   async function showAgent(aid, doScroll, updateRoute){
     if(AGENTS.indexOf(aid)===-1) return;
+    cancelWheelDrag();
     var token=++navigationToken;
     document.body.classList.remove('mode-home');
     document.body.classList.add('mode-reader');
@@ -345,9 +351,16 @@
 
   var agentWheel=document.getElementById('agentWheel');
   var wheelSuppressClick=false;
+  var agentNav=document.getElementById('agentnav');
+  var agentSelect=document.getElementById('agentSelect');
+  AGENTS.forEach(function(aid){
+    var option=document.createElement('option');
+    option.value=aid;option.textContent=agentName(aid);agentSelect.appendChild(option);
+  });
+  agentSelect.addEventListener('change',function(){resetWheelGesture();showAgent(this.value,true,true);});
   document.getElementById('agentnav').addEventListener('click',function(e){
     var b=e.target.closest('.navbtn'); if(!b) return;
-    if(wheelSuppressClick){e.preventDefault();return;}
+    if(wheelSuppressClick&&e.detail!==0){e.preventDefault();return;}
     if(b.dataset.target===current) return;
     showAgent(b.dataset.target, true, true);
   });
@@ -357,88 +370,138 @@
   });
   document.getElementById('homeButton').addEventListener('click',function(){showHome(true,true);});
   document.getElementById('homeAction').addEventListener('click',function(){showHome(true,true);});
+  document.addEventListener('click',function(e){
+    var link=e.target.closest('.preview-open,.spectrum-link');
+    if(!link||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return;
+    var aid=link.hash.slice('#agent='.length);
+    if(AGENTS.indexOf(aid)===-1) return;
+    e.preventDefault();
+    showAgent(aid,true,true);
+  });
+
+  // Search stays local to the lightweight catalogue; no prompt fragment is loaded.
+  var catalogInput=document.getElementById('catalogSearch');
+  var catalogSort=document.getElementById('catalogSort');
+  var catalogCards=Array.from(document.querySelectorAll('.acard'));
+  function updateCatalog(){
+    var words=catalogInput.value.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
+    var count=0;
+    catalogCards.forEach(function(card){
+      var text=Array.from(card.querySelectorAll('.ac-name,.ac-vendor,.ac-lead')).map(function(el){return el.textContent;}).join(' ').toLocaleLowerCase();
+      card.hidden=!words.every(function(word){return text.includes(word);});
+      if(!card.hidden) count++;
+    });
+    var ordered=catalogCards.slice();
+    if(catalogSort.value==='name') ordered.sort(function(a,b){return a.querySelector('.ac-name').textContent.localeCompare(b.querySelector('.ac-name').textContent,'en');});
+    if(catalogSort.value==='notes') ordered.sort(function(a,b){return parseInt(b.querySelector('.ac-stats span').textContent,10)-parseInt(a.querySelector('.ac-stats span').textContent,10);});
+    ordered.forEach(function(card){document.getElementById('cardgrid').appendChild(card);});
+    document.getElementById('catalogCount').textContent=count+' / '+catalogCards.length+' 个 Agent';
+    document.getElementById('catalogEmpty').hidden=count!==0;
+  }
+  catalogInput.addEventListener('input',updateCatalog);
+  catalogSort.addEventListener('change',updateCatalog);
+  document.getElementById('clearCatalogSearch').addEventListener('click',function(){catalogInput.value='';updateCatalog();catalogInput.focus();});
+  catalogInput.addEventListener('keydown',function(e){if(e.key==='Escape'){catalogInput.value='';updateCatalog();}});
+  updateCatalog();
   function rotateWheel(delta){
     var index=AGENTS.indexOf(current);
     showAgent(AGENTS[(index+delta+AGENTS.length)%AGENTS.length],true,true);
-    agentWheel.classList.remove('is-rotating');
-    requestAnimationFrame(function(){agentWheel.classList.add('is-rotating');});
-    setTimeout(function(){agentWheel.classList.remove('is-rotating');},360);
   }
-  var wheelLock=false;
-  agentWheel.addEventListener('wheel',function(e){
+
+  // A trackpad gesture may emit dozens of inertial events. Consume all of them,
+  // accumulate small deltas, and navigate just once until the gesture settles.
+  var wheelTravel=0, wheelCommitted=false, wheelIdle=null;
+  function resetWheelGesture(){
+    clearTimeout(wheelIdle);wheelIdle=null;wheelTravel=0;wheelCommitted=false;
+  }
+  agentNav.addEventListener('wheel',function(e){
+    if(e.ctrlKey) return; // Preserve browser pinch-to-zoom.
+    e.preventDefault();
+    if(wheelDrag) return;
+    clearTimeout(wheelIdle);
+    wheelIdle=setTimeout(resetWheelGesture,180);
+    if(wheelCommitted) return;
     var amount=Math.abs(e.deltaY)>=Math.abs(e.deltaX)?e.deltaY:e.deltaX;
-    if(Math.abs(amount)<8||wheelLock) return;
-    e.preventDefault(); wheelLock=true; rotateWheel(amount>0?1:-1);
-    setTimeout(function(){wheelLock=false;},260);
+    var pixels=amount*(e.deltaMode===1?16:e.deltaMode===2?agentNav.clientHeight:1);
+    if(wheelTravel&&Math.sign(pixels)!==Math.sign(wheelTravel)) wheelTravel=0;
+    wheelTravel+=pixels;
+    if(Math.abs(wheelTravel)<40) return;
+    wheelCommitted=true;
+    rotateWheel(wheelTravel>0?1:-1);
   },{passive:false});
 
-  // Dragging previews the spectrum rail; releasing commits one navigation change.
+  // The icon rail is the drag surface; the name menu retains native behavior.
+  // Selection, route, ARIA current and live status only change when committed.
   var wheelDrag=null;
-  agentWheel.addEventListener('pointerdown',function(e){
-    if(e.pointerType==='mouse'&&e.button!==0) return;
-    wheelDrag={
-      id:e.pointerId,
-      startX:e.clientX,
-      startY:e.clientY,
-      baseIndex:AGENTS.indexOf(current),
-      previewIndex:AGENTS.indexOf(current),
-      step:0,
-      moved:false,
-      captured:false
-    };
-    agentWheel.classList.add('dragging');
+  agentNav.addEventListener('pointerdown',function(e){
+    if(e.button!==0||e.isPrimary===false) return;
+    wheelSuppressClick=false;
+    resetWheelGesture();
+    wheelDrag={id:e.pointerId,startX:e.clientX,startY:e.clientY,
+      horizontal:window.innerWidth<1280,baseIndex:AGENTS.indexOf(current),
+      previewIndex:AGENTS.indexOf(current),step:0,moved:false,captured:false};
   });
-  agentWheel.addEventListener('pointermove',function(e){
+  agentNav.addEventListener('pointermove',function(e){
     if(!wheelDrag||wheelDrag.id!==e.pointerId) return;
-    var travel=Math.hypot(e.clientX-wheelDrag.startX,e.clientY-wheelDrag.startY);
-    if(travel>8&&!wheelDrag.moved){
+    var movement=wheelDrag.horizontal?wheelDrag.startX-e.clientX:wheelDrag.startY-e.clientY;
+    var cross=wheelDrag.horizontal?wheelDrag.startY-e.clientY:wheelDrag.startX-e.clientX;
+    if(!wheelDrag.moved){
+      if(Math.abs(movement)<=8||Math.abs(movement)<Math.abs(cross)) return;
       wheelDrag.moved=true;
-      try{
-        agentWheel.setPointerCapture(e.pointerId);
-        wheelDrag.captured=agentWheel.hasPointerCapture(e.pointerId);
-      }catch(ignore){}
+      agentWheel.classList.add('dragging');
+      if(agentNav.contains(document.activeElement)) agentNav.focus({preventScroll:true});
+      try{agentNav.setPointerCapture(e.pointerId);wheelDrag.captured=agentNav.hasPointerCapture(e.pointerId);}catch(ignore){}
     }
-    var step;
-    if(window.innerWidth<1280) step=Math.round((wheelDrag.startX-e.clientX)/52);
-    else step=Math.round((wheelDrag.startY-e.clientY)/44);
-    step=Math.max(-6,Math.min(6,step));
+    e.preventDefault();
+    var step=Math.max(-6,Math.min(6,Math.round(movement/(wheelDrag.horizontal?64:52))));
+    var remainder=Math.max(-18,Math.min(18,-movement+step*(wheelDrag.horizontal?64:52)));
+    agentNav.style.setProperty('--drag-offset',remainder+'px');
     if(step!==wheelDrag.step){
       wheelDrag.step=step;
       wheelDrag.previewIndex=(wheelDrag.baseIndex+step+AGENTS.length)%AGENTS.length;
-      updateWheel(AGENTS[wheelDrag.previewIndex],true);
     }
-    if(wheelDrag.moved) e.preventDefault();
+    updateWheel(AGENTS[wheelDrag.previewIndex],true);
   });
   function finishWheelDrag(e,commit){
     if(!wheelDrag||wheelDrag.id!==e.pointerId) return;
-    var drag=wheelDrag;
-    wheelDrag=null;
+    var drag=wheelDrag;wheelDrag=null;
     agentWheel.classList.remove('dragging');
-    if(drag.captured){try{agentWheel.releasePointerCapture(e.pointerId);}catch(ignore){}}
+    agentNav.style.removeProperty('--drag-offset');
+    if(drag.captured){try{agentNav.releasePointerCapture(drag.id);}catch(ignore){}}
     if(drag.moved){
       wheelSuppressClick=true;
-      setTimeout(function(){wheelSuppressClick=false;},120);
     }
-    if(commit&&drag.previewIndex!==drag.baseIndex){
-      showAgent(AGENTS[drag.previewIndex],true,true);
-      agentWheel.classList.add('is-rotating');
-      setTimeout(function(){agentWheel.classList.remove('is-rotating');},360);
-    }else updateWheel(current);
+    if(commit&&drag.previewIndex!==drag.baseIndex) showAgent(AGENTS[drag.previewIndex],true,true);
+    else updateWheel(current);
+    if(document.activeElement===agentNav) agentNav.querySelector('.navbtn.active').focus({preventScroll:true});
   }
-  agentWheel.addEventListener('pointerup',function(e){finishWheelDrag(e,true);});
-  agentWheel.addEventListener('pointercancel',function(e){finishWheelDrag(e,false);});
-  agentWheel.addEventListener('lostpointercapture',function(e){
-    if(wheelDrag&&wheelDrag.id===e.pointerId) finishWheelDrag(e,false);
+  function cancelWheelDrag(){
+    if(wheelDrag) finishWheelDrag({pointerId:wheelDrag.id},false);
+  }
+  agentNav.addEventListener('pointerup',function(e){finishWheelDrag(e,true);});
+  agentNav.addEventListener('pointercancel',function(e){finishWheelDrag(e,false);});
+  agentNav.addEventListener('lostpointercapture',function(e){
+    // Touch starts with implicit capture on the pressed icon. Its capture-loss
+    // event bubbles during the handoff to this rail and is not a cancellation.
+    if(e.target===agentNav) finishWheelDrag(e,false);
   });
-  agentWheel.addEventListener('keydown',function(e){
+  // A short press can leave the rail before capture begins.
+  window.addEventListener('pointerup',function(e){if(wheelDrag&&!wheelDrag.moved) finishWheelDrag(e,false);});
+  window.addEventListener('blur',function(){cancelWheelDrag();resetWheelGesture();});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&wheelDrag){e.preventDefault();cancelWheelDrag();}
+  });
+  agentNav.addEventListener('keydown',function(e){
     var delta=e.key==='ArrowRight'||e.key==='ArrowDown'?1:e.key==='ArrowLeft'||e.key==='ArrowUp'?-1:0;
-    if(!delta) return;
+    if(!delta&&e.key!=='Home'&&e.key!=='End') return;
     e.preventDefault();
-    rotateWheel(delta);
-    requestAnimationFrame(function(){
-      var active=agentWheel.querySelector('.navbtn.active');
-      if(active) active.focus({preventScroll:true});
-    });
+    e.stopPropagation();
+    if(e.repeat) return;
+    cancelWheelDrag();resetWheelGesture();
+    if(delta) rotateWheel(delta);
+    else showAgent(e.key==='Home'?AGENTS[0]:AGENTS[AGENTS.length-1],true,true);
+    var active=agentNav.querySelector('.navbtn.active');
+    if(active) active.focus({preventScroll:true});
   });
 
   // ---- category filter ----
@@ -549,10 +612,13 @@
     });
   });
   document.addEventListener('keydown',function(e){
+    if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'&&document.body.classList.contains('mode-home')){e.preventDefault();catalogInput.focus();catalogInput.select();}
     if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'&&document.body.classList.contains('mode-reader')){e.preventDefault();searchInput.focus();searchInput.select();}
     if(e.key==='Escape'&&document.activeElement===searchInput){searchInput.value='';searchQuery='';applySearch();searchInput.blur();}
-    if((e.altKey||e.metaKey)&&e.key==='ArrowRight'&&document.body.classList.contains('mode-reader')){e.preventDefault();rotateWheel(1);}
-    if((e.altKey||e.metaKey)&&e.key==='ArrowLeft'&&document.body.classList.contains('mode-reader')){e.preventDefault();rotateWheel(-1);}
+    if((e.altKey||e.metaKey)&&(e.key==='ArrowRight'||e.key==='ArrowLeft')&&document.body.classList.contains('mode-reader')&&!e.target.closest('input,textarea,select,[contenteditable="true"]')){
+      e.preventDefault();
+      if(!e.repeat) rotateWheel(e.key==='ArrowRight'?1:-1);
+    }
   });
   function routeFromLocation(){
     var m=location.hash.match(/^#agent=([a-z0-9-]+)$/);
@@ -599,7 +665,7 @@
     var bar=document.querySelector('.topbar');
     if(bar) document.documentElement.style.setProperty('--topbar-height',bar.offsetHeight+'px');
   }
-  window.addEventListener('resize', function(){ syncTopbarHeight(); buildMobile(current); updateWheel(current); if(document.body.classList.contains('mode-reader')){layout(current);applySearch();} });
+  window.addEventListener('resize', function(){ cancelWheelDrag();resetWheelGesture();syncTopbarHeight(); buildMobile(current); updateWheel(current); if(document.body.classList.contains('mode-reader')){layout(current);applySearch();} });
   document.addEventListener('toggle', function(e){
     if(e.target&&e.target.classList&&e.target.classList.contains('rawblob')){
       setTimeout(function(){syncDisclosureAnnotations(current);layout(current);},30);

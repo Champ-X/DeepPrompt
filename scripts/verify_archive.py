@@ -94,7 +94,7 @@ class ArchiveParser(HTMLParser):
         if attrs.get("id"):
             self.ids.append(str(attrs["id"]))
         src = attrs.get("src")
-        if tag == "img" and src and str(src).startswith("agent-icons/"):
+        if tag == "img" and src and str(src).startswith("agent-icons/") and "preview-logo" not in classes:
             self.logo_refs[str(src)] += 1
         if tag == "section" and "agentview" in classes:
             self.current_agent = str(attrs.get("data-agent"))

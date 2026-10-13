@@ -445,6 +445,26 @@ def sync_annotations(
     return updated
 
 
+def render_home_evidence(shell: str, manifest: dict, records: list[dict]) -> str:
+    """Show a real, source-bound annotation instead of a decorative prompt."""
+    note = next(record for record in records if record["id"] == "codex-25")
+    agent = next(agent for agent in manifest["agents"] if agent["id"] == note["agent"])
+    source_url = f'{agent["sourceUrl"]}#L{note["startLine"]}-L{note["endLine"]}'
+    preview = f'''<!-- home-evidence:start -->
+  <aside class="evidence-preview" aria-labelledby="preview-title">
+    <div class="preview-header"><span><img class="preview-logo" src="{agent['icon']}" alt=""> Codex CLI</span><span>{html.escape(display_version(agent['version']))} / default</span></div>
+    <div class="preview-source"><span class="preview-label" id="preview-title">从一句规则，看见一种设计</span><blockquote>{html.escape(note['anchor'])}</blockquote><a href="{html.escape(source_url, quote=True)}" target="_blank" rel="noopener">prompt.md <span>↗ L{note['startLine']}</span></a></div>
+    <div class="preview-annotation"><span class="preview-label">规则批注 · 目标与行动</span><h2>{html.escape(note['title'])}</h2><p>{note['body']}</p></div>
+    <a class="preview-open" href="#agent=codex">在完整上下文中阅读 <span aria-hidden="true">↗</span></a>
+  </aside>
+  <!-- home-evidence:end -->'''
+    shell, count = re.subn(r'<!-- home-evidence:start -->.*?<!-- home-evidence:end -->',
+                           lambda _: preview, shell, flags=re.DOTALL)
+    if count != 1:
+        raise ValueError("Expected one homepage evidence preview")
+    return shell
+
+
 def main() -> None:
     args = parse_args()
     original_shell = INDEX_PATH.read_text(encoding="utf-8")
@@ -498,6 +518,7 @@ def main() -> None:
         shell, fragments, manifest, note_counts, category_counts
     )
     shell, fragments = render_editorial(shell, fragments, manifest, records)
+    shell = render_home_evidence(shell, manifest, records)
 
     if args.check:
         stale = []
