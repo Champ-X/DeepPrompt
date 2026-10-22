@@ -835,6 +835,9 @@ try {
     chrome.kill("SIGKILL");
     await waitForChromeExit(2000);
   }
+  // Chrome descendants can retain this pipe after the browser exits.
+  // Release our read side so a completed QA run can terminate normally.
+  chrome.stderr.destroy();
   if (localServer) {
     localServer.closeAllConnections?.();
     await new Promise(resolveClose => localServer.close(resolveClose));
