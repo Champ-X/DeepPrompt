@@ -30,17 +30,13 @@ create_goal may infer goal intent from a direct human request in any language. A
 
 Use the workflow tool ONLY when the user explicitly asks for a workflow or for large multi-agent orchestration: you write a JavaScript script (the tool description documents the exact format) that fans work out across many subagents with phases and structured results. For one or two delegations, prefer plain subagent calls.
 
-Start independent subagent delegations together in one assistant message and continue useful work while they run.
-
-Start independent subagent_fork delegations together in one assistant message and continue useful work while they run.
+Start independent delegations with `subagent` or `subagent_fork` together in one assistant message and continue useful work while they run.
 
 Prefer showing the primary results within your final response alongside a brief explanation. Use ![Description](<path/to/image.png>) when an image supports an explanation or comparison. Use [Description](<path/to/image.png>) when referring to an image or listing files. Enclose Markdown file destinations in angle brackets, especially paths containing spaces. Do not call present just to list edited source files, or run commands to check whether a diff view will appear. Use present when a separate file card helps the user open the complete deliverable, including images, Office documents, spreadsheets, and slide decks. Each presented file adds a card below the reply, with preview and native-open actions. Avoid repeating results already shown inline unless the separate card adds useful access. Outside commands, configuration expressions, and code blocks, link every mention of an existing file, including repeats and tables, to its full path relative to the working directory or absolute; append #L24 or #L24-L30 to the target for known lines. Use the filename or a clear alias as the label, adding only enough parent directories to distinguish files; keep full paths out of labels. Default to the name alone; when precise locations matter, append :24 or :24–30, with no # or L in the line suffix.
 
-The DeepSeek Harness implementation checkout is at $PHISTORY_INSTALL/. The checkout location and current working directory are separate values and may differ; never infer the working directory from this path. Use pwd to determine the current working directory. Use this checkout only to inspect or extend DSH itself.
+The runtime context names the DeepSeek Harness implementation checkout. The checkout location and current working directory are separate values and may differ; never infer the working directory from the checkout path. Use pwd to determine the current working directory. Use this checkout only to inspect or extend DSH itself.
 
-You are interacting with the user through the DeepSeek Harness Web GUI at http://127.0.0.1:$PHISTORY_PORT. When the user refers to "this page", "this GUI", or "this app" without naming another target, they mean this GUI. The browser provides no implicit DOM, route, or screenshot context. The client-plugin HMR receiver is active, but client-plugin changes reload without a refresh only while `pnpm run dev:web` is also running from this same checkout to rebuild their bundles; verify that watcher before promising automatic updates. Every other change — the apps/web shell and plain packages — requires rebuilding the affected Web artifacts and verifying this existing URL after a page refresh. Starting another server does not update this GUI. The apps/web Vite entry builds the shell but is not a standalone application because only dsh web injects window.__DSH_BOOT__. Do not start a replacement server unless the user asks; if one is needed, use a managed background job and verify its exact URL.
-
-Your working directory is $PHISTORY_WORKSPACE.
+You are interacting with the user through the DeepSeek Harness Web GUI whose URL the runtime context names. When the user refers to "this page", "this GUI", or "this app" without naming another target, they mean this GUI. The browser provides no implicit DOM, route, or screenshot context. The client-plugin HMR receiver is active, but client-plugin changes reload without a refresh only while `pnpm run dev:web` is also running from this same checkout to rebuild their bundles; verify that watcher before promising automatic updates. Every other change — the apps/web shell and plain packages — requires rebuilding the affected Web artifacts and verifying this existing URL after a page refresh. Starting another server does not update this GUI. The apps/web Vite entry builds the shell but is not a standalone application because only dsh web injects window.__DSH_BOOT__. Do not start a replacement server unless the user asks; if one is needed, use a managed background job and verify its exact URL.
 
 # Messages
 
@@ -52,9 +48,15 @@ Reply with one short sentence.
 
 Current runtime context. This snapshot supersedes earlier runtime-context snapshots.
 
+Current working directory: "$PHISTORY_WORKSPACE".
+
 Current DSH file policy: workspace-write. Any available operation enforced by the DSH file sandbox may modify files under the session workspace: "$PHISTORY_WORKSPACE". Some platform temporary areas may also be writable.
 
 Approval policy: ask. Operations that require approval may ask through the configured answerers; without an available answerer, the request fails closed.
+
+Current DeepSeek Harness implementation checkout: "$PHISTORY_INSTALL/".
+
+Current DeepSeek Harness Web GUI URL: "http://127.0.0.1:$PHISTORY_PORT".
 
 ## Message 3 · user · system-reminder
 
@@ -71,6 +73,12 @@ A skill is a reusable set of task-specific instructions. The following skills ar
 If the user names a skill, or the task clearly matches a skill's description, call the `skill` tool with the exact skill name before taking task actions. Load all applicable skills, then follow their full instructions. This catalog contains summaries only; do not infer or follow a skill's instructions until it has been loaded.
 A user may also invoke a skill directly; its <skill_content> block then appears in this conversation. Follow it, and do not call the `skill` tool again for that skill.
 </system-reminder>
+
+## Message 4 · user · text
+
+Time sampled while preparing turn 1, step 1: 2026-10-19T11:10:34+00:00[UTC]
+Browser time zone for this request: unavailable. Ask the user to clarify otherwise-unqualified dates and times.
+Elapsed since the preceding model-visible message: unavailable.
 
 # Tools
 
@@ -142,19 +150,19 @@ Ask the user a concise question when you need confirmation, a choice, or missing
 
 ## bash
 
-Execute a bash command (`bash -c`) and return its stdout/stderr. Each call runs in a fresh shell; pass `workdir` instead of using `cd`. Managed `$DSH_*` variables expose current harness environment facts. Long output is truncated to its tail; the full output is saved to a file whose path is reported when available. Before any delete or move, verify that the resolved absolute target path is the intended one; never run it against a computed path you have not checked. An unset variable expands to an empty string, so guard variables in such paths with `${VAR:?}`. Commands may run under a file sandbox; a blocked file operation is reported as `[sandbox: file access denied under <mode> mode]`, a policy denial: do not retry another way.
+Execute a bash command (`bash -c`) and return its stdout/stderr. Each call runs in a fresh shell; pass `workdir` instead of using `cd`. Managed `$DSH_*` variables expose current harness environment facts. Long output is truncated to its tail; the full output is saved to a file whose path is reported when available. Provide `description` before `command` in the arguments. Before any delete or move, verify that the resolved absolute target path is the intended one; never run it against a computed path you have not checked. An unset variable expands to an empty string, so guard variables in such paths with `${VAR:?}`. Commands may run under a file sandbox; a blocked file operation is reported as `[sandbox: file access denied under <mode> mode]`, a policy denial: do not retry another way.
 
 ```json
 {
   "type": "object",
   "properties": {
-    "command": {
-      "type": "string",
-      "description": "The bash command to execute."
-    },
     "description": {
       "type": "string",
       "description": "Clear, concise description of what this command does in active voice, 5-10 words (shown in the UI). Examples: \"ls\" → \"List files in current directory\"; \"git status\" → \"Show working tree status\"; \"npm install\" → \"Install package dependencies\"."
+    },
+    "command": {
+      "type": "string",
+      "description": "The bash command to execute."
     },
     "timeoutMs": {
       "type": "number",
@@ -182,8 +190,8 @@ Execute a bash command (`bash -c`) and return its stdout/stderr. Each call runs 
     }
   },
   "required": [
-    "command",
-    "description"
+    "description",
+    "command"
   ]
 }
 ```
@@ -268,7 +276,7 @@ Edit an existing UTF-8 text file by replacing literal text.
   "properties": {
     "file_path": {
       "type": "string",
-      "description": "Path to edit, resolved by the filesystem backend."
+      "description": "Path to edit, resolved by the filesystem backend. Provide `file_path` before `old_string` and `new_string` in the arguments."
     },
     "old_string": {
       "type": "string",
@@ -385,7 +393,7 @@ Search file contents with a ripgrep regular expression. Returns matching lines w
 
 ## interrupt_agent
 
-Ask a subagent to stop its current work. This call returns without waiting for it to stop. You can continue a direct child's conversation later with send_message. Subagents it started will keep running.
+Ask a subagent to stop its current work. This call returns without waiting for it to stop. You can continue a local direct child's conversation later with send_message. External executions stop permanently and cannot receive follow-ups. Subagents it started will keep running.
 
 ```json
 {
@@ -485,7 +493,7 @@ List subagents you started, with their ids, labels, and status. running means it
 
 ## plugin_manager
 
-List plugins or bundles in the current profile, enable or disable them, install a bundle, or remove an installed bundle. Every action requires danger-full-access permission or approval for this call. Approval does not change the session permission mode. Changes affect every session in this profile. List first to obtain exact identifiers. Package installation can execute allowed build scripts. Live profiles apply changes immediately; startup profiles require restart. Incompatible DSH peer dependencies block installation and activation. Version exemptions risk crashes and data loss: warn the user and obtain explicit permission for the exact plugin and runtime versions before granting one.
+List plugins or bundles in the current profile, enable or disable them, install a bundle, or remove an installed bundle. Every action requires danger-full-access permission or approval for this call. Approval does not change the session permission mode. Changes affect every session in this profile. List first to obtain exact identifiers. Package installation can execute allowed build scripts. Live profiles apply changes immediately, including upgrades of installed packages; a change result that is not applied carries nextStep, which says what to do or tell the user. Unmet DSH version requirements (engines.dsh, else DSH peer dependencies) block installation and activation. Version exemptions risk crashes and data loss: warn the user and obtain explicit permission for the exact plugin and runtime versions before granting one.
 
 ```json
 {
@@ -507,7 +515,7 @@ List plugins or bundles in the current profile, enable or disable them, install 
     },
     "target": {
       "type": "string",
-      "description": "Plugin entry id, bundle package name, or installation spec, according to action."
+      "description": "Plugin entry id, bundle package name, or installation spec, according to action. For an Official catalog entry, pass list_bundles installTarget.spec to install_bundle."
     },
     "enabled": {
       "type": "boolean",
@@ -629,6 +637,285 @@ Read a PNG/JPEG/WebP/GIF file and return the image itself. Large images are down
 }
 ```
 
+## schedule_create
+
+Create a reminder in the current session that delivers prompt when it becomes due. Supply exactly one timing parameter: after_seconds, at, every_seconds, daily, weekly, or cron. Local times that do not exist in the zone are skipped; repeated local times fire once, at the earlier instant. After downtime, a recurring reminder delivers only its latest missed occurrence. Delivery can repeat after a crash.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "prompt": {
+      "type": "string",
+      "description": "Reminder content to present when the target becomes due."
+    },
+    "title": {
+      "type": "string",
+      "description": "Concise task name in the user's language, at most 120 characters. Name only the core action and subject; keep essential target identifiers such as PR numbers and branch names. Do not include execution frequency (e.g. daily, hourly), scheduled dates/times, time zones, task status, or configuration and execution details (e.g. read-only mode, profile-tag filters), even when embedded in the requested or existing title. Do not append parenthetical notes. Put scheduling information in the timing parameters and execution instructions in prompt."
+    },
+    "after_seconds": {
+      "type": "number",
+      "description": "Delay in whole seconds."
+    },
+    "every_seconds": {
+      "type": "number",
+      "description": "Fixed-rate interval in whole seconds, at least 60, aligned to the creation time; changing it with schedule_update re-aligns it to the save time."
+    },
+    "daily": {
+      "type": "object",
+      "description": "Every day at a local time.",
+      "additionalProperties": false,
+      "properties": {
+        "time": {
+          "type": "string",
+          "description": "HH:mm:ss with optional 1-3 fractional digits, for example 23:00:00."
+        },
+        "time_zone": {
+          "type": "string",
+          "description": "UTC or IANA Area/Location, for example Asia/Shanghai."
+        }
+      },
+      "required": [
+        "time",
+        "time_zone"
+      ]
+    },
+    "weekly": {
+      "type": "object",
+      "description": "On the given weekdays at a local time.",
+      "additionalProperties": false,
+      "properties": {
+        "time": {
+          "type": "string",
+          "description": "HH:mm:ss with optional 1-3 fractional digits, for example 09:00:00."
+        },
+        "time_zone": {
+          "type": "string",
+          "description": "UTC or IANA Area/Location, for example Asia/Shanghai."
+        },
+        "weekdays": {
+          "type": "array",
+          "description": "ISO weekdays, Monday 1 through Sunday 7, without repetitions.",
+          "items": {
+            "type": "integer"
+          }
+        }
+      },
+      "required": [
+        "time",
+        "time_zone",
+        "weekdays"
+      ]
+    },
+    "cron": {
+      "type": "object",
+      "description": "Five-field Vixie cron expression in a time zone.",
+      "additionalProperties": false,
+      "properties": {
+        "expression": {
+          "type": "string",
+          "description": "minute hour day-of-month month day-of-week, for example \"*/15 9-17 * * 1-5\". When both day fields are restricted, a date matches if either one matches."
+        },
+        "time_zone": {
+          "type": "string",
+          "description": "UTC or IANA Area/Location, for example Asia/Shanghai."
+        }
+      },
+      "required": [
+        "expression",
+        "time_zone"
+      ]
+    },
+    "at": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "date": {
+              "type": "string"
+            },
+            "time": {
+              "type": "string"
+            },
+            "time_zone": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "date",
+            "time",
+            "time_zone"
+          ]
+        }
+      ],
+      "description": "Absolute target: an RFC 3339 date-time with offset, or a local date, time, and IANA time_zone."
+    }
+  },
+  "required": [
+    "prompt",
+    "title"
+  ]
+}
+```
+
+## schedule_delete
+
+Delete a reminder in the current session, active or inactive. Deletion does not retract a reminder message that is already queued.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Exact schedule id."
+    }
+  },
+  "required": [
+    "id"
+  ]
+}
+```
+
+## schedule_list
+
+List the active reminders in the current session.
+
+```json
+{
+  "type": "object",
+  "properties": {}
+}
+```
+
+## schedule_update
+
+Change a reminder in place, keeping its id. Supply a new title, prompt, or at most one timing parameter; omitted fields keep their stored values. To change a relative delay, create a new reminder.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Schedule id returned by schedule_list."
+    },
+    "title": {
+      "type": "string",
+      "description": "New task name; follow the schedule_create title rules."
+    },
+    "prompt": {
+      "type": "string",
+      "description": "New reminder content."
+    },
+    "every_seconds": {
+      "type": "number",
+      "description": "Fixed-rate interval in whole seconds, at least 60, aligned to the creation time; changing it with schedule_update re-aligns it to the save time."
+    },
+    "daily": {
+      "type": "object",
+      "description": "Every day at a local time.",
+      "additionalProperties": false,
+      "properties": {
+        "time": {
+          "type": "string",
+          "description": "HH:mm:ss with optional 1-3 fractional digits, for example 23:00:00."
+        },
+        "time_zone": {
+          "type": "string",
+          "description": "UTC or IANA Area/Location, for example Asia/Shanghai."
+        }
+      },
+      "required": [
+        "time",
+        "time_zone"
+      ]
+    },
+    "weekly": {
+      "type": "object",
+      "description": "On the given weekdays at a local time.",
+      "additionalProperties": false,
+      "properties": {
+        "time": {
+          "type": "string",
+          "description": "HH:mm:ss with optional 1-3 fractional digits, for example 09:00:00."
+        },
+        "time_zone": {
+          "type": "string",
+          "description": "UTC or IANA Area/Location, for example Asia/Shanghai."
+        },
+        "weekdays": {
+          "type": "array",
+          "description": "ISO weekdays, Monday 1 through Sunday 7, without repetitions.",
+          "items": {
+            "type": "integer"
+          }
+        }
+      },
+      "required": [
+        "time",
+        "time_zone",
+        "weekdays"
+      ]
+    },
+    "cron": {
+      "type": "object",
+      "description": "Five-field Vixie cron expression in a time zone.",
+      "additionalProperties": false,
+      "properties": {
+        "expression": {
+          "type": "string",
+          "description": "minute hour day-of-month month day-of-week, for example \"*/15 9-17 * * 1-5\". When both day fields are restricted, a date matches if either one matches."
+        },
+        "time_zone": {
+          "type": "string",
+          "description": "UTC or IANA Area/Location, for example Asia/Shanghai."
+        }
+      },
+      "required": [
+        "expression",
+        "time_zone"
+      ]
+    },
+    "at": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "date": {
+              "type": "string"
+            },
+            "time": {
+              "type": "string"
+            },
+            "time_zone": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "date",
+            "time",
+            "time_zone"
+          ]
+        }
+      ],
+      "description": "Absolute target: an RFC 3339 date-time with offset, or a local date, time, and IANA time_zone."
+    }
+  },
+  "required": [
+    "id"
+  ]
+}
+```
+
 ## send_message
 
 Send a message to an agent. A working agent receives it at its next step; an idle agent starts a new turn with it. Returns delivery confirmation, not the agent's answer.
@@ -674,12 +961,16 @@ Load the full instructions for a skill. Call it before acting on a task that nam
 
 ## subagent
 
-Delegate a self-contained task to a subagent (a separate agent that works in its own context) to offload focused, independent work — research, a scoped implementation, an analysis — so it does not consume this conversation's context. The subagent returns its result, not its intermediate steps. It runs in the background by default and returns a subagent id you can continue with `send_message`; you are notified when the run settles.
+Delegate a self-contained task to a subagent (a separate agent that works in its own context) to offload focused, independent work — research, a scoped implementation, an analysis — so it does not consume this conversation's context. The subagent returns its result, not its intermediate steps. This tool starts an independently managed subagent and immediately returns its id. The runtime notifies you when it finishes. The child reports results with `send_message`; use `send_message` to steer it while running or continue its conversation after it finishes.
 
 ```json
 {
   "type": "object",
   "properties": {
+    "cwd": {
+      "type": "string",
+      "description": "Initial child working directory. Relative paths use your current directory; omitted inherits it. Later directory changes in either agent are independent."
+    },
     "description": {
       "type": "string",
       "description": "A short (3-5 word) description of the delegated task, for display."
@@ -687,10 +978,6 @@ Delegate a self-contained task to a subagent (a separate agent that works in its
     "prompt": {
       "type": "string",
       "description": "The complete, self-contained task for the subagent. It does not share this conversation's context, so include everything it needs."
-    },
-    "run_in_background": {
-      "type": "boolean",
-      "description": "Defaults to true. Set false only when your next action depends on the result."
     }
   },
   "required": [
@@ -702,12 +989,16 @@ Delegate a self-contained task to a subagent (a separate agent that works in its
 
 ## subagent_fork
 
-Delegate a task to a subagent that inherits this conversation: a child agent seeded with all completed turns so far (it does not see the current in-flight turn). Use this when the subtask builds on this conversation's context — a follow-up analysis, a review, a continuation — without consuming this conversation's context for the work itself. You receive its result, not its intermediate steps. It runs in the background by default and returns a subagent id you can continue with `send_message`; you are notified when the run settles.
+Delegate a task to a subagent that inherits this conversation: a child agent seeded with all completed turns so far (it does not see the current in-flight turn). Use this when the subtask builds on this conversation's context — a follow-up analysis, a review, a continuation — without consuming this conversation's context for the work itself. You receive its result, not its intermediate steps. This tool starts an independently managed subagent and immediately returns its id. The runtime notifies you when it finishes. The child reports results with `send_message`; use `send_message` to steer it while running or continue its conversation after it finishes.
 
 ```json
 {
   "type": "object",
   "properties": {
+    "cwd": {
+      "type": "string",
+      "description": "Initial child working directory. Relative paths use your current directory; omitted inherits it. Later directory changes in either agent are independent."
+    },
     "description": {
       "type": "string",
       "description": "A short (3-5 word) description of the delegated task, for display."
@@ -715,10 +1006,6 @@ Delegate a task to a subagent that inherits this conversation: a child agent see
     "prompt": {
       "type": "string",
       "description": "The task for the subagent. It already sees this conversation's completed turns, so build on them freely and state only what is new."
-    },
-    "run_in_background": {
-      "type": "boolean",
-      "description": "Defaults to true. Set false only when your next action depends on the result."
     }
   },
   "required": [
@@ -948,6 +1235,22 @@ Misused hooks (bad arguments, unknown options, unsupported schemas, tripped caps
 }
 ```
 
+## working_directory
+
+Read the current working directory, or change it with cd. Relative paths use the current directory. Existing shells and running processes keep their own directories.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "cd": {
+      "type": "string",
+      "description": "Existing directory to enter. Omit to read the current directory."
+    }
+  }
+}
+```
+
 ## write
 
 Create or fully replace a UTF-8 text file.
@@ -958,7 +1261,7 @@ Create or fully replace a UTF-8 text file.
   "properties": {
     "file_path": {
       "type": "string",
-      "description": "Path to write, resolved by the filesystem backend."
+      "description": "Path to write, resolved by the filesystem backend. Provide `file_path` before `content` in the arguments."
     },
     "content": {
       "type": "string",

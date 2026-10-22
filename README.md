@@ -6,9 +6,9 @@
   <p>
     <a href="https://deep-prompt-woad.vercel.app"><img alt="Live on Vercel" src="https://img.shields.io/badge/live-Vercel-000000?logo=vercel&logoColor=white"></a>
     <a href="https://github.com/Champ-X/DeepPrompt/actions/workflows/verify.yml"><img alt="Verify archive" src="https://github.com/Champ-X/DeepPrompt/actions/workflows/verify.yml/badge.svg"></a>
-    <a href="https://github.com/WEIFENG2333/phistory/tree/444c615c31fae7e5162f50375ddb2d0853231df9"><img alt="Phistory commit" src="https://img.shields.io/badge/Phistory-444c615c31fa-2f766d"></a>
-    <img alt="Agents" src="https://img.shields.io/badge/Agents-15-356aa0">
-    <img alt="Annotations" src="https://img.shields.io/badge/Annotations-758-c15f3c">
+    <a href="https://github.com/WEIFENG2333/phistory/tree/76e8e3096b2e11ebdaa7e969b85f73174287d6f5"><img alt="Phistory commit" src="https://img.shields.io/badge/Phistory-76e8e3096b2e-2f766d"></a>
+    <img alt="Agents" src="https://img.shields.io/badge/Agents-16-356aa0">
+    <img alt="Annotations" src="https://img.shields.io/badge/Annotations-818-c15f3c">
   </p>
   <p>
     <a href="https://deep-prompt-woad.vercel.app"><strong>在线阅读 →</strong></a>
@@ -34,7 +34,7 @@ Deep Prompt 是一个可审计的 Agent System Prompt 阅读器。它将 [Phisto
 
 - 中央为固定快照的原始 Prompt，不用摘要替代证据。
 - 批注与原文锚点一一对应，支持搜索、主题筛选与视觉连线。
-- 首页用七条设计轴和五个主题比较不同 Agent，详情页保留单个 Agent 的语境。
+- 首页用七条设计轴和五个主题比较不同 Agent，详情页保留单个 Agent 的语境；设计解读作为可展开区域，让原文更早进入视野。
 - Agent 目录支持按名称、厂商或主题检索，并按名称或批注数排序；首页证据示例直接绑定当前原文与批注。目录检索不替代阅读页中的原文搜索。
 - 上游规则被删除或反转时，旧批注进入退役审计，不冒充当前规则。
 - 每次同步都经过哈希、锚点、DOM、响应式和真实 Chrome 交互验收。
@@ -43,18 +43,18 @@ Deep Prompt 是一个可审计的 Agent System Prompt 阅读器。它将 [Phisto
 
 | 指标 | 当前值 |
 | --- | ---: |
-| Phistory commit | [`444c615c31fa`](https://github.com/WEIFENG2333/phistory/tree/444c615c31fae7e5162f50375ddb2d0853231df9) |
-| 上游索引时间 | `2026-10-12 23:10 UTC` |
-| Agent | 15 |
-| 历史版本 / 快照 | 1,358 / 1,804 |
-| 当前高亮 / 批注 | 758 / 758 |
-| 当前规则解释 | 290 |
-| 设计哲学证据 / 逐句扩展 | 30 / 438 |
-| 已机械分类的非空原文行 | 16,221 |
+| Phistory commit | [`76e8e3096b2e`](https://github.com/WEIFENG2333/phistory/tree/76e8e3096b2e11ebdaa7e969b85f73174287d6f5) |
+| 上游索引时间 | `2026-10-22 07:54 UTC` |
+| Agent | 16 |
+| 历史版本 / 快照 | 1,412 / 1,875 |
+| 当前高亮 / 批注 | 818 / 818 |
+| 当前规则解释 | 283 |
+| 设计哲学证据 / 逐句扩展 | 32 / 503 |
+| 已机械分类的非空原文行 | 16,176 |
 
-已收录 Claude Code、Codex CLI、DeepSeek Harness、Antigravity CLI、Grok Build、MiniMax Code、Kimi Code、MiMo Code、OpenClaw、Hermes Agent、Kimi CLI、opencode、Oh My Pi、Pi 与 Claude Tag。“最新”指截至 2026-10-13 核查时 Phistory 可见的最新捕获，不保证等同于各厂商线上所有模型的实时 Prompt。本轮已读取 phistory.cc 首页，并核对全部 latest 版本与原文哈希前缀和固定上游一致。当前批注对应 default；23 份最新变体原文均已保存。Claude Tag 为上游手工导入并脱敏的 Slack 捕获，日期不表示软件包版本；Claude Code 默认捕获保持 CLI 入口，SDK 单独归档。完整版本、发布时间、字节数、SHA-256 和变体信息见 [`data/manifest.json`](data/manifest.json)。
+已收录 Claude Code、Codex CLI、DeepSeek Harness、Antigravity CLI、Grok Build、MiniMax Code、Kimi Code、MiMo Code、OpenClaw、Hermes Agent、Kimi CLI、opencode、Oh My Pi、Pi、Claude Tag 与 Grokbot。“最新”指截至 2026-10-22 核查时 Phistory 可见的最新捕获，不保证等同于各厂商线上所有模型的实时 Prompt。本轮已读取 phistory.cc 首页，并核对全部 latest 版本与原文哈希前缀和固定上游一致。当前批注对应 default；24 份最新变体原文均已保存。Claude Tag 为上游手工导入并脱敏的 Slack 捕获，日期不表示软件包版本；Claude Code 默认捕获保持 CLI 入口，SDK 单独归档。**Grokbot 是模型自述，完整性与准确性未经验证，不等同于请求捕获的系统提示词；页面明确标注该边界，不将自述的角色/工具描述视为已证实能力。** 完整版本、发布时间、字节数、SHA-256 和变体信息见 [`data/manifest.json`](data/manifest.json)。
 
-本轮修订 69 条既有批注、新增 48 条、退役 24 条，重点校正被移除的规划/Ralph 规则、委派条件、后台期限、通知授权与并发写入边界。退役账本累计保留 202 条记录；逐项变化见 [`COMPLETION_AUDIT.md`](COMPLETION_AUDIT.md)。
+本轮修订 39 条既有批注、新增 93 条、退役 33 条，重点复核 Claude Code 工具延迟加载、Claude Tag 事件驱动跟进、DSH 定时调度与 OpenClaw 学习技能；Grokbot 的 39 条批注保留模型自述边界。退役账本累计保留 235 条记录；逐项变化见 [`COMPLETION_AUDIT.md`](COMPLETION_AUDIT.md)。
 
 ## 信息架构
 
@@ -87,7 +87,7 @@ make serve
 
 打开 <http://127.0.0.1:8765/>。阅读页使用 `fetch()` 加载 Agent 分片，因此不要直接用 `file://` 打开 `index.html`。
 
-阅读器的 Agent 切换器支持点击、单次滚动切换、拖拽预览后松手确认，以及方向键与 Home/End。按 Esc 可取消拖拽；点击底部名称菜单可直接选择全部 Agent。移动端采用底部横向切换，并保留上下滑动页面的手势。
+阅读器的 Agent 切换器支持点击、单次滚动切换、拖拽预览后松手确认，以及方向键与 Home/End。按 Esc 可取消拖拽；点击底部名称菜单可直接选择全部 Agent。移动端采用底部横向切换，并保留上下滑动页面的手势。手机顶部搜索按钮可展开原文与批注搜索，支持 Esc 清空关闭、Command/Control K 聚焦及焦点回退。设计解读默认收起，展开后查看推断与原文依据。
 
 ## 项目结构
 
@@ -151,10 +151,12 @@ make check
 
 该命令会依次验证：
 
-1. 精确定位回归：重复文本、同一行的第二处引文、多行代码、错误来源/行号/Agent、重叠与错误 HTML 标记。
-2. 当前 shell、15 份 Agent 分片和全文分类报告均可重建；画像与横向比较能追溯到有效批注。
-3. Prompt/23 份变体/Codex trace 哈希、758 组批注、Logo、版本与页面元数据一致。
-4. Chrome 在 1920×1080、1440×900 和 390×844 下逐 Agent 检查批注标题与正文、精确引文、来源链接、DOM ID 与页面宽度，并验证懒加载、导航、搜索、筛选、点击配对与折叠连线。
+1. 精确定位回归：重复文本、同一行的第二处引文、多行代码、错误来源/行号/Agent、重叠与错误 HTML 标记，以及完整单行工具 JSON 折叠后的原文与锚点保留。
+2. 当前 shell、16 份 Agent 分片和全文分类报告均可重建；画像与横向比较能追溯到有效批注。
+3. Prompt/24 份变体/Codex trace 哈希、818 组批注、Logo、版本与页面元数据一致。
+4. Chrome 在 1920×1080、1440×900 和 390×844 下逐 Agent 检查批注标题与正文、精确引文、来源链接、DOM ID、页面宽度与批注间隔，并验证懒加载、导航、搜索、筛选、点击配对、设计解读、滚轮与折叠连线。
+
+本轮完整 `make check` 已通过：29 项 Python 回归、818 组高亮/批注及 48 组 Agent/视口检查。截图复核和发布后的线上验证另行记录于完成审计。
 
 GitHub Actions 在 `main` 推送和 Pull Request 上运行同一套检查。
 

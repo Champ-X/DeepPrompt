@@ -15,7 +15,9 @@ def render_capture_provenance(agent: dict) -> str:
     parts = []
     source = agent.get("captureSource") or {}
     kind = source.get("kind")
-    if kind == "user-provided trace":
+    if agent.get("selfReport") or kind == "model-self-report":
+        parts.append('<span class="capture-caveat">模型自述：内容由模型报告，完整性与准确性未经验证，不等同于请求捕获的系统提示词。日期为捕获标签。</span>')
+    elif kind == "user-provided trace":
         label = "手工导入"
         if re.fullmatch(r"\d{4}-\d{2}-\d{2}", agent["version"]):
             label += " · 日期为捕获标签"
@@ -72,13 +74,15 @@ def render_editorial(shell: str, fragments: dict[str, str], manifest: dict, reco
         fragment = replace_once(updated[agent_id], r'(<div class="mh-lead">).*?(</div>)',
                                 lambda match: match[1] + '题眼 · ' + lead + match[2])
         profile = (
-            f'<div class="mh-philosophy" data-philosophy-agent="{agent_id}">'
-            '<span class="ph-label">设计哲学 · editorial inference</span>'
-            f'<h3>{html.escape(item["thesis"])}</h3><p>{html.escape(item["body"])}</p>'
+            f'<details class="mh-philosophy" data-philosophy-agent="{agent_id}">'
+            '<summary><span class="ph-label">设计解读</span>'
+            f'<h3>{html.escape(item["thesis"])}</h3></summary>'
+            '<div class="ph-content"><span class="ph-inference">以下为基于原文的编辑推断</span>'
+            f'<p>{html.escape(item["body"])}</p>'
             f'<p class="ph-tension"><b>内在张力：</b>{html.escape(item["tension"])}</p>'
-            f'{evidence(item)}</div>'
+            f'{evidence(item)}</div></details>'
         )
-        fragment = replace_once(fragment, r'<div class="mh-philosophy".*?</div>', lambda _: profile)
+        fragment = replace_once(fragment, r'<(div|details) class="mh-philosophy".*?</\1>', lambda _: profile)
         agent = agents[agent_id]
         variants = [v for v in agent["availableVariants"] if v["id"] != agent["variant"]["id"]]
         source_links = (

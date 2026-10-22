@@ -103,6 +103,8 @@ def preflight_captures(source: Path, captures: list[dict]) -> dict[str, tuple[by
                 raise ValueError(f"Invalid {field}: {prompt_path}")
         if type(capture.get("trace_redacted", False)) is not bool:
             raise ValueError(f"Invalid trace_redacted: {prompt_path}")
+        if type(capture.get("self_report", False)) is not bool:
+            raise ValueError(f"Invalid self_report: {prompt_path}")
         if capture.get("trace") is not None:
             required_string(capture, "trace")
         meta = json.loads((source / meta_path).read_text(encoding="utf-8"))
@@ -224,6 +226,7 @@ def main() -> None:
                     "prompt": item["prompt"],
                     "trace": item.get("trace"),
                     "traceRedacted": item.get("trace_redacted", False),
+                    "selfReport": item.get("self_report", False),
                     "localPromptPath": str(variant_target.relative_to(ROOT)),
                     "sha256": sha256(variant_payload),
                     "bytes": len(variant_payload),
@@ -272,6 +275,7 @@ def main() -> None:
                 "promptRole": headings[0]["text"] if headings else "Prompt",
                 "captureTarget": meta["target"],
                 "captureSource": meta.get("source"),
+                "selfReport": capture.get("self_report", False),
                 "redactions": meta.get("redactions", []),
                 "normalization": "Phistory readable snapshot; volatile runtime values are normalized.",
             }
@@ -293,7 +297,8 @@ def main() -> None:
             "method": (
                 "Latest default prompt.md snapshots and all latest variants copied "
                 "byte-for-byte from the pinned Phistory commit, including normalized "
-                "tool captures and manually imported, redacted traces."
+                "tool captures, manually imported redacted traces, and explicitly "
+                "labelled model self-reports whose completeness and accuracy are unverified."
             ),
         },
         "coverage": {

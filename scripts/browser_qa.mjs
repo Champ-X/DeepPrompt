@@ -141,6 +141,25 @@ async function main() {
   await send("Page.enable", {}, sessionId);
   await send("Runtime.enable", {}, sessionId);
 
+  const evaluate = async expression => {
+    const evaluation = await send("Runtime.evaluate", {expression,returnByValue:true}, sessionId);
+    if (evaluation.exceptionDetails) throw new Error(evaluation.result.description || evaluation.exceptionDetails.text);
+    return evaluation.result.value;
+  };
+  const centerOf = selector => evaluate(`(() => {const r=document.querySelector(${JSON.stringify(selector)})?.getBoundingClientRect();return r?{x:r.left+r.width/2,y:r.top+r.height/2}:null;})()`);
+  const clickAt = async point => {
+    if (!point) throw new Error("Cannot click a missing control");
+    await send("Input.dispatchMouseEvent", {type:"mousePressed",x:point.x,y:point.y,button:"left",buttons:1,clickCount:1}, sessionId);
+    await send("Input.dispatchMouseEvent", {type:"mouseReleased",x:point.x,y:point.y,button:"left",buttons:0,clickCount:1}, sessionId);
+    await delay(320);
+  };
+  const keyPress = async (key,modifiers=0) => {
+    const windowsVirtualKeyCode={ArrowLeft:37,ArrowUp:38,ArrowRight:39,ArrowDown:40,Home:36,End:35,Enter:13,Escape:27,Tab:9,k:75}[key];
+    const code=key.length===1?`Key${key.toUpperCase()}`:key;
+    await send("Input.dispatchKeyEvent", {type:key==='Enter'?"keyDown":"rawKeyDown",key,code,windowsVirtualKeyCode,modifiers,...(key==='Enter'?{text:"\r"}:{})}, sessionId);
+    await send("Input.dispatchKeyEvent", {type:"keyUp",key,code,windowsVirtualKeyCode,modifiers}, sessionId);
+  };
+
   const viewports = [
     { name: "wide", width: 1920, height: 1080, mobile: false },
     { name: "desktop", width: 1440, height: 900, mobile: false },
@@ -252,18 +271,6 @@ async function main() {
     const initialWheelScreenshot=await send("Page.captureScreenshot",{format:"png",captureBeyondViewport:false},sessionId);
     writeFileSync(`/tmp/deepprompt-wheel-initial-${viewport.name}.png`,initialWheelScreenshot.data,"base64");
     if (viewport.name === "wide" || viewport.mobile) {
-      const evaluate = async expression => (await send("Runtime.evaluate", {expression,returnByValue:true},sessionId)).result.value;
-      const centerOf = selector => evaluate(`(() => {const r=document.querySelector(${JSON.stringify(selector)})?.getBoundingClientRect();return r?{x:r.left+r.width/2,y:r.top+r.height/2}:null;})()`);
-      const clickAt = async point => {
-        await send("Input.dispatchMouseEvent", {type:"mousePressed",x:point.x,y:point.y,button:"left",buttons:1,clickCount:1}, sessionId);
-        await send("Input.dispatchMouseEvent", {type:"mouseReleased",x:point.x,y:point.y,button:"left",buttons:0,clickCount:1}, sessionId);
-        await delay(320);
-      };
-      const keyPress = async (key,modifiers=0) => {
-        const windowsVirtualKeyCode={ArrowLeft:37,ArrowUp:38,ArrowRight:39,ArrowDown:40,Home:36,End:35,Enter:13,Escape:27,Tab:9}[key];
-        await send("Input.dispatchKeyEvent", {type:"rawKeyDown",key,code:key,windowsVirtualKeyCode,modifiers}, sessionId);
-        await send("Input.dispatchKeyEvent", {type:"keyUp",key,code:key,windowsVirtualKeyCode,modifiers}, sessionId);
-      };
       const activeAgent = () => evaluate("document.querySelector('.agentview.active')?.dataset.agent || null");
       // Programmatic clicks only establish a known starting point; every tested gesture uses CDP input.
       const resetAgent = async (id="claude-code") => {
@@ -395,6 +402,51 @@ async function main() {
       await evaluate("window.scrollTo({top:0,behavior:'instant'})");
       await delay(120);
     }
+    if (viewport.mobile) {
+      const searchChecks={};
+      const inputVisible="Boolean(document.getElementById('promptSearch').getClientRects().length)";
+      const focusedSearch="document.activeElement.id==='promptSearch'";
+      const visibleToggle="document.activeElement.id==='togglePromptSearch' && Boolean(document.activeElement.getClientRects().length)";
+      const closedSearch=`!(${inputVisible}) && document.getElementById('promptSearch').value==='' && !document.querySelector('mark.search-hit') && document.getElementById('togglePromptSearch').getAttribute('aria-expanded')==='false'`;
+      const closedHeight=await evaluate("document.querySelector('.topbar').getBoundingClientRect().height");
+      searchChecks.initiallyCollapsed=await evaluate(`!(${inputVisible}) && document.getElementById('togglePromptSearch').getBoundingClientRect().height>=44`);
+      await clickAt(await centerOf('#togglePromptSearch'));
+      await waitForExpression(`${inputVisible} && ${focusedSearch}`);
+      searchChecks.openSecondRow=await evaluate(`(() => {
+        const box=document.getElementById('promptSearchBox').getBoundingClientRect();
+        const toggle=document.getElementById('togglePromptSearch').getBoundingClientRect();
+        return box.top>=toggle.bottom && box.width>innerWidth*.85 && box.right<=innerWidth && document.getElementById('togglePromptSearch').getAttribute('aria-expanded')==='true';
+      })()`);
+      await send("Input.insertText",{text:"tool"},sessionId);
+      await waitForExpression("document.querySelectorAll('mark.search-hit').length>0");
+      searchChecks.inputFindsText=await evaluate("parseInt(document.getElementById('searchCount').textContent)>0");
+      const searchScreenshot=await send("Page.captureScreenshot",{format:"png",captureBeyondViewport:false},sessionId);
+      writeFileSync('/tmp/deepprompt-search-mobile.png',searchScreenshot.data,'base64');
+      await keyPress('Escape');
+      await waitForExpression(`${closedSearch} && ${visibleToggle}`);
+      searchChecks.escapeClearsAndRestoresFocus=await evaluate(`Math.abs(document.querySelector('.topbar').getBoundingClientRect().height-${closedHeight})<2`);
+      await keyPress('k',4);
+      searchChecks.commandKOpens=Boolean(await waitForExpression(`${inputVisible} && ${focusedSearch}`));
+      await send("Input.insertText",{text:"tool"},sessionId);
+      await clickAt(await centerOf('#togglePromptSearch'));
+      searchChecks.buttonClearsAndRestoresFocus=Boolean(await waitForExpression(`${closedSearch} && ${visibleToggle}`));
+      await send("Emulation.setDeviceMetricsOverride",{width:1440,height:900,deviceScaleFactor:1,mobile:false},sessionId);
+      searchChecks.widenKeepsVisibleFocus=Boolean(await waitForExpression(`${inputVisible} && ${focusedSearch} && !document.getElementById('togglePromptSearch').getClientRects().length`));
+      await send("Input.insertText",{text:"tool"},sessionId);
+      await send("Emulation.setDeviceMetricsOverride",{width:viewport.width,height:viewport.height,deviceScaleFactor:1,mobile:true},sessionId);
+      searchChecks.narrowPreservesVisibleQuery=Boolean(await waitForExpression(`${inputVisible} && ${focusedSearch} && document.getElementById('togglePromptSearch').getAttribute('aria-expanded')==='true' && document.getElementById('promptSearch').value==='tool'`));
+      await evaluate("location.hash='#agent=codex'");
+      await waitForAgent('codex');
+      searchChecks.agentRouteClearsWithoutHiddenFocus=Boolean(await waitForExpression(`${closedSearch} && ${visibleToggle}`));
+      await keyPress('k',2);
+      searchChecks.controlKOpens=Boolean(await waitForExpression(`${inputVisible} && ${focusedSearch}`));
+      await evaluate("location.hash='#home'");
+      searchChecks.homeRouteRestoresVisibleFocus=Boolean(await waitForExpression(`document.body.classList.contains('mode-home') && document.activeElement.id==='homeButton' && Boolean(document.activeElement.getClientRects().length) && !(${inputVisible}) && !document.getElementById('togglePromptSearch').getClientRects().length`));
+      metrics.searchInteraction=searchChecks;
+      await evaluate("location.hash='#agent=claude-code'");
+      await waitForAgent('claude-code');
+      await evaluate("window.scrollTo({top:0,behavior:'instant'})");
+    }
     const screenshot = await send("Page.captureScreenshot", {
       format: "png",
       captureBeyondViewport: false,
@@ -451,13 +503,28 @@ async function main() {
         JSON.stringify(visualCoverage, null, 2),
       );
     }
-    await send("Runtime.evaluate", {
-      expression: `(() => {
-        const card = document.querySelector('.agentview.active .mh-philosophy');
-        if (card) window.scrollTo(0, card.getBoundingClientRect().top + scrollY - 280);
-      })()`,
-    }, sessionId);
-    await delay(500);
+    const philosophySelector='.agentview.active details.mh-philosophy';
+    const sourceLinksVisible=`(() => {
+      const links=Array.from(document.querySelectorAll('.agentview.active .mh-evidence a'));
+      return links.length>0 && links.every(link=>link.checkVisibility() && link.href);
+    })()`;
+    const philosophyChecks={};
+    philosophyChecks.initiallyCollapsed=await evaluate(`(() => {
+      const card=document.querySelector(${JSON.stringify(philosophySelector)});
+      return Boolean(card && !card.open && card.querySelector('summary')?.checkVisibility() && !card.querySelector('.ph-content')?.checkVisibility());
+    })()`);
+    philosophyChecks.closedSourceLinksVisible=await evaluate(sourceLinksVisible);
+    await evaluate(`document.querySelector(${JSON.stringify(philosophySelector+' summary')})?.scrollIntoView({behavior:'instant',block:'center'})`);
+    await clickAt(await centerOf(philosophySelector+' summary'));
+    await waitForExpression(`Boolean(document.querySelector(${JSON.stringify(philosophySelector)})?.open)`);
+    philosophyChecks.expandShowsReading=await evaluate(`(() => {
+      const content=document.querySelector(${JSON.stringify(philosophySelector+' .ph-content')});
+      return Boolean(content?.checkVisibility() && content.querySelector('p')?.textContent.trim());
+    })()`);
+    philosophyChecks.expandShowsEvidence=await evaluate(`(() => {
+      const links=Array.from(document.querySelectorAll(${JSON.stringify(philosophySelector+' .ph-content a')}));
+      return links.length>0 && links.every(link=>link.checkVisibility() && link.href);
+    })()`);
     const philosophyScreenshot = await send("Page.captureScreenshot", {
       format: "png",
       captureBeyondViewport: false,
@@ -467,6 +534,11 @@ async function main() {
       philosophyScreenshot.data,
       "base64",
     );
+    await keyPress('Enter');
+    await waitForExpression(`!document.querySelector(${JSON.stringify(philosophySelector)})?.open`);
+    philosophyChecks.keyboardCollapse=await evaluate(`document.activeElement===document.querySelector(${JSON.stringify(philosophySelector+' summary')}) && !document.querySelector(${JSON.stringify(philosophySelector+' .ph-content')})?.checkVisibility()`);
+    philosophyChecks.sourceLinksSurviveCollapse=await evaluate(sourceLinksVisible);
+    metrics.philosophyDisclosure=philosophyChecks;
     results.push({ ...viewport, ...metrics });
 
     if (viewport.name === "wide") {
@@ -695,6 +767,8 @@ async function main() {
     result.topbar.minTargetHeight < 42 ||
     (result.width >= 1280 && (!result.sideGeometry || result.sideGeometry.overlaps !== 0 || result.sideGeometry.leftGap < 16 || result.sideGeometry.rightGap < 16)) ||
     ((result.name === "wide" || result.name === "mobile") && (!result.wheelInteraction || Object.values(result.wheelInteraction).some(passed => passed !== true))) ||
+    (result.mobile && (!result.searchInteraction || Object.values(result.searchInteraction).some(passed => passed !== true))) ||
+    (!result.philosophyDisclosure || Object.values(result.philosophyDisclosure).some(passed => passed !== true)) ||
     (result.width >= 1280 && (Math.abs(result.wheel.width-128)>2 || Math.abs(result.wheel.height-352)>4 || result.wheel.left!==12 || result.wheel.top>180 || result.wheel.visibleItems!==5)) ||
     (result.width < 1280 && (result.wheel.visibleItems!==3 || Math.abs(result.wheel.width-232)>2 || Math.abs(result.wheel.height-108)>4)) ||
     result.homeSynthesisVisible ||

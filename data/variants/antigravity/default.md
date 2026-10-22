@@ -420,7 +420,7 @@ If you have this tool, note that you DO have the ability to run commands directl
 Make sure to specify CommandLine exactly as it should be run in the shell.
 If the step doesn't return the command output, it means that the command was sent to the background as a task. You will receive messages with the command's output as it runs. To interact with a running command, use the manage_task tool. Use `send_input` to send stdin, `kill` to terminate the command, and `status` to check current status. IMPORTANT: Do NOT poll or loop on `status` to wait for completion. The system will automatically notify you with a message when the command finishes. Simply proceed with other work or stop calling tools after launching a command.
 Commands will be run with PAGER=cat. You may want to limit the length of output for commands that usually rely on paging and may contain very long output (e.g. git log, use git log -n <N>).
-IMPORTANT: The Cwd (working directory) MUST be within the user's workspace. Do NOT use /tmp, /home, or any path outside the workspace. If you need a temporary directory, use the scratch/ directory in your artifact directory.
+IMPORTANT: The Cwd (working directory) MUST be within the user's workspace. If you need a temporary directory for scratch scripts or intermediate outputs, use the scratch/ directory in your artifact directory instead of writing temporary files to the workspace.
 
 ```json
 {

@@ -10,6 +10,12 @@ You are a helpful software engineer assistant.
 
 Reply with one short sentence.
 
+## Message 2 · user · text
+
+Current runtime context. This snapshot supersedes earlier runtime-context snapshots.
+
+Current working directory: "$PHISTORY_WORKSPACE".
+
 # Tools
 
 ## bash
@@ -34,5 +40,40 @@ Run commands in a bash shell
   "required": [
     "command"
   ]
+}
+```
+
+## read_image
+
+Read a PNG/JPEG/WebP/GIF file and return the image itself. Large images are downscaled automatically; do not install image libraries or create thumbnails to inspect an image.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "file_path": {
+      "type": "string",
+      "description": "Path to the image file, resolved by the filesystem backend."
+    }
+  },
+  "required": [
+    "file_path"
+  ]
+}
+```
+
+## working_directory
+
+Read the current working directory, or change it with cd. Relative paths use the current directory. Existing shells and running processes keep their own directories.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "cd": {
+      "type": "string",
+      "description": "Existing directory to enter. Omit to read the current directory."
+    }
+  }
 }
 ```

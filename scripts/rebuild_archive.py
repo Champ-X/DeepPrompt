@@ -96,6 +96,29 @@ def render_prompt(markdown: str, agent_id: str, highlights: list[Highlight]) -> 
             index += 1
             continue
 
+        # Some captures repeat complete tool schemas as single-line JSON before
+        # expanding them as prose. Keep every byte visible on demand instead of
+        # letting a compact wire representation become a wall of wrapped text.
+        if line.lstrip().startswith("{"):
+            try:
+                tool_definition = json.loads(line)
+            except json.JSONDecodeError:
+                tool_definition = None
+            if (isinstance(tool_definition, dict)
+                    and isinstance(tool_definition.get("name"), str)
+                    and isinstance(tool_definition.get("description"), str)
+                    and isinstance(tool_definition.get("parameters"), dict)):
+                rendered = annotate(line, highlights, used, offsets[index])
+                name = html.escape(tool_definition["name"])
+                result.append(
+                    '        <details class="rawblob reveal"><summary>'
+                    f'工具定义 · {name}（{len(line):,} 字符，原文已折叠）'
+                    f'</summary><pre class="code reveal"><code>{rendered}'
+                    '</code></pre></details>'
+                )
+                index += 1
+                continue
+
         fence = re.match(r"^\s*```", line)
         if fence:
             code: list[str] = []
@@ -208,7 +231,7 @@ def display_version(version: str) -> str:
 
 
 def display_snapshot_date(agent: dict) -> str:
-    if (agent.get("captureSource") or {}).get("kind") == "user-provided trace":
+    if agent.get("selfReport") or (agent.get("captureSource") or {}).get("kind") in {"user-provided trace", "model-self-report"}:
         return "捕获 " + agent["capturedAt"][:10]
     return "发布 " + agent["publishedAt"][:10]
 
@@ -354,9 +377,10 @@ def update_metadata(
             count: int = count,
             agent: dict = agent,
         ) -> str:
+            capture_label = "模型自述 · 未验证" if agent.get("selfReport") or (agent.get("captureSource") or {}).get("kind") == "model-self-report" else "原文快照"
             fragment = re.sub(
-                r'(SYSTEM PROMPT · VERBATIM · )\d+ 批注',
-                rf"\g<1>{count} 批注",
+                r'<div class="mh-kicker">.*?</div>',
+                f'<div class="mh-kicker">{capture_label} · {count} 批注</div>',
                 fragment,
                 count=1,
             )

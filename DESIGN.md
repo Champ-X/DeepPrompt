@@ -6,8 +6,8 @@
 ## 0. Meta
 
 ```yaml
-version: 1.4.0
-last_updated: 2026-10-13
+version: 1.5.0
+last_updated: 2026-10-22
 upstream_source: https://phistory.cc
 schema: https://github.com/Eldergenix/SUPER-DESIGN/schema/v1
 framework:
@@ -27,8 +27,8 @@ Agents behave. Its opening should explain the reading experience immediately:
 a rule in its original language, an interpretation, and a link to inspect the
 complete context. The page's job is to move a reader from discovery to evidence.
 
-The signature is the **source-to-annotation preview**: a navy source window with
-a mint interpretation card connected to the actual quote. The quote, annotation,
+The signature is the **source-to-annotation preview**: a white source sheet with
+a navy identity header and a pale green interpretation inset. The quote, annotation,
 version and pinned upstream line link are generated from the same reviewed
 registry as the reader. This is real archive content, never a fictional demo.
 The compact identity index underneath offers direct Agent navigation without
@@ -105,7 +105,7 @@ It never replaces the five semantic annotation colors.
 | Agent | Identity color | Agent | Identity color |
 |---|---:|---|---:|
 | Codex | `#2f766d` | Claude Code | `#c15f3c` |
-| Claude Tag | `#a65c19` | | |
+| Claude Tag | `#a65c19` | Grokbot | `#4c5b73` |
 | Antigravity | `#5367d9` | Grok | `#36414b` |
 | Kimi Code | `#6553b8` | MiniMax | `#2f78bc` |
 | MiMo | `#d34f3a` | OpenClaw | `#c53b32` |
@@ -209,7 +209,7 @@ both paper and raised surfaces.
 
 | Component | default | hover | focus-visible | active | disabled |
 |---|---|---|---|---|---|
-| Archive card | paper surface | raised, accent rule | double focus ring | inset 1% | opacity 50% |
+| Archive card | paper surface | identity border | double focus ring | pressed state | opacity 50% |
 | Identity link | compact label and Agent color dot | tinted identity surface | visible outline | opens Agent evidence page | — |
 | Catalogue search | labeled native search input | quiet boundary | visible focus-within ring | filters name, vendor and editorial lead | — |
 | Catalogue sort | native select | quiet boundary | visible outline | default, name or annotation count | — |
@@ -225,7 +225,7 @@ items are non-interactive and exposed as disabled.
 
 ## 9. Layout & Responsive
 
-- Catalogue: two-column introduction and source-bound preview, snapshot statistics and compact 15-Agent direct links, followed by a searchable three-column Agent grid, then the global seven-axis and five-theme synthesis. At 1023px the grid uses two columns; at 560px one. The hero becomes linear at 760px.
+- Catalogue: two-column introduction and source-bound preview, snapshot statistics and compact 16-Agent direct links, followed by a searchable three-column Agent grid, then the global seven-axis and five-theme synthesis. At 1023px the grid uses two columns; at 560px one. The hero becomes linear at 760px.
 - Reader ≥ 1280px: a floating 128×352px Agent dial sits 12px from the left edge. Five 48px icon targets follow a restrained arc; a single colored ring marks the selected Agent, while the count and native name menu remain visible. Left annotation cards, a 600–720px source column and right annotation cards occupy separate grid tracks, with a 20–32px source safety gutter.
 - Reader < 1280px: the switcher becomes a 232×108px bottom dock with three 48px targets and the current-name menu. Annotations become inline cards. The reader reserves enough bottom padding to keep the final content above the dock.
 - Test widths: 320, 375, 768, 1024, 1440 and 1920; no horizontal scrolling.
@@ -286,3 +286,44 @@ New controls require default, hover, focus-visible, active and disabled states.
   held-key repeat. Do not intercept the native select's own keyboard controls.
 - Mobile horizontal gestures coexist with vertical page panning and pinch zoom.
   All node hit targets stay 48px; scale logos if needed, never shrink the buttons.
+
+
+## 15. October 2026 reading polish
+
+Art direction: a research desk, where the original rule and its interpretation
+have separate surfaces. Keep mist `#f3f5f8`, white `#ffffff`, navy `#263e59`,
+ink `#23344c`, slate `#536479`, and green `#326655` as the core palette.
+Serif Chinese titles establish editorial character; sans-serif UI text stays
+legible at 12–16px equivalents; monospace is reserved for quoted code and versions.
+The hero aligns explanatory text beside an upright evidence sheet. The catalogue
+uses consistent identity, version, metadata and lead positions for comparison.
+
+The design review removed the tilted source card, accented headline fragment,
+multicolor filter rail and tiny uppercase section labels. Meaningful differences
+come from source evidence and Agent identities. Hover feedback changes borders,
+without moving reading targets. Details use native disclosure behavior.
+
+Reader interpretation is a collapsed `details.mh-philosophy` by default. Its title
+remains visible; the expanded area labels the analysis as editorial inference and
+shows the exact supporting source links. This shortens the path to verbatim text.
+Category colors remain local to highlights and filters. Body and annotation
+text sizes are increased, with no changes to the existing Agent dial input contract.
+
+Complete single-line JSON tool definitions use native `details.rawblob` disclosures.
+The summary names the tool and reports the source character count; the code block
+preserves the complete original string and its annotation anchors. Names and source
+text are HTML-escaped. Folding changes presentation only, including Grokbot's twelve
+compact tool definitions before their expanded descriptions.
+
+The font-sensitive `archive-header` container query controls the compact header.
+At container widths up to 47.5rem, the search button expands a second header row. The native
+search input supports Escape to clear and close, Command/Control K to open, and
+focus restoration when closing, navigating or crossing the responsive breakpoint.
+Header height is measured from content; its minimum height is independent of the
+measured CSS variable, so repeated open/close cannot accumulate height.
+
+OS text scaling is progressively enabled with `meta[name="text-scale"]`; unsupported
+browsers retain normal zoom. Use relative text units and test 320px reflow and
+200% text scaling. Grokbot is labeled as model self-report in both catalogue and
+reader, including the unverified completeness/accuracy boundary; its date is a
+capture label rather than a package publication date.

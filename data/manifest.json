@@ -1,27 +1,27 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-13T04:23:58.707736+00:00",
+  "generatedAt": "2026-10-22T08:30:01.416362+00:00",
   "source": {
     "name": "Phistory",
     "url": "https://phistory.cc/",
     "repository": "https://github.com/WEIFENG2333/phistory",
-    "commit": "444c615c31fae7e5162f50375ddb2d0853231df9",
-    "upstreamUpdatedAt": "2026-10-12T23:10:28.779738Z",
-    "method": "Latest default prompt.md snapshots and all latest variants copied byte-for-byte from the pinned Phistory commit, including normalized tool captures and manually imported, redacted traces."
+    "commit": "76e8e3096b2e11ebdaa7e969b85f73174287d6f5",
+    "upstreamUpdatedAt": "2026-10-22T07:54:16.507966Z",
+    "method": "Latest default prompt.md snapshots and all latest variants copied byte-for-byte from the pinned Phistory commit, including normalized tool captures, manually imported redacted traces, and explicitly labelled model self-reports whose completeness and accuracy are unverified."
   },
   "coverage": {
-    "agentCount": 15,
-    "latestSnapshots": 15,
-    "totalHistoricalVersions": 1358,
-    "totalHistoricalSnapshots": 1804
+    "agentCount": 16,
+    "latestSnapshots": 16,
+    "totalHistoricalVersions": 1412,
+    "totalHistoricalSnapshots": 1875
   },
   "codexEvidence": {
-    "version": "0.162.1",
+    "version": "0.163.0",
     "promptPath": "data/prompts/codex.md",
     "promptSha256": "9a023911834b876396d56d2b4123b00a87967b15ff2ff8659a31a49370a47c06",
     "tracePath": "data/prompts/codex.trace.jsonl",
-    "traceSha256": "99ccf97a8485608b9e5c8aeab8038c3ce98b9f7e61085469a762f2268ebe8e25",
-    "traceBytes": 64304,
+    "traceSha256": "f5755745e2dd4866400bf10c0aade58036f4816853fa6ca62d74d483cb040eff",
+    "traceBytes": 64374,
     "claim": "The displayed Codex raw view is an exact byte copy of Phistory's latest normalized prompt.md snapshot. The archived trace preserves the captured wire request before presentation normalization."
   },
   "agents": [
@@ -29,12 +29,12 @@
       "order": 1,
       "id": "claude-code",
       "name": "Claude Code",
-      "version": "2.1.296",
+      "version": "2.1.308",
       "package": "@anthropic-ai/claude-code",
-      "publishedAt": "2026-10-09T16:58:10.924Z",
-      "capturedAt": "2026-10-09T21:10:07.180459+00:00",
-      "versionCount": 439,
-      "snapshotCount": 758,
+      "publishedAt": "2026-10-22T04:19:48.902Z",
+      "capturedAt": "2026-10-22T07:54:09.392721+00:00",
+      "versionCount": 449,
+      "snapshotCount": 778,
       "variant": {
         "id": "default",
         "label": "Terminal",
@@ -44,7 +44,7 @@
         "observed": {
           "provider": "anthropic",
           "model": "claude-opus-5-5",
-          "tool_count": 31,
+          "tool_count": 15,
           "surface": "interactive-tty"
         }
       },
@@ -58,16 +58,17 @@
           "observed": {
             "provider": "anthropic",
             "model": "claude-opus-5-5",
-            "tool_count": 31,
+            "tool_count": 15,
             "surface": "interactive-tty"
           },
-          "prompt": "captures/claude-code/2.1.296/variants/default/prompt.md",
-          "trace": "captures/claude-code/2.1.296/variants/default/trace.jsonl",
+          "prompt": "captures/claude-code/2.1.308/variants/default/prompt.md",
+          "trace": "captures/claude-code/2.1.308/variants/default/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/claude-code/default.md",
-          "sha256": "c5b298b2ef494bb8edcbed059ddc455eba557157542c7e9cfddc5273488232f9",
-          "bytes": 157993,
-          "characters": 157532
+          "sha256": "d306f69defc691b0662ce44fdd685291b0ffc26c08db2a88245fc44201989e93",
+          "bytes": 89172,
+          "characters": 88952
         },
         {
           "id": "sdk",
@@ -78,26 +79,27 @@
           "observed": {
             "provider": "anthropic",
             "model": "claude-opus-5-5",
-            "tool_count": 23
+            "tool_count": 12
           },
-          "prompt": "captures/claude-code/2.1.296/variants/sdk/prompt.md",
-          "trace": "captures/claude-code/2.1.296/variants/sdk/trace.jsonl",
+          "prompt": "captures/claude-code/2.1.308/variants/sdk/prompt.md",
+          "trace": "captures/claude-code/2.1.308/variants/sdk/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/claude-code/sdk.md",
-          "sha256": "f0de2afa71e1e4f0e756bf8342b6f0a0fbad0352117c646719442e0a7632e1b8",
-          "bytes": 85423,
-          "characters": 85063
+          "sha256": "61931b767ea80b7976e969f1ff19a854608a9c626ec39c47b6635cb287c77ac8",
+          "bytes": 47192,
+          "characters": 46990
         }
       ],
       "promptPath": "data/prompts/claude-code.md",
-      "sourcePromptPath": "captures/claude-code/2.1.296/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/claude-code/2.1.296/variants/default/prompt.md",
+      "sourcePromptPath": "captures/claude-code/2.1.308/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/claude-code/2.1.308/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/claude-code.png",
-      "sha256": "c5b298b2ef494bb8edcbed059ddc455eba557157542c7e9cfddc5273488232f9",
-      "bytes": 157993,
-      "characters": 157532,
-      "lines": 2501,
+      "sha256": "d306f69defc691b0662ce44fdd685291b0ffc26c08db2a88245fc44201989e93",
+      "bytes": 89172,
+      "characters": 88952,
+      "lines": 1241,
       "headings": [
         {
           "level": 1,
@@ -173,14 +175,6 @@
         },
         {
           "level": 2,
-          "text": "ArtifactComments"
-        },
-        {
-          "level": 2,
-          "text": "ArtifactData"
-        },
-        {
-          "level": 2,
           "text": "AskUserQuestion"
         },
         {
@@ -193,43 +187,7 @@
         },
         {
           "level": 2,
-          "text": "CronCreate"
-        },
-        {
-          "level": 4,
-          "text": "One-shot tasks (recurring: false)"
-        },
-        {
-          "level": 4,
-          "text": "Recurring jobs (recurring: true, the default)"
-        },
-        {
-          "level": 4,
-          "text": "Avoid the :00 and :30 minute marks when the task allows it"
-        },
-        {
-          "level": 4,
-          "text": "Session-only"
-        },
-        {
-          "level": 4,
-          "text": "Not for live watching"
-        },
-        {
-          "level": 4,
-          "text": "Runtime behavior"
-        },
-        {
-          "level": 2,
-          "text": "CronDelete"
-        },
-        {
-          "level": 2,
-          "text": "CronList"
-        },
-        {
-          "level": 2,
-          "text": "DesignSync"
+          "text": "DeferredToolPlaceholder"
         },
         {
           "level": 2,
@@ -237,139 +195,7 @@
         },
         {
           "level": 2,
-          "text": "EndConversation"
-        },
-        {
-          "level": 3,
-          "text": "Rules for use of the EndConversation tool:"
-        },
-        {
-          "level": 3,
-          "text": "Addressing potential self-harm or violent harm to others"
-        },
-        {
-          "level": 3,
-          "text": "Background forks"
-        },
-        {
-          "level": 3,
-          "text": "Using the EndConversation tool"
-        },
-        {
-          "level": 2,
-          "text": "EnterPlanMode"
-        },
-        {
-          "level": 4,
-          "text": "When to Use This Tool"
-        },
-        {
-          "level": 4,
-          "text": "When NOT to Use This Tool"
-        },
-        {
-          "level": 4,
-          "text": "What Happens in Plan Mode"
-        },
-        {
-          "level": 4,
-          "text": "Examples"
-        },
-        {
-          "level": 5,
-          "text": "GOOD - Use EnterPlanMode:"
-        },
-        {
-          "level": 5,
-          "text": "BAD - Don't use EnterPlanMode:"
-        },
-        {
-          "level": 4,
-          "text": "Important Notes"
-        },
-        {
-          "level": 2,
-          "text": "EnterWorktree"
-        },
-        {
-          "level": 4,
-          "text": "When to Use"
-        },
-        {
-          "level": 4,
-          "text": "When NOT to Use"
-        },
-        {
-          "level": 4,
-          "text": "Requirements"
-        },
-        {
-          "level": 4,
-          "text": "Behavior"
-        },
-        {
-          "level": 4,
-          "text": "Entering an existing worktree"
-        },
-        {
-          "level": 4,
-          "text": "Parameters"
-        },
-        {
-          "level": 2,
-          "text": "ExitPlanMode"
-        },
-        {
-          "level": 4,
-          "text": "How This Tool Works"
-        },
-        {
-          "level": 4,
-          "text": "When to Use This Tool"
-        },
-        {
-          "level": 4,
-          "text": "Before Using This Tool"
-        },
-        {
-          "level": 4,
-          "text": "Examples"
-        },
-        {
-          "level": 2,
-          "text": "ExitWorktree"
-        },
-        {
-          "level": 4,
-          "text": "Scope"
-        },
-        {
-          "level": 4,
-          "text": "When to Use"
-        },
-        {
-          "level": 4,
-          "text": "Parameters"
-        },
-        {
-          "level": 4,
-          "text": "Behavior"
-        },
-        {
-          "level": 2,
           "text": "ListAgents"
-        },
-        {
-          "level": 2,
-          "text": "Monitor"
-        },
-        {
-          "level": 2,
-          "text": "NotebookEdit"
-        },
-        {
-          "level": 2,
-          "text": "PushNotification"
         },
         {
           "level": 2,
@@ -397,31 +223,11 @@
         },
         {
           "level": 2,
-          "text": "SendMessage"
-        },
-        {
-          "level": 3,
-          "text": "SendMessage"
-        },
-        {
-          "level": 4,
-          "text": "Cross-session"
-        },
-        {
-          "level": 2,
           "text": "Skill"
         },
         {
           "level": 2,
-          "text": "TaskStop"
-        },
-        {
-          "level": 2,
-          "text": "WebFetch"
-        },
-        {
-          "level": 2,
-          "text": "WebSearch"
+          "text": "ToolSearch"
         },
         {
           "level": 2,
@@ -433,16 +239,17 @@
         }
       ],
       "keywordCounts": {
-        "tools": 137,
-        "safety": 23,
-        "planning": 52,
-        "memory": 45,
-        "autonomy": 18,
-        "git": 25
+        "tools": 82,
+        "safety": 14,
+        "planning": 11,
+        "memory": 34,
+        "autonomy": 13,
+        "git": 14
       },
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
       "captureSource": null,
+      "selfReport": false,
       "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
@@ -450,12 +257,12 @@
       "order": 2,
       "id": "codex",
       "name": "Codex CLI",
-      "version": "0.162.1",
+      "version": "0.163.0",
       "package": "@openai/codex",
-      "publishedAt": "2026-10-09T19:50:30.512Z",
-      "capturedAt": "2026-10-09T21:10:13.907826+00:00",
-      "versionCount": 104,
-      "snapshotCount": 170,
+      "publishedAt": "2026-10-15T21:37:11.083Z",
+      "capturedAt": "2026-10-15T23:13:46.329095+00:00",
+      "versionCount": 105,
+      "snapshotCount": 173,
       "variant": {
         "id": "default",
         "label": "Default",
@@ -476,9 +283,10 @@
             "model": "gpt-6.1-sol",
             "tool_count": 11
           },
-          "prompt": "captures/codex/0.162.1/variants/default/prompt.md",
-          "trace": "captures/codex/0.162.1/variants/default/trace.jsonl",
+          "prompt": "captures/codex/0.163.0/variants/default/prompt.md",
+          "trace": "captures/codex/0.163.0/variants/default/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/codex/default.md",
           "sha256": "9a023911834b876396d56d2b4123b00a87967b15ff2ff8659a31a49370a47c06",
           "bytes": 73468,
@@ -495,9 +303,10 @@
             "model": "gpt-5.6",
             "tool_count": 17
           },
-          "prompt": "captures/codex/0.162.1/variants/gpt-5.6/prompt.md",
-          "trace": "captures/codex/0.162.1/variants/gpt-5.6/trace.jsonl",
+          "prompt": "captures/codex/0.163.0/variants/gpt-5.6/prompt.md",
+          "trace": "captures/codex/0.163.0/variants/gpt-5.6/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/codex/gpt-5.6.md",
           "sha256": "a4cf23c87eb1dc8d34b8b684b9441e2fb5b3fcdedf0e72c047dc3c207cf145d1",
           "bytes": 44333,
@@ -514,9 +323,10 @@
             "model": "gpt-5.5",
             "tool_count": 14
           },
-          "prompt": "captures/codex/0.162.1/variants/gpt-5.5/prompt.md",
-          "trace": "captures/codex/0.162.1/variants/gpt-5.5/trace.jsonl",
+          "prompt": "captures/codex/0.163.0/variants/gpt-5.5/prompt.md",
+          "trace": "captures/codex/0.163.0/variants/gpt-5.5/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/codex/gpt-5.5.md",
           "sha256": "6b9c983ba8f6e92683df1fdceb18e7414ac518f6635004e0741bac1a09b5aa1d",
           "bytes": 42425,
@@ -524,8 +334,8 @@
         }
       ],
       "promptPath": "data/prompts/codex.md",
-      "sourcePromptPath": "captures/codex/0.162.1/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/codex/0.162.1/variants/default/prompt.md",
+      "sourcePromptPath": "captures/codex/0.163.0/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/codex/0.163.0/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/codex.png",
       "sha256": "9a023911834b876396d56d2b4123b00a87967b15ff2ff8659a31a49370a47c06",
@@ -777,6 +587,7 @@
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
       "captureSource": null,
+      "selfReport": false,
       "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
@@ -784,12 +595,12 @@
       "order": 3,
       "id": "dsh",
       "name": "DeepSeek Harness",
-      "version": "0.2.0-rc.2",
+      "version": "0.2.1-rc.2",
       "package": "@deepseek-ai/dsh",
-      "publishedAt": "2026-09-29T09:56:27.792Z",
-      "capturedAt": "2026-09-29T16:06:07.461785+00:00",
-      "versionCount": 14,
-      "snapshotCount": 75,
+      "publishedAt": "2026-10-17T08:36:31.655Z",
+      "capturedAt": "2026-10-19T11:10:15.105210+00:00",
+      "versionCount": 15,
+      "snapshotCount": 81,
       "variant": {
         "id": "default",
         "label": "Default",
@@ -799,7 +610,7 @@
         "observed": {
           "provider": "anthropic",
           "model": "deepseek-flash",
-          "tool_count": 26,
+          "tool_count": 31,
           "mode": "standard"
         }
       },
@@ -813,16 +624,17 @@
           "observed": {
             "provider": "anthropic",
             "model": "deepseek-flash",
-            "tool_count": 26,
+            "tool_count": 31,
             "mode": "standard"
           },
-          "prompt": "captures/dsh/0.2.0-rc.2/variants/default/prompt.md",
-          "trace": "captures/dsh/0.2.0-rc.2/variants/default/trace.jsonl",
+          "prompt": "captures/dsh/0.2.1-rc.2/variants/default/prompt.md",
+          "trace": "captures/dsh/0.2.1-rc.2/variants/default/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/dsh/default.md",
-          "sha256": "75506584f5587c3c3fa52402a6b06ccfc604a4d6ae89a83bd4242cdf2eeedee0",
-          "bytes": 30621,
-          "characters": 30555
+          "sha256": "de7f9b1e03db9f03a2bb0022184013752082c13bc3472b3ac23aa5cf5c1c5905",
+          "bytes": 40038,
+          "characters": 39970
         },
         {
           "id": "standard",
@@ -834,16 +646,17 @@
           "observed": {
             "provider": "anthropic",
             "model": "deepseek-flash",
-            "tool_count": 26,
+            "tool_count": 31,
             "mode": "standard"
           },
-          "prompt": "captures/dsh/0.2.0-rc.2/variants/standard/prompt.md",
-          "trace": "captures/dsh/0.2.0-rc.2/variants/standard/trace.jsonl",
+          "prompt": "captures/dsh/0.2.1-rc.2/variants/standard/prompt.md",
+          "trace": "captures/dsh/0.2.1-rc.2/variants/standard/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/dsh/standard.md",
-          "sha256": "75506584f5587c3c3fa52402a6b06ccfc604a4d6ae89a83bd4242cdf2eeedee0",
-          "bytes": 30621,
-          "characters": 30555
+          "sha256": "1d7a136a8113dabee4f5c3c74689d8f7f7be5e1639d57c8bd69aebcc5f84c025",
+          "bytes": 40038,
+          "characters": 39970
         },
         {
           "id": "minimal",
@@ -855,16 +668,17 @@
           "observed": {
             "provider": "anthropic",
             "model": "deepseek-flash",
-            "tool_count": 1,
+            "tool_count": 3,
             "mode": "minimal"
           },
-          "prompt": "captures/dsh/0.2.0-rc.2/variants/minimal/prompt.md",
-          "trace": "captures/dsh/0.2.0-rc.2/variants/minimal/trace.jsonl",
+          "prompt": "captures/dsh/0.2.1-rc.2/variants/minimal/prompt.md",
+          "trace": "captures/dsh/0.2.1-rc.2/variants/minimal/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/dsh/minimal.md",
-          "sha256": "cb9d4b7a36ff5801717001a115f6e2768bf5713ba67f822b875b4a57aedd41ea",
-          "bytes": 997,
-          "characters": 995
+          "sha256": "e61c4d7dd37b736b7da25e49173eb4899fcddaee7ad0cbc66d3c749b1b57f328",
+          "bytes": 1961,
+          "characters": 1957
         },
         {
           "id": "headless",
@@ -875,15 +689,16 @@
           "observed": {
             "provider": "anthropic",
             "model": "deepseek-flash",
-            "tool_count": 24
+            "tool_count": 25
           },
-          "prompt": "captures/dsh/0.2.0-rc.2/variants/headless/prompt.md",
-          "trace": "captures/dsh/0.2.0-rc.2/variants/headless/trace.jsonl",
+          "prompt": "captures/dsh/0.2.1-rc.2/variants/headless/prompt.md",
+          "trace": "captures/dsh/0.2.1-rc.2/variants/headless/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/dsh/headless.md",
-          "sha256": "82741c1a58d03f3a6e42c057297e2e1f9d167a8deacdb38dbce94c2923e0777f",
-          "bytes": 24482,
-          "characters": 24422
+          "sha256": "2b0b799b3b65a640999af38f983b37b44e56ab6ac363577da9bfac687cda8587",
+          "bytes": 25591,
+          "characters": 25531
         },
         {
           "id": "cordis",
@@ -895,16 +710,17 @@
           "observed": {
             "provider": "anthropic",
             "model": "deepseek-flash",
-            "tool_count": 29,
+            "tool_count": 34,
             "mode": "cordis"
           },
-          "prompt": "captures/dsh/0.2.0-rc.2/variants/cordis/prompt.md",
-          "trace": "captures/dsh/0.2.0-rc.2/variants/cordis/trace.jsonl",
+          "prompt": "captures/dsh/0.2.1-rc.2/variants/cordis/prompt.md",
+          "trace": "captures/dsh/0.2.1-rc.2/variants/cordis/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/dsh/cordis.md",
-          "sha256": "b24643be09e98fccbbb6409a67de2ddcfab9f0d9170c5e8428b47bd09b5b7d91",
-          "bytes": 37203,
-          "characters": 37135
+          "sha256": "733bf458f4a881e30296abdaf683d89de4b7ad938a1aa9fe61c11d5e16fbbeab",
+          "bytes": 46847,
+          "characters": 46777
         },
         {
           "id": "code",
@@ -919,24 +735,25 @@
             "tool_count": 1,
             "mode": "ptc"
           },
-          "prompt": "captures/dsh/0.2.0-rc.2/variants/code/prompt.md",
-          "trace": "captures/dsh/0.2.0-rc.2/variants/code/trace.jsonl",
+          "prompt": "captures/dsh/0.2.1-rc.2/variants/code/prompt.md",
+          "trace": "captures/dsh/0.2.1-rc.2/variants/code/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/dsh/code.md",
-          "sha256": "b27f302afb7ea5c6de7a851ee5d6645afcc368cd657a5b8c9c6acd386b4e029b",
-          "bytes": 30639,
-          "characters": 30573
+          "sha256": "3e33dd7fbf00fa94824ea06c9dbab8d0cfef46d1d879d01e892a4aa1706edb75",
+          "bytes": 43244,
+          "characters": 43180
         }
       ],
       "promptPath": "data/prompts/dsh.md",
-      "sourcePromptPath": "captures/dsh/0.2.0-rc.2/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/dsh/0.2.0-rc.2/variants/default/prompt.md",
+      "sourcePromptPath": "captures/dsh/0.2.1-rc.2/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/dsh/0.2.1-rc.2/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/dsh.svg",
-      "sha256": "75506584f5587c3c3fa52402a6b06ccfc604a4d6ae89a83bd4242cdf2eeedee0",
-      "bytes": 30621,
-      "characters": 30555,
-      "lines": 858,
+      "sha256": "de7f9b1e03db9f03a2bb0022184013752082c13bc3472b3ac23aa5cf5c1c5905",
+      "bytes": 40038,
+      "characters": 39970,
+      "lines": 1161,
       "headings": [
         {
           "level": 1,
@@ -957,6 +774,10 @@
         {
           "level": 2,
           "text": "Message 2 · user · text"
+        },
+        {
+          "level": 2,
+          "text": "Message 3 · user · text"
         },
         {
           "level": 1,
@@ -1028,6 +849,22 @@
         },
         {
           "level": 2,
+          "text": "schedule_create"
+        },
+        {
+          "level": 2,
+          "text": "schedule_delete"
+        },
+        {
+          "level": 2,
+          "text": "schedule_list"
+        },
+        {
+          "level": 2,
+          "text": "schedule_update"
+        },
+        {
+          "level": 2,
           "text": "send_message"
         },
         {
@@ -1064,20 +901,25 @@
         },
         {
           "level": 2,
+          "text": "working_directory"
+        },
+        {
+          "level": 2,
           "text": "write"
         }
       ],
       "keywordCounts": {
-        "tools": 12,
+        "tools": 14,
         "safety": 9,
         "planning": 11,
-        "memory": 9,
-        "autonomy": 8,
+        "memory": 11,
+        "autonomy": 7,
         "git": 1
       },
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
       "captureSource": null,
+      "selfReport": false,
       "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
@@ -1085,12 +927,12 @@
       "order": 4,
       "id": "antigravity",
       "name": "Antigravity CLI",
-      "version": "1.3.3",
+      "version": "1.4.5",
       "package": "google-antigravity/antigravity-cli",
-      "publishedAt": "2026-10-10T03:06:26Z",
-      "capturedAt": "2026-10-10T07:41:36.985893+00:00",
-      "versionCount": 64,
-      "snapshotCount": 64,
+      "publishedAt": "2026-10-22T05:01:38Z",
+      "capturedAt": "2026-10-22T07:54:16.507966+00:00",
+      "versionCount": 73,
+      "snapshotCount": 73,
       "variant": {
         "id": "default",
         "label": "Default",
@@ -1111,23 +953,24 @@
             "model": "MODEL_GOOGLE_GEMINI_2_5_FLASH",
             "tool_count": 11
           },
-          "prompt": "captures/antigravity/1.3.3/variants/default/prompt.md",
-          "trace": "captures/antigravity/1.3.3/variants/default/trace.jsonl",
+          "prompt": "captures/antigravity/1.4.5/variants/default/prompt.md",
+          "trace": "captures/antigravity/1.4.5/variants/default/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/antigravity/default.md",
-          "sha256": "dfe37672dc6f4a960336667ee12c7d1653755875d5460ab10e20e1353b5f39b7",
-          "bytes": 38704,
-          "characters": 38688
+          "sha256": "eced91eeb5621de916725827b166b5380ef643a852a3e3bde925f245a703e70c",
+          "bytes": 38741,
+          "characters": 38725
         }
       ],
       "promptPath": "data/prompts/antigravity.md",
-      "sourcePromptPath": "captures/antigravity/1.3.3/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/antigravity/1.3.3/variants/default/prompt.md",
+      "sourcePromptPath": "captures/antigravity/1.4.5/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/antigravity/1.4.5/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/antigravity.png",
-      "sha256": "dfe37672dc6f4a960336667ee12c7d1653755875d5460ab10e20e1353b5f39b7",
-      "bytes": 38704,
-      "characters": 38688,
+      "sha256": "eced91eeb5621de916725827b166b5380ef643a852a3e3bde925f245a703e70c",
+      "bytes": 38741,
+      "characters": 38725,
       "lines": 752,
       "headings": [
         {
@@ -1242,6 +1085,7 @@
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
       "captureSource": null,
+      "selfReport": false,
       "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
@@ -1249,12 +1093,12 @@
       "order": 5,
       "id": "claude-tag",
       "name": "Claude Tag",
-      "version": "2026-10-07",
+      "version": "2026-10-18",
       "package": null,
-      "publishedAt": "2026-10-06T18:05:27.536130+00:00",
-      "capturedAt": "2026-10-06T18:05:27.536130+00:00",
-      "versionCount": 3,
-      "snapshotCount": 3,
+      "publishedAt": "2026-10-18T08:57:24.442034+00:00",
+      "capturedAt": "2026-10-18T08:57:24.442034+00:00",
+      "versionCount": 4,
+      "snapshotCount": 4,
       "variant": {
         "id": "default",
         "label": "Default",
@@ -1263,8 +1107,8 @@
         },
         "observed": {
           "provider": "anthropic",
-          "model": "claude-sonnet-5",
-          "tool_count": 93
+          "model": "claude-opus-5-5",
+          "tool_count": 94
         }
       },
       "availableVariants": [
@@ -1276,27 +1120,28 @@
           },
           "observed": {
             "provider": "anthropic",
-            "model": "claude-sonnet-5",
-            "tool_count": 93
+            "model": "claude-opus-5-5",
+            "tool_count": 94
           },
-          "prompt": "captures/claude-tag/2026-10-07/variants/default/prompt.md",
-          "trace": "captures/claude-tag/2026-10-07/variants/default/trace.jsonl",
+          "prompt": "captures/claude-tag/2026-10-18/variants/default/prompt.md",
+          "trace": "captures/claude-tag/2026-10-18/variants/default/trace.jsonl",
           "traceRedacted": true,
+          "selfReport": false,
           "localPromptPath": "data/variants/claude-tag/default.md",
-          "sha256": "253842697084a2c0787fc94f20cb4e6777a83ece05fcde2a8f784e28eacc8c8c",
-          "bytes": 353702,
-          "characters": 352580
+          "sha256": "4e23ae4d37d29f916c44d3a5763c71d13319d12819f17b12de002b2963dfd709",
+          "bytes": 346958,
+          "characters": 345868
         }
       ],
       "promptPath": "data/prompts/claude-tag.md",
-      "sourcePromptPath": "captures/claude-tag/2026-10-07/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/claude-tag/2026-10-07/variants/default/prompt.md",
+      "sourcePromptPath": "captures/claude-tag/2026-10-18/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/claude-tag/2026-10-18/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/claude-tag.svg",
-      "sha256": "253842697084a2c0787fc94f20cb4e6777a83ece05fcde2a8f784e28eacc8c8c",
-      "bytes": 353702,
-      "characters": 352580,
-      "lines": 4154,
+      "sha256": "4e23ae4d37d29f916c44d3a5763c71d13319d12819f17b12de002b2963dfd709",
+      "bytes": 346958,
+      "characters": 345868,
+      "lines": 3946,
       "headings": [
         {
           "level": 1,
@@ -1316,31 +1161,7 @@
         },
         {
           "level": 1,
-          "text": "System"
-        },
-        {
-          "level": 1,
-          "text": "Doing tasks"
-        },
-        {
-          "level": 1,
-          "text": "Executing actions with care"
-        },
-        {
-          "level": 1,
-          "text": "Using your tools"
-        },
-        {
-          "level": 1,
-          "text": "Tone and style"
-        },
-        {
-          "level": 1,
-          "text": "Text output (does not apply to tool calls)"
-        },
-        {
-          "level": 1,
-          "text": "Session-specific guidance"
+          "text": "Harness"
         },
         {
           "level": 1,
@@ -1392,7 +1213,7 @@
         },
         {
           "level": 3,
-          "text": "Check-ins"
+          "text": "Waiting on dispatched work"
         },
         {
           "level": 2,
@@ -1455,10 +1276,6 @@
           "text": "Figma"
         },
         {
-          "level": 1,
-          "text": "Permission denials"
-        },
-        {
           "level": 2,
           "text": "GitHub Integration"
         },
@@ -1492,6 +1309,10 @@
         },
         {
           "level": 2,
+          "text": "Your environment's documentation"
+        },
+        {
+          "level": 2,
           "text": "Git Operations"
         },
         {
@@ -1500,19 +1321,19 @@
         },
         {
           "level": 2,
-          "text": "Block 4 · system message"
+          "text": "Block 4 · system message · cached"
         },
         {
           "level": 1,
           "text": "Environment"
         },
         {
-          "level": 2,
-          "text": "Block 5 · system message"
+          "level": 1,
+          "text": "MCP Server Instructions"
         },
         {
           "level": 2,
-          "text": "Block 6 · system message"
+          "text": "plugin:claude-docs:Claude_Docs"
         },
         {
           "level": 1,
@@ -1527,30 +1348,6 @@
           "text": "Memory"
         },
         {
-          "level": 2,
-          "text": "Types of memory"
-        },
-        {
-          "level": 2,
-          "text": "What NOT to save in memory"
-        },
-        {
-          "level": 2,
-          "text": "How to save memories"
-        },
-        {
-          "level": 2,
-          "text": "When to access memories"
-        },
-        {
-          "level": 2,
-          "text": "Before recommending from memory"
-        },
-        {
-          "level": 2,
-          "text": "Memory and other forms of persistence"
-        },
-        {
           "level": 1,
           "text": "workerToolsContext"
         },
@@ -1561,10 +1358,6 @@
         {
           "level": 2,
           "text": "Message 3 · user · text"
-        },
-        {
-          "level": 2,
-          "text": "Message 4 · user · text"
         },
         {
           "level": 1,
@@ -1749,6 +1542,10 @@
         {
           "level": 2,
           "text": "mcp__slackbot__create_canvas"
+        },
+        {
+          "level": 2,
+          "text": "mcp__slackbot__delete_canvas"
         },
         {
           "level": 2,
@@ -1952,19 +1749,20 @@
         }
       ],
       "keywordCounts": {
-        "tools": 208,
-        "safety": 52,
-        "planning": 23,
-        "memory": 164,
-        "autonomy": 11,
-        "git": 33
+        "tools": 184,
+        "safety": 48,
+        "planning": 19,
+        "memory": 101,
+        "autonomy": 10,
+        "git": 23
       },
       "promptRole": "System Prompt",
       "captureTarget": "manually imported trace",
       "captureSource": {
         "kind": "user-provided trace",
-        "sha256": "f3ff5e8aee2ecbb2738ce9a399d338c71584993ff2ff38674a5320377154e1d9"
+        "sha256": "c22450d3fd7a8637c93f16d5fbf468eb3e01228b779fa794ca3e3aca392fbfaa"
       },
+      "selfReport": false,
       "redactions": [
         "authorization and transport identifiers",
         "organization, workspace, Slack, and user metadata",
@@ -1976,14 +1774,270 @@
     },
     {
       "order": 6,
+      "id": "grokbot",
+      "name": "Grokbot",
+      "version": "2026-10-20",
+      "package": null,
+      "publishedAt": "2026-10-20T18:10:56Z",
+      "capturedAt": "2026-10-20T18:10:56Z",
+      "versionCount": 1,
+      "snapshotCount": 1,
+      "variant": {
+        "id": "default",
+        "label": "Default",
+        "dimensions": {
+          "surface": "model-self-report"
+        },
+        "observed": {
+          "provider": "anthropic",
+          "model": "Grok Bot",
+          "tool_count": 12
+        }
+      },
+      "availableVariants": [
+        {
+          "id": "default",
+          "label": "Default",
+          "dimensions": {
+            "surface": "model-self-report"
+          },
+          "observed": {
+            "provider": "anthropic",
+            "model": "Grok Bot",
+            "tool_count": 12
+          },
+          "prompt": "captures/grokbot/2026-10-20/variants/default/prompt.md",
+          "trace": "captures/grokbot/2026-10-20/variants/default/trace.jsonl",
+          "traceRedacted": true,
+          "selfReport": true,
+          "localPromptPath": "data/variants/grokbot/default.md",
+          "sha256": "9c88f52d6bdd471ce14e52836c1159e8788cb7aebcb460b62e8d597abae4d517",
+          "bytes": 118876,
+          "characters": 118818
+        }
+      ],
+      "promptPath": "data/prompts/grokbot.md",
+      "sourcePromptPath": "captures/grokbot/2026-10-20/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/grokbot/2026-10-20/variants/default/prompt.md",
+      "phistoryUrl": "https://phistory.cc/",
+      "icon": "agent-icons/grokbot.png",
+      "sha256": "9c88f52d6bdd471ce14e52836c1159e8788cb7aebcb460b62e8d597abae4d517",
+      "bytes": 118876,
+      "characters": 118818,
+      "lines": 1038,
+      "headings": [
+        {
+          "level": 1,
+          "text": "System Prompt"
+        },
+        {
+          "level": 2,
+          "text": "Block 1"
+        },
+        {
+          "level": 3,
+          "text": "Available Tools:"
+        },
+        {
+          "level": 2,
+          "text": "How a turn works"
+        },
+        {
+          "level": 2,
+          "text": "User communication style"
+        },
+        {
+          "level": 2,
+          "text": "Files and visuals"
+        },
+        {
+          "level": 2,
+          "text": "Asking for decisions"
+        },
+        {
+          "level": 2,
+          "text": "Threaded replies"
+        },
+        {
+          "level": 2,
+          "text": "Never fabricate data"
+        },
+        {
+          "level": 2,
+          "text": "Where you work"
+        },
+        {
+          "level": 2,
+          "text": "Debugging your computer"
+        },
+        {
+          "level": 2,
+          "text": "The Grok Bot app UI"
+        },
+        {
+          "level": 2,
+          "text": "Agent email"
+        },
+        {
+          "level": 2,
+          "text": "Never send email or messages unasked"
+        },
+        {
+          "level": 2,
+          "text": "Autonomy"
+        },
+        {
+          "level": 2,
+          "text": "When your action needs approval"
+        },
+        {
+          "level": 2,
+          "text": "Security"
+        },
+        {
+          "level": 2,
+          "text": "Untrusted content"
+        },
+        {
+          "level": 2,
+          "text": "Delegating and multitasking"
+        },
+        {
+          "level": 2,
+          "text": "Time"
+        },
+        {
+          "level": 2,
+          "text": "Shared user memory"
+        },
+        {
+          "level": 2,
+          "text": "Memory"
+        },
+        {
+          "level": 2,
+          "text": "Routines"
+        },
+        {
+          "level": 2,
+          "text": "Skills"
+        },
+        {
+          "level": 2,
+          "text": "Teammates and groups"
+        },
+        {
+          "level": 2,
+          "text": "Connector custom instructions"
+        },
+        {
+          "level": 2,
+          "text": "Your box"
+        },
+        {
+          "level": 2,
+          "text": "The box desktop"
+        },
+        {
+          "level": 2,
+          "text": "Block 2"
+        },
+        {
+          "level": 1,
+          "text": "Messages"
+        },
+        {
+          "level": 2,
+          "text": "Message 1 · user · text"
+        },
+        {
+          "level": 1,
+          "text": "Tools"
+        },
+        {
+          "level": 2,
+          "text": "CallDynamicTool"
+        },
+        {
+          "level": 2,
+          "text": "GetDynamicTools"
+        },
+        {
+          "level": 2,
+          "text": "ListSections"
+        },
+        {
+          "level": 2,
+          "text": "ReactToMessage"
+        },
+        {
+          "level": 2,
+          "text": "Read"
+        },
+        {
+          "level": 2,
+          "text": "RecallMemory"
+        },
+        {
+          "level": 2,
+          "text": "Screenshot"
+        },
+        {
+          "level": 2,
+          "text": "SendToUser"
+        },
+        {
+          "level": 2,
+          "text": "Shell"
+        },
+        {
+          "level": 2,
+          "text": "Skill"
+        },
+        {
+          "level": 2,
+          "text": "UpdateMemory"
+        },
+        {
+          "level": 2,
+          "text": "UpdateRoutine"
+        }
+      ],
+      "keywordCounts": {
+        "tools": 152,
+        "safety": 16,
+        "planning": 4,
+        "memory": 50,
+        "autonomy": 12,
+        "git": 3
+      },
+      "promptRole": "System Prompt",
+      "captureTarget": "model self-report",
+      "captureSource": {
+        "kind": "model-self-report",
+        "sha256": "d78e4b06782ad3880faf2bd2ebd918ea1171ff55482d7000548a392d72b4571b"
+      },
+      "selfReport": true,
+      "redactions": [
+        "authorization and transport identifiers",
+        "organization, workspace, Slack, and user metadata",
+        "private memory content, session links, and email addresses",
+        "local home, memory, and scratchpad paths",
+        "captured user, assistant, tool-result, and response content",
+        "private agent profiles, teammate rosters, runtime context, and UUIDs"
+      ],
+      "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
+    },
+    {
+      "order": 7,
       "id": "grok",
       "name": "Grok Build",
-      "version": "1.0.52",
+      "version": "1.0.67",
       "package": "@xai-official/grok",
-      "publishedAt": "2026-10-11T23:59:56.991Z",
-      "capturedAt": "2026-10-12T23:09:50.870871+00:00",
-      "versionCount": 141,
-      "snapshotCount": 141,
+      "publishedAt": "2026-10-21T17:21:37.077Z",
+      "capturedAt": "2026-10-22T01:44:50.766688+00:00",
+      "versionCount": 144,
+      "snapshotCount": 144,
       "variant": {
         "id": "default",
         "label": "Default",
@@ -2004,21 +2058,22 @@
             "model": "grok-build",
             "tool_count": 25
           },
-          "prompt": "captures/grok/1.0.52/variants/default/prompt.md",
-          "trace": "captures/grok/1.0.52/variants/default/trace.jsonl",
+          "prompt": "captures/grok/1.0.67/variants/default/prompt.md",
+          "trace": "captures/grok/1.0.67/variants/default/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/grok/default.md",
-          "sha256": "c1659652d7948c5655546acf258a6da8b6d1655688c2f8e62612f02c06d21fb0",
+          "sha256": "5b02e6f89cafce2e4860f6bb50593bf3b5d7c415c869815739823a05eff858f3",
           "bytes": 50194,
           "characters": 50159
         }
       ],
       "promptPath": "data/prompts/grok.md",
-      "sourcePromptPath": "captures/grok/1.0.52/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/grok/1.0.52/variants/default/prompt.md",
+      "sourcePromptPath": "captures/grok/1.0.67/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/grok/1.0.67/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/grok.png",
-      "sha256": "c1659652d7948c5655546acf258a6da8b6d1655688c2f8e62612f02c06d21fb0",
+      "sha256": "5b02e6f89cafce2e4860f6bb50593bf3b5d7c415c869815739823a05eff858f3",
       "bytes": 50194,
       "characters": 50159,
       "lines": 1339,
@@ -2167,19 +2222,20 @@
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
       "captureSource": null,
+      "selfReport": false,
       "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 7,
+      "order": 8,
       "id": "minimax-code",
       "name": "MiniMax Code",
-      "version": "3.1.1",
+      "version": "3.1.4",
       "package": "MiniMax Code desktop app",
-      "publishedAt": "2026-10-04T12:54:26.226Z",
-      "capturedAt": "2026-10-04T15:28:49.309732+00:00",
-      "versionCount": 40,
-      "snapshotCount": 40,
+      "publishedAt": "2026-10-19T13:38:58.265Z",
+      "capturedAt": "2026-10-19T17:42:42.693422+00:00",
+      "versionCount": 43,
+      "snapshotCount": 43,
       "variant": {
         "id": "default",
         "label": "Default",
@@ -2200,24 +2256,25 @@
             "model": "minimax-code-capture",
             "tool_count": 21
           },
-          "prompt": "captures/minimax-code/3.1.1/variants/default/prompt.md",
-          "trace": "captures/minimax-code/3.1.1/variants/default/trace.jsonl",
+          "prompt": "captures/minimax-code/3.1.4/variants/default/prompt.md",
+          "trace": "captures/minimax-code/3.1.4/variants/default/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/minimax-code/default.md",
-          "sha256": "3c70b14977be3480d503ca2b79fe6287633f28a197ee268d38125f2d135dbc80",
-          "bytes": 79422,
-          "characters": 79184
+          "sha256": "f0364f7ace17f53bfb5e78b530f6a4337dd6f801dab4b5457d7f98bd8ef80d48",
+          "bytes": 79639,
+          "characters": 79401
         }
       ],
       "promptPath": "data/prompts/minimax-code.md",
-      "sourcePromptPath": "captures/minimax-code/3.1.1/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/minimax-code/3.1.1/variants/default/prompt.md",
+      "sourcePromptPath": "captures/minimax-code/3.1.4/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/minimax-code/3.1.4/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/minimax-code.svg",
-      "sha256": "3c70b14977be3480d503ca2b79fe6287633f28a197ee268d38125f2d135dbc80",
-      "bytes": 79422,
-      "characters": 79184,
-      "lines": 1416,
+      "sha256": "f0364f7ace17f53bfb5e78b530f6a4337dd6f801dab4b5457d7f98bd8ef80d48",
+      "bytes": 79639,
+      "characters": 79401,
+      "lines": 1419,
       "headings": [
         {
           "level": 1,
@@ -2392,26 +2449,27 @@
         "tools": 80,
         "safety": 16,
         "planning": 3,
-        "memory": 32,
+        "memory": 33,
         "autonomy": 13,
         "git": 7
       },
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
       "captureSource": null,
+      "selfReport": false,
       "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 8,
+      "order": 9,
       "id": "kimi-code",
       "name": "Kimi Code",
-      "version": "2.1.1",
+      "version": "2.3.0",
       "package": "@moonshot-ai/kimi-code",
-      "publishedAt": "2026-09-24T07:27:15.480Z",
-      "capturedAt": "2026-09-24T10:26:38.403213+00:00",
-      "versionCount": 79,
-      "snapshotCount": 79,
+      "publishedAt": "2026-10-21T05:55:55.979Z",
+      "capturedAt": "2026-10-21T10:30:54.090242+00:00",
+      "versionCount": 81,
+      "snapshotCount": 81,
       "variant": {
         "id": "default",
         "label": "Default",
@@ -2432,24 +2490,25 @@
             "model": "kimi-for-coding",
             "tool_count": 25
           },
-          "prompt": "captures/kimi-code/2.1.1/variants/default/prompt.md",
-          "trace": "captures/kimi-code/2.1.1/variants/default/trace.jsonl",
+          "prompt": "captures/kimi-code/2.3.0/variants/default/prompt.md",
+          "trace": "captures/kimi-code/2.3.0/variants/default/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/kimi-code/default.md",
-          "sha256": "d4b848bd0044cb0ce4c97c782e5f02104b8836cad5cf88c89af23b002917201c",
-          "bytes": 86182,
-          "characters": 85957
+          "sha256": "bc7b8ced750890d46fcc1e77ba7c1a2f1eab0f799f790741511629449c239403",
+          "bytes": 86784,
+          "characters": 86559
         }
       ],
       "promptPath": "data/prompts/kimi-code.md",
-      "sourcePromptPath": "captures/kimi-code/2.1.1/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/kimi-code/2.1.1/variants/default/prompt.md",
+      "sourcePromptPath": "captures/kimi-code/2.3.0/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/kimi-code/2.3.0/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/kimi-code.png",
-      "sha256": "d4b848bd0044cb0ce4c97c782e5f02104b8836cad5cf88c89af23b002917201c",
-      "bytes": 86182,
-      "characters": 85957,
-      "lines": 1564,
+      "sha256": "bc7b8ced750890d46fcc1e77ba7c1a2f1eab0f799f790741511629449c239403",
+      "bytes": 86784,
+      "characters": 86559,
+      "lines": 1567,
       "headings": [
         {
           "level": 1,
@@ -2693,7 +2752,7 @@
         }
       ],
       "keywordCounts": {
-        "tools": 72,
+        "tools": 74,
         "safety": 20,
         "planning": 48,
         "memory": 25,
@@ -2703,11 +2762,12 @@
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
       "captureSource": null,
+      "selfReport": false,
       "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 9,
+      "order": 10,
       "id": "mimo",
       "name": "MiMo Code",
       "version": "0.1.15",
@@ -2739,6 +2799,7 @@
           "prompt": "captures/mimo/0.1.15/variants/default/prompt.md",
           "trace": "captures/mimo/0.1.15/variants/default/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/mimo/default.md",
           "sha256": "3cabf60b2b1b312169665ef29efd6427de0fc4b1bd17e2fb700ce788c39dc93c",
           "bytes": 1395,
@@ -2747,7 +2808,7 @@
       ],
       "promptPath": "data/prompts/mimo.md",
       "sourcePromptPath": "captures/mimo/0.1.15/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/mimo/0.1.15/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/mimo/0.1.15/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/mimo.png",
       "sha256": "3cabf60b2b1b312169665ef29efd6427de0fc4b1bd17e2fb700ce788c39dc93c",
@@ -2795,19 +2856,20 @@
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
       "captureSource": null,
+      "selfReport": false,
       "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 10,
+      "order": 11,
       "id": "openclaw",
       "name": "OpenClaw",
-      "version": "2026.10.2",
+      "version": "2026.10.5",
       "package": "openclaw",
-      "publishedAt": "2026-10-12T05:28:25.059Z",
-      "capturedAt": "2026-10-12T06:26:04.679364+00:00",
-      "versionCount": 82,
-      "snapshotCount": 82,
+      "publishedAt": "2026-10-18T21:16:43.569Z",
+      "capturedAt": "2026-10-18T21:47:53.519511+00:00",
+      "versionCount": 85,
+      "snapshotCount": 85,
       "variant": {
         "id": "default",
         "label": "Default",
@@ -2828,24 +2890,25 @@
             "model": "phistory-dummy",
             "tool_count": 12
           },
-          "prompt": "captures/openclaw/2026.10.2/variants/default/prompt.md",
-          "trace": "captures/openclaw/2026.10.2/variants/default/trace.jsonl",
+          "prompt": "captures/openclaw/2026.10.5/variants/default/prompt.md",
+          "trace": "captures/openclaw/2026.10.5/variants/default/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/openclaw/default.md",
-          "sha256": "36104017bb2c220a15ae682b5432bedf13fa182441c6083852121b7f4e8ed5e0",
-          "bytes": 64341,
-          "characters": 64323
+          "sha256": "c5de8d66a7942e887a60ebdf414b74a95eec56b15e09077d71ec125b06ab222e",
+          "bytes": 63699,
+          "characters": 63678
         }
       ],
       "promptPath": "data/prompts/openclaw.md",
-      "sourcePromptPath": "captures/openclaw/2026.10.2/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/openclaw/2026.10.2/variants/default/prompt.md",
+      "sourcePromptPath": "captures/openclaw/2026.10.5/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/openclaw/2026.10.5/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/openclaw.png",
-      "sha256": "36104017bb2c220a15ae682b5432bedf13fa182441c6083852121b7f4e8ed5e0",
-      "bytes": 64341,
-      "characters": 64323,
-      "lines": 1214,
+      "sha256": "c5de8d66a7942e887a60ebdf414b74a95eec56b15e09077d71ec125b06ab222e",
+      "bytes": 63699,
+      "characters": 63678,
+      "lines": 1209,
       "headings": [
         {
           "level": 1,
@@ -3185,29 +3248,30 @@
         }
       ],
       "keywordCounts": {
-        "tools": 53,
-        "safety": 5,
-        "planning": 3,
-        "memory": 57,
-        "autonomy": 14,
+        "tools": 46,
+        "safety": 4,
+        "planning": 2,
+        "memory": 56,
+        "autonomy": 10,
         "git": 2
       },
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
       "captureSource": null,
+      "selfReport": false,
       "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 11,
+      "order": 12,
       "id": "hermes",
       "name": "Hermes Agent",
       "version": "v2026.9.24",
       "package": "NousResearch/hermes-agent",
       "publishedAt": "2026-09-24T10:09:38Z",
       "capturedAt": "2026-09-24T10:27:10.220965+00:00",
-      "versionCount": 34,
-      "snapshotCount": 34,
+      "versionCount": 37,
+      "snapshotCount": 37,
       "variant": {
         "id": "default",
         "label": "Default",
@@ -3231,6 +3295,7 @@
           "prompt": "captures/hermes/v2026.9.24/variants/default/prompt.md",
           "trace": "captures/hermes/v2026.9.24/variants/default/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/hermes/default.md",
           "sha256": "527ed0a876e956728894e6791112fcde74946b4f5cdd59949693b2b186755ceb",
           "bytes": 53833,
@@ -3239,7 +3304,7 @@
       ],
       "promptPath": "data/prompts/hermes.md",
       "sourcePromptPath": "captures/hermes/v2026.9.24/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/hermes/v2026.9.24/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/hermes/v2026.9.24/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/hermes.png",
       "sha256": "527ed0a876e956728894e6791112fcde74946b4f5cdd59949693b2b186755ceb",
@@ -3395,11 +3460,12 @@
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
       "captureSource": null,
+      "selfReport": false,
       "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 12,
+      "order": 13,
       "id": "kimi",
       "name": "Kimi CLI",
       "version": "1.51.0",
@@ -3431,6 +3497,7 @@
           "prompt": "captures/kimi/1.51.0/variants/default/prompt.md",
           "trace": "captures/kimi/1.51.0/variants/default/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/kimi/default.md",
           "sha256": "be7e6d779f123b599a4d8b3695cbd696121af233ee76445d8bbd69a5eca0a496",
           "bytes": 52161,
@@ -3439,7 +3506,7 @@
       ],
       "promptPath": "data/prompts/kimi.md",
       "sourcePromptPath": "captures/kimi/1.51.0/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/kimi/1.51.0/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/kimi/1.51.0/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/kimi.png",
       "sha256": "be7e6d779f123b599a4d8b3695cbd696121af233ee76445d8bbd69a5eca0a496",
@@ -3615,19 +3682,20 @@
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
       "captureSource": null,
+      "selfReport": false,
       "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 13,
+      "order": 14,
       "id": "opencode",
       "name": "opencode",
-      "version": "1.19.0",
+      "version": "1.19.3",
       "package": "opencode-ai",
-      "publishedAt": "2026-10-11T01:38:53.143Z",
-      "capturedAt": "2026-10-11T02:07:30.001733+00:00",
-      "versionCount": 120,
-      "snapshotCount": 120,
+      "publishedAt": "2026-10-16T12:32:00.280Z",
+      "capturedAt": "2026-10-16T16:54:03.871789+00:00",
+      "versionCount": 123,
+      "snapshotCount": 123,
       "variant": {
         "id": "default",
         "label": "Default",
@@ -3648,21 +3716,22 @@
             "model": "gpt-4.1",
             "tool_count": 10
           },
-          "prompt": "captures/opencode/1.19.0/variants/default/prompt.md",
-          "trace": "captures/opencode/1.19.0/variants/default/trace.jsonl",
+          "prompt": "captures/opencode/1.19.3/variants/default/prompt.md",
+          "trace": "captures/opencode/1.19.3/variants/default/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/opencode/default.md",
-          "sha256": "964c69e235195b7f8088c3542b6d29fa2870abe627c6331b8aaad90a256e65a1",
+          "sha256": "52ae9887d50a912bfb05e73395754086d78d0d7049eeea1fc5e946740d8693d3",
           "bytes": 32785,
           "characters": 32780
         }
       ],
       "promptPath": "data/prompts/opencode.md",
-      "sourcePromptPath": "captures/opencode/1.19.0/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/opencode/1.19.0/variants/default/prompt.md",
+      "sourcePromptPath": "captures/opencode/1.19.3/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/opencode/1.19.3/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/opencode.png",
-      "sha256": "964c69e235195b7f8088c3542b6d29fa2870abe627c6331b8aaad90a256e65a1",
+      "sha256": "52ae9887d50a912bfb05e73395754086d78d0d7049eeea1fc5e946740d8693d3",
       "bytes": 32785,
       "characters": 32780,
       "lines": 649,
@@ -3815,19 +3884,20 @@
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
       "captureSource": null,
+      "selfReport": false,
       "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 14,
+      "order": 15,
       "id": "pi",
       "name": "Pi",
-      "version": "1.2.0",
+      "version": "1.4.0",
       "package": "@earendil-works/pi-coding-agent",
-      "publishedAt": "2026-10-12T23:03:25.459Z",
-      "capturedAt": "2026-10-12T23:10:24.241804+00:00",
-      "versionCount": 58,
-      "snapshotCount": 58,
+      "publishedAt": "2026-10-21T22:48:58.431Z",
+      "capturedAt": "2026-10-22T01:45:04.770426+00:00",
+      "versionCount": 60,
+      "snapshotCount": 60,
       "variant": {
         "id": "default",
         "label": "Default",
@@ -3848,9 +3918,10 @@
             "model": "gpt-4.1",
             "tool_count": 4
           },
-          "prompt": "captures/pi/1.2.0/variants/default/prompt.md",
-          "trace": "captures/pi/1.2.0/variants/default/trace.jsonl",
+          "prompt": "captures/pi/1.4.0/variants/default/prompt.md",
+          "trace": "captures/pi/1.4.0/variants/default/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/pi/default.md",
           "sha256": "6afeb9125a1b18b7d56ba25ef46722cc692a63782dc9cf9c90b2a742287db3e4",
           "bytes": 6016,
@@ -3858,8 +3929,8 @@
         }
       ],
       "promptPath": "data/prompts/pi.md",
-      "sourcePromptPath": "captures/pi/1.2.0/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/pi/1.2.0/variants/default/prompt.md",
+      "sourcePromptPath": "captures/pi/1.4.0/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/pi/1.4.0/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/pi.png",
       "sha256": "6afeb9125a1b18b7d56ba25ef46722cc692a63782dc9cf9c90b2a742287db3e4",
@@ -3915,19 +3986,20 @@
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
       "captureSource": null,
+      "selfReport": false,
       "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     },
     {
-      "order": 15,
+      "order": 16,
       "id": "omp",
       "name": "Oh My Pi",
-      "version": "18.10.3",
+      "version": "18.12.6",
       "package": "@oh-my-pi/pi-coding-agent",
-      "publishedAt": "2026-10-12T19:35:00.345Z",
-      "capturedAt": "2026-10-12T23:10:28.779738+00:00",
-      "versionCount": 142,
-      "snapshotCount": 142,
+      "publishedAt": "2026-10-21T21:21:39.454Z",
+      "capturedAt": "2026-10-21T22:38:51.652482+00:00",
+      "versionCount": 154,
+      "snapshotCount": 154,
       "variant": {
         "id": "default",
         "label": "Default",
@@ -3948,24 +4020,25 @@
             "model": "gpt-4.1",
             "tool_count": 11
           },
-          "prompt": "captures/omp/18.10.3/variants/default/prompt.md",
-          "trace": "captures/omp/18.10.3/variants/default/trace.jsonl",
+          "prompt": "captures/omp/18.12.6/variants/default/prompt.md",
+          "trace": "captures/omp/18.12.6/variants/default/trace.jsonl",
           "traceRedacted": false,
+          "selfReport": false,
           "localPromptPath": "data/variants/omp/default.md",
-          "sha256": "4a9eae80cb9b2403e39652d84de0234929f4568dc9ac80541aa0f08a1c391eba",
-          "bytes": 32382,
-          "characters": 32274
+          "sha256": "3268de821cbc60f3cfbf7b831df6ed17bcd69a5586ecd0fd5e5d9ae0347a6a7e",
+          "bytes": 34506,
+          "characters": 34398
         }
       ],
       "promptPath": "data/prompts/omp.md",
-      "sourcePromptPath": "captures/omp/18.10.3/variants/default/prompt.md",
-      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/444c615c31fae7e5162f50375ddb2d0853231df9/captures/omp/18.10.3/variants/default/prompt.md",
+      "sourcePromptPath": "captures/omp/18.12.6/variants/default/prompt.md",
+      "sourceUrl": "https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/omp/18.12.6/variants/default/prompt.md",
       "phistoryUrl": "https://phistory.cc/",
       "icon": "agent-icons/omp.svg",
-      "sha256": "4a9eae80cb9b2403e39652d84de0234929f4568dc9ac80541aa0f08a1c391eba",
-      "bytes": 32382,
-      "characters": 32274,
-      "lines": 1027,
+      "sha256": "3268de821cbc60f3cfbf7b831df6ed17bcd69a5586ecd0fd5e5d9ae0347a6a7e",
+      "bytes": 34506,
+      "characters": 34398,
+      "lines": 1058,
       "headings": [
         {
           "level": 1,
@@ -4149,9 +4222,9 @@
         }
       ],
       "keywordCounts": {
-        "tools": 29,
+        "tools": 32,
         "safety": 2,
-        "planning": 11,
+        "planning": 13,
         "memory": 10,
         "autonomy": 2,
         "git": 2
@@ -4159,6 +4232,7 @@
       "promptRole": "System Prompt",
       "captureTarget": "claude-tap capture-only",
       "captureSource": null,
+      "selfReport": false,
       "redactions": [],
       "normalization": "Phistory readable snapshot; volatile runtime values are normalized."
     }

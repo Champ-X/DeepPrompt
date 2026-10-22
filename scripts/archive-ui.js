@@ -12,6 +12,13 @@
   var fragmentCache = new Map();
   var fragmentRequests = new Map();
   var navigationToken = 0;
+  var searchInput = document.getElementById('promptSearch');
+  var searchToggle = document.getElementById('togglePromptSearch');
+  var searchReturnFocus = null;
+
+  function usesCompactSearch(){
+    return !!searchToggle && getComputedStyle(searchToggle).display!=='none';
+  }
 
   function agentName(aid){
     var label=document.querySelector('.navbtn[data-target="'+aid+'"] .nb-name');
@@ -284,7 +291,7 @@
     if(!isPreview){
       document.getElementById('wheelStatus').textContent='当前 Agent：'+activeName+'，第 '+(activeIndex+1)+' 项，共 '+AGENTS.length+' 项';
       document.getElementById('agentSelect').value=aid;
-      document.getElementById('promptSearch').placeholder='搜索 '+activeName+' 的 Prompt / 批注';
+      searchInput.placeholder=usesCompactSearch()?'搜索内容':'搜索 '+activeName+' 的 Prompt / 批注';
     }
     document.getElementById('wheelCount').textContent=String(activeIndex+1).padStart(2,'0')+' / '+String(AGENTS.length).padStart(2,'0');
     document.getElementById('wheelMode').textContent=isPreview?'松手切换':'切换 Agent';
@@ -299,12 +306,19 @@
   function showHome(doScroll, updateRoute){
     cancelWheelDrag();
     resetWheelGesture();
+    var focusedReaderControl=document.activeElement.closest('.reader-action,.agent-wheel,#main');
+    closePromptSearch(false);
     navigationToken++;
     document.body.classList.add('mode-home');
     document.body.classList.remove('mode-reader');
     document.body.removeAttribute('data-agent');
     document.querySelectorAll('.agentview').forEach(function(v){v.classList.remove('active');});
     clearActive(); clearSearchMarks();
+    syncTopbarHeight();
+    if(focusedReaderControl) requestAnimationFrame(function(){
+      // Fragment navigation may reset focus after its hashchange handlers run.
+      if(document.body.classList.contains('mode-home')) document.getElementById('homeButton').focus({preventScroll:true});
+    });
     if(updateRoute) pushRoute('#home');
     if(doScroll) window.scrollTo({top:0,behavior:'smooth'});
   }
@@ -312,10 +326,12 @@
   async function showAgent(aid, doScroll, updateRoute){
     if(AGENTS.indexOf(aid)===-1) return;
     cancelWheelDrag();
+    if(document.body.classList.contains('prompt-search-open')) closePromptSearch(document.activeElement===searchInput);
     var token=++navigationToken;
     document.body.classList.remove('mode-home');
     document.body.classList.add('mode-reader');
     document.body.dataset.agent=aid;
+    syncTopbarHeight();
     document.querySelectorAll('.agentview').forEach(function(v){v.classList.remove('active');});
     current = aid;
     updateWheel(aid);
@@ -585,6 +601,7 @@
   function applySearch(){
     clearSearchMarks();
     var counter=document.getElementById('searchCount');
+    counter.hidden=usesCompactSearch()&&!searchQuery;
     if(!searchQuery){ counter.textContent='⌘ K'; return; }
     var view=document.getElementById('view-'+current);
     var count=0;
@@ -598,7 +615,50 @@
     var first=view&&view.querySelector('mark.search-hit');
     if(first) first.scrollIntoView({behavior:'smooth',block:'center'});
   }
-  var searchInput=document.getElementById('promptSearch');
+  function setPromptSearchExpanded(expanded){
+    document.body.classList.toggle('prompt-search-open',expanded);
+    if(searchToggle){
+      searchToggle.setAttribute('aria-expanded',String(expanded));
+      searchToggle.setAttribute('aria-label',expanded?'关闭搜索':'搜索提示词');
+    }
+  }
+  function focusPromptSearch(){
+    if(document.activeElement!==searchInput) searchReturnFocus=document.activeElement;
+    setPromptSearchExpanded(usesCompactSearch());
+    syncTopbarHeight();
+    searchInput.focus({preventScroll:true});
+    searchInput.select();
+  }
+  function closePromptSearch(restoreFocus){
+    searchInput.value='';
+    searchQuery='';
+    setPromptSearchExpanded(false);
+    applySearch();
+    syncTopbarHeight();
+    if(restoreFocus){
+      var destination=usesCompactSearch()?searchToggle:searchReturnFocus;
+      if(!destination||destination===searchInput||destination===document.body||!destination.isConnected||!destination.getClientRects().length) destination=document.getElementById('homeAction');
+      destination.focus({preventScroll:true});
+    }
+    searchReturnFocus=null;
+  }
+  function syncPromptSearchViewport(){
+    if(!document.body.classList.contains('mode-reader')) return;
+    var focused=document.activeElement;
+    if(!usesCompactSearch()){
+      setPromptSearchExpanded(false);
+      if(focused===searchToggle) searchInput.focus({preventScroll:true});
+    }else if(focused===searchInput||searchQuery){
+      // A visible desktop search stays discoverable when the viewport narrows.
+      setPromptSearchExpanded(true);
+    }else if(focused===document.getElementById('copyLink')&&searchToggle){
+      searchToggle.focus({preventScroll:true});
+    }
+  }
+  if(searchToggle) searchToggle.addEventListener('click',function(){
+    if(document.body.classList.contains('prompt-search-open')) closePromptSearch(true);
+    else focusPromptSearch();
+  });
   searchInput.addEventListener('input',function(){
     searchQuery=this.value.trim().toLowerCase();
     applySearch();
@@ -613,8 +673,8 @@
   });
   document.addEventListener('keydown',function(e){
     if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'&&document.body.classList.contains('mode-home')){e.preventDefault();catalogInput.focus();catalogInput.select();}
-    if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'&&document.body.classList.contains('mode-reader')){e.preventDefault();searchInput.focus();searchInput.select();}
-    if(e.key==='Escape'&&document.activeElement===searchInput){searchInput.value='';searchQuery='';applySearch();searchInput.blur();}
+    if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'&&document.body.classList.contains('mode-reader')){e.preventDefault();focusPromptSearch();}
+    if(e.key==='Escape'&&(document.activeElement===searchInput||document.body.classList.contains('prompt-search-open'))){e.preventDefault();closePromptSearch(true);}
     if((e.altKey||e.metaKey)&&(e.key==='ArrowRight'||e.key==='ArrowLeft')&&document.body.classList.contains('mode-reader')&&!e.target.closest('input,textarea,select,[contenteditable="true"]')){
       e.preventDefault();
       if(!e.repeat) rotateWheel(e.key==='ArrowRight'?1:-1);
@@ -665,7 +725,11 @@
     var bar=document.querySelector('.topbar');
     if(bar) document.documentElement.style.setProperty('--topbar-height',bar.offsetHeight+'px');
   }
-  window.addEventListener('resize', function(){ cancelWheelDrag();resetWheelGesture();syncTopbarHeight(); buildMobile(current); updateWheel(current); if(document.body.classList.contains('mode-reader')){layout(current);applySearch();} });
+  if(window.ResizeObserver) new ResizeObserver(function(){
+    syncPromptSearchViewport();
+    syncTopbarHeight();
+  }).observe(document.querySelector('.topbar'));
+  window.addEventListener('resize', function(){ cancelWheelDrag();resetWheelGesture();syncPromptSearchViewport();syncTopbarHeight(); buildMobile(current); updateWheel(current); if(document.body.classList.contains('mode-reader')){layout(current);applySearch();} });
   document.addEventListener('toggle', function(e){
     if(e.target&&e.target.classList&&e.target.classList.contains('rawblob')){
       setTimeout(function(){syncDisclosureAnnotations(current);layout(current);},30);

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import copy
 import hashlib
+import html
 import json
 import tempfile
 import unittest
@@ -85,6 +86,20 @@ class AnnotationRegressionTests(unittest.TestCase):
         self.assertIn('alpha &lt;user_query&gt;\nbeta</span>', rendered)
         self.assertNotIn('<user_query>', rendered)
         self.assertEqual(classify_agent(source, records, 0)["lineDispositions"]["annotated"], 2)
+
+    def test_compact_tool_schema_keeps_exact_source_and_highlight_when_folded(self):
+        schema = json.dumps({"name": "Read", "description": "Read <file> with exact evidence",
+                             "parameters": {"type": "object"}})
+        source = schema + "\n\nAn ordinary paragraph stays readable.\n"
+        manifest, payload = self.fixture(source, "<file>")
+        rendered = self.render(source, self.load(manifest, payload))
+        self.assertIn('<details class="rawblob reveal">', rendered)
+        self.assertIn('data-note="sample-1">&lt;file&gt;</span>', rendered)
+        # Removing only presentation markup recovers the exact original JSON.
+        import re
+        code = re.search(r'<code>(.*?)</code>', rendered, re.DOTALL).group(1)
+        self.assertEqual(html.unescape(re.sub(r'<[^>]+>', '', code)), schema)
+        self.assertIn('<p class="src reveal">An ordinary paragraph stays readable.</p>', rendered)
 
     def test_overlapping_occurrences_are_counted(self):
         source = "ababa\n"

@@ -99,6 +99,7 @@ class SyncRegressionTests(unittest.TestCase):
             ("capture", "captured_at", "not-a-date"),
             ("capture", "variant_dimensions", []),
             ("capture", "trace_redacted", "false"),
+            ("capture", "self_report", "false"),
             ("agent", "agent", None),
             ("agent", "snapshots", "2"),
             ("agent", "versions", False),
@@ -118,6 +119,18 @@ class SyncRegressionTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     self.run_sync()
                 self.assertEqual(self.site_files(), before)
+
+    def test_self_report_warning_survives_sync_on_agent_and_variant(self):
+        path = self.source / "captures/index.json"
+        index = json.loads(path.read_text())
+        index["captures"][-1]["self_report"] = True
+        path.write_text(json.dumps(index))
+        self.run_sync()
+        manifest = json.loads((self.root / "data/manifest.json").read_text())
+        report = manifest["agents"][-1]
+        self.assertTrue(report["selfReport"])
+        self.assertTrue(report["availableVariants"][0]["selfReport"])
+        self.assertFalse(manifest["agents"][0]["selfReport"])
 
     def test_invalid_codex_jsonl_preserves_all_managed_files(self):
         self.run_sync()

@@ -7,6 +7,17 @@ from rebuild_archive import display_snapshot_date
 
 
 class CaptureProvenanceTests(unittest.TestCase):
+    def test_self_report_is_not_presented_as_a_verified_trace_or_release(self):
+        agent = {
+            "version": "2026-10-20", "selfReport": True,
+            "captureSource": {"kind": "model-self-report"},
+            "capturedAt": "2026-10-20T12:00:00Z", "publishedAt": "2026-10-21T12:00:00Z",
+        }
+        rendered = render_capture_provenance(agent)
+        self.assertIn("模型自述", rendered)
+        self.assertIn("完整性与准确性未经验证", rendered)
+        self.assertEqual(display_snapshot_date(agent), "捕获 2026-10-20")
+
     def test_manual_date_capture_and_current_redaction_list_are_visible(self):
         rendered = render_capture_provenance({
             "version": "2026-09-26", "captureSource": {"kind": "user-provided trace"},

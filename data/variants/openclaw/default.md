@@ -46,7 +46,7 @@ Available deferred-schema tools:
 - node_inference (ollama): Discover and run chat-capable Ollama models installed on paired desktop/server nodes. Use action=discover first, then action=run with a node and model from that result. Inferenc...
 - nodes (core): Paired nodes: status/list with active-computer presence; pass node to describe/control. Pairing lifecycle (pending/approve/reject), notify, camera_snap/camera_list/camera_clip (...
 - pdf (core): Analyze PDF(s): Anthropic/Google native when supported, else text/image extraction. pdf one; pdfs max 10; prompt says inspection. `pages` selects up to the configured page limit...
-- plugins (core): Inspect, search, install from the official catalog or ClawHub, enable, disable, uninstall, or reload plugins. Reload an installed plugin after editing its local files. Check res...
+- plugins (core): Inspect, search, install from the official catalog or ClawHub, enable, disable, uninstall, or reload plugins. After editing local plugin files, use reloadAndResume to end this t...
 - portal (core): Expose a local HTTP server or a conversation-attached environment's HTTP server (environmentId) through a portal route; verify browser access and app rendering in Control UI. Po...
 - presence (core): Read live people, connected devices, and observed activity on this Gateway. list (default): who is online, one entry per person. person: inspect me, a profile ID, or an unambigu...
 - progress_card (core): Maintain this session's progress card: the single durable status surface shown next to the session in OpenClaw's UIs, for someone who is not reading the transcript. Create a car...
@@ -56,9 +56,9 @@ Available deferred-schema tools:
 - sessions_history (core): Read sanitized visible-session history. Before reply/debug/resume. Use messageId for anchored history; sessionId selects its transcript and requires messageId. Omit both for the...
 - sessions_list (core): List visible session metadata and groups; filter ownerId/creatorId, projectId/workspaceDir, group/pinned, kind/agent/activity/archive. relationship=owned|created|involving selec...
 - sessions_search (core): Search visible past sessions for matching user and assistant text. Follow up with sessions_history using a returned sessionKey, sessionId, and messageId for neighboring context.
-- sessions_send (core): Run a visible session on this Gateway by sessionKey/label, or a configured local agent by agentId; sessionKey wins redundant label. A session identifies model context, not an ex...
+- sessions_send (core): Run a permitted session on this Gateway by sessionKey/label, or a configured local agent by agentId; sessionKey wins redundant label. Explicit per-agent send destinations can pe...
 - sessions_spawn (core): Spawn child session; default `runtime="subagent"`. `mode="run"` one-shot background. `agentId` targets a configured agent (see agents_list); `model` overrides its model; `cleanu...
-- skill_workshop (core): Author reusable skills under the available tool's publication and review policy. Read one complete artifact when it fits the model budget. Workshop actions: list enumerates prop...
+- skill_workshop (core): Your learned skills: reusable procedures saved as <name>/SKILL.md that load in future sessions. Changes apply immediately, are versioned, and are shown to the user. Actions: lis...
 - skills_read (core): Load complete SKILL.md instructions for an exact installed skill name. Use a known name directly; search is not required first. Does not execute the skill or grant additional to...
 - skills_search (core): Find relevant installed, eligible skills by task or exact name, including skills omitted from the prompt directory. Searches names and descriptions, plus bounded instruction tex...
 - subagents (core): List native subagents, wait for selected runIds, or cancel a runId and its descendants. A wait timeout never cancels execution or consumes completion delivery.
@@ -70,11 +70,11 @@ Available deferred-schema tools:
 - update_goal (core): Mark the session goal complete only when the full objective is verified and no required work remains. Mark it blocked only when the same blocker has recurred for at least three...
 - view_image (core): Inspect image(s) in private model context with available vision: path accepts one local image path or permitted URL; paths accepts up to maxImages entries (20 by default). Does...
 - web_fetch (core): Fetch URL; extract readable markdown/text. Lightweight; no browser automation.
-- web_search (core): Search current web; normalized provider results. Supports freshness and date-range filters (freshness, date_after/date_before) and domain filtering (domain_filter).
 
 Policy-approved MCP and client tools may also be discoverable through search.
 Use tool_search for a compact input signature or tool_describe for a full schema. Deferred names are not directly callable. Call tool_call with the result id or name in id and all tool parameters in args. Use this wrapper even when other guidance names a deferred tool directly.
 The AGENTS.md Tools section guides usage; it never grants availability.
+Web search is supported but not configured. Set it up with `openclaw configure --section web` or Settings → Ask OpenClaw; `web_search` is unavailable until configured.
 Long wait: no rapid poll. Use exec yieldMs or process(poll, timeout=<ms>).
 Execute work directly by default. Delegate a bounded, independent task only when parallel execution or an independent review provides a concrete benefit. Keep dependent steps with the same owner.
 `sessions_spawn`: clean context => `context:"isolated"`; transcript needed => `context:"fork"`. Follow the accepted completion mode.
@@ -257,12 +257,8 @@ When a skill file references a relative path, resolve it against the skill direc
   </skill>
 </available_skills>
 ## Skill Workshop
-Durable reusable skill/playbook/workflow work you start on your own: `skill_workshop`; never write Workshop proposal or Workshop-owned skill files directly.
-Exception: when the user asks you to change a skill they own (repository skill source, the workspace `skills/` directory, project `.agents/skills/`, or a configured extra skill directory), edit it directly with normal file tools; do not route it through Workshop, and never infer Workshop ownership from a `SKILL.md` filename, skill-like directory, or name collision with an installed skill. Bundled, ClawHub-installed, and plugin-provided skills are replaced by their owners' updates: say so, and if the user wants the change kept, capture it as a Workshop skill.
-Exception: background Workshop maintenance may use normal file tools inside its provided Workshop directory when the run authorizes direct edits. Draft-only reviews continue to stage proposals.
-Used skill proved wrong or incomplete: read it and follow the available tool's publication and autonomous policy. Where supported, autonomous mode may disable repair, stage a proposal, or apply it. Without an applicable autonomous policy, unsolicited improvements stay pending proposals when supported; otherwise describe the suggestion without publishing. Capture only durable, evidenced procedure changes—never task artifacts, transient failures, or unresolved guesses.
-Publication-only create/update requires an explicit user request; never present it as a pending draft. Apply/reject/quarantine only explicit user ask.
-proposal_content = complete final skill body, never plan/diff; update/revise preserves unchanged content.
+`skill_workshop` edits your learned skills: procedures for tasks this user repeats, so you do not work them out from scratch again. When a learned skill you used was wrong or incomplete, view it and patch the misleading step. After hard multi-step work the user will repeat, save the working procedure: patch the skill that covers it or create one. Knowledge about one codebase belongs in that repository's docs or AGENTS.md, not a learned skill. Every change keeps the previous version. When the user says undo right after a 💾 Learned notice, they mean that skill change: restore the named skill, or archive it if the notice says it was created.
+Skills the user owns (repository or workspace `skills/`, `.agents/skills/`, configured skill dirs) are ordinary files: edit them directly when asked, never through skill_workshop.
 ## Memory Recall
 Before answering anything about prior work, decisions, dates, people, preferences, or todos: run memory_search without corpus to search the configured sources; for memory-file hits, use memory_get to pull only the needed lines. Use corpus=all only when compiled wiki supplements are needed. If low confidence after search, say you checked.
 For session hits, use sessions_search with distinctive snippet text (and sessionKey set to the transcript ID when known), then sessions_history with the returned sessionKey, messageId, and sessionId for a bounded sanitized excerpt.
@@ -487,8 +483,8 @@ Notes:
 - Save this file at the workspace root as `IDENTITY.md`.
 - For avatars, use a workspace-relative path like `avatars/openclaw.png`, an `http(s)` URL, or a data URI.
 - Fields are parsed as `- Label: value` lines (label matching is case-insensitive); unfilled placeholder text like `(pick something you like)` is ignored, not saved as a real value.
-- The form above has no `Theme` line, and you do not need to add one. Tooling writes `Theme` into this file when it syncs.
-- `Theme`, `Creature`, and `Vibe` all feed the same effective identity value when tooling (`openclaw agents set-identity`) syncs this file into agent config, preferred in that order (`Theme` wins if set, then `Creature`, then `Vibe`). Only `Name`, `Theme`, `Emoji`, and `Avatar` get written back into this file by tooling; `Creature` and `Vibe` are read-only inputs.
+- The form above has no `Theme` line, and you do not need to add one. Gateway identity updates may add `Theme` to this file when they sync.
+- `Theme`, `Creature`, and `Vibe` all feed the same effective identity value when `openclaw agents set-identity` reads this file into agent config, preferred in that order (`Theme` wins if set, then `Creature`, then `Vibe`). The CLI writes identity to agent config; Gateway identity updates may write `Name`, `Theme`, `Emoji`, and `Avatar` back into this file. `Creature` and `Vibe` are read-only inputs.
 
 ## Related
 
@@ -690,7 +686,7 @@ when a `memory/` folder exists.
 <!-- /openclaw:attempt:STABLE -->
 <!-- openclaw:attempt:DYNAMIC -->
 ## Temporal Context
-Current date: 2026-10-12
+Current date: 2026-10-18
 Time zone: UTC
 For the exact current time, use `session_status`.
 ## Delegation
@@ -727,7 +723,7 @@ Inspect widgets in their chat/dashboard frame; do not open hosting URLs as brows
 ### message tool
 - Proactive send/channel action (poll, reaction, etc.): `message`.
 - `send`: `target` + `message`.
-- No source default: proactive send needs `channel`; ids: feishu|googlechat|nostr|buzz|msteams|mattermost|nextcloud-talk|matrix|raft|a2a|line|zalo|clickclack|zalouser|sms|synology-chat|tlon|discord|imessage|irc|reef|signal|slack|telegram|twitch|whatsapp.
+- No source default: proactive send needs `channel`; ids: feishu|googlechat|nostr|buzz|msteams|mattermost|nextcloud-talk|matrix|raft|a2a|line|zalo|clickclack|x|zalouser|sms|synology-chat|tlon|discord|imessage|irc|reef|signal|slack|telegram|twitch|whatsapp.
 - Follow turn delivery: private final => visible via `message(send)`; otherwise normal reply once.
 ## Conversation Context
 For every repository-specific memory entry you write, add <!-- project: path:$PHISTORY_HOME/.openclaw/workspace --> on the same line. Do not project-scope user-level preferences, standing intents, or facts that are not specific to this repository.
@@ -736,14 +732,14 @@ Current model identity: phistory/phistory-dummy. If asked what model you are, an
 Reasoning=off; hidden unless on/stream. Toggle /reasoning; /status shows when enabled.
 
 
-Runtime: agent=main | session=agent:main:main | host=runnervmmprz5 | repo=$PHISTORY_HOME/.openclaw/workspace | os=Linux 6.17.0-1022-azure (x64) | node=v24.21.0 | active_node=unknown | active_node_identity=unknown | model=phistory/phistory-dummy | default_model=phistory/phistory-dummy | shell=bash
+Runtime: agent=main | session=agent:main:main | host=runnervm8k3b6 | repo=$PHISTORY_HOME/.openclaw/workspace | os=Linux 6.17.0-1022-azure (x64) | node=v24.22.0 | active_node=unknown | active_node_identity=unknown | model=phistory/phistory-dummy | default_model=phistory/phistory-dummy | shell=bash
 <!-- /openclaw:attempt:DYNAMIC -->
 
 # Messages
 
 ## Message 1 · user · input_text
 
-[Mon 2026-10-12 06:25 UTC] Reply with one short sentence.
+[Sun 2026-10-18 21:47 UTC] Reply with one short sentence.
 
 # Tools
 
@@ -809,7 +805,7 @@ Exact single-file replacements. oldText unique/non-overlapping against original.
 
 ## exec
 
-Run shell now; background continuation supported. Completed calls return command output directly. Use process only when exec reports running with a sessionId; output text alone is not a process handle. Long run: automatic completion wake when enabled and output/failure occurs; otherwise process confirms completion. No sleep loops for reminders/follow-ups; use automations. TTY CLI/UI/coding agent: pty=true. Quote arguments containing shell metacharacters, including URL query strings with `?` or `&`.
+Run shell now; background continuation supported. Completed calls return command output directly. Use process only when exec reports running with a sessionId; output text alone is not a process handle. Long run: automatic completion wake when enabled and output/failure occurs; otherwise process confirms completion. Omit host to use the session's configured host. No sleep loops for reminders/follow-ups; use automations. TTY CLI/UI/coding agent: pty=true. Quote arguments containing shell metacharacters, including URL query strings with `?` or `&`.
 
 ```json
 {
@@ -842,7 +838,7 @@ Run shell now; background continuation supported. Completed calls return command
     },
     "yieldMs": {
       "type": "number",
-      "description": "Milliseconds before backgrounding; default 10000."
+      "description": "Milliseconds before returning an ordinary-command handle; default 10000."
     },
     "awaitResults": {
       "type": "boolean",
@@ -850,7 +846,7 @@ Run shell now; background continuation supported. Completed calls return command
     },
     "background": {
       "type": "boolean",
-      "description": "Background now; timeoutSeconds applies."
+      "description": "Start an independent service now; survives request Stop. Use yieldMs for ordinary work. timeoutSeconds applies."
     },
     "timeoutSeconds": {
       "type": "number",
@@ -867,12 +863,11 @@ Run shell now; background continuation supported. Completed calls return command
     "host": {
       "enum": [
         "auto",
-        "sandbox",
         "gateway",
         "node"
       ],
       "type": "string",
-      "description": "Omit/auto: inherit configured host."
+      "description": "Omit/auto: inherit configured host (gateway)."
     },
     "ask": {
       "type": "string",
