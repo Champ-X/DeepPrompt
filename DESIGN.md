@@ -6,7 +6,7 @@
 ## 0. Meta
 
 ```yaml
-version: 1.5.0
+version: 1.5.1
 last_updated: 2026-10-22
 upstream_source: https://phistory.cc
 schema: https://github.com/Eldergenix/SUPER-DESIGN/schema/v1
@@ -82,7 +82,10 @@ the light values to keep automated contrast auditing deterministic.
 |---|---|---|---|---|
 | `--color-bg` | `{color.primitive.paper}` | `{color.primitive.paper}` | page background | — |
 | `--color-bg-subtle` | `{color.primitive.paper-deep}` | `{color.primitive.paper-deep}` | quiet section background | — |
-| `--color-surface` | `{color.primitive.white}` | `{color.primitive.white}` | cards and reader surface | — |
+| `--color-surface` | `{color.primitive.white}` | `{color.primitive.white}` | cards and controls | — |
+| `--sheet` | `#fdfcf8` | `#fdfcf8` | verbatim source paper | — |
+| `--sheet-edge` | `#deddd5` | `#deddd5` | physical paper edge | decorative |
+| `--sheet-rule` | `#bfc3c4` | `#bfc3c4` | source heading divider | decorative |
 | `--color-surface-raised` | `{color.primitive.white}` | `{color.primitive.white}` | floating surface | — |
 | `--color-fg` | `{color.primitive.ink}` | `{color.primitive.ink}` | primary text | 4.5:1 |
 | `--color-fg-muted` | `{color.primitive.ink-soft}` | `{color.primitive.ink-soft}` | secondary text | 4.5:1 |
@@ -327,3 +330,19 @@ browsers retain normal zoom. Use relative text units and test 320px reflow and
 200% text scaling. Grokbot is labeled as model self-report in both catalogue and
 reader, including the unverified completeness/accuracy boundary; its date is a
 capture label rather than a package publication date.
+
+## 16. Source paper material
+
+The long-form source sits on subtly warm white stock (`--sheet`) against the cool
+archive canvas. A 192px repeating SVG background adds faint grain; its filter is
+contained inside the small image, never applied to the long document or text.
+The paper uses 3px corners, a fine neutral edge, a narrow edge shadow and shallow
+contact shadows. There are no floating texture overlays, animated effects or
+additional reading controls. Annotation cards retain their separate white surface.
+
+Source headings use a quiet 1px rule. The first heading has a small top margin to
+avoid doubling the paper's own inset. Text size, source width, horizontal padding,
+highlight colors and source content stay unchanged. Texture is a background, so
+selection, links, search marks and annotation anchors remain unobstructed.
+Forced colors restores Canvas/CanvasText and removes all paper decoration; print
+uses plain white. Missing texture images also degrade to a readable solid sheet.
