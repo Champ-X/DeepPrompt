@@ -6,8 +6,8 @@
 ## 0. Meta
 
 ```yaml
-version: 1.5.1
-last_updated: 2026-10-22
+version: 1.6.0
+last_updated: 2026-10-25
 upstream_source: https://phistory.cc
 schema: https://github.com/Eldergenix/SUPER-DESIGN/schema/v1
 framework:
@@ -319,7 +319,7 @@ text are HTML-escaped. Folding changes presentation only, including Grokbot's tw
 compact tool definitions before their expanded descriptions.
 
 The font-sensitive `archive-header` container query controls the compact header.
-At container widths up to 47.5rem, the search button expands a second header row. The native
+At container widths up to 63rem, the reader search button expands a second header row. The native
 search input supports Escape to clear and close, Command/Control K to open, and
 focus restoration when closing, navigating or crossing the responsive breakpoint.
 Header height is measured from content; its minimum height is independent of the
@@ -346,3 +346,24 @@ highlight colors and source content stay unchanged. Texture is a background, so
 selection, links, search marks and annotation anchors remain unobstructed.
 Forced colors restores Canvas/CanvasText and removes all paper decoration; print
 uses plain white. Missing texture images also degrade to a readable solid sheet.
+
+## 17. Browsing and finding a passage
+
+Catalogue cards group each Agent's logo, name and publisher into one identity
+block. The source-bound lead is the main reading cue; annotation, size and history
+counts share one quiet footer. A small arrow signals entry without repeating a
+full action row on every card. Mobile cards use content-driven height and preserve
+the complete description. Keep the source paper material separate from these
+compact white catalogue surfaces.
+
+The reader has a chapter entry in its header. A native dialog lists headings from
+the currently mounted source, preserving their hierarchy and original text.
+Chapter navigation moves focus to the heading without changing the Agent route;
+Escape and the close button return focus to the entry control. On compact headers,
+this replaces the redundant home arrow; the brand remains the way back home.
+
+Search shows the current match and total, with previous/next controls and
+Enter/Shift+Enter navigation. Count each reading surface once: exclude responsive
+duplicates and repeated source quotations in annotation cards. Folded source is
+searchable, and navigating to its match opens only the enclosing disclosure.
+The active result needs a distinct outline as well as its highlight color.

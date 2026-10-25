@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "reviewedAt": "2026-10-22",
-  "currentSourceCommit": "76e8e3096b2e11ebdaa7e969b85f73174287d6f5",
+  "reviewedAt": "2026-10-25",
+  "currentSourceCommit": "4fe3fdd95cfd780081c8f405b80ad1898615cfc5",
   "annotations": [
     {
       "id": "antigravity-43",
@@ -3571,6 +3571,63 @@
       "sourceCommit": "444c615c31fae7e5162f50375ddb2d0853231df9",
       "retiredAt": "2026-10-22",
       "supersededByCommit": "76e8e3096b2e11ebdaa7e969b85f73174287d6f5"
+    },
+    {
+      "id": "antigravity-36",
+      "agent": "antigravity",
+      "category": "tool",
+      "layer": "extension",
+      "key": false,
+      "anchor": "Fetch content from a URL via HTTP request (invisible to USER).",
+      "title": "网页获取分成机器通道与视觉通道",
+      "body": "read_url_content 明确是用户不可见的 HTTP 抽取通道，适合静态文本和批处理；需要交互与视觉状态时则应使用浏览器。它把“访问网页”拆成<b>高吞吐数据面</b>与<b>可见交互面</b>，工具选择取决于任务证据类型。",
+      "occurrence": 1,
+      "expectedOccurrences": 1,
+      "startLine": 311,
+      "endLine": 311,
+      "reason": "read_url_content 不再出现在当前工具说明中，无法继续用本快照证明 HTTP 抽取、无登录/JS 和浏览器通道分工；不把缺席解释为产品已删除网页能力。",
+      "sourceCommit": "76e8e3096b2e11ebdaa7e969b85f73174287d6f5",
+      "sourceHash": "eced91eeb5621de916725827b166b5380ef643a852a3e3bde925f245a703e70c",
+      "retiredAt": "2026-10-25",
+      "supersededByCommit": "4fe3fdd95cfd780081c8f405b80ad1898615cfc5"
+    },
+    {
+      "id": "antigravity-62",
+      "agent": "antigravity",
+      "anchor": "You cannot have multiple concurrently active timers that would early terminate on the same sender ID.",
+      "title": "计时器取消条件不能重叠",
+      "body": "同一发送者不能同时被多个活跃计时器覆盖，any 还会与其他条件冲突。需要改等待策略时复用现有计时器，或按返回的任务 ID 取消后重建；重复注册不是可靠性增强。",
+      "category": "tool",
+      "layer": "extension",
+      "key": false,
+      "occurrence": 1,
+      "expectedOccurrences": 1,
+      "startLine": 482,
+      "endLine": 482,
+      "reason": "schedule 压缩说明删去取消条件不能覆盖同一发送者的并发定时器限制；不能继续把旧互斥保证作为现行规则。",
+      "sourceCommit": "76e8e3096b2e11ebdaa7e969b85f73174287d6f5",
+      "sourceHash": "eced91eeb5621de916725827b166b5380ef643a852a3e3bde925f245a703e70c",
+      "retiredAt": "2026-10-25",
+      "supersededByCommit": "4fe3fdd95cfd780081c8f405b80ad1898615cfc5"
+    },
+    {
+      "id": "antigravity-58",
+      "agent": "antigravity",
+      "category": "tool",
+      "layer": "extension",
+      "key": false,
+      "anchor": "Files larger than 100 MB cannot be viewed.",
+      "title": "总文件大小限制不能靠分页解除",
+      "body": "view_file 既限制每次最多 800 行、46080 字节，也拒绝超过 100 MB 的文件。ContentOffset 能续读单次截断，不能据此推断它绕过文件整体大小限制。",
+      "occurrence": 1,
+      "expectedOccurrences": 1,
+      "startLine": 641,
+      "endLine": 641,
+      "reason": "read_file 新说明不再出现总文件大小 100 MB 上限；保留单次行/字节限制，不将旧文件整体拒绝阈值当成当前合同。",
+      "sourceCommit": "76e8e3096b2e11ebdaa7e969b85f73174287d6f5",
+      "sourceHash": "eced91eeb5621de916725827b166b5380ef643a852a3e3bde925f245a703e70c",
+      "retiredAt": "2026-10-25",
+      "supersededByCommit": "4fe3fdd95cfd780081c8f405b80ad1898615cfc5"
     }
   ]
 }

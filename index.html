@@ -25,31 +25,40 @@
     <nav class="home-nav" aria-label="档案馆导航"><a href="#catalog">档案目录</a><a href="#perspectives">设计对照</a></nav>
     <div class="top-tools">
       <button class="top-action reader-action reader-home" id="homeAction" type="button"><span class="action-icon" aria-hidden="true">←</span><span class="action-label">档案馆</span></button>
+      <button class="top-action reader-action chapter-trigger" id="openChapterOutline" type="button" aria-haspopup="dialog" aria-controls="chapterDialog">章节</button>
       <button class="top-action reader-action" id="togglePromptSearch" type="button" aria-expanded="false" aria-controls="promptSearchBox" aria-label="搜索提示词"><span class="search-icon" aria-hidden="true"></span><span class="sr-only">搜索提示词</span></button>
       <label class="searchbox reader-action" id="promptSearchBox" for="promptSearch">
         <span class="search-icon" aria-hidden="true"></span>
-        <input id="promptSearch" aria-label="搜索当前 Agent 提示词和批注" type="search" placeholder="搜索当前 Prompt / 批注" autocomplete="off">
-        <span class="search-count" id="searchCount">⌘ K</span>
+        <input id="promptSearch" aria-label="搜索当前 Agent 提示词和批注" aria-describedby="searchCount" type="search" placeholder="搜索当前 Prompt / 批注" autocomplete="off">
+        <span class="search-count" id="searchCount" role="status" aria-live="polite" aria-atomic="true">⌘ K</span>
       </label>
+      <div class="search-navigation reader-action" id="searchNavigation" hidden>
+        <button type="button" id="searchPrevious" aria-label="上一处搜索结果" title="上一处（Shift + Enter）">↑</button>
+        <button type="button" id="searchNext" aria-label="下一处搜索结果" title="下一处（Enter）">↓</button>
+      </div>
       <button class="top-action reader-action" id="copyLink" type="button"><span class="action-icon" aria-hidden="true">⧉</span><span class="action-label" id="copyLabel">复制链接</span></button>
       <a class="src-link" href="https://phistory.cc" target="_blank" rel="noopener" aria-label="在新窗口打开数据源 phistory.cc"><span class="source-kicker">SOURCE</span><span class="source-name">phistory.cc</span><span class="source-arrow" aria-hidden="true">↗</span></a>
     </div>
   </div>
+  <dialog class="chapter-dialog" id="chapterDialog" aria-labelledby="chapterDialogTitle" aria-describedby="chapterContext">
+    <div class="chapter-dialog-header"><div><h2 id="chapterDialogTitle">章节目录</h2><p id="chapterContext"></p></div><button id="closeChapterOutline" type="button" aria-label="关闭章节目录" autofocus>×</button></div>
+    <nav class="chapter-list" id="chapterList" aria-label="当前提示词章节"></nav>
+  </dialog>
 </div>
 <aside class="agent-wheel" id="agentWheel" aria-label="切换 Agent" aria-describedby="wheelHelp wheelStatus">
-  <div class="wheel-meta" aria-hidden="true"><span id="wheelMode">切换 Agent</span><span id="wheelCount">01 / 15</span></div>
+  <div class="wheel-meta" aria-hidden="true"><span id="wheelMode">切换 Agent</span><span id="wheelCount">01 / 16</span></div>
   <nav class="agentnav" id="agentnav" aria-label="Agent 列表" tabindex="-1">
     <button class="navbtn active" data-target="codex">
       <img class="nav-logo" src="agent-icons/codex.png" alt="">
       <span class="nb-name">Codex CLI</span>
-      <span class="nb-sub">OpenAI · v0.163.0</span>
+      <span class="nb-sub">OpenAI · v0.164.0</span>
       <span class="nb-badge">59</span>
     </button>
     <button class="navbtn" data-target="claude-code">
       <img class="nav-logo" src="agent-icons/claude-code.png" alt="">
       <span class="nb-name">Claude Code</span>
-      <span class="nb-sub">Anthropic · v2.1.308</span>
-      <span class="nb-badge">58</span>
+      <span class="nb-sub">Anthropic · v2.1.310</span>
+      <span class="nb-badge">59</span>
     </button>
     <button class="navbtn" data-target="dsh">
       <img class="nav-logo" src="agent-icons/dsh.svg" alt="">
@@ -60,26 +69,26 @@
     <button class="navbtn" data-target="antigravity">
       <img class="nav-logo" src="agent-icons/antigravity.png" alt="">
       <span class="nb-name">Antigravity CLI</span>
-      <span class="nb-sub">Google DeepMind · v1.4.5</span>
-      <span class="nb-badge">29</span>
+      <span class="nb-sub">Google DeepMind · v1.4.7</span>
+      <span class="nb-badge">30</span>
     </button>
     <button class="navbtn" data-target="grok">
       <img class="nav-logo" src="agent-icons/grok.png" alt="">
       <span class="nb-name">Grok Build</span>
-      <span class="nb-sub">xAI · v1.0.67</span>
+      <span class="nb-sub">xAI · v1.0.70</span>
       <span class="nb-badge">39</span>
     </button>
     <button class="navbtn" data-target="kimi-code">
       <img class="nav-logo" src="agent-icons/kimi-code.png" alt="">
       <span class="nb-name">Kimi Code</span>
-      <span class="nb-sub">Moonshot AI · v2.3.0</span>
+      <span class="nb-sub">Moonshot AI · v2.3.1</span>
       <span class="nb-badge">54</span>
     </button>
     <button class="navbtn" data-target="minimax-code">
       <img class="nav-logo" src="agent-icons/minimax-code.svg" alt="">
       <span class="nb-name">MiniMax Code</span>
-      <span class="nb-sub">MiniMax · v3.1.4</span>
-      <span class="nb-badge">47</span>
+      <span class="nb-sub">MiniMax · v3.1.6</span>
+      <span class="nb-badge">55</span>
     </button>
     <button class="navbtn" data-target="mimo">
       <img class="nav-logo" src="agent-icons/mimo.png" alt="">
@@ -90,7 +99,7 @@
     <button class="navbtn" data-target="openclaw">
       <img class="nav-logo" src="agent-icons/openclaw.png" alt="">
       <span class="nb-name">OpenClaw</span>
-      <span class="nb-sub">OpenClaw · v2026.10.5</span>
+      <span class="nb-sub">OpenClaw · v2026.10.7</span>
       <span class="nb-badge">80</span>
     </button>
     <button class="navbtn" data-target="hermes">
@@ -108,7 +117,7 @@
     <button class="navbtn" data-target="opencode">
       <img class="nav-logo" src="agent-icons/opencode.png" alt="">
       <span class="nb-name">opencode</span>
-      <span class="nb-sub">opencode / SST · v1.19.3</span>
+      <span class="nb-sub">opencode / SST · v1.19.4</span>
       <span class="nb-badge">37</span>
     </button>
     <button class="navbtn" data-target="omp">
@@ -151,8 +160,8 @@
   </div>
   <!-- home-evidence:start -->
   <aside class="evidence-preview" aria-labelledby="preview-title">
-    <div class="preview-header"><span><img class="preview-logo" src="agent-icons/codex.png" alt=""> Codex CLI</span><span>v0.163.0 / default</span></div>
-    <div class="preview-source"><span class="preview-label" id="preview-title">从一句规则，看见一种设计</span><blockquote>User authorization and preferences persist across turns.</blockquote><a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/codex/0.163.0/variants/default/prompt.md#L11-L11" target="_blank" rel="noopener">prompt.md <span>↗ L11</span></a></div>
+    <div class="preview-header"><span><img class="preview-logo" src="agent-icons/codex.png" alt=""> Codex CLI</span><span>v0.164.0 / default</span></div>
+    <div class="preview-source"><span class="preview-label" id="preview-title">从一句规则，看见一种设计</span><blockquote>User authorization and preferences persist across turns.</blockquote><a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/codex/0.164.0/variants/default/prompt.md#L11-L11" target="_blank" rel="noopener">prompt.md <span>↗ L11</span></a></div>
     <div class="preview-annotation"><span class="preview-label">规则批注 · 目标与行动</span><h2>授权在会话内持续有效</h2><p>已经给出的授权与偏好跨回合延续，不应每次操作都重新确认；任务本身隐含的授权同样要纳入判断。用户意图优先于 skill 或外部文件的指南，但授权仍受原任务范围约束。</p></div>
     <a class="preview-open" href="#agent=codex">在完整上下文中阅读 <span aria-hidden="true">↗</span></a>
   </aside>
@@ -162,17 +171,17 @@
 <section class="archive-overview" aria-label="归档概况">
     <div class="statline">
       <div class="st"><b id="s-agents">16</b><span>个 Agent</span></div>
-      <div class="st"><b id="s-ann">818</b><span>条批注</span></div>
-      <div class="st"><b id="s-kb">1140.9</b><span>KB 原文</span></div>
+      <div class="st"><b id="s-ann">828</b><span>条批注</span></div>
+      <div class="st"><b id="s-kb">1128.8</b><span>KB 原文</span></div>
       <div class="st"><b>5</b><span>个主题</span></div>
     </div>
     <div class="source-lock">
       <i class="pulse" aria-hidden="true"></i>
-      <span>来源锁定 <b>Phistory commit 76e8e3096b2e</b></span>
+      <span>来源锁定 <b>Phistory commit 4fe3fdd95cfd</b></span>
       <span>·</span>
-      <span>更新于 <b>2026-10-22 07:54 UTC</b></span>
+      <span>更新于 <b>2026-10-24 11:29 UTC</b></span>
       <span>·</span>
-      <span><b>1875</b> 个历史快照索引</span>
+      <span><b>1890</b> 个历史快照索引</span>
     </div>
 </section>
   <aside class="identity-ledger" aria-labelledby="identity-ledger-title">
@@ -203,106 +212,106 @@
   <div class="catalog-heading"><div><span class="section-label">提示词档案</span><h2 id="catalog-title">每一种 Agent，都有自己的工作方式。</h2></div><p>完整原文 · 逐条批注 · 可追溯来源</p></div>
   <div class="catalog-toolbar">
     <label class="catalog-search"><span class="search-icon" aria-hidden="true"></span><span class="sr-only">搜索 Agent、厂商或设计主题</span><input id="catalogSearch" type="search" placeholder="搜索 Agent、厂商或设计主题…" autocomplete="off"><kbd aria-hidden="true">⌘ K</kbd></label>
-    <span class="catalog-count" id="catalogCount" role="status" aria-live="polite">15 个 Agent</span>
+    <span class="catalog-count" id="catalogCount" role="status" aria-live="polite">16 个 Agent</span>
     <label class="catalog-sort"><span class="sr-only">目录排序</span><select id="catalogSort"><option value="default">默认顺序</option><option value="name">名称 A–Z</option><option value="notes">批注最多</option></select></label>
   </div>
   <div class="catalog-empty" id="catalogEmpty" hidden><p>没有找到匹配的 Agent</p><span>试试厂商名称，或用「工具」「授权」等主题查找。</span><button type="button" id="clearCatalogSearch">清除搜索</button></div>
   <div class="cardgrid" id="cardgrid">
       <button class="acard" data-target="codex" data-cat-lead="persona" data-agent-count="16">
-      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/codex.png" alt=""><span class="ac-name">Codex CLI</span></span><span class="ac-ver">v0.163.0</span></div>
-      <div class="ac-vendor">OpenAI</div>
-      <div class="ac-stats"><span>59 批注</span><span>71.7 KB</span><span>173 快照</span></div>
+      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/codex.png" alt=""><span class="ac-heading"><span class="ac-name">Codex CLI</span><span class="ac-vendor">OpenAI</span></span></span><span class="ac-ver">v0.164.0</span></div>
       <div class="ac-lead">持续授权支撑推进，明确调用的技能可承接外发许可并须披露来源</div>
+
+      <div class="ac-stats"><span>59 批注</span><span>71.7 KB</span><span>176 快照</span></div>
     </button>
       <button class="acard" data-target="claude-code" data-cat-lead="persona" data-agent-count="16">
-      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/claude-code.png" alt=""><span class="ac-name">Claude Code</span></span><span class="ac-ver">v2.1.308</span></div>
-      <div class="ac-vendor">Anthropic</div>
-      <div class="ac-stats"><span>58 批注</span><span>87.1 KB</span><span>778 快照</span></div>
+      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/claude-code.png" alt=""><span class="ac-heading"><span class="ac-name">Claude Code</span><span class="ac-vendor">Anthropic</span></span></span><span class="ac-ver">v2.1.310</span></div>
       <div class="ac-lead">工具按需加载，委派衡量交接成本，工件小改同时更新页面与本地文件</div>
+
+      <div class="ac-stats"><span>59 批注</span><span>87.4 KB</span><span>782 快照</span></div>
     </button>
       <button class="acard" data-target="dsh" data-cat-lead="tool" data-agent-count="16">
-      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/dsh.svg" alt=""><span class="ac-name">DeepSeek Harness</span></span><span class="ac-ver">v0.2.1-rc.2</span></div>
-      <div class="ac-vendor">DeepSeek</div>
-      <div class="ac-stats"><span>37 批注</span><span>39.1 KB</span><span>81 快照</span></div>
+      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/dsh.svg" alt=""><span class="ac-heading"><span class="ac-name">DeepSeek Harness</span><span class="ac-vendor">DeepSeek</span></span></span><span class="ac-ver">v0.2.1-rc.2</span></div>
       <div class="ac-lead">运行路径动态注入，子代理立即返回，调度补跑与后台生命周期显式约束</div>
+
+      <div class="ac-stats"><span>37 批注</span><span>39.1 KB</span><span>81 快照</span></div>
     </button>
       <button class="acard" data-target="antigravity" data-cat-lead="eng" data-agent-count="16">
-      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/antigravity.png" alt=""><span class="ac-name">Antigravity CLI</span></span><span class="ac-ver">v1.4.5</span></div>
-      <div class="ac-vendor">Google DeepMind</div>
-      <div class="ac-stats"><span>29 批注</span><span>37.8 KB</span><span>73 快照</span></div>
-      <div class="ac-lead">结对关系与工件分工组织交付，活动目录显式注入，通知和计时器管理异步工作</div>
+      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/antigravity.png" alt=""><span class="ac-heading"><span class="ac-name">Antigravity CLI</span><span class="ac-vendor">Google DeepMind</span></span></span><span class="ac-ver">v1.4.7</span></div>
+      <div class="ac-lead">结对协作以工件和直接对话组织交付，正式访问边界约束执行，通知与计时器管理异步工作</div>
+
+      <div class="ac-stats"><span>30 批注</span><span>20.3 KB</span><span>75 快照</span></div>
     </button>
       <button class="acard" data-target="grok" data-cat-lead="safety" data-agent-count="16">
-      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/grok.png" alt=""><span class="ac-name">Grok Build</span></span><span class="ac-ver">v1.0.67</span></div>
-      <div class="ac-vendor">xAI</div>
-      <div class="ac-stats"><span>39 批注</span><span>49.0 KB</span><span>144 快照</span></div>
+      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/grok.png" alt=""><span class="ac-heading"><span class="ac-name">Grok Build</span><span class="ac-vendor">xAI</span></span></span><span class="ac-ver">v1.0.70</span></div>
       <div class="ac-lead">清晰可逆工作当轮推进，发送仍需授权，验收与变化风险匹配，后台等待由 block_until_ms 表达</div>
+
+      <div class="ac-stats"><span>39 批注</span><span>49.0 KB</span><span>145 快照</span></div>
     </button>
       <button class="acard" data-target="grokbot" data-cat-lead="safety" data-agent-count="16">
-      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/grokbot.png" alt=""><span class="ac-name">Grokbot</span></span><span class="ac-ver">2026-10-20</span></div>
-      <div class="ac-vendor">模型自述 · 准确性未验证</div>
-      <div class="ac-stats"><span>39 批注</span><span>116.1 KB</span><span>1 快照</span></div>
+      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/grokbot.png" alt=""><span class="ac-heading"><span class="ac-name">Grokbot</span><span class="ac-vendor">模型自述 · 准确性未验证</span></span></span><span class="ac-ver">2026-10-20</span></div>
       <div class="ac-lead">模型自述：共享机器中的后台执行，与角色分型的持久记忆</div>
+
+      <div class="ac-stats"><span>39 批注</span><span>116.1 KB</span><span>1 快照</span></div>
     </button>
       <button class="acard" data-target="kimi-code" data-cat-lead="goal" data-agent-count="16">
-      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/kimi-code.png" alt=""><span class="ac-name">Kimi Code</span></span><span class="ac-ver">v2.3.0</span></div>
-      <div class="ac-vendor">Moonshot AI</div>
-      <div class="ac-stats"><span>54 批注</span><span>84.8 KB</span><span>81 快照</span></div>
+      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/kimi-code.png" alt=""><span class="ac-heading"><span class="ac-name">Kimi Code</span><span class="ac-vendor">Moonshot AI</span></span></span><span class="ac-ver">v2.3.1</span></div>
       <div class="ac-lead">实际交付端到端验证，实时任务面板同步进展，后台等待限于真正依赖</div>
+
+      <div class="ac-stats"><span>54 批注</span><span>84.8 KB</span><span>82 快照</span></div>
     </button>
       <button class="acard" data-target="minimax-code" data-cat-lead="persona" data-agent-count="16">
-      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/minimax-code.svg" alt=""><span class="ac-name">MiniMax Code</span></span><span class="ac-ver">v3.1.4</span></div>
-      <div class="ac-vendor">MiniMax</div>
-      <div class="ac-stats"><span>47 批注</span><span>77.8 KB</span><span>43 快照</span></div>
-      <div class="ac-lead">App 经 CLI 发现，插件代理按作用域寻址，后台任务依运行时并发配置推进</div>
+      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/minimax-code.svg" alt=""><span class="ac-heading"><span class="ac-name">MiniMax Code</span><span class="ac-vendor">MiniMax</span></span></span><span class="ac-ver">v3.1.6</span></div>
+      <div class="ac-lead">先澄清交付方向，按依赖关系异步推进，运行时与按需工具管理后台协作</div>
+
+      <div class="ac-stats"><span>55 批注</span><span>83.0 KB</span><span>44 快照</span></div>
     </button>
       <button class="acard" data-target="mimo" data-cat-lead="goal" data-agent-count="16">
-      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/mimo.png" alt=""><span class="ac-name">MiMo Code</span></span><span class="ac-ver">v0.1.15</span></div>
-      <div class="ac-vendor">Xiaomi</div>
-      <div class="ac-stats"><span>8 批注</span><span>1.4 KB</span><span>15 快照</span></div>
+      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/mimo.png" alt=""><span class="ac-heading"><span class="ac-name">MiMo Code</span><span class="ac-vendor">Xiaomi</span></span></span><span class="ac-ver">v0.1.15</span></div>
       <div class="ac-lead">当前 default 是结构化标题链路，输入只作数据，单行与 48 字符仍需另行校验</div>
+
+      <div class="ac-stats"><span>8 批注</span><span>1.4 KB</span><span>15 快照</span></div>
     </button>
       <button class="acard" data-target="openclaw" data-cat-lead="safety" data-agent-count="16">
-      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/openclaw.png" alt=""><span class="ac-name">OpenClaw</span></span><span class="ac-ver">v2026.10.5</span></div>
-      <div class="ac-vendor">OpenClaw</div>
-      <div class="ac-stats"><span>80 批注</span><span>62.2 KB</span><span>85 快照</span></div>
+      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/openclaw.png" alt=""><span class="ac-heading"><span class="ac-name">OpenClaw</span><span class="ac-vendor">OpenClaw</span></span></span><span class="ac-ver">v2026.10.7</span></div>
       <div class="ac-lead">学习技能版本化生效，网页搜索区分配置状态，普通后台命令与独立服务分开</div>
+
+      <div class="ac-stats"><span>80 批注</span><span>62.2 KB</span><span>87 快照</span></div>
     </button>
       <button class="acard" data-target="hermes" data-cat-lead="goal" data-agent-count="16">
-      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/hermes.png" alt=""><span class="ac-name">Hermes Agent</span></span><span class="ac-ver">v2026.9.24</span></div>
-      <div class="ac-vendor">Nous Research</div>
-      <div class="ac-stats"><span>55 批注</span><span>52.6 KB</span><span>37 快照</span></div>
+      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/hermes.png" alt=""><span class="ac-heading"><span class="ac-name">Hermes Agent</span><span class="ac-vendor">Nous Research</span></span></span><span class="ac-ver">v2026.9.24</span></div>
       <div class="ac-lead">按需检索采用全词匹配，长任务心跳传回增量，临时条目按闲置清理</div>
+
+      <div class="ac-stats"><span>55 批注</span><span>52.6 KB</span><span>37 快照</span></div>
     </button>
       <button class="acard" data-target="kimi" data-cat-lead="goal" data-agent-count="16">
-      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/kimi.png" alt=""><span class="ac-name">Kimi CLI</span></span><span class="ac-ver">v1.51.0</span></div>
-      <div class="ac-vendor">Moonshot AI</div>
-      <div class="ac-stats"><span>41 批注</span><span>50.9 KB</span><span>23 快照</span></div>
+      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/kimi.png" alt=""><span class="ac-heading"><span class="ac-name">Kimi CLI</span><span class="ac-vendor">Moonshot AI</span></span></span><span class="ac-ver">v1.51.0</span></div>
       <div class="ac-lead">请求范围即交付，当前无沙箱，Git 修改逐次确认，子代理与根 UI 协调审批</div>
+
+      <div class="ac-stats"><span>41 批注</span><span>50.9 KB</span><span>23 快照</span></div>
     </button>
       <button class="acard" data-target="opencode" data-cat-lead="tool" data-agent-count="16">
-      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/opencode.png" alt=""><span class="ac-name">opencode</span></span><span class="ac-ver">v1.19.3</span></div>
-      <div class="ac-vendor">opencode / SST</div>
-      <div class="ac-stats"><span>37 批注</span><span>32.0 KB</span><span>123 快照</span></div>
+      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/opencode.png" alt=""><span class="ac-heading"><span class="ac-name">opencode</span><span class="ac-vendor">opencode / SST</span></span></span><span class="ac-ver">v1.19.4</span></div>
       <div class="ac-lead">联网核验与反思强约束，大块读取有成本，隐藏测试不是来源证明，提交需明确请求</div>
+
+      <div class="ac-stats"><span>37 批注</span><span>32.0 KB</span><span>124 快照</span></div>
     </button>
       <button class="acard" data-target="omp" data-cat-lead="eng" data-agent-count="16">
-      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/omp.svg" alt=""><span class="ac-name">Oh My Pi</span></span><span class="ac-ver">v18.12.6</span></div>
-      <div class="ac-vendor">Oh My Pi</div>
-      <div class="ac-stats"><span>65 批注</span><span>33.7 KB</span><span>154 快照</span></div>
+      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/omp.svg" alt=""><span class="ac-heading"><span class="ac-name">Oh My Pi</span><span class="ac-vendor">Oh My Pi</span></span></span><span class="ac-ver">v18.12.6</span></div>
       <div class="ac-lead">历史会话只读咨询，短期结果缓存有时效，子代理完成仍需验收产物</div>
+
+      <div class="ac-stats"><span>65 批注</span><span>33.7 KB</span><span>154 快照</span></div>
     </button>
       <button class="acard" data-target="pi" data-cat-lead="persona" data-agent-count="16">
-      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/pi.png" alt=""><span class="ac-name">Pi</span></span><span class="ac-ver">v1.4.0</span></div>
-      <div class="ac-vendor">Earendil Works</div>
-      <div class="ac-stats"><span>20 批注</span><span>5.9 KB</span><span>60 快照</span></div>
+      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/pi.png" alt=""><span class="ac-heading"><span class="ac-name">Pi</span><span class="ac-vendor">Earendil Works</span></span></span><span class="ac-ver">v1.4.0</span></div>
       <div class="ac-lead">四类基础能力，原始文件锚点，批量非重叠编辑，项目工具按需扩展</div>
+
+      <div class="ac-stats"><span>20 批注</span><span>5.9 KB</span><span>60 快照</span></div>
     </button>
       <button class="acard" data-target="claude-tag" data-cat-lead="safety" data-agent-count="16">
-      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/claude-tag.svg" alt=""><span class="ac-name">Claude Tag</span></span><span class="ac-ver">2026-10-18</span></div>
-      <div class="ac-vendor">Anthropic</div>
-      <div class="ac-stats"><span>150 批注</span><span>338.8 KB</span><span>4 快照</span></div>
+      <div class="ac-top"><span class="ac-identity"><img class="ac-logo" src="agent-icons/claude-tag.svg" alt=""><span class="ac-heading"><span class="ac-name">Claude Tag</span><span class="ac-vendor">Anthropic</span></span></span><span class="ac-ver">2026-10-18</span></div>
       <div class="ac-lead">后台结果按事件回报，停止请求按对象处理，PR 规则来自真实订阅事件</div>
+
+      <div class="ac-stats"><span>150 批注</span><span>338.8 KB</span><span>4 快照</span></div>
     </button>
   </div>
 </section>
@@ -327,13 +336,13 @@
   <h2 id="atlas-title">从规则到哲学：七条设计轴</h2>
   <p class="atlas-sub">七条设计轴从提示词规则出发，解释每款 Agent 被塑造成怎样的行动者、如何分配注意力与权限，以及把哪些资源视为稀缺。以下结论均为基于原文结构的编辑推断，并非厂商自述。</p>
   <div class="axisgrid">
-    <article class="axiscard"><span class="axis-no">AXIS 01</span><h3>受托关系</h3><p>Codex 明确延续会话授权；Kimi Code 同时要求完整交付和范围约束。坚持完成与尊重范围可以并存；MiMo 当前捕获的交付则是一个结构化短标题。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/codex/0.163.0/variants/default/prompt.md#L11-L11" target="_blank" rel="noopener noreferrer" title="授权在会话内持续有效">Codex CLI L11</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/kimi-code/2.3.0/variants/default/prompt.md#L49-L49" target="_blank" rel="noopener noreferrer" title="交付范围以用户请求为准">Kimi Code L49</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/mimo/0.1.15/variants/default/prompt.md#L5-L5" target="_blank" rel="noopener noreferrer" title="最终交付是结构化工具调用">MiMo Code L5</a></span></article>
-    <article class="axiscard"><span class="axis-no">AXIS 02</span><h3>环境可读性</h3><p>DSH 区分工作区、实现目录与正在运行的页面；OpenClaw 区分节点、Gateway 和用户会话。路径存在、工具可访问和模型已经看过是不同事实。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/dsh/0.2.1-rc.2/variants/default/prompt.md#L37-L37" target="_blank" rel="noopener noreferrer" title="安装目录不是执行目录">DeepSeek Harness L37</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/dsh/0.2.1-rc.2/variants/default/prompt.md#L39-L39" target="_blank" rel="noopener noreferrer" title="可见页面不等于模型已观察页面">DeepSeek Harness L39</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/openclaw/2026.10.5/variants/default/prompt.md#L34-L34" target="_blank" rel="noopener noreferrer" title="远端拉取结果落在另一套文件世界">OpenClaw L34</a></span></article>
-    <article class="axiscard"><span class="axis-no">AXIS 03</span><h3>上下文经济</h3><p>Kimi Code 按字符预算续读长行，Pi 按需加载文档，OMP 先给代码结构摘要。OpenClaw 又把完整工具 Schema 转为按需发现；节省上下文不能成为猜测未读内容和接口的理由。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/kimi-code/2.3.0/variants/default/prompt.md#L1110-L1110" target="_blank" rel="noopener noreferrer" title="读取预算按 JavaScript 字符长度计量">Kimi Code L1110</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/pi/1.4.0/variants/default/prompt.md#L30-L30" target="_blank" rel="noopener noreferrer" title="按需才读自家文档">Pi L30</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/omp/18.12.6/variants/default/prompt.md#L653-L653" target="_blank" rel="noopener noreferrer" title="读取代码默认先给结构地图">Oh My Pi L653</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/openclaw/2026.10.5/variants/default/prompt.md#L8-L8" target="_blank" rel="noopener noreferrer" title="工具名严格匹配">OpenClaw L8</a></span></article>
-    <article class="axiscard"><span class="axis-no">AXIS 04</span><h3>记忆制度</h3><p>Claude 保存代码无法推导的背景，Claude Tag 将记忆统一到共享目录；OpenClaw 的学习技能保留旧版。Grokbot 自述按角色偏好与用户事实分别处理冲突；自述规则不等于已验证运行机制。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/claude-code/2.1.308/variants/default/prompt.md#L53-L53" target="_blank" rel="noopener noreferrer" title="记忆只保存代码看不见的差值">Claude Code L53</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/claude-tag/2026-10-18/variants/default/prompt.md#L808-L808" target="_blank" rel="noopener noreferrer" title="记忆类型不提供私有存储">Claude Tag L808</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/openclaw/2026.10.5/variants/default/prompt.md#L260-L260" target="_blank" rel="noopener noreferrer" title="学习技能以版本与撤销承接自主修订">OpenClaw L260</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/grokbot/2026-10-20/variants/default/prompt.md#L208-L208" target="_blank" rel="noopener noreferrer" title="角色记忆与用户事实采用不同优先级">Grokbot L208</a></span></article>
-    <article class="axiscard"><span class="axis-no">AXIS 05</span><h3>证据闭环</h3><p>Kimi Code 要求验证实际交付，Claude Tag 为视觉、多步交互和 CLI 指定不同展示证据，OMP 要求运行并观察结果。一次工具成功只证明对应步骤，不能自动证明整项任务完成。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/kimi-code/2.3.0/variants/default/prompt.md#L51-L51" target="_blank" rel="noopener noreferrer" title="验收针对实际交付形态">Kimi Code L51</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/claude-tag/2026-10-18/variants/default/prompt.md#L323-L323" target="_blank" rel="noopener noreferrer" title="交付证据随产物形式变化">Claude Tag L323</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/omp/18.12.6/variants/default/prompt.md#L130-L130" target="_blank" rel="noopener noreferrer" title="证据必须与任务同构">Oh My Pi L130</a></span></article>
-    <article class="axiscard"><span class="axis-no">AXIS 06</span><h3>权限与风险</h3><p>授权来源、持续时间与作用域须分别检查。Codex 与 Kimi Code 承认持续授权，Kimi CLI 此捕获仍要求 Git 修改逐次确认；Claude 将难逆与对外动作的确认和持续授权例外并列。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/codex/0.163.0/variants/default/prompt.md#L11-L11" target="_blank" rel="noopener noreferrer" title="授权在会话内持续有效">Codex CLI L11</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/kimi-code/2.3.0/variants/default/prompt.md#L45-L45" target="_blank" rel="noopener noreferrer" title="持续授权可以免去重复确认">Kimi Code L45</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/kimi/1.51.0/variants/default/prompt.md#L58-L58" target="_blank" rel="noopener noreferrer" title="Git改动每次都要问">Kimi CLI L58</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/claude-code/2.1.308/variants/default/prompt.md#L30-L30" target="_blank" rel="noopener noreferrer" title="难逆则先问">Claude Code L30</a></span></article>
-    <article class="axiscard"><span class="axis-no">AXIS 07</span><h3>协作拓扑</h3><p>空白上下文、完整继承、通知型与显式收集型任务各有交接方式。Codex 把上下文传递收敛为 none/all，OpenClaw 内部子任务留在父任务中，Hermes 依结果消费通道选择同步或后台；父代理仍承担整合与验收。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/codex/0.163.0/variants/default/prompt.md#L231-L231" target="_blank" rel="noopener noreferrer" title="上下文分叉也要设计">Codex CLI L231</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/openclaw/2026.10.5/variants/default/prompt.md#L697-L697" target="_blank" rel="noopener noreferrer" title="独立侧栏会话需要独立跟进需求">OpenClaw L697</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/openclaw/2026.10.5/variants/default/prompt.md#L1053-L1053" target="_blank" rel="noopener noreferrer" title="通知型与收集型子任务采用不同收尾">OpenClaw L1053</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/hermes/v2026.9.24/variants/default/prompt.md#L291-L291" target="_blank" rel="noopener noreferrer" title="返回路径决定委派同步还是后台">Hermes Agent L291</a></span></article>
+    <article class="axiscard"><span class="axis-no">AXIS 01</span><h3>受托关系</h3><p>Codex 明确延续会话授权；Kimi Code 同时要求完整交付和范围约束。坚持完成与尊重范围可以并存；MiMo 当前捕获的交付则是一个结构化短标题。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/codex/0.164.0/variants/default/prompt.md#L11-L11" target="_blank" rel="noopener noreferrer" title="授权在会话内持续有效">Codex CLI L11</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/kimi-code/2.3.1/variants/default/prompt.md#L49-L49" target="_blank" rel="noopener noreferrer" title="交付范围以用户请求为准">Kimi Code L49</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/mimo/0.1.15/variants/default/prompt.md#L5-L5" target="_blank" rel="noopener noreferrer" title="最终交付是结构化工具调用">MiMo Code L5</a></span></article>
+    <article class="axiscard"><span class="axis-no">AXIS 02</span><h3>环境可读性</h3><p>DSH 区分工作区、实现目录与正在运行的页面；OpenClaw 区分节点、Gateway 和用户会话。路径存在、工具可访问和模型已经看过是不同事实。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/dsh/0.2.1-rc.2/variants/default/prompt.md#L37-L37" target="_blank" rel="noopener noreferrer" title="安装目录不是执行目录">DeepSeek Harness L37</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/dsh/0.2.1-rc.2/variants/default/prompt.md#L39-L39" target="_blank" rel="noopener noreferrer" title="可见页面不等于模型已观察页面">DeepSeek Harness L39</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/openclaw/2026.10.7/variants/default/prompt.md#L34-L34" target="_blank" rel="noopener noreferrer" title="远端拉取结果落在另一套文件世界">OpenClaw L34</a></span></article>
+    <article class="axiscard"><span class="axis-no">AXIS 03</span><h3>上下文经济</h3><p>Kimi Code 按字符预算续读长行，Pi 按需加载文档，OMP 先给代码结构摘要。OpenClaw 又把完整工具 Schema 转为按需发现；节省上下文不能成为猜测未读内容和接口的理由。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/kimi-code/2.3.1/variants/default/prompt.md#L1110-L1110" target="_blank" rel="noopener noreferrer" title="读取预算按 JavaScript 字符长度计量">Kimi Code L1110</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/pi/1.4.0/variants/default/prompt.md#L30-L30" target="_blank" rel="noopener noreferrer" title="按需才读自家文档">Pi L30</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/omp/18.12.6/variants/default/prompt.md#L653-L653" target="_blank" rel="noopener noreferrer" title="读取代码默认先给结构地图">Oh My Pi L653</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/openclaw/2026.10.7/variants/default/prompt.md#L8-L8" target="_blank" rel="noopener noreferrer" title="工具名严格匹配">OpenClaw L8</a></span></article>
+    <article class="axiscard"><span class="axis-no">AXIS 04</span><h3>记忆制度</h3><p>Claude 保存代码无法推导的背景，Claude Tag 将记忆统一到共享目录；OpenClaw 的学习技能保留旧版。Grokbot 自述按角色偏好与用户事实分别处理冲突；自述规则不等于已验证运行机制。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/claude-code/2.1.310/variants/default/prompt.md#L53-L53" target="_blank" rel="noopener noreferrer" title="记忆只保存代码看不见的差值">Claude Code L53</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/claude-tag/2026-10-18/variants/default/prompt.md#L808-L808" target="_blank" rel="noopener noreferrer" title="记忆类型不提供私有存储">Claude Tag L808</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/openclaw/2026.10.7/variants/default/prompt.md#L260-L260" target="_blank" rel="noopener noreferrer" title="学习技能以版本与撤销承接自主修订">OpenClaw L260</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/grokbot/2026-10-20/variants/default/prompt.md#L208-L208" target="_blank" rel="noopener noreferrer" title="角色记忆与用户事实采用不同优先级">Grokbot L208</a></span></article>
+    <article class="axiscard"><span class="axis-no">AXIS 05</span><h3>证据闭环</h3><p>Kimi Code 要求验证实际交付，Claude Tag 为视觉、多步交互和 CLI 指定不同展示证据，OMP 要求运行并观察结果。一次工具成功只证明对应步骤，不能自动证明整项任务完成。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/kimi-code/2.3.1/variants/default/prompt.md#L51-L51" target="_blank" rel="noopener noreferrer" title="验收针对实际交付形态">Kimi Code L51</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/claude-tag/2026-10-18/variants/default/prompt.md#L323-L323" target="_blank" rel="noopener noreferrer" title="交付证据随产物形式变化">Claude Tag L323</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/omp/18.12.6/variants/default/prompt.md#L130-L130" target="_blank" rel="noopener noreferrer" title="证据必须与任务同构">Oh My Pi L130</a></span></article>
+    <article class="axiscard"><span class="axis-no">AXIS 06</span><h3>权限与风险</h3><p>授权来源、持续时间与作用域须分别检查。Codex 与 Kimi Code 承认持续授权，Kimi CLI 此捕获仍要求 Git 修改逐次确认；Claude 将难逆与对外动作的确认和持续授权例外并列。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/codex/0.164.0/variants/default/prompt.md#L11-L11" target="_blank" rel="noopener noreferrer" title="授权在会话内持续有效">Codex CLI L11</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/kimi-code/2.3.1/variants/default/prompt.md#L45-L45" target="_blank" rel="noopener noreferrer" title="持续授权可以免去重复确认">Kimi Code L45</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/kimi/1.51.0/variants/default/prompt.md#L58-L58" target="_blank" rel="noopener noreferrer" title="Git改动每次都要问">Kimi CLI L58</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/claude-code/2.1.310/variants/default/prompt.md#L30-L30" target="_blank" rel="noopener noreferrer" title="难逆则先问">Claude Code L30</a></span></article>
+    <article class="axiscard"><span class="axis-no">AXIS 07</span><h3>协作拓扑</h3><p>空白上下文、完整继承、通知型与显式收集型任务各有交接方式。Codex 把上下文传递收敛为 none/all，OpenClaw 内部子任务留在父任务中，Hermes 依结果消费通道选择同步或后台；父代理仍承担整合与验收。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/codex/0.164.0/variants/default/prompt.md#L231-L231" target="_blank" rel="noopener noreferrer" title="上下文分叉也要设计">Codex CLI L231</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/openclaw/2026.10.7/variants/default/prompt.md#L697-L697" target="_blank" rel="noopener noreferrer" title="独立侧栏会话需要独立跟进需求">OpenClaw L697</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/openclaw/2026.10.7/variants/default/prompt.md#L1053-L1053" target="_blank" rel="noopener noreferrer" title="通知型与收集型子任务采用不同收尾">OpenClaw L1053</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/hermes/v2026.9.24/variants/default/prompt.md#L291-L291" target="_blank" rel="noopener noreferrer" title="返回路径决定委派同步还是后台">Hermes Agent L291</a></span></article>
   </div>
 </section>
 
@@ -341,11 +350,11 @@
   <h2>五个主题，一场横向对照</h2>
   <p class="ssub">把 16 份提示词拆进同一坐标系后，浮现出的共识与分歧</p>
   <div class="synthgrid">
-    <div class="scard goal"><h3>目标机器</h3><div class="cnt">GOAL · <span id="c-goal">87</span> 处批注</div><p>完成标准可以是完整工作产物、受控目标状态，也可以是一个忠实的短标题。Codex、DSH 与 OpenClaw 暴露目标工具；Hermes 要求真实执行证据；MiMo 当前捕获则必须返回结构化标题。范围约束与持续推进共同定义交付。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/codex/0.163.0/variants/default/prompt.md#L683-L683" target="_blank" rel="noopener noreferrer" title="达成判定①:complete 的严格门槛">Codex CLI L683</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/dsh/0.2.1-rc.2/variants/default/prompt.md#L29-L29" target="_blank" rel="noopener noreferrer" title="跨会话目标默认解除武装">DeepSeek Harness L29</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/hermes/v2026.9.24/variants/default/prompt.md#L10-L10" target="_blank" rel="noopener noreferrer" title="交付可运行产物">Hermes Agent L10</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/mimo/0.1.15/variants/default/prompt.md#L5-L5" target="_blank" rel="noopener noreferrer" title="最终交付是结构化工具调用">MiMo Code L5</a></span></div>
-    <div class="scard eng"><h3>工程纪律</h3><div class="cnt">ENG · <span id="c-eng">175</span> 处批注</div><p>验证方法随产物而变：真实场景、构建测试、浏览器交互和落盘哈希分别证明不同事情。Claude Tag 要求视觉前后截图、多步录屏或 CLI 命令输出，Pi 用原文唯一匹配约束编辑；计划或工具调用完成仍不等于结果验收。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/kimi-code/2.3.0/variants/default/prompt.md#L51-L51" target="_blank" rel="noopener noreferrer" title="验收针对实际交付形态">Kimi Code L51</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/claude-tag/2026-10-18/variants/default/prompt.md#L323-L323" target="_blank" rel="noopener noreferrer" title="交付证据随产物形式变化">Claude Tag L323</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/hermes/v2026.9.24/variants/default/prompt.md#L968-L968" target="_blank" rel="noopener noreferrer" title="写入校验不等于功能正确">Hermes Agent L968</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/pi/1.4.0/variants/default/prompt.md#L22-L22" target="_blank" rel="noopener noreferrer" title="锚点基于原始文件">Pi L22</a></span></div>
-    <div class="scard persona"><h3>人格</h3><div class="cnt">PERSONA · <span id="c-persona">51</span> 处批注</div><p>Codex 用坦率和可纠正的判断描述协作者，OpenClaw 借 SOUL 表达连续身份；MiniMax 当前以 MCode 对外自称，主会话保留需求解释与整合责任。人格与职责都是提示层设计，不是主观体验或商业动机的证明。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/codex/0.163.0/variants/default/prompt.md#L33-L33" target="_blank" rel="noopener noreferrer" title="有判断，也接受证据纠正">Codex CLI L33</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/openclaw/2026.10.5/variants/default/prompt.md#L428-L428" target="_blank" rel="noopener noreferrer" title="没有个性就是多余的搜索引擎">OpenClaw L428</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/minimax-code/3.1.4/variants/default/prompt.md#L26-L26" target="_blank" rel="noopener noreferrer" title="主会话保留解释与整合责任">MiniMax Code L26</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/pi/1.4.0/variants/default/prompt.md#L5-L5" target="_blank" rel="noopener noreferrer" title="极简即人设">Pi L5</a></span></div>
-    <div class="scard safety"><h3>安全边界</h3><div class="cnt">SAFETY · <span id="c-safety">175</span> 处批注</div><p>授权来源与作用范围需要一起判断：Claude 区分用户指令和粘贴内容，Hermes 填充 Vault 时原子核对 origin，OpenClaw 禁止代理自行执行用户审批命令。工具可见、结果可取回和动作已授权彼此不同。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/claude-code/2.1.308/variants/default/prompt.md#L22-L22" target="_blank" rel="noopener noreferrer" title="整段粘贴与材料内嵌指令分开判断">Claude Code L22</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/hermes/v2026.9.24/variants/default/prompt.md#L176-L176" target="_blank" rel="noopener noreferrer" title="凭据填入时再次核对页面来源">Hermes Agent L176</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/openclaw/2026.10.5/variants/default/prompt.md#L90-L90" target="_blank" rel="noopener noreferrer" title="禁自行审批">OpenClaw L90</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/kimi-code/2.3.0/variants/default/prompt.md#L29-L29" target="_blank" rel="noopener noreferrer" title="不绕过拒绝">Kimi Code L29</a></span></div>
-    <div class="scard tool"><h3>工具·多智能体</h3><div class="cnt">TOOL · <span id="c-tool">330</span> 处批注</div><p>独立调用可并行，前提依赖应顺序完成。Codex 的 exec、Hermes 的持久 Python 内核与 OMP 的 workpool 提供不同编排形式；通知、投递回执、可解析结果和验收通过是不同状态。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/codex/0.163.0/variants/default/prompt.md#L121-L121" target="_blank" rel="noopener noreferrer" title="并行优先降低往返延迟">Codex CLI L121</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/hermes/v2026.9.24/variants/default/prompt.md#L372-L372" target="_blank" rel="noopener noreferrer" title="持久内核也有重置边界">Hermes Agent L372</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/omp/18.12.6/variants/default/prompt.md#L408-L408" target="_blank" rel="noopener noreferrer" title="独立工作默认进入具名工作池">Oh My Pi L408</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/captures/minimax-code/3.1.4/variants/default/prompt.md#L993-L993" target="_blank" rel="noopener noreferrer" title="消息获准入不等于子任务已完成">MiniMax Code L993</a></span></div>
+    <div class="scard goal"><h3>目标机器</h3><div class="cnt">GOAL · <span id="c-goal">87</span> 处批注</div><p>完成标准可以是完整工作产物、受控目标状态，也可以是一个忠实的短标题。Codex、DSH 与 OpenClaw 暴露目标工具；Hermes 要求真实执行证据；MiMo 当前捕获则必须返回结构化标题。范围约束与持续推进共同定义交付。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/codex/0.164.0/variants/default/prompt.md#L683-L683" target="_blank" rel="noopener noreferrer" title="达成判定①:complete 的严格门槛">Codex CLI L683</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/dsh/0.2.1-rc.2/variants/default/prompt.md#L29-L29" target="_blank" rel="noopener noreferrer" title="跨会话目标默认解除武装">DeepSeek Harness L29</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/hermes/v2026.9.24/variants/default/prompt.md#L10-L10" target="_blank" rel="noopener noreferrer" title="交付可运行产物">Hermes Agent L10</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/mimo/0.1.15/variants/default/prompt.md#L5-L5" target="_blank" rel="noopener noreferrer" title="最终交付是结构化工具调用">MiMo Code L5</a></span></div>
+    <div class="scard eng"><h3>工程纪律</h3><div class="cnt">ENG · <span id="c-eng">179</span> 处批注</div><p>验证方法随产物而变：真实场景、构建测试、浏览器交互和落盘哈希分别证明不同事情。Claude Tag 要求视觉前后截图、多步录屏或 CLI 命令输出，Pi 用原文唯一匹配约束编辑；计划或工具调用完成仍不等于结果验收。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/kimi-code/2.3.1/variants/default/prompt.md#L51-L51" target="_blank" rel="noopener noreferrer" title="验收针对实际交付形态">Kimi Code L51</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/claude-tag/2026-10-18/variants/default/prompt.md#L323-L323" target="_blank" rel="noopener noreferrer" title="交付证据随产物形式变化">Claude Tag L323</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/hermes/v2026.9.24/variants/default/prompt.md#L968-L968" target="_blank" rel="noopener noreferrer" title="写入校验不等于功能正确">Hermes Agent L968</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/pi/1.4.0/variants/default/prompt.md#L22-L22" target="_blank" rel="noopener noreferrer" title="锚点基于原始文件">Pi L22</a></span></div>
+    <div class="scard persona"><h3>人格</h3><div class="cnt">PERSONA · <span id="c-persona">51</span> 处批注</div><p>Codex 用坦率和可纠正的判断描述协作者，OpenClaw 借 SOUL 表达连续身份；MiniMax 当前以 MCode 对外自称，主会话保留需求解释与整合责任。人格与职责都是提示层设计，不是主观体验或商业动机的证明。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/codex/0.164.0/variants/default/prompt.md#L33-L33" target="_blank" rel="noopener noreferrer" title="有判断，也接受证据纠正">Codex CLI L33</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/openclaw/2026.10.7/variants/default/prompt.md#L428-L428" target="_blank" rel="noopener noreferrer" title="没有个性就是多余的搜索引擎">OpenClaw L428</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/minimax-code/3.1.6/variants/default/prompt.md#L26-L26" target="_blank" rel="noopener noreferrer" title="主会话保留解释与整合责任">MiniMax Code L26</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/pi/1.4.0/variants/default/prompt.md#L5-L5" target="_blank" rel="noopener noreferrer" title="极简即人设">Pi L5</a></span></div>
+    <div class="scard safety"><h3>安全边界</h3><div class="cnt">SAFETY · <span id="c-safety">177</span> 处批注</div><p>授权来源与作用范围需要一起判断：Claude 区分用户指令和粘贴内容，Hermes 填充 Vault 时原子核对 origin，OpenClaw 禁止代理自行执行用户审批命令。工具可见、结果可取回和动作已授权彼此不同。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/claude-code/2.1.310/variants/default/prompt.md#L22-L22" target="_blank" rel="noopener noreferrer" title="整段粘贴与材料内嵌指令分开判断">Claude Code L22</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/hermes/v2026.9.24/variants/default/prompt.md#L176-L176" target="_blank" rel="noopener noreferrer" title="凭据填入时再次核对页面来源">Hermes Agent L176</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/openclaw/2026.10.7/variants/default/prompt.md#L90-L90" target="_blank" rel="noopener noreferrer" title="禁自行审批">OpenClaw L90</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/kimi-code/2.3.1/variants/default/prompt.md#L29-L29" target="_blank" rel="noopener noreferrer" title="不绕过拒绝">Kimi Code L29</a></span></div>
+    <div class="scard tool"><h3>工具·多智能体</h3><div class="cnt">TOOL · <span id="c-tool">334</span> 处批注</div><p>独立调用可并行，前提依赖应顺序完成。Codex 的 exec、Hermes 的持久 Python 内核与 OMP 的 workpool 提供不同编排形式；通知、投递回执、可解析结果和验收通过是不同状态。</p><span class="editorial-evidence">依据：<a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/codex/0.164.0/variants/default/prompt.md#L121-L121" target="_blank" rel="noopener noreferrer" title="并行优先降低往返延迟">Codex CLI L121</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/hermes/v2026.9.24/variants/default/prompt.md#L372-L372" target="_blank" rel="noopener noreferrer" title="持久内核也有重置边界">Hermes Agent L372</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/omp/18.12.6/variants/default/prompt.md#L408-L408" target="_blank" rel="noopener noreferrer" title="独立工作默认进入具名工作池">Oh My Pi L408</a> · <a href="https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/captures/minimax-code/3.1.6/variants/default/prompt.md#L1048-L1048" target="_blank" rel="noopener noreferrer" title="消息获准入不等于子任务已完成">MiniMax Code L1048</a></span></div>
   </div>
 </section>
 

@@ -2,7 +2,7 @@
 
 ## Block 1
 
-x-anthropic-billing-header: cc_version=2.1.308.875; cc_entrypoint=sdk-cli;
+x-anthropic-billing-header: cc_version=2.1.310.661; cc_entrypoint=sdk-cli;
 
 ## Block 2 · cached
 
@@ -237,6 +237,7 @@ Executes a bash command and returns its output.
 ### Git
 - Interactive flags (`-i`, e.g. `git rebase -i`, `git add -i`) are not supported in this environment.
 - Use the `gh` CLI for GitHub operations (PRs, issues, API).
+- GitHub notifies the owner of any `@name` written in a PR, issue, or comment. Write a bare `@name` only for a real login you mean to notify. Put roles, placeholders, and code (`@human`, `@reviewer`, `@types/node`) in backticks or drop the `@`, even when copied from project files.
 - Commit or push only when the user asks. If on the default branch, branch first.
 - End git commit messages and PR bodies with the attribution lines given in the conversation's system-reminder, when one is present.
 

@@ -276,6 +276,18 @@ def update_metadata(
         count=1,
     )
     source = re.sub(
+        r'(<span id="wheelCount">)\d+ / \d+',
+        rf"\g<1>01 / {agent_count:02d}",
+        source,
+        count=1,
+    )
+    source = re.sub(
+        r'(<span class="catalog-count" id="catalogCount"[^>]*>)\d+ 个 Agent',
+        rf"\g<1>{agent_count} 个 Agent",
+        source,
+        count=1,
+    )
+    source = re.sub(
         r'(把 )\d+( 份提示词拆进同一坐标系)',
         rf"\g<1>{agent_count}\g<2>",
         source,

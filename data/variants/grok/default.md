@@ -106,7 +106,7 @@ The following workflows are available:
 
 - deep-research: Research a query with bounded parallelism, cross-check the evidence, and write a cited report
   Use when: Compare, investigate, or research a question that needs sourced claims. /deep-research, research this, write a cited report.
-  Absolute path: /buildkite/builds/buildkite-agent-ci-cpu-cuda-xlarge-84697955c7-s26dw-1/xai/spacexai-checks/crates/codegen/xai-grok-shell/src/session/workflows/deep_research.rhai
+  Absolute path: /buildkite/builds/buildkite-agent-ci-cpu-cuda-xlarge-84697955c7-wfl22-1/xai/spacexai-checks/crates/codegen/xai-grok-shell/src/session/workflows/deep_research.rhai
 </system-reminder>
 
 ## Message 3 · user · text

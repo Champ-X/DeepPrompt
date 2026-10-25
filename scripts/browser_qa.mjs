@@ -160,6 +160,145 @@ async function main() {
     await send("Input.dispatchKeyEvent", {type:"keyUp",key,code,windowsVirtualKeyCode,modifiers}, sessionId);
   };
 
+  const readerNavigationChecks = async viewport => {
+    const checks={};
+    const agent=await evaluate("document.querySelector('.agentview.active').dataset.agent");
+    const originalHash=await evaluate("location.hash");
+    const headingIds=await evaluate("Array.from(document.querySelectorAll('.agentview.active .prose-col h1,.agentview.active .prose-col h2,.agentview.active .prose-col h3')).filter(h=>!h.closest('.note,.mobnote')).map(h=>h.id)");
+    await clickAt(await centerOf('#openChapterOutline'));
+    checks.outlineReflectsSource=await evaluate(`document.getElementById('chapterDialog').open && document.querySelectorAll('#chapterList button').length===${headingIds.length} && ${JSON.stringify(headingIds)}.every(id=>id && document.getElementById(id)) && new Set(${JSON.stringify(headingIds)}).size===${headingIds.length}`);
+    await keyPress('Escape');
+    await waitForExpression("!document.getElementById('chapterDialog').open");
+    checks.outlineEscapeReturnsFocus=await evaluate("document.activeElement.id==='openChapterOutline'");
+    await clickAt(await centerOf('#openChapterOutline'));
+    const targetId=headingIds[Math.min(5,headingIds.length-1)];
+    await evaluate(`document.querySelector('[data-heading-id="${targetId}"]').scrollIntoView({behavior:'instant',block:'center'})`);
+    await clickAt(await centerOf(`[data-heading-id="${targetId}"]`));
+    await waitForExpression(`document.activeElement.id===${JSON.stringify(targetId)} && !document.getElementById('chapterDialog').open`);
+    checks.chapterJumpFocusAndRoute=await evaluate(`document.activeElement.checkVisibility() && location.hash===${JSON.stringify(originalHash)}`);
+    await clickAt(await centerOf('#openChapterOutline'));
+    await clickAt(await centerOf('#closeChapterOutline'));
+    await waitForExpression("!document.getElementById('chapterDialog').open");
+    checks.outlineCloseReturnsFocus=await evaluate("document.activeElement.id==='openChapterOutline'");
+
+    const query=await evaluate(`(() => {
+      const text=Array.from(document.querySelectorAll('.agentview.active .prose-col .src')).filter(node=>!node.closest('.note,.mobnote')).map(node=>node.textContent).join(' ').toLowerCase();
+      const counts=new Map();(text.match(/[a-z]{4,12}/g)||[]).forEach(word=>counts.set(word,(counts.get(word)||0)+1));
+      return Array.from(counts).sort((a,b)=>b[1]-a[1])[0]?.[0] || '';
+    })()`);
+    const typeQuery=async text => {
+      // Clear only establishes the starting state; query entry and navigation are real browser input.
+      await evaluate("document.getElementById('promptSearch').value='';document.getElementById('promptSearch').dispatchEvent(new Event('input',{bubbles:true}))");
+      await keyPress('k',4);
+      await send('Input.insertText',{text},sessionId);
+    };
+    await typeQuery(query);
+    await waitForExpression("document.querySelectorAll('mark.search-hit').length>1");
+    const total=await evaluate("Number(document.getElementById('searchCount').textContent.split('/')[1])");
+    checks.searchFirstIsVisible=await evaluate("document.getElementById('searchCount').textContent.startsWith('1 /') && document.querySelectorAll('mark.search-current').length===1 && document.querySelector('mark.search-current').checkVisibility()");
+    checks.quotedSourceNotDuplicated=await evaluate("!document.querySelector('.q mark.search-hit')");
+    await keyPress('Enter');
+    checks.searchEnterAdvances=await evaluate("document.getElementById('searchCount').textContent.startsWith('2 /')");
+    await keyPress('Enter',8);
+    checks.searchShiftEnterReverses=await evaluate("document.getElementById('searchCount').textContent.startsWith('1 /')");
+    await keyPress('Enter',8);
+    checks.searchPreviousWraps=await evaluate(`document.getElementById('searchCount').textContent==='${total} / ${total}'`);
+    await keyPress('Enter');
+    checks.searchNextWraps=await evaluate("document.getElementById('searchCount').textContent.startsWith('1 /')");
+    await clickAt(await centerOf('#searchNext'));
+    checks.searchNextButton=await evaluate("document.getElementById('searchCount').textContent.startsWith('2 /')");
+    await clickAt(await centerOf('#searchPrevious'));
+    checks.searchPreviousButton=await evaluate("document.getElementById('searchCount').textContent.startsWith('1 /')");
+
+    const alternate=viewport.mobile?{width:1440,height:900,mobile:false}:{width:390,height:844,mobile:true};
+    if(!viewport.mobile) await evaluate("document.getElementById('homeAction').focus({preventScroll:true})");
+    await send('Emulation.setDeviceMetricsOverride',{...alternate,deviceScaleFactor:1},sessionId);
+    await waitForExpression(`innerWidth===${alternate.width}`);
+    if(!viewport.mobile){
+      await waitForExpression("document.activeElement.id==='homeButton'");
+      checks.compactHomeActionFocus=await evaluate("document.activeElement.checkVisibility()");
+    }
+    checks.searchResponsiveCountStable=await evaluate(`document.getElementById('searchCount').textContent==='1 / ${total}' && !document.querySelector(${JSON.stringify(alternate.mobile?'.note mark.search-hit':'.mobnote mark.search-hit')})`);
+    await send('Emulation.setDeviceMetricsOverride',{width:viewport.width,height:viewport.height,mobile:viewport.mobile,deviceScaleFactor:1},sessionId);
+    await waitForExpression(`innerWidth===${viewport.width}`);
+    checks.searchReturnViewportStable=await evaluate(`document.getElementById('searchCount').textContent==='1 / ${total}'`);
+    await typeQuery('no-matching-archive-result-92817');
+    checks.searchEmptyState=await evaluate("document.getElementById('searchCount').textContent==='无结果' && document.getElementById('searchNext').disabled && document.getElementById('searchPrevious').disabled && !document.querySelector('mark.search-hit')");
+    await keyPress('Escape');
+    checks.searchClearRestoresFocus=await evaluate("!document.querySelector('mark.search-hit') && document.getElementById('searchNavigation').hidden && document.activeElement.checkVisibility()");
+
+    const hiddenQuery=await evaluate(`(() => {
+      const details=document.querySelector('.agentview.active details.rawblob:not([open])');if(!details)return null;
+      const walker=document.createTreeWalker(details,NodeFilter.SHOW_TEXT);let node;
+      while(node=walker.nextNode()){
+        if(node.parentElement.closest('summary,.note,.mobnote'))continue;
+        const line=node.nodeValue.split(String.fromCharCode(10)).map(value=>value.trim()).find(value=>value.length>40);
+        if(line){details.dataset.qaSearchTarget='true';return line.slice(0,55);}
+      }
+      return null;
+    })()`);
+    if(hiddenQuery){
+      await typeQuery(hiddenQuery);
+      await waitForExpression("document.querySelectorAll('mark.search-hit').length>0");
+      checks.searchReachesFoldedSource=await evaluate("document.querySelector('mark.search-current').checkVisibility() && document.querySelector('[data-qa-search-target]').open");
+      await evaluate("document.querySelector('[data-qa-search-target]').open=false");
+      // Wait for the queued native toggle event and its layout refresh, not scrolling animation.
+      await delay(100);
+      checks.searchDoesNotReopenOnRefresh=await evaluate("!document.querySelector('[data-qa-search-target]').open");
+      await keyPress('Enter');
+      checks.searchOpensSelectedFoldedHit=await evaluate("document.querySelector('mark.search-current').checkVisibility()");
+      await evaluate("document.querySelector('[data-qa-search-target]').removeAttribute('data-qa-search-target')");
+    }
+    await keyPress('Escape');
+    await clickAt(await centerOf('#openChapterOutline'));
+    const nextAgent=agentIds.find(id=>id!==agent);
+    await evaluate(`location.hash='#agent=${nextAgent}'`);
+    await waitForAgent(nextAgent);
+    checks.routeClosesOutline=await evaluate("!document.getElementById('chapterDialog').open && !document.querySelector('#chapterList button')");
+    await clickAt(await centerOf('#openChapterOutline'));
+    checks.routeRebuildsOutline=await evaluate(`Array.from(document.querySelectorAll('#chapterList button')).every(button=>button.dataset.headingId.startsWith('reader-${nextAgent}-')) && document.querySelectorAll('#chapterList button').length>0`);
+    await evaluate(`location.hash='#agent=${agent}'`);
+    await waitForAgent(agent);
+    checks.chapterIdsStable=await evaluate(`JSON.stringify(Array.from(document.querySelectorAll('.agentview.active .prose-col h1,.agentview.active .prose-col h2,.agentview.active .prose-col h3')).filter(h=>!h.closest('.note,.mobnote')).map(h=>h.id))===${JSON.stringify(JSON.stringify(headingIds))}`);
+    await clickAt(await centerOf('#openChapterOutline'));
+    await evaluate("location.hash='#home'");
+    await waitForExpression("document.body.classList.contains('mode-home')");
+    checks.homeClosesOutline=await evaluate("!document.getElementById('chapterDialog').open && !document.querySelector('#chapterList button')");
+    if(viewport.name==='wide'){
+      // A fresh document makes the next Agent uncached; explicitly hold its request.
+      await send('Page.navigate',{url:'about:blank'},sessionId);
+      await waitForExpression("document.URL==='about:blank'");
+      await send('Page.navigate',{url:targetUrl},sessionId);
+      await waitForAgent(agent);
+      await typeQuery(query);
+      await evaluate(`(() => {
+        const original=window.fetch;
+        window.fetch=function(...args){
+          if(String(args[0]).endsWith('/${nextAgent}.html')) return new Promise(resolve=>{
+            window.__qaResumeAgent=()=>{window.fetch=original;resolve(original.apply(window,args));};
+          });
+          return original.apply(window,args);
+        };
+        location.hash='#agent=${nextAgent}';
+      })()`);
+      await waitForExpression("typeof window.__qaResumeAgent==='function'");
+      checks.loadingClearsOldNavigation=await evaluate("document.getElementById('openChapterOutline').disabled && document.getElementById('searchNext').disabled && document.getElementById('searchPrevious').disabled && !document.querySelector('mark.search-hit')");
+      await clickAt(await centerOf('#openChapterOutline'));
+      checks.loadingCannotOpenEmptyOutline=await evaluate("!document.getElementById('chapterDialog').open");
+      await evaluate("window.__qaResumeAgent()");
+      await waitForAgent(nextAgent);
+      checks.loadedAgentRestoresNavigation=await evaluate(`(() => {
+        const current=document.querySelector('mark.search-current');
+        const count=document.getElementById('searchCount').textContent;
+        const validResult=current ? current.checkVisibility() && count.startsWith('1 /') : count==='无结果' && document.getElementById('searchNext').disabled && document.getElementById('searchPrevious').disabled;
+        return !document.getElementById('openChapterOutline').disabled && document.getElementById('promptSearch').value===${JSON.stringify(query)} && validResult;
+      })()`);
+    }
+    // Keep failed optional DOM lookups visible in JSON diagnostics rather than dropping undefined.
+    Object.keys(checks).forEach(key=>{checks[key]=checks[key]===true;});
+    return checks;
+  };
+
   const viewports = [
     { name: "wide", width: 1920, height: 1080, mobile: false },
     { name: "desktop", width: 1440, height: 900, mobile: false },
@@ -653,6 +792,7 @@ async function main() {
       })()`, returnByValue:true,
     }, sessionId)).result.value;
     results[results.length-1].annotationInteraction=interaction;
+    results[results.length-1].navigationInteraction=await readerNavigationChecks(viewport);
 
     const homeUrl = targetUrl.replace(/#.*$/, "");
     await send("Page.navigate", { url: homeUrl }, sessionId);
@@ -783,6 +923,7 @@ async function main() {
     result.philosophyEvidenceNotes !== 2 ||
     result.loadedAgents !== 1 ||
     !['filtered','searched','restored','activated'].every(key=>result.annotationInteraction?.[key]) ||
+    (!result.navigationInteraction || Object.values(result.navigationInteraction).some(passed=>passed!==true)) ||
     (result.name === "wide" && result.lazyLoadCoverage !== expectedAgents) ||
     (result.width < 1280 && result.inlineNotes !== result.notes) ||
     (result.width >= 1280 && result.inlineNotes !== 0)
@@ -813,7 +954,9 @@ async function main() {
     result.overflow || result.loadedAgents!==0 || result.previewQuote!==previewNote.anchor ||
     result.previewSource!==previewAgent.sourceUrl+'#L'+previewNote.startLine+'-L'+previewNote.endLine);
   if (failures.length || homeFailures.length || visualFailures.length || readerFailures.length || catalogueFailures.length || runtimeErrors.length) {
-    console.error("Failed checks:",JSON.stringify({failures,homeFailures,visualFailures,readerFailures,catalogueFailures,runtimeErrors}));
+    const interactionFailures=results.flatMap(result=>['wheelInteraction','searchInteraction','philosophyDisclosure','annotationInteraction','navigationInteraction'].flatMap(group=>
+      Object.entries(result[group]||{}).filter(([,passed])=>passed!==true).map(([check,passed])=>({viewport:result.name,group,check,result:passed===undefined?'undefined':passed}))));
+    console.error("Failed checks:",JSON.stringify({interactionFailures,failures,homeFailures,visualFailures,readerFailures,catalogueFailures,runtimeErrors}));
     process.exitCode = 1;
   }
   socket.close();

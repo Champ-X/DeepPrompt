@@ -2,17 +2,17 @@
 
 Phistory uses compact local copies of product-level visual assets for the agent selector. The copies are resized or cropped for UI use only; the original product identity is intentionally preserved.
 
-Current local assets match the copies in Phistory commit `76e8e3096b2e11ebdaa7e969b85f73174287d6f5` (verified 2026-10-22). Original-source links below describe provenance; they were not all re-fetched during this snapshot sync.
+Current local assets match the copies in Phistory commit `4fe3fdd95cfd780081c8f405b80ad1898615cfc5` (verified 2026-10-25). Original-source links below describe provenance; they were not all re-fetched during this snapshot sync.
 
 | Agent | Local asset | Source |
 | --- | --- | --- |
 | Antigravity CLI | `antigravity.png` | Google Antigravity full-color brand icon from `https://antigravity.google/press`: `https://antigravity.google/assets/image/brand/antigravity-icon__full-color.png` |
-| Claude Tag | `claude-tag.svg` | Pinned Phistory asset: `https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/docs/agent-icons/claude-tag.svg` |
+| Claude Tag | `claude-tag.svg` | Pinned Phistory asset: `https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/docs/agent-icons/claude-tag.svg` |
 | Claude Code | `claude-code.png` | Claude Code documentation favicon from `https://code.claude.com/docs/en/overview`: `https://code.claude.com/docs/_mintlify/favicons/claude-code/pLsy-mRpNksna2sx/_generated/favicon/apple-touch-icon.png` |
 | Codex CLI | `codex.png` | Codex product icon cropped from the official OpenAI Codex setup screenshot on `https://openai.com/codex/get-started/`: `https://images.ctfassets.net/kftzwdyauwt9/6JttRtGUPpCuYGQvs0PCjP/9c54a8e25f76148598e903bed1bddac0/Installer2.png` |
 | DeepSeek Harness | `dsh.svg` | DeepSeek favicon bundled in the DSH test source at `website/public/favicon.svg`; the source README identifies the future official repository as `https://github.com/deepseek-ai/deepseek-harness` |
-| Grok Build | `grok.png` | Pinned Phistory asset: `https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/docs/agent-icons/grok.png` |
-| Grokbot | `grokbot.png` | Pinned Phistory asset for the model-self-report entry: `https://github.com/WEIFENG2333/phistory/blob/76e8e3096b2e11ebdaa7e969b85f73174287d6f5/docs/agent-icons/grokbot.png`; this asset does not establish vendor identity or authenticate the reported prompt. |
+| Grok Build | `grok.png` | Pinned Phistory asset: `https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/docs/agent-icons/grok.png` |
+| Grokbot | `grokbot.png` | Pinned Phistory asset for the model-self-report entry: `https://github.com/WEIFENG2333/phistory/blob/4fe3fdd95cfd780081c8f405b80ad1898615cfc5/docs/agent-icons/grokbot.png`; this asset does not establish vendor identity or authenticate the reported prompt. |
 | Hermes Agent | `hermes.png` | Hermes Agent product site apple-touch-icon from `https://hermes-agent.org/about/`: `https://hermes-agent.org/apple-touch-icon.png` |
 | Kimi CLI | `kimi.png` | Kimi product icon from Moonshot/Kimi site: `https://statics.moonshot.cn/moonshot-ai/assets/static/kimi-icon.ByIGCGon.webp` |
 | Kimi Code | `kimi-code.png` | Kimi/Moonshot product icon reused for Kimi Code from `kimi.png`; Kimi Code official repo: `https://github.com/MoonshotAI/kimi-code` |
